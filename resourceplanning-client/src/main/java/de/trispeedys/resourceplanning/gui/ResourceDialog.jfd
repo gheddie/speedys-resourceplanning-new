@@ -1,0 +1,283 @@
+JFDML JFormDesigner: "5.2.0.3.124" Java: "1.7.0_67" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JInternalFrame", new FormLayoutManager( class java.awt.GridBagLayout ) {
+			"$columnSpecs": "0, 44, 0:1.0"
+			"$rowSpecs": "0, 0:1.0, 0:1.0"
+			"$hGap": 5
+			"$vGap": 5
+			"$alignLeft": true
+			"$alignTop": true
+		} ) {
+			name: "this"
+			"visible": true
+			add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
+				name: "tbMain"
+				"floatable": false
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnFinishProcesses"
+					"text": "Abschliessen"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/shutdown48px.png" )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnFinishProcessesPressed", true ) )
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridwidth": 3
+			} )
+			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
+				name: "tdbMain"
+				addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "tdbMainStateChanged", true ) )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0:1.0"
+					"$rowSpecs": "198:1.0, 0, 0, 131"
+					"$hGap": 5
+					"$vGap": 5
+					"$alignLeft": true
+					"$alignTop": true
+				} ) {
+					name: "pnlPositions"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0:1.0, 0"
+						"$rowSpecs": "0, 198:1.0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignTop": true
+						"$alignLeft": true
+					} ) {
+						name: "borderPositions"
+						"border": new javax.swing.border.TitledBorder( "Zuweisungen" )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scPositions"
+							add( new FormComponent( "de.trispeedys.resourceplanning.components.treetable.TreeTable" ) {
+								name: "treeTablePositions"
+							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridheight": 2
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnRefreshTree"
+							"text": "Aktualisieren"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/reload16px.png" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnRefreshTreePressed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "chkUnassignedOnly"
+						"text": "Nur unzugewiesene"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 1
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0:1.0, 0"
+						"$rowSpecs": "0, 0, 131:1.0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignTop": true
+						"$alignLeft": true
+					} ) {
+						name: "borderEvents"
+						"border": new javax.swing.border.TitledBorder( "Event-Historie" )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnPlanEvent"
+							"text": "Planen"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/process16px.png" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnPlanPressed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnRefreshEvents"
+							"text": "Aktualisieren"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/reload16px.png" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnRefreshEventsPressed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 1
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scEvents"
+							add( new FormComponent( "de.trispeedys.resourceplanning.components.ResourcePlanningTable" ) {
+								name: "tbEvents"
+								addEvent( new FormEvent( "java.beans.PropertyChangeListener", "propertyChange", "tbEventsPropertyChange", true ) )
+								addEvent( new FormEvent( "java.beans.PropertyChangeListener", "propertyChange", "tbEventsPropertyChange", true ) )
+							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridheight": 3
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 2
+						"gridheight": 2
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "Positionen"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0:1.0, 0"
+					"$rowSpecs": "0, 0:1.0"
+					"$hGap": 5
+					"$vGap": 5
+					"$alignLeft": true
+					"$alignTop": true
+				} ) {
+					name: "pnlExecutions"
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "scExecutions"
+						add( new FormComponent( "de.trispeedys.resourceplanning.components.ResourcePlanningTable" ) {
+							name: "tbExecutions"
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridheight": 2
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "btnRefreshExecutions"
+						"text": "Aktualisieren"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/reload16px.png" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnRefreshExecutionsPressed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "Prozesse"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0:1.0"
+					"$rowSpecs": "0:1.0"
+					"$hGap": 5
+					"$vGap": 5
+					"$alignLeft": true
+					"$alignTop": true
+				} ) {
+					name: "pnlHelper"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0:1.0, 0"
+						"$rowSpecs": "0, 0, 0:1.0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignTop": true
+						"$alignLeft": true
+					} ) {
+						name: "borderHelpers"
+						"border": new javax.swing.border.TitledBorder( "Alle Helfer" )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scHelpers"
+							add( new FormComponent( "de.trispeedys.resourceplanning.components.ResourcePlanningTable" ) {
+								name: "tbHelpers"
+							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridheight": 3
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnRefreshHelpers"
+							"text": "Aktualsieren"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/reload16px.png" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnRefreshHelpersPressed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnCreateHelper"
+							"text": "Neu"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/new16px.png" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnCreateHelperPressed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 1
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+				}, new FormLayoutConstraints( null ) {
+					"title": "Helfer"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0:1.0, 0"
+					"$rowSpecs": "0:1.0, 0:1.0"
+					"$hGap": 5
+					"$vGap": 5
+					"$alignLeft": true
+					"$alignTop": true
+				} ) {
+					name: "pnlManualAssignments"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0:1.0, 0"
+						"$rowSpecs": "0, 0, 0:1.0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignTop": true
+						"$alignLeft": true
+					} ) {
+						name: "borderManualAssignments"
+						"border": new javax.swing.border.TitledBorder( "Unzugewiesene Helfer" )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scManualAssignments"
+							add( new FormComponent( "de.trispeedys.resourceplanning.components.ResourcePlanningTable" ) {
+								name: "tbManualAssignments"
+							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridheight": 3
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnBookManually"
+							"text": "Buchen"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/process16px.png" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnBookManuallyPressed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnRefreshManualAssignments"
+							"text": "Aktualisieren"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/reload16px.png" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnRefreshManualAssignmentsPressed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 1
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridwidth": 2
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0:1.0, 0"
+						"$rowSpecs": "0, 0:1.0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignTop": true
+						"$alignLeft": true
+					} ) {
+						name: "borderAvailablePositions"
+						"border": new javax.swing.border.TitledBorder( "Verfügbare Positionen" )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scAvailablePositions"
+							add( new FormComponent( "de.trispeedys.resourceplanning.components.ResourcePlanningTable" ) {
+								name: "tbAvailablePositions"
+							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridheight": 2
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnReloadAvailablePositions"
+							"text": "Aktualisieren"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/reload16px.png" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnReloadAvailablePositionsPressed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 1
+						"gridwidth": 2
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "Manuelle Zuweisungen"
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridheight": 2
+				"gridwidth": 3
+				"gridy": 1
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 550, 525 )
+		} )
+	}
+}

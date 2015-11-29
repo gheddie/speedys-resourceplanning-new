@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+	<soapenv:Body>
+		<ns2:UpdateDefect xmlns:ns2="http://www.dispolino.de/disposition/client">
+			<ns2:updatedDefect>
+				<ns1:Id xmlns:ns1="http://www.dispolino.de/disposition/interface">300049423</ns1:Id>
+				<ns1:AssetId xmlns:ns1="http://www.dispolino.de/disposition/interface">300049403</ns1:AssetId>
+				<ns1:AssetType xmlns:ns1="http://www.dispolino.de/disposition/interface">Wagon</ns1:AssetType>
+				<ns1:DefectCodeId xmlns:ns1="http://www.dispolino.de/disposition/interface">300046103</ns1:DefectCodeId>
+				<ns1:Description xmlns:ns1="http://www.dispolino.de/disposition/interface">1234</ns1:Description>
+				<ns1:IdentificationDate
+					xmlns:ns1="http://www.dispolino.de/disposition/interface">2015-10-19T13:41:00.000+02:00</ns1:IdentificationDate>
+				<ns1:CreationDate xmlns:ns1="http://www.dispolino.de/disposition/interface">2015-10-19T13:42:25.480+02:00</ns1:CreationDate>
+				<ns1:MinorDefect xmlns:ns1="http://www.dispolino.de/disposition/interface">false</ns1:MinorDefect>
+			</ns2:updatedDefect>
+		</ns2:UpdateDefect>
+	</soapenv:Body>
+</soapenv:Envelope>

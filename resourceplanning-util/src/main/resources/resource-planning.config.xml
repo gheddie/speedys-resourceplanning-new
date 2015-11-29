@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<configuration>
+	<!-- app specific -->
+	<property name="version">0.0.1-SNAPSHOT</property>
+	<property name="host">http://localhost:8080</property>
+	<!-- smtp configuration -->
+	<property name="smtp_user">testhelper1.trispeedys@gmail.com</property>
+	<property name="smtp_passwd">trispeedys1234</property>
+	<property name="smtp_host">smtp.gmail.com</property>
+	<property name="smtp_port">587</property>
+	<!-- other stuff -->
+	<property name="admin_mail">stefan.schulz.1976@googlemail.com</property>
+</configuration>

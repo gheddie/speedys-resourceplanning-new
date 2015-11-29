@@ -1,0 +1,190 @@
+create sequence hibernate_sequence;
+
+------------------------------------------------ Helper 
+create sequence helper_id_seq;
+
+create table helper
+(
+	id bigint not null default nextval('helper_id_seq'),
+	first_name varchar(255),
+	last_name varchar(255),
+	date_of_birth date,
+	email varchar(255),
+	helper_state varchar(64),
+	code varchar(16),
+	primary key (id),
+	constraint hlp_unique_code unique (code)
+);
+
+------------------------------------------------ Domain
+create sequence domain_id_seq;
+
+create table domain
+(
+	id bigint not null default nextval('domain_id_seq'),
+	name varchar(255),
+	domain_number int not null,	
+	primary key (id),
+	constraint dom_unique_name unique (name),
+	constraint dom_unique_number unique (domain_number)
+);
+
+------------------------------------------------ Position
+create sequence position_id_seq;
+
+create table position
+(
+	id bigint not null default nextval('position_id_seq'),
+	description varchar(255),
+	minimal_age int,
+	position_number int not null,
+	domain_id bigint,
+	authority_override boolean,
+	choosable boolean,
+	assignment_priority int,
+	primary key (id),
+	constraint pos_unique_desc unique (description),
+	constraint pos_unique_number unique (position_number)
+);
+
+alter table position add constraint fk_position_domain foreign key (domain_id) references domain (id);
+
+------------------------------------------------ EventTemplate
+create sequence event_template_id_seq;
+
+create table event_template
+(
+	id bigint not null default nextval('event_template_id_seq'),
+	description varchar(255),
+	primary key (id),
+	constraint evt_tpl_unique_description unique (description)
+);
+
+------------------------------------------------ Event
+create sequence event_id_seq;
+
+create table event
+(
+	id bigint not null default nextval('event_id_seq'),
+	description varchar(255),
+	event_key varchar(255),
+	event_date date,
+	event_state varchar(64),	
+	event_template_id bigint,
+	parent_event_id bigint,
+	primary key (id)
+);
+
+alter table event add constraint fk_evt_template foreign key (event_template_id) references event_template (id);
+
+alter table event add constraint fk_evt_parent foreign key (parent_event_id) references event (id);
+
+------------------------------------------------ HelperAssignment
+create sequence helper_assignment_id_seq;
+
+create table helper_assignment
+(
+	id bigint not null default nextval('helper_assignment_id_seq'),
+	helper_id bigint not null,
+	position_id bigint not null,
+	event_id bigint not null,
+	primary key (id),
+	helper_assignment_state varchar(64),
+	constraint has_unique_hlp_evt unique (helper_id, event_id)
+);
+
+alter table helper_assignment add constraint fk_assignment_helper foreign key (helper_id) references helper (id);
+
+alter table helper_assignment add constraint fk_assignment_position foreign key (position_id) references position (id);
+
+alter table helper_assignment add constraint fk_assignment_event foreign key (event_id) references event (id);
+
+------------------------------------------------ EventPosition
+create sequence event_position_id_seq;
+
+create table event_position
+(
+	id bigint not null default nextval('event_position_id_seq'),
+	position_id bigint not null,
+	event_id bigint not null,	
+	primary key (id)
+);
+
+alter table event_position add constraint fk_evt_pos_position foreign key (position_id) references position (id);
+
+alter table event_position add constraint fk_evt_pos_event foreign key (event_id) references event (id);
+
+------------------------------------------------ DomainResponsibility
+create sequence domain_responsibility_id_seq;
+
+create table domain_responsibility
+(
+	id bigint not null default nextval('domain_responsibility_id_seq'),
+	domain_id bigint,
+	helper_id bigint,	
+	primary key (id)
+);
+
+alter table domain_responsibility add constraint fk_dom_res_domain foreign key (domain_id) references domain (id);
+
+alter table domain_responsibility add constraint fk_dom_res_helper foreign key (helper_id) references helper (id);
+
+------------------------------------------------ MessageQueue
+create sequence message_queue_id_seq;
+
+create table message_queue
+(
+	id bigint not null default nextval('message_queue_id_seq'),
+	from_address varchar(255),
+	to_address varchar(255),
+	subject varchar(1024),
+	body text,
+	creation_time timestamp,
+	messaging_state varchar(64),
+	messaging_type varchar(64),
+	messaging_format varchar(64),
+	primary key (id)
+);
+
+------------------------------------------------ HelperHistory 
+create sequence helper_history_id_seq;
+
+create table helper_history
+(
+	id bigint not null default nextval('helper_history_id_seq'),
+	creation_time timestamp not null,
+	history_type varchar(64) not null,
+	helper_id bigint not null,
+	event_id bigint not null,
+	primary key (id)
+);
+
+alter table helper_history add constraint fk_hist_helper foreign key (helper_id) references helper (id);
+
+alter table helper_history add constraint fk_hist_event foreign key (event_id) references event (id);
+
+------------------------------------------------ PositionAggregation
+create sequence position_aggregation_id_seq;
+
+create table position_aggregation
+(
+	id bigint not null default nextval('position_aggregation_id_seq'),
+	name varchar(64) not null,
+	primary key (id),
+	constraint pos_aggr_unique_name unique (name)
+);
+
+------------------------------------------------ AggregationRelation
+create sequence aggregation_relation_id_seq;
+
+create table aggregation_relation
+(
+	id bigint not null default nextval('aggregation_relation_id_seq'),
+	position_id bigint not null,
+	position_aggregation_id bigint not null,
+	primary key (id)
+);
+
+alter table aggregation_relation add constraint fk_aggr_rel_pos foreign key (position_id) references position (id);
+
+alter table aggregation_relation add constraint fk_aggr_rel_aggr foreign key (position_aggregation_id) references position_aggregation (id);

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<event name="" key="">
+	<eventpositions>
+		<eventposition pos="1" />
+		<eventposition pos="2" />
+		<eventposition pos="3" />
+		<eventposition pos="4" />
+		<eventposition pos="5" />
+		<eventposition pos="6" />
+		<eventposition pos="7" />
+		<eventposition pos="8" />
+		<eventposition pos="9" />
+		<eventposition pos="10" />
+		<eventposition pos="11" />
+		<eventposition pos="12" />
+		<eventposition pos="13" />
+		<eventposition pos="14" />
+		<eventposition pos="15" />
+		<eventposition pos="16" />
+		<eventposition pos="17" />
+		<eventposition pos="18" />
+		<eventposition pos="19" />
+	</eventpositions>
+	<assignments>
+		<assignment pos="12" helper="MOMO123456" />
+	</assignments>
+</event>

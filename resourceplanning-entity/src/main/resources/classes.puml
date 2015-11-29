@@ -1,0 +1,96 @@
+@startuml
+
+class Helper {
+	firstName : String
+	lastName : String
+	dateOfBirth : Date
+	email : String
+	helperState : HelperState
+}
+
+class EventTemplate {
+	description : String
+}
+
+class Event {
+	eventDate : Date
+	eventKey : String
+	description : String
+}
+
+class Position {
+	description : String
+	minimalAge : int
+	domain : Domain
+}
+
+class Domain {
+	name : String	
+	domainNumber : int
+}
+
+note left of Domain
+	Fasst mehrere Positionen
+	zu einer übergeortneten
+	Einheit zusammen
+end note
+
+class HelperAssignment {
+	helper : Helper
+	helperId : Long
+	event : Event
+	position : Position
+}
+
+note left of HelperAssignment
+	Zuordnung eines Helfers zu einer
+	zu besetzenden Position
+end note
+
+class EventPosition {
+	position : Position
+	event : Event
+}
+
+note left of EventPosition
+	Zuordnung einer Position zu
+	einem dedizierten Event
+	(ergibt insgesamt eine M:N-Relation
+	zwischen Position und Event)
+end note
+
+class DomainResponsibility {
+	position : Position
+	helper : Helper
+}
+
+note left of DomainResponsibility
+	Verantwortlichkeit für einen Teilbereich,
+	der sich ggf. auf mehrere Helfer verteilen kann (M:N)
+end note
+
+class MessageQueue {
+	fromAddress : String
+	toAddress : String
+	subject : String
+	body : String
+	messagingState : MessagingState
+}
+
+'---Verknüpfungen---
+
+HelperAssignment "1" -- "1" Helper
+HelperAssignment "1" -- "1" Event
+HelperAssignment "1" -- "1" Position
+Position "1" -- "1" EventPosition
+Event "1" -- "1" EventPosition
+Position "1..n" -- "1" Domain
+
+Helper "1" -- "1" DomainResponsibility : Leitung des Teilbereiches
+Domain "1" -- "1" DomainResponsibility
+
+Event "1..n" -- "1" EventTemplate
+
+Domain "1..n" -- "1" EventTemplate
+
+@enduml

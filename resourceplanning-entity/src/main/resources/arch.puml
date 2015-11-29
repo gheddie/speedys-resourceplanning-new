@@ -1,0 +1,69 @@
+@startuml
+
+cloud "Internet" {
+  package "www.tri-speedys.de" {
+    [SpeedyAdminWeb]
+    [SpeedyPublicAccess]
+  }
+  package "Speedy Server" {
+    folder "Process Engine" {
+      [SpeedyBPM]
+    }
+    [BusinessLogic]
+    [WebServices]
+  } 
+}
+ 
+interface "Webservices" as WS
+
+[WebServices] - WS
+[SpeedyAdminWeb] - WS
+[SpeedyPublicAccess] - WS
+
+[SpeedyBPM] - EngineDB
+[BusinessLogic] - SpeedyDB
+
+database "EngineDB" {
+}
+
+database "SpeedyDB" {
+}
+
+node "Fat Client" {
+  [SpeedyAdmin]
+} 
+
+[SpeedyAdmin] - WS
+
+note right of [SpeedyAdmin]
+  Momentan übernimmt ein Swing-Fat-Client
+  die System-Administration
+end note
+
+note right of [SpeedyAdminWeb]
+  Cool für die Zukunft wäre eine
+  Administration über eine Web-Anwendung 
+end note
+
+note right of [SpeedyPublicAccess]
+  Hier könnten sich neue Helfer eintragen,
+  ohne sich erst in einen internen Bereich einzuloggen,
+  um bei der nächsten Planung berücksichtigt werden zu können.
+end note
+
+note right of [WS]
+  Stellt alle notwendigen Funktionen (uni- und bidirektional)
+  zur Verfügung, die Aussicht eines Administrators oder Webseiten-
+  Benutzers (intern oder extern --> z.B. neuer Helfer) gebraucht
+  werden.
+end note
+
+note right of [BusinessLogic]
+  Enthält die Geschäftslogik der Helferplanung.
+end note
+
+note right of [SpeedyBPM]
+  BPMN-Prozesse zur Steuerung der Helferplanung.
+end note
+
+@enduml

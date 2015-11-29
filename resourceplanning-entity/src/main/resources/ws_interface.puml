@@ -1,0 +1,43 @@
+@startuml
+actor Bob
+
+Bob <-> WebServiceInterface : queryAvailablePositions(Long eventId)
+note right : Fragt momentan noch verfügbare Positionen pro Event ab
+
+Bob -> WebServiceInterface : sendAllMessages()
+note right : Verschickt alle momentan in der Nachrichten-Queue wartenden Mails \n (obsolet, Trigger durch wieteren BPMN-Prozess)
+
+Bob -> WebServiceInterface : startProcessesForActiveHelpersByTemplateName(String templateName)
+note right : Startet alle Helfer-Prozesse für ein momentan geplantes Event \n des gegebenen Templates (wenn vorhanden)
+
+Bob -> WebServiceInterface : startProcessesForActiveHelpersByEventId(Long eventId)
+note right : Startet alle Helfer-Prozesse für ein dediziertes Event
+
+Bob -> WebServiceInterface : finishUp()
+note right : Räumt alle fertiggelaufenen Helfer-Prozesse ab (siehe Erklärung Prozess) und überführt die zugehörigen \n Zuweisungen in den Status 'VORGEPLANT' (noch Zukunftsmusik)
+
+Bob <-> WebServiceInterface : queryEvents()
+note right : Liefert alle im Moment erfassten Events
+
+Bob -> WebServiceInterface : duplicateEvent(Long eventId, String description, String eventKey, int day, int month, int year)
+note right : Erzeugt aus einem beendeten Vater-Event ein neues, zu planendes Event (mit ggf. abweichenden zu besetzenden Positionen)
+
+Bob <-> WebServiceInterface : getEventNodes(Long eventId, boolean onlyUnassignedPositions)
+note right : Liefert das angegebene Event als Baumstruktur
+
+Bob <-> WebServiceInterface : queryHelpers()
+note right : Liefert alle im System erfassten Helfer
+
+Bob <-> WebServiceInterface : queryManualAssignments()
+note right : Liefert alle manuellen Zuweisungsaufgaben, die von der Process-Engine generiert werden
+
+Bob -> WebServiceInterface : cancelAssignment(Long, Long)
+note right : Kündigt eine zugewiesene Position (im Krankheitsfall etc.)
+
+Bob -> WebServiceInterface : completeManualAssignment(String taskId, Long positionId)
+note right : Weist eine Position manuell zu
+
+Bob -> WebServiceInterface : createHelper(String lastName, String firstName, String email, int dayOfBirth, int monthOfBirth, int yearOfBirth)
+note right : Legt einen neuen Helfer an
+
+@enduml

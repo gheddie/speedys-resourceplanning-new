@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+
+		<property name="connection.url">jdbc:postgresql://localhost/speedys-resource-planning-test</property>
+		<property name="connection.username">postgres</property>
+		<property name="connection.password">pgvedder</property>
+		<property name="connection.driver_class">org.postgresql.Driver</property>
+		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+		<property name="show_sql">true</property>
+
+		<property name="format_sql">true</property>
+		<property name="hbm2ddl.auto">validate</property>
+
+		<!-- JDBC connection pool (use the built-in) -->
+		<property name="connection.pool_size">1</property>
+		<property name="current_session_context_class">thread</property>
+
+		<mapping class="de.trispeedys.resourceplanning.entity.Helper" />
+		<mapping class="de.trispeedys.resourceplanning.entity.Position" />
+		<mapping class="de.trispeedys.resourceplanning.entity.Event" />
+		<mapping class="de.trispeedys.resourceplanning.entity.HelperAssignment" />
+		<mapping class="de.trispeedys.resourceplanning.entity.MessageQueue" />
+		<mapping class="de.trispeedys.resourceplanning.entity.EventPosition" />
+		<mapping class="de.trispeedys.resourceplanning.entity.Domain" />
+		<mapping class="de.trispeedys.resourceplanning.entity.DomainResponsibility" />
+		<mapping class="de.trispeedys.resourceplanning.entity.EventTemplate" />
+		<mapping class="de.trispeedys.resourceplanning.entity.HelperHistory" />
+		<mapping class="de.trispeedys.resourceplanning.entity.PositionAggregation" />
+		<mapping class="de.trispeedys.resourceplanning.entity.AggregationRelation" />
+		
+	</session-factory>
+</hibernate-configuration>

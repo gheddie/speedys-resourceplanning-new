@@ -1,0 +1,63 @@
+Helfer (Bestand)
+==============================================================================================================================
+Name				Vorname				geboren				Kürzel
+------------------------------------------------------------------------------------------------------------------------------
+Schulz				Stefan				13.02.1976			SCST130276
+Beyer				Lars				04.04.1971			BELA040471
+Elsner				Conny				25.07.1973			ELCO350773
+Deyhle				Ingo				01.08.1968			DEIN010868
+Meitzner			Daniela				16.12.1961			MEDA161261
+Grabbe				Jimi				07.05.1991			GRJI070591
+Päge				Denny				29.05.1964			PADE290564
+Thierse				Ulrich				16.05.1983			THUL160583
+
+Helfer (Zuwachs)
+==============================================================================================================================
+Name				Vorname				geboren				Kürzel
+------------------------------------------------------------------------------------------------------------------------------
+Klemm				Peter				17.07.1983			KLPE170783
+Walther				Tina				28.04.1967			WATI280467
+Klopp				Willi				13.11.1964			KLWI131164
+
+Event 1
+==============================================================================================================================
+													Leitung 2015			Besetzung 2015		Leitung 2016	Besetzung 2016
+------------------------------------------------------------------------------------------------------------------------------
+Triathlon (Template=TriathlonTemplate)
+
+ + Laufstrecke
+	+ Ansage Zieleinlauf							SCST130276				SCST13021976
+	+ Verpflegung Park														BELA04041971
+ + Radstrecke
+	+ Kontrolle Abstieg								GRJI070591/PADE290564	PADE29051964
+	+ Einweisung nach Startnummer WZ										ELCO25071973
+	+ Sicherung Abzweig Runde 2/Zieleinfahrt								DEIN01081968
+	+ Motorrad 1															THUL16051983
+ + Zielverpflegung
+	+ Ausgabe Getränke								MEDA161261				MEDA16121961
+	+ Obstschneiden															PADE29051964
+ + Siegerehrung
+	+ Moderation									THUL160583				THUL16051983
+	+ Anreichen Urkunden													SCST13021976
+	
++/- Positionen 2016
+@@@@@@@@@@@@@@@@@@@
+ - Zielverpflegung.Obstschneiden
+ + Siegerehrung.Übergabe Presente
+ + Radstrecke.Motorrad 2
+
+Event 2
+==============================================================================================================================
+													Leitung 2015			Besetzung 2015		Leitung 2016	Besetzung 2016
+------------------------------------------------------------------------------------------------------------------------------
+Crosszales (Template=CrosszalesTemplate)
+
+ + Aufbau Zielbereich
+	+ Ausladen Container							GRJI070591				PADE29051964
+	+ Koordination allgemein						DEIN010868				GRJI07051991
+ + Einteilung Startgruppen
+	+ Kontrolle Startnummer							MEDA161261				ELCO35071973				
+	
++/- Positionen 2016
+@@@@@@@@@@@@@@@@@@@
+ + Einteilung Startgruppen.Allgemeine Aufgaben

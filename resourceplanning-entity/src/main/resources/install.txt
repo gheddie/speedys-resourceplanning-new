@@ -1,0 +1,13 @@
++ put log4.properties in /server/lib/
+
+log4j.rootLogger=INFO, R 
+log4j.appender.R=org.apache.log4j.RollingFileAppender 
+log4j.appender.R.File=${catalina.base}/logs/speedy.log 
+log4j.appender.R.MaxFileSize=10MB 
+log4j.appender.R.MaxBackupIndex=10 
+log4j.appender.R.layout=org.apache.log4j.PatternLayout 
+log4j.appender.R.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss.SSS 'GMT'Z}(%F:%L) %-5p %c - %m%n
+
++ build the client
+
+http://stackoverflow.com/questions/574594/how-can-i-create-an-executable-jar-with-dependencies-using-maven
