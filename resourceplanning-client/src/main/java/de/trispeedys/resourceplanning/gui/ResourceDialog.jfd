@@ -270,6 +270,106 @@ new FormModel {
 				}, new FormLayoutConstraints( null ) {
 					"title": "Manuelle Zuweisungen"
 				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0:1.0"
+					"$rowSpecs": "0:1.0, 0:1.0"
+					"$hGap": 5
+					"$vGap": 5
+					"$alignLeft": true
+					"$alignTop": true
+				} ) {
+					name: "pnlMessages"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0:1.0, 0"
+						"$rowSpecs": "0, 0, 0:1.0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignLeft": true
+						"$alignTop": true
+					} ) {
+						name: "borderMessages"
+						"border": new javax.swing.border.TitledBorder( "Unversandte Nachrichten" )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scMessages"
+							add( new FormComponent( "de.trispeedys.resourceplanning.components.ResourcePlanningTable" ) {
+								name: "tbMessages"
+							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridheight": 3
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnRefreshMessages"
+							"text": "Aktualisieren"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/reload16px.png" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnRefreshMessagesPressed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnSendMessages"
+							"text": "Senden"
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnSendMessagesPressed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 1
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, 0:1.0"
+						"$rowSpecs": "0, 0, 0:1.0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignLeft": true
+						"$alignTop": true
+					} ) {
+						name: "borderSingleMessage"
+						"border": new javax.swing.border.TitledBorder( "Gewählte Nachricht" )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblRecipient"
+							"text": "Empfänger:"
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "tfRecipient"
+							"editable": false
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblSubject"
+							"text": "Betreff:"
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "tfSubject"
+							"editable": false
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblBody"
+							"text": "Text:"
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 2
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scBody"
+							add( new FormComponent( "javax.swing.JTextPane" ) {
+								name: "taBody"
+								"editable": false
+								"contentType": "text/html"
+							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 2
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 1
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "Nachrichten"
+				} )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridheight": 2
 				"gridwidth": 3

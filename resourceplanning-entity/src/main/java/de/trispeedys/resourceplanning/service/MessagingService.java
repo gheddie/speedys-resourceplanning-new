@@ -15,7 +15,7 @@ public class MessagingService
 {
     private static final Logger logger = Logger.getLogger(MessagingService.class);
 
-    private static final boolean INSTANT_SEND = false;
+    private static final boolean INSTANT_SEND = true;
 
     public static void sendAllUnprocessedMessages()
     {
@@ -54,11 +54,11 @@ public class MessagingService
     }
 
     public static void createMessage(String fromAddress, String toAddress, String subject, String body, MessagingType messagingType,
-            MessagingFormat messagingFormat)
+            MessagingFormat messagingFormat, boolean doSend)
     {
         MessageQueue message =
                 (MessageQueue) EntityFactory.buildMessageQueue(fromAddress, toAddress, subject, body, messagingType, messagingFormat).saveOrUpdate();
-        if (INSTANT_SEND)
+        if ((INSTANT_SEND) && (doSend))
         {
             sendUnprocessedMessage(message);
         }

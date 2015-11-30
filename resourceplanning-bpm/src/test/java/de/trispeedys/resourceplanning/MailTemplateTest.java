@@ -48,7 +48,7 @@ public class MailTemplateTest
         ProposePositionsMailTemplate template =
                 new ProposePositionsMailTemplate(helper, event, positions, HelperCallback.ASSIGNMENT_AS_BEFORE, pos3, false);
         MessagingService.createMessage("noreply@tri-speedys.de", "testhelper1.trispeedys@gmail.com",
-                template.constructSubject(), template.constructBody(), MessagingType.NONE, MessagingFormat.HTML);
+                template.constructSubject(), template.constructBody(), MessagingType.NONE, MessagingFormat.HTML, true);
         MessagingService.sendAllUnprocessedMessages();
     }
 }

@@ -23,10 +23,12 @@ import de.trispeedys.resourceplanning.dto.ExecutionDTO;
 import de.trispeedys.resourceplanning.dto.HelperDTO;
 import de.trispeedys.resourceplanning.dto.HierarchicalEventItemDTO;
 import de.trispeedys.resourceplanning.dto.ManualAssignmentDTO;
+import de.trispeedys.resourceplanning.dto.MessageDTO;
 import de.trispeedys.resourceplanning.dto.PositionDTO;
 import de.trispeedys.resourceplanning.entity.AggregationRelation;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
+import de.trispeedys.resourceplanning.entity.MessageQueue;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
@@ -38,6 +40,7 @@ import de.trispeedys.resourceplanning.interaction.EventManager;
 import de.trispeedys.resourceplanning.repository.AggregationRelationRepository;
 import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
+import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.service.MessagingService;
@@ -186,6 +189,22 @@ public class ResourceInfo
             dtos.add(dto);
         }
         return dtos.toArray(new HelperDTO[dtos.size()]);
+    }
+    
+    public MessageDTO[] queryUnsentMessages()
+    {
+        List<MessageDTO> dtos = new ArrayList<MessageDTO>();
+        MessageDTO dto = null;
+        for (MessageQueue message : RepositoryProvider.getRepository(MessageQueueRepository.class).findUnsentMessages())
+        {
+            dto = new MessageDTO();
+            dto.setRecipient(message.getToAddress());
+            dto.setSubject(message.getSubject());
+            dto.setBody(message.getBody());
+            dto.setMessagingState(message.getMessagingState().toString());
+            dtos.add(dto);
+        }
+        return dtos.toArray(new MessageDTO[dtos.size()]);
     }
 
     public ManualAssignmentDTO[] queryManualAssignments()

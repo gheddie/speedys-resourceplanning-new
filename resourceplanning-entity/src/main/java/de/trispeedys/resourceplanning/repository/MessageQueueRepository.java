@@ -25,4 +25,12 @@ public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQu
     {
         return new MessageQueueDatasource();
     }
+
+    public List<MessageQueue> findUnsentMessages()
+    {
+        return dataSource().find(
+                "FROM " +
+                        MessageQueue.class.getSimpleName() + " mq WHERE mq.messagingState = '" + MessagingState.FAILURE + "' OR mq.messagingState = '" +
+                        MessagingState.UNPROCESSED + "'");
+    }
 }

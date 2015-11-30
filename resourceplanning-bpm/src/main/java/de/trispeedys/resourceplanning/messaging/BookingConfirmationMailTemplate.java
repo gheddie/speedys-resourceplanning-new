@@ -18,12 +18,17 @@ public class BookingConfirmationMailTemplate extends AbstractMailTemplate
     public String constructBody()
     {
         String link =
-                HelperInteraction.getBaseLink() + "/AssignmentCancellationReceiver.jsp?helperId=" + getHelper().getId() + "&eventId=" + getEvent().getId();
+                HelperInteraction.getBaseLink() +
+                        "/AssignmentCancellationReceiver.jsp?helperId=" + getHelper().getId() + "&eventId=" +
+                        getEvent().getId();
         return new HtmlGenerator(true).withParagraph("Hallo " + getHelper().getFirstName() + "!")
                 .withParagraph(
                         "Du wurdest erfolgreich der Position '" +
-                                getPosition().getDescription() + "' im Bereich '" + getPosition().getDomain().getName() +
-                                "' zugeordnet. Falls Dir etwas dazwischenkommen sollte, kannst du diese Buchung " + "mit dem untenstehenden Link stornieren:")
+                                getPosition().getDescription() + "' im Bereich '" +
+                                getPosition().getDomain().getName() +
+                                "' zugeordnet. Falls Dir etwas dazwischenkommen sollte, kannst du diese Buchung " +
+                                "mit dem untenstehenden Link stornieren:")
+                .withLinebreak()
                 .withLink(link, "Kündigen")
                 .withLinebreak()
                 .withParagraph("Deine Tri-Speedys.")

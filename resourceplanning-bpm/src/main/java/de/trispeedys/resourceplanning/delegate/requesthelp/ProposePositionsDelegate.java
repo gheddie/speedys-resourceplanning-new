@@ -48,6 +48,6 @@ public class ProposePositionsDelegate extends RequestHelpNotificationDelegate
                         (HelperCallback) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK),
                         AssignmentService.getPriorAssignment(helper, event.getEventTemplate()).getPosition(), isReentrant);
         MessagingService.createMessage("noreply@tri-speedys.de", helper.getEmail(), template.constructSubject(),
-                template.constructBody(), template.getMessagingType(), template.getMessagingFormat());
+                template.constructBody(), template.getMessagingType(), template.getMessagingFormat(), true);
     }
 }

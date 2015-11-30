@@ -27,6 +27,6 @@ public class CancelAssignmentDelegate extends RequestHelpNotificationDelegate
                         PositionRepository.class).findById(
                         (Long) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION)));
         MessagingService.createMessage("noreply@tri-speedys.de", helper.getEmail(), template.constructSubject(), template.constructBody(),
-                template.getMessagingType(), template.getMessagingFormat());
+                template.getMessagingType(), template.getMessagingFormat(), true);
     }
 }

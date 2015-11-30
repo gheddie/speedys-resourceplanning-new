@@ -30,59 +30,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ManualAssignmentDTOArray }
-     * 
-     */
-    public ManualAssignmentDTOArray createManualAssignmentDTOArray() {
-        return new ManualAssignmentDTOArray();
-    }
-
-    /**
-     * Create an instance of {@link HelperDTO }
-     * 
-     */
-    public HelperDTO createHelperDTO() {
-        return new HelperDTO();
-    }
-
-    /**
      * Create an instance of {@link HierarchicalEventItemDTOArray }
      * 
      */
     public HierarchicalEventItemDTOArray createHierarchicalEventItemDTOArray() {
         return new HierarchicalEventItemDTOArray();
-    }
-
-    /**
-     * Create an instance of {@link EventDTO }
-     * 
-     */
-    public EventDTO createEventDTO() {
-        return new EventDTO();
-    }
-
-    /**
-     * Create an instance of {@link ManualAssignmentDTO }
-     * 
-     */
-    public ManualAssignmentDTO createManualAssignmentDTO() {
-        return new ManualAssignmentDTO();
-    }
-
-    /**
-     * Create an instance of {@link HelperDTOArray }
-     * 
-     */
-    public HelperDTOArray createHelperDTOArray() {
-        return new HelperDTOArray();
-    }
-
-    /**
-     * Create an instance of {@link PositionDTOArray }
-     * 
-     */
-    public PositionDTOArray createPositionDTOArray() {
-        return new PositionDTOArray();
     }
 
     /**
@@ -123,6 +75,70 @@ public class ObjectFactory {
      */
     public HierarchicalEventItemDTO createHierarchicalEventItemDTO() {
         return new HierarchicalEventItemDTO();
+    }
+
+    /**
+     * Create an instance of {@link ManualAssignmentDTOArray }
+     * 
+     */
+    public ManualAssignmentDTOArray createManualAssignmentDTOArray() {
+        return new ManualAssignmentDTOArray();
+    }
+
+    /**
+     * Create an instance of {@link HelperDTO }
+     * 
+     */
+    public HelperDTO createHelperDTO() {
+        return new HelperDTO();
+    }
+
+    /**
+     * Create an instance of {@link EventDTO }
+     * 
+     */
+    public EventDTO createEventDTO() {
+        return new EventDTO();
+    }
+
+    /**
+     * Create an instance of {@link ManualAssignmentDTO }
+     * 
+     */
+    public ManualAssignmentDTO createManualAssignmentDTO() {
+        return new ManualAssignmentDTO();
+    }
+
+    /**
+     * Create an instance of {@link HelperDTOArray }
+     * 
+     */
+    public HelperDTOArray createHelperDTOArray() {
+        return new HelperDTOArray();
+    }
+
+    /**
+     * Create an instance of {@link PositionDTOArray }
+     * 
+     */
+    public PositionDTOArray createPositionDTOArray() {
+        return new PositionDTOArray();
+    }
+
+    /**
+     * Create an instance of {@link MessageDTO }
+     * 
+     */
+    public MessageDTO createMessageDTO() {
+        return new MessageDTO();
+    }
+
+    /**
+     * Create an instance of {@link MessageDTOArray }
+     * 
+     */
+    public MessageDTOArray createMessageDTOArray() {
+        return new MessageDTOArray();
     }
 
 }

@@ -40,6 +40,7 @@ import de.trispeedys.resourceplanning.webservice.EventDTO;
 import de.trispeedys.resourceplanning.webservice.ExecutionDTO;
 import de.trispeedys.resourceplanning.webservice.HelperDTO;
 import de.trispeedys.resourceplanning.webservice.ManualAssignmentDTO;
+import de.trispeedys.resourceplanning.webservice.MessageDTO;
 import de.trispeedys.resourceplanning.webservice.PositionDTO;
 import de.trispeedys.resourceplanning.webservice.ResourceInfo;
 import de.trispeedys.resourceplanning.webservice.ResourceInfoService;
@@ -77,10 +78,14 @@ public class ResourceDialog extends SpeedyFrame
     private List<PositionDTO> availablePositions;
 
     private List<ExecutionDTO> executions;
+    
+    private List<MessageDTO> unsentMessages;
 
     private PositionDTO selectedAvailablePosition;
 
     private ResourceInfo resourceInfo = null;
+
+    private MessageDTO selectedMessage;   
 
     public ResourceDialog(String title, boolean resizable, boolean closable, boolean maximizable, boolean iconifiable, SpeedyView parentFrame)
     {
@@ -94,6 +99,7 @@ public class ResourceDialog extends SpeedyFrame
         new TableFilterHeader(tbManualAssignments);
         new TableFilterHeader(tbAvailablePositions);
         new TableFilterHeader(tbExecutions);
+        new TableFilterHeader(tbMessages);
         fillAll();
     }
 
@@ -151,6 +157,19 @@ public class ResourceDialog extends SpeedyFrame
                 }
             }
         });
+        // messages
+        tbMessages.getSelectionModel().addListSelectionListener(new ListSelectionListener()
+        {
+            public void valueChanged(ListSelectionEvent e)
+            {
+                int selectedRow = tbMessages.getSelectedRow();
+                if (selectedRow >= 0)
+                {
+                    int convertedRowIndex = tbMessages.convertRowIndexToModel(selectedRow);
+                    mesageSelected(unsentMessages.get(convertedRowIndex));
+                }
+            }
+        });        
     }
 
     private void btnFinishProcessesPressed(ActionEvent e)
@@ -167,6 +186,13 @@ public class ResourceDialog extends SpeedyFrame
         refreshHelpers();
         refreshManualAssignments();
         refreshExecutions();
+        refreshMessages();
+    }
+
+    private void refreshMessages()
+    {
+        unsentMessages = resourceInfo.queryUnsentMessages().getItem();
+        tbMessages.setModel(TableModelBuilder.createGenericTableModel(unsentMessages));        
     }
 
     private void refreshExecutions()
@@ -205,6 +231,13 @@ public class ResourceDialog extends SpeedyFrame
         System.out.println("assignment selected : " + manualAssignment.getHelperName());
         selectedManualAssignment = manualAssignment;
     }
+    
+    private void mesageSelected(MessageDTO message)
+    {
+        System.out.println("message selected : " + message.getSubject());
+        selectedMessage = message;        
+        fillMessageDetails();
+    }
 
     private void availablePositionSelected(PositionDTO positionDTO)
     {
@@ -215,6 +248,13 @@ public class ResourceDialog extends SpeedyFrame
     private void helperSelected(HelperDTO helperDTO)
     {
         System.out.println("helper selected : " + helperDTO.getLastName());
+    }
+    
+    private void fillMessageDetails()
+    {
+        tfRecipient.setText(selectedMessage.getRecipient());
+        tfSubject.setText(selectedMessage.getSubject());
+        taBody.setText(selectedMessage.getBody());
     }
 
     private void fillTree(Long eventId)
@@ -339,6 +379,14 @@ public class ResourceDialog extends SpeedyFrame
         refreshExecutions();
     }
 
+    private void btnSendMessagesPressed(ActionEvent e) {
+        resourceInfo.sendAllMessages();
+    }
+
+    private void btnRefreshMessagesPressed(ActionEvent e) {
+        refreshMessages();
+    }
+
     private void initComponents()
     {
         // JFormDesigner - Component initialization - DO NOT MODIFY //GEN-BEGIN:initComponents
@@ -377,6 +425,20 @@ public class ResourceDialog extends SpeedyFrame
         scAvailablePositions = new JScrollPane();
         tbAvailablePositions = new ResourcePlanningTable();
         btnReloadAvailablePositions = new JButton();
+        pnlMessages = new JPanel();
+        borderMessages = new JPanel();
+        scMessages = new JScrollPane();
+        tbMessages = new ResourcePlanningTable();
+        btnRefreshMessages = new JButton();
+        btnSendMessages = new JButton();
+        borderSingleMessage = new JPanel();
+        lblRecipient = new JLabel();
+        tfRecipient = new JTextField();
+        lblSubject = new JLabel();
+        tfSubject = new JTextField();
+        lblBody = new JLabel();
+        scBody = new JScrollPane();
+        taBody = new JTextPane();
 
         //======== this ========
         setVisible(true);
@@ -695,6 +757,115 @@ public class ResourceDialog extends SpeedyFrame
                     new Insets(0, 0, 0, 0), 0, 0));
             }
             tdbMain.addTab("Manuelle Zuweisungen", pnlManualAssignments);
+
+            //======== pnlMessages ========
+            {
+                pnlMessages.setLayout(new GridBagLayout());
+                ((GridBagLayout)pnlMessages.getLayout()).columnWidths = new int[] {0, 0};
+                ((GridBagLayout)pnlMessages.getLayout()).rowHeights = new int[] {0, 0, 0};
+                ((GridBagLayout)pnlMessages.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+                ((GridBagLayout)pnlMessages.getLayout()).rowWeights = new double[] {1.0, 1.0, 1.0E-4};
+
+                //======== borderMessages ========
+                {
+                    borderMessages.setBorder(new TitledBorder("Unversandte Nachrichten"));
+                    borderMessages.setLayout(new GridBagLayout());
+                    ((GridBagLayout)borderMessages.getLayout()).columnWidths = new int[] {0, 0, 0};
+                    ((GridBagLayout)borderMessages.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+                    ((GridBagLayout)borderMessages.getLayout()).columnWeights = new double[] {1.0, 0.0, 1.0E-4};
+                    ((GridBagLayout)borderMessages.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0, 1.0E-4};
+
+                    //======== scMessages ========
+                    {
+                        scMessages.setViewportView(tbMessages);
+                    }
+                    borderMessages.add(scMessages, new GridBagConstraints(0, 0, 1, 3, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
+
+                    //---- btnRefreshMessages ----
+                    btnRefreshMessages.setText("Aktualisieren");
+                    btnRefreshMessages.setIcon(new ImageIcon(getClass().getResource("/img/reload16px.png")));
+                    btnRefreshMessages.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            btnRefreshMessagesPressed(e);
+                        }
+                    });
+                    borderMessages.add(btnRefreshMessages, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+
+                    //---- btnSendMessages ----
+                    btnSendMessages.setText("Senden");
+                    btnSendMessages.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            btnSendMessagesPressed(e);
+                        }
+                    });
+                    borderMessages.add(btnSendMessages, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+                }
+                pnlMessages.add(borderMessages, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
+
+                //======== borderSingleMessage ========
+                {
+                    borderSingleMessage.setBorder(new TitledBorder("Gew\u00e4hlte Nachricht"));
+                    borderSingleMessage.setLayout(new GridBagLayout());
+                    ((GridBagLayout)borderSingleMessage.getLayout()).columnWidths = new int[] {0, 0, 0};
+                    ((GridBagLayout)borderSingleMessage.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+                    ((GridBagLayout)borderSingleMessage.getLayout()).columnWeights = new double[] {0.0, 1.0, 1.0E-4};
+                    ((GridBagLayout)borderSingleMessage.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0, 1.0E-4};
+
+                    //---- lblRecipient ----
+                    lblRecipient.setText("Empf\u00e4nger:");
+                    borderSingleMessage.add(lblRecipient, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- tfRecipient ----
+                    tfRecipient.setEditable(false);
+                    borderSingleMessage.add(tfRecipient, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+
+                    //---- lblSubject ----
+                    lblSubject.setText("Betreff:");
+                    borderSingleMessage.add(lblSubject, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- tfSubject ----
+                    tfSubject.setEditable(false);
+                    borderSingleMessage.add(tfSubject, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+
+                    //---- lblBody ----
+                    lblBody.setText("Text:");
+                    borderSingleMessage.add(lblBody, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
+
+                    //======== scBody ========
+                    {
+
+                        //---- taBody ----
+                        taBody.setEditable(false);
+                        taBody.setContentType("text/html");
+                        scBody.setViewportView(taBody);
+                    }
+                    borderSingleMessage.add(scBody, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
+                }
+                pnlMessages.add(borderSingleMessage, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
+            }
+            tdbMain.addTab("Nachrichten", pnlMessages);
         }
         contentPane.add(tdbMain, new GridBagConstraints(0, 1, 3, 2, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -738,5 +909,19 @@ public class ResourceDialog extends SpeedyFrame
     private JScrollPane scAvailablePositions;
     private ResourcePlanningTable tbAvailablePositions;
     private JButton btnReloadAvailablePositions;
+    private JPanel pnlMessages;
+    private JPanel borderMessages;
+    private JScrollPane scMessages;
+    private ResourcePlanningTable tbMessages;
+    private JButton btnRefreshMessages;
+    private JButton btnSendMessages;
+    private JPanel borderSingleMessage;
+    private JLabel lblRecipient;
+    private JTextField tfRecipient;
+    private JLabel lblSubject;
+    private JTextField tfSubject;
+    private JLabel lblBody;
+    private JScrollPane scBody;
+    private JTextPane taBody;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 }

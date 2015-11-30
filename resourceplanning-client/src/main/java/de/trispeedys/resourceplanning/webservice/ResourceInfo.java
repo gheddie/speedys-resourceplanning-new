@@ -26,20 +26,20 @@ public interface ResourceInfo {
     /**
      * 
      * @return
+     *     returns de.trispeedys.resourceplanning.webservice.MessageDTOArray
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    public MessageDTOArray queryUnsentMessages();
+
+    /**
+     * 
+     * @return
      *     returns de.trispeedys.resourceplanning.webservice.EventDTOArray
      */
     @WebMethod
     @WebResult(partName = "return")
     public EventDTOArray queryEvents();
-
-    /**
-     * 
-     * @return
-     *     returns de.trispeedys.resourceplanning.webservice.HelperDTOArray
-     */
-    @WebMethod
-    @WebResult(partName = "return")
-    public HelperDTOArray queryHelpers();
 
     /**
      * 
@@ -55,6 +55,15 @@ public interface ResourceInfo {
         long arg0,
         @WebParam(name = "arg1", partName = "arg1")
         boolean arg1);
+
+    /**
+     * 
+     * @return
+     *     returns de.trispeedys.resourceplanning.webservice.HelperDTOArray
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    public HelperDTOArray queryHelpers();
 
     /**
      * 
@@ -85,24 +94,6 @@ public interface ResourceInfo {
         int arg4,
         @WebParam(name = "arg5", partName = "arg5")
         int arg5);
-
-    /**
-     * 
-     * @param arg0
-     */
-    @WebMethod
-    public void startProcessesForActiveHelpersByTemplateName(
-        @WebParam(name = "arg0", partName = "arg0")
-        String arg0);
-
-    /**
-     * 
-     * @param arg0
-     */
-    @WebMethod
-    public void startProcessesForActiveHelpersByEventId(
-        @WebParam(name = "arg0", partName = "arg0")
-        long arg0);
 
     /**
      * 
@@ -187,5 +178,23 @@ public interface ResourceInfo {
      */
     @WebMethod
     public void sendAllMessages();
+
+    /**
+     * 
+     * @param arg0
+     */
+    @WebMethod
+    public void startProcessesForActiveHelpersByTemplateName(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0);
+
+    /**
+     * 
+     * @param arg0
+     */
+    @WebMethod
+    public void startProcessesForActiveHelpersByEventId(
+        @WebParam(name = "arg0", partName = "arg0")
+        long arg0);
 
 }

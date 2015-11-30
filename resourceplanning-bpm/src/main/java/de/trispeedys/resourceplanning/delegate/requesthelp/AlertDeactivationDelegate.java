@@ -25,6 +25,6 @@ public class AlertDeactivationDelegate extends RequestHelpNotificationDelegate
         AlertDeactivationMailTemplate template = new AlertDeactivationMailTemplate(helper, getEvent(execution), position);
         MessagingService.createMessage("noreply@tri-speedys.de",
                 AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.ADMIN_MAIL), template.constructSubject(),
-                template.constructBody(), template.getMessagingType(), template.getMessagingFormat());
+                template.constructBody(), template.getMessagingType(), template.getMessagingFormat(), true);
     }
 }
