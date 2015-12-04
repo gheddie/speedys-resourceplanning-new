@@ -128,4 +128,9 @@ public class Position extends AbstractDbObject implements EnumeratedEventItem
     {
         return positionNumber;
     }
+    
+    public boolean equals(Object obj)
+    {
+        return (((Position) obj).getPositionNumber() == positionNumber);
+    }
 }

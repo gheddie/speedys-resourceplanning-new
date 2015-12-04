@@ -16,7 +16,11 @@ import org.camunda.bpm.engine.runtime.Execution;
 import org.camunda.bpm.engine.runtime.VariableInstance;
 import org.camunda.bpm.engine.runtime.VariableInstanceQuery;
 import org.camunda.bpm.engine.task.Task;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import de.trispeedys.resourceplanning.HibernateUtil;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.dto.EventDTO;
 import de.trispeedys.resourceplanning.dto.ExecutionDTO;
@@ -43,6 +47,7 @@ import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
+import de.trispeedys.resourceplanning.rule.ChoosablePositionGenerator;
 import de.trispeedys.resourceplanning.service.MessagingService;
 import de.trispeedys.resourceplanning.util.EntityTreeNode;
 import de.trispeedys.resourceplanning.util.HierarchicalEventItemType;
@@ -52,7 +57,6 @@ import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 import de.trispeedys.resourceplanning.util.StringUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
-@SuppressWarnings("restriction")
 @WebService
 @SOAPBinding(style = Style.RPC)
 public class ResourceInfo
@@ -138,6 +142,10 @@ public class ResourceInfo
     @SuppressWarnings("rawtypes")
     public HierarchicalEventItemDTO[] getEventNodes(Long eventId, boolean onlyUnassignedPositions)
     {
+        if (eventId == null)
+        {
+            return null;
+        }
         logger.info("getting event nodes...");
         // key : position id, value : aggregation relation
         HashMap<Long, AggregationRelation> relationHash = new HashMap<Long, AggregationRelation>();
@@ -146,6 +154,11 @@ public class ResourceInfo
             relationHash.put(relation.getPositionId(), relation);
         }
         Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        List<Position> generatorPositions = new ChoosablePositionGenerator().generate(event);
+        if (event == null)
+        {
+            return null;
+        }
         List<EntityTreeNode> nodes = SpeedyRoutines.flattenedEventNodes(event, onlyUnassignedPositions);
         List<HierarchicalEventItemDTO> dtos = new ArrayList<HierarchicalEventItemDTO>();
         HierarchicalEventItemDTO dto = null;
@@ -158,7 +171,7 @@ public class ResourceInfo
             dto.setHierarchyLevel(node.getHierarchyLevel());
             dto.setItemKey(node.itemKey());
             dto.setAssignmentString(node.getAssignmentString());
-            dto.setAvailability(node.getAvailability());
+            dto.setAvailability(node.getAvailability(generatorPositions));
             dto.setPriorization(node.getPriorization());
             if (node.getItemType().equals(HierarchicalEventItemType.POSITION))
             {
@@ -342,5 +355,5 @@ public class ResourceInfo
         {
             EventManager.startHelperRequestProcess(helper, event);
         }
-    }
+    }    
 }

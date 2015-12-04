@@ -1,7 +1,7 @@
 package de.trispeedys.resourceplanning.importer;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +27,25 @@ import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 public class JsonEventImporter
 {
+    private static final String JSON_PARAM_MINIMAL_AGE = "ma";
+
+    private static final String JSON_PARAM_POSITION_PRIORITY = "positionPriority";
+
+    private static final String JSON_PARAM_BIRTHDAY = "birthDay";
+
+    private static final String JSON_PARAM_POSITION_NAME = "positionName";
+
+    private static final String JSON_PARAM_POSITION_NUMBER = "pr";
+
+    private static final String JSON_PARAM_DOMAIN_NAME = "domainName";
+
+    private static final String JSON_PARAM_DOMAIN_NUMBER = "dr";
+
+    private static final String JSON_PARAM_MAIL = "ml";
+
+    private static final String JSON_PARAM_FIRST_NAME = "firstName";
+
+    private static final String JSON_PARAM_LAST_NAME = "lastName";
 
     private List<ImportRow> rows;
 
@@ -36,12 +55,14 @@ public class JsonEventImporter
 
     private String resourceName;
 
-    private void doImport(String aResourceName)
+    public void doImport(String aResourceName)
     {
         this.resourceName = aResourceName;
         HibernateUtil.clearAll();
         EventTemplate eventTemplate = EntityFactory.buildEventTemplate("TRI").saveOrUpdate();
-        event = EntityFactory.buildEvent("Triathlon 2015", "TRI-2015", 1, 1, 2015, EventState.FINISHED, eventTemplate, null).saveOrUpdate();
+        event =
+                EntityFactory.buildEvent("Triathlon 2015", "TRI-2015", 1, 1, 2015, EventState.FINISHED, eventTemplate,
+                        null).saveOrUpdate();
         rows = parseRows();
         createHelpers();
         createPositions();
@@ -62,7 +83,9 @@ public class JsonEventImporter
             {
                 domainNumberToDomainName.put(row.getDomainNumber(), row.getDomainName());
             }
-            domainsToPositions.get(row.getDomainNumber()).add(EntityFactory.buildPosition(row.getPosition(), 12, null, row.getPositionNumber(), true));
+            domainsToPositions.get(row.getDomainNumber()).add(
+                    EntityFactory.buildPosition(row.getPosition(), row.getMinimalAge(), null, row.getPositionNumber(),
+                            true, row.getAssignmentPriority()));
         }
         Domain persistedDomain = null;
         for (Integer domainNumber : domainsToPositions.keySet())
@@ -84,18 +107,21 @@ public class JsonEventImporter
         Helper buildedHelper = null;
         for (ImportRow row : rows)
         {
-            try
+            if (row.isHelperValid())
             {
-                buildedHelper =
-                        EntityFactory.buildHelper(row.getHelperLastName(), row.getHelperFirstName(), row.getHelperMail(), HelperState.ACTIVE, row.getDateOfBirth());
-                buildedHelper.saveOrUpdate();
-                helperIdToPosNumber.put(buildedHelper.getId(), new Integer(row.getPositionNumber()));
+                try
+                {
+                    buildedHelper =
+                            EntityFactory.buildHelper(row.getHelperLastName(), row.getHelperFirstName(),
+                                    row.getHelperMail(), HelperState.ACTIVE, row.getDateOfBirth());
+                    buildedHelper.saveOrUpdate();
+                    helperIdToPosNumber.put(buildedHelper.getId(), new Integer(row.getPositionNumber()));
+                }
+                catch (Exception e)
+                {
+                    System.out.println(" ### ERROR ### : " + e.getMessage());
+                }
             }
-            catch (Exception e)
-            {
-                System.out.println(" ### ERROR ### : " + e.getMessage());
-            }
-
         }
     }
 
@@ -134,7 +160,7 @@ public class JsonEventImporter
         JSONParser parser = new JSONParser();
         try
         {
-            BufferedInputStream inputStream = (BufferedInputStream) getClass().getClassLoader().getResourceAsStream(resourceName);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourceName);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
             Object obj = parser.parse(reader);
 
@@ -150,15 +176,18 @@ public class JsonEventImporter
             {
                 System.out.println("---------------------------------------------------");
                 moo = (JSONObject) companyList.get(index);
-                System.out.println("lastName : " + moo.get("ln"));
-                System.out.println("firstName : " + moo.get("fn"));
-                System.out.println("mail : " + moo.get("ml"));
-                System.out.println("domainNumber : " + moo.get("dr"));
-                System.out.println("domainName : " + moo.get("dn"));
-                System.out.println("positionNumber : " + moo.get("pr"));
-                System.out.println("positionName : " + moo.get("pn"));
-                rows.add(new ImportRow((String) moo.get("ln"), (String) moo.get("fn"), (String) moo.get("db"), (String) moo.get("ml"), (String) moo.get("dr"),
-                        (String) moo.get("dn"), (String) moo.get("pr"), (String) moo.get("pn")));
+                System.out.println("lastName : " + moo.get(JSON_PARAM_LAST_NAME));
+                System.out.println("firstName : " + moo.get(JSON_PARAM_FIRST_NAME));
+                System.out.println("mail : " + moo.get(JSON_PARAM_MAIL));
+                System.out.println("domainNumber : " + moo.get(JSON_PARAM_DOMAIN_NUMBER));
+                System.out.println("domainName : " + moo.get(JSON_PARAM_DOMAIN_NAME));
+                System.out.println("positionNumber : " + moo.get(JSON_PARAM_POSITION_NUMBER));
+                System.out.println("positionName : " + moo.get(JSON_PARAM_POSITION_NAME));
+                rows.add(new ImportRow((String) moo.get(JSON_PARAM_LAST_NAME), (String) moo.get(JSON_PARAM_FIRST_NAME),
+                        (String) moo.get(JSON_PARAM_BIRTHDAY), (String) moo.get(JSON_PARAM_MAIL),
+                        (String) moo.get(JSON_PARAM_DOMAIN_NUMBER), (String) moo.get(JSON_PARAM_DOMAIN_NAME),
+                        (String) moo.get(JSON_PARAM_POSITION_NUMBER), (String) moo.get(JSON_PARAM_POSITION_NAME),
+                        (String) moo.get(JSON_PARAM_MINIMAL_AGE), (String) moo.get(JSON_PARAM_POSITION_PRIORITY)));
             }
         }
         catch (Exception e)
@@ -172,6 +201,6 @@ public class JsonEventImporter
 
     public static void main(String[] args)
     {
-        new JsonEventImporter().doImport("Helfer_2015_2.json");
+        new JsonEventImporter().doImport("Helfer_2015.json");
     }
 }

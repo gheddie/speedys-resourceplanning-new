@@ -41,16 +41,26 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
      */
     public List<Position> findUnassignedPositionsInEvent(Event event, Helper helper, boolean onlyChooseable)
     {
-        List<Position> result = new ArrayList<Position>();
         // get all unassigned positions
-        for (Position pos : findUnassignedPositionsInEvent(event, onlyChooseable))
+        List<Position> positions = findUnassignedPositionsInEvent(event, onlyChooseable);
+        if (helper == null)
         {
-            if (helper.isAssignableTo(pos, event.getEventDate()))
-            {
-                result.add(pos);
-            }
+            // positions will NOT be checked against helpers age as no helper is set -> just return positions
+            return positions;
         }
-        return result;
+        else
+        {
+            List<Position> result = new ArrayList<Position>();
+            // positions will be checked against helpers age
+            for (Position pos : positions)
+            {
+                if (helper.isAssignableTo(pos, event.getEventDate()))
+                {
+                    result.add(pos);
+                }
+            }
+            return result;
+        }
     }
 
     public List<Position> findUnassignedPositionsInEvent(Event event, boolean onlyChooseable)

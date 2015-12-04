@@ -5,19 +5,20 @@ import java.util.List;
 
 import de.trispeedys.resourceplanning.components.treetable.TreeTableDataNode;
 import de.trispeedys.resourceplanning.entity.misc.HierarchicalEventItem;
+import de.trispeedys.resourceplanning.singleton.AppSingleton;
 import de.trispeedys.resourceplanning.webservice.HierarchicalEventItemDTO;
 import de.trispeedys.resourceplanning.webservice.ResourceInfo;
 
 public class ResourcePlanningClientRoutines
 {
-    public static TreeTableDataNode createDataStructure(Long eventId, boolean onlyUnassigned, ResourceInfo resourceInfo)
+    public static TreeTableDataNode createDataStructure(Long eventId, boolean onlyUnassigned)
     {
         TreeTableDataNode eventNode = null;
         TreeTableDataNode domainNode = null;
         List<TreeTableDataNode> domainNodes = null;
         List<TreeTableDataNode> positionNodes = null;
 
-        List<HierarchicalEventItemDTO> eventNodes = resourceInfo.getEventNodes(eventId, onlyUnassigned).getItem();
+        List<HierarchicalEventItemDTO> eventNodes = AppSingleton.getInstance().getPort().getEventNodes(eventId, onlyUnassigned).getItem();
         for (HierarchicalEventItemDTO node : eventNodes)
         {
             switch (node.getHierarchyLevel())

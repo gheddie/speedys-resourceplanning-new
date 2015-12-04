@@ -20,6 +20,11 @@ import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 public class ChoosablePositionGenerator extends RuleObject<Position>
 {
     private static final String NO_GROUP = "NO_GROUP";
+    
+    public List<Position> generate(Event event)
+    {
+        return generate(null, event);
+    }
 
     public List<Position> generate(Helper helper, Event event)
     {

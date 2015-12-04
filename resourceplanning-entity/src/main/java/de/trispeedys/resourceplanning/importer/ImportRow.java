@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.trispeedys.resourceplanning.util.StringUtil;
+
 public class ImportRow
 {
     private static final DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
@@ -25,8 +27,12 @@ public class ImportRow
 
     private int positionNumber;
 
+    private int minimalAge;
+    
+    private Integer assignmentPriority;
+
     public ImportRow(String helperLastName, String helperFirstName, String dateOfBirth, String helperMail, String domainNumber, String domainName, String positionNumber,
-            String position)
+            String position, String minimalAge, String assignmentPriority)
     {
         this.helperLastName = helperLastName.trim();
         this.helperFirstName = helperFirstName.trim();
@@ -36,6 +42,15 @@ public class ImportRow
         this.domainName = domainName.trim();
         this.positionNumber = Integer.parseInt(positionNumber.trim());
         this.position = position.trim();
+        this.minimalAge = Integer.parseInt(minimalAge.trim());
+        try
+        {
+            this.assignmentPriority = Integer.parseInt(assignmentPriority.trim());
+        }
+        catch (Exception e)
+        {
+            this.assignmentPriority = null;
+        }
     }
 
     private Date parseDate(String dateOfBirth)
@@ -79,6 +94,10 @@ public class ImportRow
 
     public String getHelperMail()
     {
+        if (StringUtil.isBlank(helperMail))
+        {
+            return null;
+        }
         return helperMail;
     }
 
@@ -100,5 +119,20 @@ public class ImportRow
     public int getPositionNumber()
     {
         return positionNumber;
+    }
+    
+    public int getMinimalAge()
+    {
+        return minimalAge;
+    }
+    
+    public Integer getAssignmentPriority()
+    {
+        return assignmentPriority;
+    }
+
+    public boolean isHelperValid()
+    {
+        return ((!(StringUtil.isBlank(helperFirstName))) && (!(StringUtil.isBlank(helperLastName))));
     }
 }

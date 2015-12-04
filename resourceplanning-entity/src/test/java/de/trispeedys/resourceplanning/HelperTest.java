@@ -31,7 +31,7 @@ public class HelperTest
     {
         HibernateUtil.clearAll();
         Helper helper =
-                EntityFactory.buildHelper("Stefan", "Schulz", HelperAssignmentTest.TEST_MAIL_ADDRESS,
+                EntityFactory.buildHelper("Stefan", "Schulz", Helper.TEST_MAIL_ADDRESS,
                         HelperState.ACTIVE, 13, 2, 1976).saveOrUpdate();
         assertEquals(true, AssignmentService.isFirstAssignment(helper.getId()));
     }

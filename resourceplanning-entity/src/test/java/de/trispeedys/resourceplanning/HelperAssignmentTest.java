@@ -28,10 +28,6 @@ import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class HelperAssignmentTest
 {
-    public static final String TEST_MAIL_ADDRESS = "testhelper1.trispeedys@gmail.com";
-
-    private static final String TEST_MAIL_PASSWORD = "trispeedys1234";
-
     /**
      * Denselben Helfer in der selben Veranstaltung auf zwei Positionen bestätigen. Das ist OK
      * möglich.
@@ -55,7 +51,7 @@ public class HelperAssignmentTest
         SpeedyRoutines.relatePositionsToEvent(event, position1, position2);
 
         Helper helper =
-                EntityFactory.buildHelper("Stefan", "Schulz", TEST_MAIL_ADDRESS, HelperState.ACTIVE, 13, 2, 1976)
+                EntityFactory.buildHelper("Stefan", "Schulz", Helper.TEST_MAIL_ADDRESS, HelperState.ACTIVE, 13, 2, 1976)
                         .saveOrUpdate();
 
         EntityFactory.buildHelperAssignment(helper, event, position2).saveOrUpdate();
@@ -78,7 +74,7 @@ public class HelperAssignmentTest
 
         // Helfer ist zum Datum der Veranstaltung erst 15
         Helper helper =
-                EntityFactory.buildHelper("Stefan", "Schulz", TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 2000)
+                EntityFactory.buildHelper("Stefan", "Schulz", Helper.TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 2000)
                         .saveOrUpdate();
 
         // Position erfordert Mindest-Alter 16 Jahre
@@ -105,7 +101,7 @@ public class HelperAssignmentTest
 
         // Helfer ist zum Datum der Veranstaltung erst 15
         Helper helper =
-                EntityFactory.buildHelper("Stefan", "Schulz", TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 2000)
+                EntityFactory.buildHelper("Stefan", "Schulz", Helper.TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 2000)
                         .saveOrUpdate();
 
         // Position erfordert Mindest-Alter 16 Jahre
@@ -130,7 +126,7 @@ public class HelperAssignmentTest
 
         // helper was confirmed for a position in 2012, but only proposed for one in 2014...
         Helper helper =
-                EntityFactory.buildHelper("Stefan", "Schulz", TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 2000)
+                EntityFactory.buildHelper("Stefan", "Schulz", Helper.TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 2000)
                         .saveOrUpdate();
         Position position =
                 EntityFactory.buildPosition("Laufverpflegung", 16, SpeedyTestUtil.buildDefaultDomain(1), 0, true)
@@ -162,7 +158,7 @@ public class HelperAssignmentTest
 
         // helper was confirmed for a position in 2012, but only proposed for one in 2014...
         Helper helper =
-                EntityFactory.buildHelper("Stefan", "Schulz", TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 2000)
+                EntityFactory.buildHelper("Stefan", "Schulz", Helper.TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 2000)
                         .saveOrUpdate();
         Position position =
                 EntityFactory.buildPosition("Laufverpflegung", 16, SpeedyTestUtil.buildDefaultDomain(1), 0, true)
@@ -194,7 +190,7 @@ public class HelperAssignmentTest
 
         // helper was assigned pos 'Laufverpflegung' in 2015...
         Helper helperToReassign =
-                EntityFactory.buildHelper("Stefan", "Schulz", TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 2000)
+                EntityFactory.buildHelper("Stefan", "Schulz", Helper.TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 2000)
                         .saveOrUpdate();
         
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
@@ -208,7 +204,7 @@ public class HelperAssignmentTest
 
         // assign that position to another helper in 2016...
         Helper blockingHelper =
-                EntityFactory.buildHelper("Klaus", "Müller", TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 1980)
+                EntityFactory.buildHelper("Klaus", "Müller", Helper.TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 1980)
                         .saveOrUpdate();
         
         Event event2016 = EntityFactory.buildEvent("TRI-2016", "TRI-2016", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
@@ -237,7 +233,7 @@ public class HelperAssignmentTest
         Event event = EntityFactory.buildEvent("TRI-2016", "TRI-2016", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
         // helper
         Helper helper =
-                EntityFactory.buildHelper("Klaus", "Müller", TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 1980)
+                EntityFactory.buildHelper("Klaus", "Müller", Helper.TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 1980)
                         .saveOrUpdate();
         // position
         Position position = EntityFactory.buildPosition("A", 10, SpeedyTestUtil.buildDefaultDomain(1), 0, true).saveOrUpdate();
@@ -262,7 +258,7 @@ public class HelperAssignmentTest
         Event event = EntityFactory.buildEvent("TRI-2016", "TRI-2016", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
         // helper
         Helper helper =
-                EntityFactory.buildHelper("Klaus", "Müller", TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 1980)
+                EntityFactory.buildHelper("Klaus", "Müller", Helper.TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 1980)
                         .saveOrUpdate();
         // position
         Position position = EntityFactory.buildPosition("A", 10, SpeedyTestUtil.buildDefaultDomain(1), 0, true).saveOrUpdate();
@@ -287,10 +283,10 @@ public class HelperAssignmentTest
 
         // helpers
         Helper helper1 =
-                EntityFactory.buildHelper("Klaus", "Müller", TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 1980)
+                EntityFactory.buildHelper("Klaus", "Müller", Helper.TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 1980)
                         .saveOrUpdate();
         Helper helper2 =
-                EntityFactory.buildHelper("Heinz", "Müller", TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 1980)
+                EntityFactory.buildHelper("Heinz", "Müller", Helper.TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 1980)
                         .saveOrUpdate();
 
         // we have 5 positions...

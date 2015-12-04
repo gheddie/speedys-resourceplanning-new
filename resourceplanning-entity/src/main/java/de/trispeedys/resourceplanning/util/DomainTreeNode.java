@@ -1,5 +1,9 @@
 package de.trispeedys.resourceplanning.util;
 
+import java.util.List;
+
+import javax.swing.text.Position;
+
 import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.misc.HierarchicalEventItem;
 
@@ -46,7 +50,7 @@ public class DomainTreeNode<T> extends EntityTreeNode<Domain>
         return "";
     }
 
-    public String getAvailability()
+    public String getAvailability(List<?> referencePositions)
     {
         return "";
     }

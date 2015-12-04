@@ -1,6 +1,7 @@
 package de.trispeedys.resourceplanning.util;
 
-import de.trispeedys.resourceplanning.entity.Domain;
+import java.util.List;
+
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.misc.HierarchicalEventItem;
 
@@ -47,7 +48,7 @@ public class EventTreeNode<T> extends EntityTreeNode<Event>
         return "";
     }
     
-    public String getAvailability()
+    public String getAvailability(List<?> referencePositions)
     {
         return "";
     }

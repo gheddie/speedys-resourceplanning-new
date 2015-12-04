@@ -1,7 +1,7 @@
 package de.trispeedys.resourceplanning.util;
 
-import de.trispeedys.resourceplanning.entity.Domain;
-import de.trispeedys.resourceplanning.entity.Event;
+import java.util.List;
+
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HierarchicalEventItem;
@@ -67,12 +67,29 @@ public class PositionTreeNode<T> extends EntityTreeNode<Position>
         }
     }
     
-    public String getAvailability()
+    public String getAvailability(List<?> referencePositions)
     {
         Position position = ((AssignmentContainer) getPayLoad()).getPosition();
         if (position != null)
         {
-            return (position.isChoosable() ? "JA" : "NEIN");
+            if (!(position.isChoosable()))
+            {
+                // nie wählbar
+                return "NIE";
+            }
+            else
+            {
+                if (referencePositions.contains(position))
+                {
+                    // aktuell wählbar
+                    return "JA";
+                }
+                else
+                {
+                    // noch nicht wählbar (Gruppierung)
+                    return "BLOCKIERT";
+                }
+            }
         }
         else
         {

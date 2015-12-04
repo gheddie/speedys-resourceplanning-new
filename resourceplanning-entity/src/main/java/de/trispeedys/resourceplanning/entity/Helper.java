@@ -18,14 +18,20 @@ import de.trispeedys.resourceplanning.entity.misc.HelperState;
 
 @Entity
 public class Helper extends AbstractDbObject
-{
+{    
+    public static final String TEST_MAIL_ADDRESS = "testhelper1.trispeedys@gmail.com";
+
+    private static final String TEST_MAIL_PASSWORD = "trispeedys1234";
+    
     public static final String ATTR_FIRST_NAME = "firstName";
     
     public static final String ATTR_LAST_NAME = "lastName";
     
     public static final String ATTR_HELPER_STATE = "helperState";
 
-    public static final String ATTR_CODE = "code";   
+    public static final String ATTR_CODE = "code";
+
+    public static final String ATTR_MAIL_ADDRESS = "email";   
 
     @Column(name = "first_name")
     @Length(min=2)

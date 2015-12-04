@@ -14,6 +14,9 @@ import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.runtime.Execution;
 import org.camunda.bpm.engine.runtime.Job;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import de.trispeedys.resourceplanning.HibernateUtil;
 import de.trispeedys.resourceplanning.datasource.Datasources;
@@ -28,6 +31,7 @@ import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
+import de.trispeedys.resourceplanning.importer.JsonEventImporter;
 import de.trispeedys.resourceplanning.repository.DomainRepository;
 import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
@@ -245,5 +249,33 @@ public class TestDataProvider
         {
             processEngine.getManagementService().executeJob(job.getId());
         }
+    }
+    
+    public int anonymizeHelperAddresses(String address)
+    {
+        Transaction tx = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        tx = session.beginTransaction();
+        Query qry = session.createQuery("UPDATE " + Helper.class.getSimpleName() + " SET " + Helper.ATTR_MAIL_ADDRESS + " = :address WHERE " + Helper.ATTR_MAIL_ADDRESS + " IS NOT NULL");
+        qry.setParameter("address", Helper.TEST_MAIL_ADDRESS);
+        int rows = qry.executeUpdate();
+        tx.commit();
+        session.close();
+        return rows;
+    }
+        
+    public void setupForTesting()
+    {
+        // (1) kill al executions
+        killAllExecutions();
+        
+        // (2) import json
+        new JsonEventImporter().doImport("Helfer_2015.json");
+        
+        // (3) duplicate unchanged
+        duplicate2015Unchanged();
+        
+        //  (4) anonymize
+        // anonymizeHelperAddresses();
     }
 }

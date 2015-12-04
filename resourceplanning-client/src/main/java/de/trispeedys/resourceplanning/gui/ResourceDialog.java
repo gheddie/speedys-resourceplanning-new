@@ -18,10 +18,14 @@ import javax.swing.*;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -36,14 +40,15 @@ import de.trispeedys.resourceplanning.components.treetable.TreeTable;
 import de.trispeedys.resourceplanning.components.treetable.TreeTableDataModel;
 import de.trispeedys.resourceplanning.components.treetable.TreeTableDataNode;
 import de.trispeedys.resourceplanning.gui.builder.TableModelBuilder;
+import de.trispeedys.resourceplanning.singleton.AppSingleton;
+import de.trispeedys.resourceplanning.thread.SendMessagesThread;
+import de.trispeedys.resourceplanning.thread.StartExecutionsThread;
 import de.trispeedys.resourceplanning.webservice.EventDTO;
 import de.trispeedys.resourceplanning.webservice.ExecutionDTO;
 import de.trispeedys.resourceplanning.webservice.HelperDTO;
 import de.trispeedys.resourceplanning.webservice.ManualAssignmentDTO;
 import de.trispeedys.resourceplanning.webservice.MessageDTO;
 import de.trispeedys.resourceplanning.webservice.PositionDTO;
-import de.trispeedys.resourceplanning.webservice.ResourceInfo;
-import de.trispeedys.resourceplanning.webservice.ResourceInfoService;
 
 /**
  * wsimport -keep -verbose http://localhost:8080/resourceplanning-bpm-0.0.1-SNAPSHOT/ResourceInfoWs?wsdl
@@ -83,7 +88,7 @@ public class ResourceDialog extends SpeedyFrame
 
     private PositionDTO selectedAvailablePosition;
 
-    private ResourceInfo resourceInfo = null;
+    // private ResourceInfo resourceInfo = null;
 
     private MessageDTO selectedMessage;   
 
@@ -91,7 +96,7 @@ public class ResourceDialog extends SpeedyFrame
     {
         super(title, resizable, closable, maximizable, iconifiable, parentFrame);
         initComponents();
-        resourceInfo = new ResourceInfoService().getResourceInfoPort();
+        // resourceInfo = new ResourceInfoService().getResourceInfoPort();
         setSize(800, 600);
         putListeners();
         new TableFilterHeader(tbEvents);
@@ -100,6 +105,8 @@ public class ResourceDialog extends SpeedyFrame
         new TableFilterHeader(tbAvailablePositions);
         new TableFilterHeader(tbExecutions);
         new TableFilterHeader(tbMessages);
+        pgMain.setMinimum(0);
+        pgMain.setMaximum(100);
         fillAll();
     }
 
@@ -176,7 +183,7 @@ public class ResourceDialog extends SpeedyFrame
     {
         if (JOptionPane.showConfirmDialog(ResourceDialog.this, "Planungen abschliessen?", "Bestätigung", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
         {
-            resourceInfo.finishUp();
+            AppSingleton.getInstance().getPort().finishUp();
         }
     }
 
@@ -191,31 +198,31 @@ public class ResourceDialog extends SpeedyFrame
 
     private void refreshMessages()
     {
-        unsentMessages = resourceInfo.queryUnsentMessages().getItem();
+        unsentMessages = AppSingleton.getInstance().getPort().queryUnsentMessages().getItem();
         tbMessages.setModel(TableModelBuilder.createGenericTableModel(unsentMessages));        
     }
 
     private void refreshExecutions()
     {
-        executions = resourceInfo.queryExecutions().getItem();
+        executions = AppSingleton.getInstance().getPort().queryExecutions().getItem();
         tbExecutions.setModel(TableModelBuilder.createGenericTableModel(executions));
     }
 
     private void refreshManualAssignments()
     {
-        manualAssignments = resourceInfo.queryManualAssignments().getItem();
+        manualAssignments = AppSingleton.getInstance().getPort().queryManualAssignments().getItem();
         tbManualAssignments.setModel(TableModelBuilder.createGenericTableModel(manualAssignments));
     }
 
     private void refreshHelpers()
     {
-        helpers = resourceInfo.queryHelpers().getItem();
+        helpers = AppSingleton.getInstance().getPort().queryHelpers().getItem();
         tbHelpers.setModel(TableModelBuilder.createGenericTableModel(helpers));
     }
 
     private void refreshEvents()
     {
-        events = resourceInfo.queryEvents().getItem();
+        events = AppSingleton.getInstance().getPort().queryEvents().getItem();
         tbEvents.setModel(TableModelBuilder.createGenericTableModel(events));
     }
 
@@ -261,8 +268,7 @@ public class ResourceDialog extends SpeedyFrame
     {
         if (eventId != null)
         {
-            treeTablePositions.setModel(new TreeTableDataModel(ResourcePlanningClientRoutines.createDataStructure(eventId, chkUnassignedOnly.isSelected(),
-                    resourceInfo)));
+            treeTablePositions.setModel(new TreeTableDataModel(ResourcePlanningClientRoutines.createDataStructure(eventId, chkUnassignedOnly.isSelected())));
         }
         else
         {
@@ -270,7 +276,7 @@ public class ResourceDialog extends SpeedyFrame
             TreeTableDataNode root = new TreeTableDataNode("root", "root", "root", "root", "root", null, null, null);
             for (EventDTO dto : events)
             {
-                root.addChild(ResourcePlanningClientRoutines.createDataStructure(dto.getEventId(), false, resourceInfo));
+                root.addChild(ResourcePlanningClientRoutines.createDataStructure(dto.getEventId(), false));
             }
             treeTablePositions.setModel(new TreeTableDataModel(root));
         }
@@ -281,22 +287,6 @@ public class ResourceDialog extends SpeedyFrame
     private void tbEventsPropertyChange(PropertyChangeEvent e)
     {
         // TODO add your code here
-    }
-
-    private void btnPlanPressed(ActionEvent e)
-    {
-        if (selectedEvent != null)
-        {
-            try
-            {
-                resourceInfo.startProcessesForActiveHelpersByEventId(selectedEvent.getEventId());
-                JOptionPane.showMessageDialog(ResourceDialog.this, "Planung wurde gestartet!!");
-            }
-            catch (Exception exc)
-            {
-                JOptionPane.showMessageDialog(ResourceDialog.this, exc.getMessage());
-            }
-        }
     }
 
     private void btnBookManuallyPressed(ActionEvent e)
@@ -317,7 +307,7 @@ public class ResourceDialog extends SpeedyFrame
         {
             try
             {
-                resourceInfo.completeManualAssignment(selectedManualAssignment.getTaskId(), selectedAvailablePosition.getPositionId());
+                AppSingleton.getInstance().getPort().completeManualAssignment(selectedManualAssignment.getTaskId(), selectedAvailablePosition.getPositionId());
             }
             catch (Exception e2)
             {
@@ -340,7 +330,7 @@ public class ResourceDialog extends SpeedyFrame
             return;
         }
         // TODO ignore canceled asignments !!
-        availablePositions = resourceInfo.queryAvailablePositions(selectedEvent.getEventId()).getItem();
+        availablePositions = AppSingleton.getInstance().getPort().queryAvailablePositions(selectedEvent.getEventId()).getItem();
         tbAvailablePositions.setModel(TableModelBuilder.createGenericTableModel(availablePositions));
     }
 
@@ -380,11 +370,39 @@ public class ResourceDialog extends SpeedyFrame
     }
 
     private void btnSendMessagesPressed(ActionEvent e) {
-        resourceInfo.sendAllMessages();
+        //start sending messages in a thread
+        new SendMessagesThread().start();
+    }
+    
+    private void btnPlanPressed(ActionEvent e)
+    {
+        //start process instances in a thread
+        if (selectedEvent != null)
+        {
+            new StartExecutionsThread(selectedEvent.getEventId(), this).start();
+        }
     }
 
     private void btnRefreshMessagesPressed(ActionEvent e) {
         refreshMessages();
+    }
+
+    private void btnAnonymizePressed(ActionEvent e) {
+        // AppSingleton.getInstance().getPort().anonymizeHelperAddresses();
+    }
+
+    private void btnMessageFormatStateChanged(ChangeEvent e) {
+        boolean selected = ((JToggleButton) e.getSource()).isSelected();
+        System.out.println(selected);
+        if (selected)
+        {
+            taBody.setContentType("text/html");
+        }
+        else
+        {
+            taBody.setContentType("text/plain");
+        }
+        // taBody.repaint();
     }
 
     private void initComponents()
@@ -406,6 +424,7 @@ public class ResourceDialog extends SpeedyFrame
         scEvents = new JScrollPane();
         tbEvents = new ResourcePlanningTable();
         pnlExecutions = new JPanel();
+        borderExecutions = new JPanel();
         scExecutions = new JScrollPane();
         tbExecutions = new ResourcePlanningTable();
         btnRefreshExecutions = new JButton();
@@ -415,6 +434,7 @@ public class ResourceDialog extends SpeedyFrame
         tbHelpers = new ResourcePlanningTable();
         btnRefreshHelpers = new JButton();
         btnCreateHelper = new JButton();
+        btnAnonymize = new JButton();
         pnlManualAssignments = new JPanel();
         borderManualAssignments = new JPanel();
         scManualAssignments = new JScrollPane();
@@ -434,20 +454,22 @@ public class ResourceDialog extends SpeedyFrame
         borderSingleMessage = new JPanel();
         lblRecipient = new JLabel();
         tfRecipient = new JTextField();
+        btnMessageFormat = new JToggleButton();
         lblSubject = new JLabel();
         tfSubject = new JTextField();
         lblBody = new JLabel();
         scBody = new JScrollPane();
         taBody = new JTextPane();
+        pgMain = new JProgressBar();
 
         //======== this ========
         setVisible(true);
         Container contentPane = getContentPane();
         contentPane.setLayout(new GridBagLayout());
         ((GridBagLayout)contentPane.getLayout()).columnWidths = new int[] {0, 49, 0, 0};
-        ((GridBagLayout)contentPane.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+        ((GridBagLayout)contentPane.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
         ((GridBagLayout)contentPane.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0, 1.0E-4};
-        ((GridBagLayout)contentPane.getLayout()).rowWeights = new double[] {0.0, 1.0, 1.0, 1.0E-4};
+        ((GridBagLayout)contentPane.getLayout()).rowWeights = new double[] {0.0, 1.0, 1.0, 0.0, 1.0E-4};
 
         //======== tbMain ========
         {
@@ -588,30 +610,43 @@ public class ResourceDialog extends SpeedyFrame
             //======== pnlExecutions ========
             {
                 pnlExecutions.setLayout(new GridBagLayout());
-                ((GridBagLayout)pnlExecutions.getLayout()).columnWidths = new int[] {0, 0, 0};
-                ((GridBagLayout)pnlExecutions.getLayout()).rowHeights = new int[] {0, 0, 0};
-                ((GridBagLayout)pnlExecutions.getLayout()).columnWeights = new double[] {1.0, 0.0, 1.0E-4};
-                ((GridBagLayout)pnlExecutions.getLayout()).rowWeights = new double[] {0.0, 1.0, 1.0E-4};
+                ((GridBagLayout)pnlExecutions.getLayout()).columnWidths = new int[] {0, 0};
+                ((GridBagLayout)pnlExecutions.getLayout()).rowHeights = new int[] {0, 0};
+                ((GridBagLayout)pnlExecutions.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+                ((GridBagLayout)pnlExecutions.getLayout()).rowWeights = new double[] {1.0, 1.0E-4};
 
-                //======== scExecutions ========
+                //======== borderExecutions ========
                 {
-                    scExecutions.setViewportView(tbExecutions);
-                }
-                pnlExecutions.add(scExecutions, new GridBagConstraints(0, 0, 1, 2, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 5), 0, 0));
+                    borderExecutions.setBorder(new TitledBorder("Laufende Prozesse"));
+                    borderExecutions.setLayout(new GridBagLayout());
+                    ((GridBagLayout)borderExecutions.getLayout()).columnWidths = new int[] {0, 0, 0};
+                    ((GridBagLayout)borderExecutions.getLayout()).rowHeights = new int[] {0, 0, 0};
+                    ((GridBagLayout)borderExecutions.getLayout()).columnWeights = new double[] {1.0, 0.0, 1.0E-4};
+                    ((GridBagLayout)borderExecutions.getLayout()).rowWeights = new double[] {0.0, 1.0, 1.0E-4};
 
-                //---- btnRefreshExecutions ----
-                btnRefreshExecutions.setText("Aktualisieren");
-                btnRefreshExecutions.setIcon(new ImageIcon(getClass().getResource("/img/reload16px.png")));
-                btnRefreshExecutions.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        btnRefreshExecutionsPressed(e);
+                    //======== scExecutions ========
+                    {
+                        scExecutions.setViewportView(tbExecutions);
                     }
-                });
-                pnlExecutions.add(btnRefreshExecutions, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                    borderExecutions.add(scExecutions, new GridBagConstraints(0, 0, 1, 2, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
+
+                    //---- btnRefreshExecutions ----
+                    btnRefreshExecutions.setText("Aktualisieren");
+                    btnRefreshExecutions.setIcon(new ImageIcon(getClass().getResource("/img/reload16px.png")));
+                    btnRefreshExecutions.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            btnRefreshExecutionsPressed(e);
+                        }
+                    });
+                    borderExecutions.add(btnRefreshExecutions, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+                }
+                pnlExecutions.add(borderExecutions, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
                     GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+                    new Insets(0, 0, 0, 0), 0, 0));
             }
             tdbMain.addTab("Prozesse", pnlExecutions);
 
@@ -628,15 +663,15 @@ public class ResourceDialog extends SpeedyFrame
                     borderHelpers.setBorder(new TitledBorder("Alle Helfer"));
                     borderHelpers.setLayout(new GridBagLayout());
                     ((GridBagLayout)borderHelpers.getLayout()).columnWidths = new int[] {0, 0, 0};
-                    ((GridBagLayout)borderHelpers.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+                    ((GridBagLayout)borderHelpers.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
                     ((GridBagLayout)borderHelpers.getLayout()).columnWeights = new double[] {1.0, 0.0, 1.0E-4};
-                    ((GridBagLayout)borderHelpers.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0, 1.0E-4};
+                    ((GridBagLayout)borderHelpers.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0, 1.0E-4};
 
                     //======== scHelpers ========
                     {
                         scHelpers.setViewportView(tbHelpers);
                     }
-                    borderHelpers.add(scHelpers, new GridBagConstraints(0, 0, 1, 3, 0.0, 0.0,
+                    borderHelpers.add(scHelpers, new GridBagConstraints(0, 0, 1, 4, 0.0, 0.0,
                         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                         new Insets(0, 0, 0, 5), 0, 0));
 
@@ -661,6 +696,18 @@ public class ResourceDialog extends SpeedyFrame
                         }
                     });
                     borderHelpers.add(btnCreateHelper, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+
+                    //---- btnAnonymize ----
+                    btnAnonymize.setText("Anonymisieren");
+                    btnAnonymize.setIcon(new ImageIcon(getClass().getResource("/img/anonymous16px.png")));
+                    btnAnonymize.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            btnAnonymizePressed(e);
+                        }
+                    });
+                    borderHelpers.add(btnAnonymize, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
                         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                         new Insets(0, 0, 5, 0), 0, 0));
                 }
@@ -796,7 +843,8 @@ public class ResourceDialog extends SpeedyFrame
                         new Insets(0, 0, 5, 0), 0, 0));
 
                     //---- btnSendMessages ----
-                    btnSendMessages.setText("Senden");
+                    btnSendMessages.setText("Alle senden");
+                    btnSendMessages.setIcon(new ImageIcon(getClass().getResource("/img/mail16px.png")));
                     btnSendMessages.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             btnSendMessagesPressed(e);
@@ -814,9 +862,9 @@ public class ResourceDialog extends SpeedyFrame
                 {
                     borderSingleMessage.setBorder(new TitledBorder("Gew\u00e4hlte Nachricht"));
                     borderSingleMessage.setLayout(new GridBagLayout());
-                    ((GridBagLayout)borderSingleMessage.getLayout()).columnWidths = new int[] {0, 0, 0};
+                    ((GridBagLayout)borderSingleMessage.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
                     ((GridBagLayout)borderSingleMessage.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
-                    ((GridBagLayout)borderSingleMessage.getLayout()).columnWeights = new double[] {0.0, 1.0, 1.0E-4};
+                    ((GridBagLayout)borderSingleMessage.getLayout()).columnWeights = new double[] {0.0, 1.0, 0.0, 1.0E-4};
                     ((GridBagLayout)borderSingleMessage.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0, 1.0E-4};
 
                     //---- lblRecipient ----
@@ -828,6 +876,17 @@ public class ResourceDialog extends SpeedyFrame
                     //---- tfRecipient ----
                     tfRecipient.setEditable(false);
                     borderSingleMessage.add(tfRecipient, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- btnMessageFormat ----
+                    btnMessageFormat.setText("HTML/Plain");
+                    btnMessageFormat.addChangeListener(new ChangeListener() {
+                        public void stateChanged(ChangeEvent e) {
+                            btnMessageFormatStateChanged(e);
+                        }
+                    });
+                    borderSingleMessage.add(btnMessageFormat, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
                         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                         new Insets(0, 0, 5, 0), 0, 0));
 
@@ -841,7 +900,7 @@ public class ResourceDialog extends SpeedyFrame
                     tfSubject.setEditable(false);
                     borderSingleMessage.add(tfSubject, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
                         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 0), 0, 0));
+                        new Insets(0, 0, 5, 5), 0, 0));
 
                     //---- lblBody ----
                     lblBody.setText("Text:");
@@ -859,7 +918,7 @@ public class ResourceDialog extends SpeedyFrame
                     }
                     borderSingleMessage.add(scBody, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
                         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 0), 0, 0));
+                        new Insets(0, 0, 0, 5), 0, 0));
                 }
                 pnlMessages.add(borderSingleMessage, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
                     GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -868,6 +927,9 @@ public class ResourceDialog extends SpeedyFrame
             tdbMain.addTab("Nachrichten", pnlMessages);
         }
         contentPane.add(tdbMain, new GridBagConstraints(0, 1, 3, 2, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
+        contentPane.add(pgMain, new GridBagConstraints(0, 3, 3, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
         // JFormDesigner - End of component initialization //GEN-END:initComponents
@@ -890,6 +952,7 @@ public class ResourceDialog extends SpeedyFrame
     private JScrollPane scEvents;
     private ResourcePlanningTable tbEvents;
     private JPanel pnlExecutions;
+    private JPanel borderExecutions;
     private JScrollPane scExecutions;
     private ResourcePlanningTable tbExecutions;
     private JButton btnRefreshExecutions;
@@ -899,6 +962,7 @@ public class ResourceDialog extends SpeedyFrame
     private ResourcePlanningTable tbHelpers;
     private JButton btnRefreshHelpers;
     private JButton btnCreateHelper;
+    private JButton btnAnonymize;
     private JPanel pnlManualAssignments;
     private JPanel borderManualAssignments;
     private JScrollPane scManualAssignments;
@@ -918,10 +982,12 @@ public class ResourceDialog extends SpeedyFrame
     private JPanel borderSingleMessage;
     private JLabel lblRecipient;
     private JTextField tfRecipient;
+    private JToggleButton btnMessageFormat;
     private JLabel lblSubject;
     private JTextField tfSubject;
     private JLabel lblBody;
     private JScrollPane scBody;
     private JTextPane taBody;
+    private JProgressBar pgMain;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 }
