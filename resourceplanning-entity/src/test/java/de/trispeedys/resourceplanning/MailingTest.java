@@ -23,6 +23,6 @@ public class MailingTest
         MessagingService.sendAllUnprocessedMessages();
         
         //mail must have state 'PROCESSED'
-        assertEquals(MessagingState.PROCESSED, ((MessageQueue) Datasources.getDatasource(MessageQueue.class).findAll().get(0)).getMessagingState());
+        assertEquals(MessagingState.PROCESSED, ((MessageQueue) Datasources.getDatasource(MessageQueue.class).findAll(null).get(0)).getMessagingState());
     }
 }

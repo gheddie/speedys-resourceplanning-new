@@ -118,12 +118,12 @@ public class PositionTest
                 TestDataGenerator.createAggregationEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI, true);
         
         HashMap<Integer, Position> posMap = new HashMap<Integer, Position>();
-        for(Position pos : RepositoryProvider.getRepository(PositionRepository.class).findAll())
+        for(Position pos : RepositoryProvider.getRepository(PositionRepository.class).findAll(null))
         {            
             posMap.put(pos.getPositionNumber(), pos);
         }
         
-        List<Helper> helpers = RepositoryProvider.getRepository(HelperRepository.class).findAll();
+        List<Helper> helpers = RepositoryProvider.getRepository(HelperRepository.class).findAll(null);
         // we assign one unpriorited...
         AssignmentService.assignHelper(helpers.get(0), event2016, posMap.get(0));
         // ...and two prio 1 tasks...
@@ -148,12 +148,12 @@ public class PositionTest
                 TestDataGenerator.createAggregationEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI, false);
         
         HashMap<Integer, Position> posMap = new HashMap<Integer, Position>();
-        for(Position pos : RepositoryProvider.getRepository(PositionRepository.class).findAll())
+        for(Position pos : RepositoryProvider.getRepository(PositionRepository.class).findAll(null))
         {            
             posMap.put(pos.getPositionNumber(), pos);
         }
         
-        List<Helper> helpers = RepositoryProvider.getRepository(HelperRepository.class).findAll();
+        List<Helper> helpers = RepositoryProvider.getRepository(HelperRepository.class).findAll(null);
         AssignmentService.assignHelper(helpers.get(0), event2016, posMap.get(0));
         AssignmentService.assignHelper(helpers.get(1), event2016, posMap.get(6));
         AssignmentService.assignHelper(helpers.get(2), event2016, posMap.get(7));
@@ -175,12 +175,12 @@ public class PositionTest
                 TestDataGenerator.createAggregationEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI, true);
         
         HashMap<Integer, Position> posMap = new HashMap<Integer, Position>();
-        for(Position pos : RepositoryProvider.getRepository(PositionRepository.class).findAll())
+        for(Position pos : RepositoryProvider.getRepository(PositionRepository.class).findAll(null))
         {            
             posMap.put(pos.getPositionNumber(), pos);
         }
         
-        List<Helper> helpers = RepositoryProvider.getRepository(HelperRepository.class).findAll();
+        List<Helper> helpers = RepositoryProvider.getRepository(HelperRepository.class).findAll(null);
         // we assign all unpriorited positions...
         AssignmentService.assignHelper(helpers.get(0), event2016, posMap.get(0));
         AssignmentService.assignHelper(helpers.get(1), event2016, posMap.get(1));

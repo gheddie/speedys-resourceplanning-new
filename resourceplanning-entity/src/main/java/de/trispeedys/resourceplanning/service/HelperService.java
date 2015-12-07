@@ -18,7 +18,7 @@ public class HelperService
     public static List<Long> queryActiveHelperIds()
     {
         List<Long> result = new ArrayList<Long>();
-        for (Object helper : Datasources.getDatasource(Helper.class).find("helperState",
+        for (Object helper : Datasources.getDatasource(Helper.class).find(null, "helperState",
                 HelperState.ACTIVE))
         {
             result.add(((AbstractDbObject) helper).getId());
@@ -29,7 +29,7 @@ public class HelperService
     public static void deactivateHelper(Long helperId)
     {
         DefaultDatasource<Helper> datasource = Datasources.getDatasource(Helper.class);
-        Helper helper = (Helper) datasource.findById(helperId);
+        Helper helper = (Helper) datasource.findById(null, helperId);
         helper.setHelperState(HelperState.INACTIVE);
         helper.saveOrUpdate();
     }
@@ -42,7 +42,7 @@ public class HelperService
         parameters.put("position", position);
         List<HelperAssignment> list =
                 Datasources.getDatasource(Helper.class)
-                        .find("FROM " +
+                        .find(null, "FROM " +
                                 HelperAssignment.class.getSimpleName() +
                                 " ec WHERE ec.helper = :helper AND ec.event = :event AND ec.position = :position",
                                 parameters);
@@ -55,7 +55,7 @@ public class HelperService
         parameters.put("helper", helper);
         parameters.put("event", event);
         List<HelperAssignment> helperAssignments =
-                Datasources.getDatasource(HelperAssignment.class).find(
+                Datasources.getDatasource(HelperAssignment.class).find(null, 
                         "FROM " +
                                 HelperAssignment.class.getSimpleName() +
                                 " ec WHERE ec.event = :event AND ec.helper = :helper", parameters);

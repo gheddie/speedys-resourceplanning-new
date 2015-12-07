@@ -6,6 +6,7 @@ import javax.persistence.MappedSuperclass;
 
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
+import de.trispeedys.resourceplanning.persistence.SessionToken;
 
 @MappedSuperclass
 public abstract class AbstractDbObject
@@ -24,11 +25,16 @@ public abstract class AbstractDbObject
         this.id = id;
     }
     
-    @SuppressWarnings("unchecked")
     public <T> T saveOrUpdate()
     {
+        return saveOrUpdate(null);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public <T> T saveOrUpdate(SessionToken sessionToken)
+    {
         DefaultDatasource<T> datasource = (DefaultDatasource<T>) Datasources.getDatasource(getClass());
-        return (T) datasource.saveOrUpdate(this);
+        return (T) datasource.saveOrUpdate(sessionToken, this);
     }
 
     public boolean isNew()

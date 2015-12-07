@@ -110,7 +110,7 @@ public class ResourceInfo
 
     public EventDTO[] queryEvents()
     {
-        List<Event> allEvents = Datasources.getDatasource(Event.class).findAll();
+        List<Event> allEvents = Datasources.getDatasource(Event.class).findAll(null);
         List<EventDTO> dtos = new ArrayList<EventDTO>();
         EventDTO dto = null;
         for (Event event : allEvents)
@@ -131,7 +131,7 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException("event id must not be null!!");
         }
-        Event event = Datasources.getDatasource(Event.class).findById(eventId);
+        Event event = Datasources.getDatasource(Event.class).findById(null, eventId);
         if (event == null)
         {
             throw new ResourcePlanningException("event with id '" + eventId + "' could not found!!");
@@ -149,7 +149,7 @@ public class ResourceInfo
         logger.info("getting event nodes...");
         // key : position id, value : aggregation relation
         HashMap<Long, AggregationRelation> relationHash = new HashMap<Long, AggregationRelation>();
-        for (AggregationRelation relation : RepositoryProvider.getRepository(AggregationRelationRepository.class).findAll())
+        for (AggregationRelation relation : RepositoryProvider.getRepository(AggregationRelationRepository.class).findAll(null))
         {
             relationHash.put(relation.getPositionId(), relation);
         }
@@ -171,7 +171,7 @@ public class ResourceInfo
             dto.setHierarchyLevel(node.getHierarchyLevel());
             dto.setItemKey(node.itemKey());
             dto.setAssignmentString(node.getAssignmentString());
-            dto.setAvailability(node.getAvailability(generatorPositions));
+            dto.setAvailability(node.getAvailability(generatorPositions, event));
             dto.setPriorization(node.getPriorization());
             if (node.getItemType().equals(HierarchicalEventItemType.POSITION))
             {
@@ -190,7 +190,7 @@ public class ResourceInfo
     {
         List<HelperDTO> dtos = new ArrayList<HelperDTO>();
         HelperDTO dto = null;
-        for (Helper helper : RepositoryProvider.getRepository(HelperRepository.class).findAll())
+        for (Helper helper : RepositoryProvider.getRepository(HelperRepository.class).findAll(null))
         {
             dto = new HelperDTO();
             dto.setLastName(helper.getLastName());

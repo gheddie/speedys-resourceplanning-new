@@ -60,7 +60,7 @@ public class AssignmentService
         HashMap<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("helperId", helper.getId());
         parameters.put("eventTemplate", eventTemplate);
-        List<Object[]> list = Datasources.getDatasource(HelperAssignment.class).find(queryString, parameters);
+        List<Object[]> list = Datasources.getDatasource(HelperAssignment.class).find(null, queryString, parameters);
         if (list.size() == 0)
         {
             return null;

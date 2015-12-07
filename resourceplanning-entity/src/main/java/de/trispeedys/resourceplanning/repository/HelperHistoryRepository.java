@@ -26,7 +26,7 @@ public class HelperHistoryRepository extends AbstractDatabaseRepository<HelperHi
         HashMap<String, Object> variables = new HashMap<String, Object>();
         variables.put("helper", helper);
         variables.put("event", event);
-        return dataSource().find(
+        return dataSource().find(null, 
                 "FROM " + HelperHistory.class.getSimpleName() + " hh WHERE hh.helper = :helper AND hh.event = :event ORDER BY hh.creationTime ASC", variables);
     }
 

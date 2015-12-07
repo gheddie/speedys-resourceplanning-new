@@ -16,7 +16,7 @@ public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQu
     {
         HashMap<String, Object> variables = new HashMap<String, Object>();
         variables.put("messagingState", MessagingState.UNPROCESSED);
-        return dataSource().find(
+        return dataSource().find(null, 
                 "FROM " + MessageQueue.class.getSimpleName() + " mq WHERE mq.messagingState = :messagingState",
                 variables);
     }
@@ -28,7 +28,7 @@ public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQu
 
     public List<MessageQueue> findUnsentMessages()
     {
-        return dataSource().find(
+        return dataSource().find(null, 
                 "FROM " +
                         MessageQueue.class.getSimpleName() + " mq WHERE mq.messagingState = '" + MessagingState.FAILURE + "' OR mq.messagingState = '" +
                         MessagingState.UNPROCESSED + "'");

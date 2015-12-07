@@ -53,7 +53,7 @@ public class SpeedyRoutines
         Event newEvent =
                 EntityFactory.buildEvent(description, eventKey, day, month, year, EventState.PLANNED, event.getEventTemplate(),
                         null).saveOrUpdate();
-        List<EventPosition> posRelations = Datasources.getDatasource(EventPosition.class).find("event", event);
+        List<EventPosition> posRelations = Datasources.getDatasource(EventPosition.class).find(null, "event", event);
         Position pos = null;
         for (EventPosition evtpos : posRelations)
         {
@@ -369,7 +369,7 @@ public class SpeedyRoutines
                             1,
                             1980,
                             EventState.PLANNED,
-                            (EventTemplate) Datasources.getDatasource(EventTemplate.class).findSingle(
+                            (EventTemplate) Datasources.getDatasource(EventTemplate.class).findSingle(null, 
                                     EventTemplate.ATTR_DESCRIPTION, "TRI"), null);
             // positions
             NodeList positionNodeList = document.getElementsByTagName("eventposition");

@@ -15,12 +15,12 @@ public class PositionService
 {
     public static boolean isPositionAvailable(Long eventId, Long positionId)
     {
-        Position position = (Position) Datasources.getDatasource(Position.class).findById(positionId);
+        Position position = (Position) Datasources.getDatasource(Position.class).findById(null, positionId);
         if (position == null)
         {
             throw new ResourcePlanningException("position with id '" + positionId + "' could not be found!!");
         }
-        Event event = (Event) Datasources.getDatasource(Event.class).findById(eventId);
+        Event event = (Event) Datasources.getDatasource(Event.class).findById(null, eventId);
         return isPositionAvailable(event, position);
     }
 
@@ -46,7 +46,7 @@ public class PositionService
         HashMap<String, Object> variables = new HashMap<String, Object>();
         variables.put(HelperAssignment.ATTR_EVENT, event);
         variables.put(HelperAssignment.ATTR_POSITION, position);
-        List<HelperAssignment> helperAssignments = Datasources.getDatasource(HelperAssignment.class).find(queryString, variables);
+        List<HelperAssignment> helperAssignments = Datasources.getDatasource(HelperAssignment.class).find(null, queryString, variables);
         // no helper assignments -> position available
         return ((helperAssignments == null) || (helperAssignments.size() == 0));
     }
@@ -65,7 +65,7 @@ public class PositionService
         parameters.put("event", event);
         List<?> result =
                 Datasources.getDatasource(EventPosition.class)
-                        .find("FROM " +
+                        .find(null, "FROM " +
                                 EventPosition.class.getSimpleName() + " ep WHERE ep.position = :position AND ep.event = :event",
                                 parameters);
         return ((result != null) && (result.size() > 0));

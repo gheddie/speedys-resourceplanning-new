@@ -50,7 +50,7 @@ public class DomainTreeNode<T> extends EntityTreeNode<Domain>
         return "";
     }
 
-    public String getAvailability(List<?> referencePositions)
+    public String getAvailability(List<?> referencePositions, Object parent)
     {
         return "";
     }

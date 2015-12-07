@@ -49,7 +49,7 @@ public class VariableAssignmentTest
 
         Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
         
-        Helper helperA = RepositoryProvider.getRepository(HelperRepository.class).findAll().get(0);
+        Helper helperA = RepositoryProvider.getRepository(HelperRepository.class).findAll(null).get(0);
         // start process for on helper
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperA.getId(), event2016.getId());
         RequestHelpTestUtil.startHelperRequestProcess(helperA, event2016, businessKey, processEngine);
@@ -71,7 +71,7 @@ public class VariableAssignmentTest
         RequestHelpTestUtil.doCallback(HelperCallback.CHANGE_POS, businessKey, processEngine);
         
         // ...choose a position (all of them are available)...
-        Position position = RepositoryProvider.getRepository(PositionRepository.class).findAll().get(0);
+        Position position = RepositoryProvider.getRepository(PositionRepository.class).findAll(null).get(0);
         
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POS_AVAILABLE, PositionService.isPositionAvailable(event2016.getId(), position.getId()));

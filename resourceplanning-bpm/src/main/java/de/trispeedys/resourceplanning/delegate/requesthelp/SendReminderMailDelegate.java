@@ -23,9 +23,9 @@ public class SendReminderMailDelegate extends RequestHelpNotificationDelegate
         Long eventId = (Long) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_EVENT_ID);
         Long positionId = (Long) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_PRIOR_POSITION);
         // write mail
-        Helper helper = (Helper) Datasources.getDatasource(Helper.class).findById(helperId);
-        Event event = (Event) Datasources.getDatasource(Event.class).findById(eventId);
-        Position position = (Position) Datasources.getDatasource(Position.class).findById(positionId);
+        Helper helper = (Helper) Datasources.getDatasource(Helper.class).findById(null, helperId);
+        Event event = (Event) Datasources.getDatasource(Event.class).findById(null, eventId);
+        Position position = (Position) Datasources.getDatasource(Position.class).findById(null, positionId);
         int attemptCount = (Integer) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_MAIL_ATTEMPTS);
         SendReminderMailTemplate template = new SendReminderMailTemplate(helper, event, position,
                 (Boolean) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_PRIOR_POS_AVAILABLE), attemptCount);

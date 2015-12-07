@@ -37,7 +37,7 @@ public class HelperHistoryTest
 
         Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
         
-        Helper helperA = RepositoryProvider.getRepository(HelperRepository.class).findAll().get(0);
+        Helper helperA = RepositoryProvider.getRepository(HelperRepository.class).findAll(null).get(0);
         
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperA.getId(), event2016.getId());
         RequestHelpTestUtil.startHelperRequestProcess(helperA, event2016, businessKey, processEngine);

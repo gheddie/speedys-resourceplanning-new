@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.List;
 
+import org.hibernate.Transaction;
 import org.junit.Test;
 
 import de.trispeedys.resourceplanning.datasource.Datasources;
@@ -19,6 +20,11 @@ import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.misc.SpeedyTestUtil;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
+import de.trispeedys.resourceplanning.persistence.SessionHolder;
+import de.trispeedys.resourceplanning.persistence.SessionManager;
+import de.trispeedys.resourceplanning.repository.HelperRepository;
+import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
+import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningPersistenceException;
 
 public class DatabaseOperationsTest
@@ -38,7 +44,7 @@ public class DatabaseOperationsTest
                         " = :helperState";
         HashMap<String, Object> parameters = new HashMap<String, Object>();
         parameters.put(Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
-        Datasources.getDatasource(Helper.class).find(qry, parameters);
+        Datasources.getDatasource(Helper.class).find(null, qry, parameters);
     }
 
     @Test
@@ -51,7 +57,7 @@ public class DatabaseOperationsTest
                 EntityFactory.buildHelper("Helfer", "Eins", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
 
         DefaultDatasource<Helper> datasource = Datasources.getDatasource(Helper.class);
-        datasource.findById(helper.getId());
+        datasource.findById(null, helper.getId());
     }
 
     @Test
@@ -64,7 +70,7 @@ public class DatabaseOperationsTest
         EntityFactory.buildHelper("Helfer", "Zwei", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
 
         List<Helper> found =
-                Datasources.getDatasource(Helper.class).find(Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
+                Datasources.getDatasource(Helper.class).find(null, Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
         assertEquals(2, found.size());
     }
 
@@ -85,7 +91,7 @@ public class DatabaseOperationsTest
         assertEquals(
                 1,
                 Datasources.getDatasource(MessageQueue.class)
-                        .find(MessageQueue.ATTR_SUBJECT, "SUB1", MessageQueue.ATTR_BODY, "BODY1",
+                        .find(null, MessageQueue.ATTR_SUBJECT, "SUB1", MessageQueue.ATTR_BODY, "BODY1",
                                 MessageQueue.ATTR_FROM_ADDRESS, "klaus")
                         .size());
 
@@ -120,20 +126,20 @@ public class DatabaseOperationsTest
         // fetch w/o parameters (all entries)
         assertEquals(10,
                 Datasources.getDatasource(Position.class)
-                        .find("FROM " + Position.class.getSimpleName())
+                        .find(null, "FROM " + Position.class.getSimpleName())
                         .size());
         // fetch with class (all entries)
-        assertEquals(10, Datasources.getDatasource(Position.class).findAll().size());
+        assertEquals(10, Datasources.getDatasource(Position.class).findAll(null).size());
         // fetch with query string
         assertEquals(
                 1,
                 Datasources.getDatasource(Position.class)
-                        .find("FROM " + Position.class.getSimpleName() + " pos WHERE pos.minimalAge = 3")
+                        .find(null, "FROM " + Position.class.getSimpleName() + " pos WHERE pos.minimalAge = 3")
                         .size());
         assertEquals(
                 4,
                 Datasources.getDatasource(Position.class)
-                        .find("FROM " +
+                        .find(null, "FROM " +
                                 Position.class.getSimpleName() +
                                 " pos WHERE pos.minimalAge >= 3 AND pos.minimalAge <= 6")
                         .size());
@@ -143,14 +149,14 @@ public class DatabaseOperationsTest
         assertEquals(
                 1,
                 Datasources.getDatasource(Position.class)
-                        .find("FROM " +
+                        .find(null, "FROM " +
                                 Position.class.getSimpleName() + " pos WHERE pos.minimalAge = :minimalAge",
                                 parameters)
                         .size());
         assertEquals(
                 1,
                 Datasources.getDatasource(Position.class)
-                        .find("FROM " +
+                        .find(null, "FROM " +
                                 Position.class.getSimpleName() + " pos WHERE pos.minimalAge = :minimalAge",
                                 "minimalAge", 5)
                         .size());
@@ -166,7 +172,7 @@ public class DatabaseOperationsTest
         EntityFactory.buildHelper("Helfer", "Eins", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
         EntityFactory.buildHelper("Helfer", "Zwei", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
 
-        Datasources.getDatasource(Helper.class).findSingle(Helper.ATTR_LAST_NAME, "Helfer");
+        Datasources.getDatasource(Helper.class).findSingle(null, Helper.ATTR_LAST_NAME, "Helfer");
     }
 
     @Test
@@ -180,7 +186,7 @@ public class DatabaseOperationsTest
         EntityFactory.buildHelper("Meier", "Peter", "", HelperState.INACTIVE, 1, 1, 1980).saveOrUpdate();
 
         Helper activeHelper =
-                Datasources.getDatasource(Helper.class).findSingle(Helper.ATTR_HELPER_STATE,
+                Datasources.getDatasource(Helper.class).findSingle(null, Helper.ATTR_HELPER_STATE,
                         HelperState.ACTIVE);
 
         assertTrue(activeHelper != null);
@@ -189,6 +195,39 @@ public class DatabaseOperationsTest
     // @Test(expected = ResourcePlanningPersistenceException.class)
     public void testInvalidParamterCount()
     {
-        Datasources.getDatasource(Position.class).find("123", "456", "789");
+        Datasources.getDatasource(Position.class).find(null, "123", "456", "789");
+    }
+    
+    @Test
+    public void testTransactionRollback()
+    {
+        // clear db
+        HibernateUtil.clearAll();
+        
+        SessionHolder holder = SessionManager.getInstance().registerSession(this);
+        Transaction tx = null;
+        try
+        {
+            tx = holder.beginTransaction();
+            // create some stuff
+            holder.save(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980));
+            holder.save(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1981));
+            holder.save(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1982));
+            if (true)
+            {
+                throw new ResourcePlanningException("123");   
+            }            
+            tx.commit();   
+        }
+        catch (Exception e)
+        {
+            tx.rollback();
+        }
+        finally
+        {
+            SessionManager.getInstance().unregisterSession(holder);   
+        }
+        // created stuff must be gone...
+        assertEquals(0, RepositoryProvider.getRepository(HelperRepository.class).findAll(null).size());
     }
 }

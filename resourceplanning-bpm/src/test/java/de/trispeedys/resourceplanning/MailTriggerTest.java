@@ -29,6 +29,6 @@ public class MailTriggerTest
         
         processEngine.getRuntimeService().startProcessInstanceByKey("MailTriggerProcess");   
         
-        assertEquals(3, Datasources.getDatasource(MessageQueue.class).find("messagingState", MessagingState.PROCESSED).size());
+        assertEquals(3, Datasources.getDatasource(MessageQueue.class).find(null, "messagingState", MessagingState.PROCESSED).size());
     }
 }

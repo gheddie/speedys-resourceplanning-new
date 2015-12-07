@@ -100,7 +100,7 @@ public class HelperTest
         Domain domain = EntityFactory.buildDomain("D1", 787).saveOrUpdate();
         Position pos = EntityFactory.buildPosition("P1", 16, domain, 53, true).saveOrUpdate();
         
-        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findAll().get(0);
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findAll(null).get(0);
         
         assertFalse(helper.isAssignableTo(pos, makeDate(14, 6, 2014)));
         assertFalse(helper.isAssignableTo(pos, makeDate(14, 6, 2016)));

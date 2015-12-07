@@ -82,11 +82,13 @@ public class EntityFactory
 
     public static HelperAssignment buildHelperAssignment(Helper helper, Event event, Position position, HelperAssignmentState helperAssignmentState)
     {
+        /*
         if (!(PositionService.isPositionPresentInEvent(position, event)))
         {
             throw new ResourcePlanningException("helper '" +
                     helper + "' can not be commited to position '" + position + "' as it is not present in event '" + event + "'.");
         }
+        */
         return new HelperAssignmentBuilder().withHelper(helper)
                 .withPosition(position)
                 .withEvent(event)

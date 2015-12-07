@@ -44,7 +44,7 @@ public class MailTemplateTest
         
         Event event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, evTemplate, null).saveOrUpdate();
         // send mail
-        List<Position> positions = Datasources.getDatasource(Position.class).findAll();
+        List<Position> positions = Datasources.getDatasource(Position.class).findAll(null);
         ProposePositionsMailTemplate template =
                 new ProposePositionsMailTemplate(helper, event, positions, HelperCallback.ASSIGNMENT_AS_BEFORE, pos3, false);
         MessagingService.createMessage("noreply@tri-speedys.de", "testhelper1.trispeedys@gmail.com",

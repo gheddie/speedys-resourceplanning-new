@@ -15,7 +15,7 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
 {
     public List<HelperAssignment> findByEvent(Event event)
     {
-        return dataSource().find(HelperAssignment.ATTR_EVENT, event);
+        return dataSource().find(null, HelperAssignment.ATTR_EVENT, event);
     }
     
     protected DefaultDatasource<HelperAssignment> createDataSource()
@@ -25,21 +25,21 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
     
     public List<HelperAssignment> findAllHelperAssignmentsByEvent(Event event)
     {
-        return dataSource().find(
+        return dataSource().find(null, 
                 "From " + HelperAssignment.class.getSimpleName() + " ec WHERE ec.event = :event",
                 "event", event);
     }
 
     public List<HelperAssignment> findAllHelperAssignments(Long helperId)
     {
-        return dataSource().find(
+        return dataSource().find(null, 
                 "From " + HelperAssignment.class.getSimpleName() + " ec WHERE ec.helperId = :helperId",
                 "helperId", helperId);
     }
 
     public HelperAssignment findByHelperAndEvent(Helper helper, Event event)
     {
-        return dataSource().findSingle(HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event);
+        return dataSource().findSingle(null, HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event);
     }
 
     /**
@@ -52,6 +52,6 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
      */
     public List<HelperAssignment> getHelperAssignments(Helper helper, Event event)
     {
-        return dataSource().find(HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event);
+        return dataSource().find(null, HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event);
     }
 }

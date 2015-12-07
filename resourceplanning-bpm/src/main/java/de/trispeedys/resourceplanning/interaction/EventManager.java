@@ -42,7 +42,7 @@ public class EventManager
         }
         // start request process for every active helper...
         List<Helper> activeHelpers =
-                Datasources.getDatasource(Helper.class).find(Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
+                Datasources.getDatasource(Helper.class).find(null, Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
         for (Helper helper : activeHelpers)
         {
             startHelperRequestProcess(helper, event);
@@ -57,7 +57,7 @@ public class EventManager
         {
             throw new ResourcePlanningException("event id must not be null!!");
         }
-        Event event = Datasources.getDatasource(Event.class).findById(eventId);
+        Event event = Datasources.getDatasource(Event.class).findById(null, eventId);
         if (event == null)
         {
             throw new ResourcePlanningException("event with id '" + eventId + "' could not be found!!");
@@ -68,7 +68,7 @@ public class EventManager
         }        
         // start request process for every active helper...
         List<Helper> activeHelpers =
-                Datasources.getDatasource(Helper.class).find(Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
+                Datasources.getDatasource(Helper.class).find(null, Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
         for (Helper helper : activeHelpers)
         {
             startHelperRequestProcess(helper, event);

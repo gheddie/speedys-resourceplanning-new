@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,9 +23,13 @@ import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperAssignmentState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
+import de.trispeedys.resourceplanning.persistence.SessionHolder;
+import de.trispeedys.resourceplanning.persistence.SessionManager;
+import de.trispeedys.resourceplanning.persistence.SessionToken;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
+import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class JsonEventImporter
 {
@@ -55,18 +61,38 @@ public class JsonEventImporter
 
     private String resourceName;
 
+    private SessionHolder sessionHolder;
+
     public void doImport(String aResourceName)
     {
-        this.resourceName = aResourceName;
         HibernateUtil.clearAll();
-        EventTemplate eventTemplate = EntityFactory.buildEventTemplate("TRI").saveOrUpdate();
-        event =
-                EntityFactory.buildEvent("Triathlon 2015", "TRI-2015", 1, 1, 2015, EventState.FINISHED, eventTemplate,
-                        null).saveOrUpdate();
-        rows = parseRows();
-        createHelpers();
-        createPositions();
-        createAssignments();
+        this.resourceName = aResourceName;
+        sessionHolder = SessionManager.getInstance().registerSession(this);
+        Transaction tx = null;
+        try
+        {
+            tx = sessionHolder.beginTransaction();
+            EventTemplate eventTemplate = EntityFactory.buildEventTemplate("TRI");
+            sessionHolder.save(eventTemplate);
+            event =
+                    EntityFactory.buildEvent("Triathlon 2015", "TRI-2015", 1, 1, 2015, EventState.FINISHED, eventTemplate,
+                            null);
+            sessionHolder.save(event);
+            rows = parseRows();
+            createHelpers();
+            createPositions();
+            createAssignments();
+            tx.commit();   
+        }
+        catch (Exception e)
+        {
+            tx.rollback();
+            throw new ResourcePlanningException("event could not be parsed : " + e.getMessage());
+        }
+        finally
+        {
+            SessionManager.getInstance().unregisterSession(sessionHolder);   
+        }
     }
 
     private void createPositions()
@@ -91,13 +117,13 @@ public class JsonEventImporter
         for (Integer domainNumber : domainsToPositions.keySet())
         {
             persistedDomain = EntityFactory.buildDomain(domainNumberToDomainName.get(domainNumber), domainNumber);
-            persistedDomain.saveOrUpdate();
+            sessionHolder.save(persistedDomain);
             for (Position pos : domainsToPositions.get(domainNumber))
             {
                 pos.setDomain(persistedDomain);
-                pos.saveOrUpdate();
+                sessionHolder.save(pos);
                 // relate position to event
-                EntityFactory.buildEventPosition(event, pos).saveOrUpdate();
+                sessionHolder.save(EntityFactory.buildEventPosition(event, pos));
             }
         }
     }
@@ -114,7 +140,7 @@ public class JsonEventImporter
                     buildedHelper =
                             EntityFactory.buildHelper(row.getHelperLastName(), row.getHelperFirstName(),
                                     row.getHelperMail(), HelperState.ACTIVE, row.getDateOfBirth());
-                    buildedHelper.saveOrUpdate();
+                    sessionHolder.save(buildedHelper);
                     helperIdToPosNumber.put(buildedHelper.getId(), new Integer(row.getPositionNumber()));
                 }
                 catch (Exception e)
@@ -123,19 +149,22 @@ public class JsonEventImporter
                 }
             }
         }
+        sessionHolder.flush();
     }
 
     private void createAssignments()
     {
         // cache all helpers
         HashMap<Long, Helper> helperIdToHelper = new HashMap<Long, Helper>();
-        for (Helper helper : RepositoryProvider.getRepository(HelperRepository.class).findAll())
+        List<Helper> helpers = RepositoryProvider.getRepository(HelperRepository.class).findAll(sessionHolder.getToken());
+        for (Helper helper : helpers)
         {
             helperIdToHelper.put(helper.getId(), helper);
         }
         // cache all positions
         HashMap<Integer, Position> posNumberToPos = new HashMap<Integer, Position>();
-        for (Position position : RepositoryProvider.getRepository(PositionRepository.class).findAll())
+        List<Position> positions = RepositoryProvider.getRepository(PositionRepository.class).findAll(sessionHolder.getToken());
+        for (Position position : positions)
         {
             posNumberToPos.put(position.getPositionNumber(), position);
         }
@@ -151,7 +180,7 @@ public class JsonEventImporter
 
     private void buildHelperAssignment(Helper helper, Position position)
     {
-        EntityFactory.buildHelperAssignment(helper, event, position, HelperAssignmentState.CONFIRMED).saveOrUpdate();
+        sessionHolder.save(EntityFactory.buildHelperAssignment(helper, event, position, HelperAssignmentState.CONFIRMED));
     }
 
     private List<ImportRow> parseRows()

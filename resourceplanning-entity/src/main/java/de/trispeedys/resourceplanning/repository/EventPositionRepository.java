@@ -12,7 +12,7 @@ public class EventPositionRepository extends AbstractDatabaseRepository<EventPos
 {
     public EventPosition findByEventAndPositionNumber(Event event, int positionNumber)
     {
-        return (EventPosition) dataSource().findSingle(EventPosition.ATTR_EVENT, event,
+        return (EventPosition) dataSource().findSingle(null, EventPosition.ATTR_EVENT, event,
                 EventPosition.ATTR_POSITION, RepositoryProvider.getRepository(PositionRepository.class)
                         .findPositionByPositionNumber(positionNumber));
     }

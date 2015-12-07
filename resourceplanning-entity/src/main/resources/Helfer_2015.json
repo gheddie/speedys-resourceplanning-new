@@ -27,9 +27,9 @@
          "positionPriority":"-1"
       },
       {  
-         "lastName":"Elsner",
-         "firstName":"Conny",
-         "birthDay":"31.12.1900",
+         "lastName":"",
+         "firstName":"",
+         "birthDay":"",
          "ml":"",
          "dr":"1",
          "domainName":"Startunterlagen Samstag",
@@ -111,9 +111,9 @@
          "positionPriority":"-1"
       },
       {  
-         "lastName":"Elsner",
-         "firstName":"Conny",
-         "birthDay":"31.12.1900",
+         "lastName":"",
+         "firstName":"",
+         "birthDay":"",
          "ml":"",
          "dr":"2",
          "domainName":"Startunterlagen Sonntag",
@@ -123,9 +123,9 @@
          "positionPriority":"-1"
       },
       {  
-         "lastName":"Krohne",
-         "firstName":"Kiki",
-         "birthDay":"31.12.1900",
+         "lastName":"",
+         "firstName":"",
+         "birthDay":"",
          "ml":"kiki@hunks.de",
          "dr":"2",
          "domainName":"Startunterlagen Sonntag",
@@ -171,9 +171,9 @@
          "positionPriority":"-1"
       },
       {  
-         "lastName":"Kessler",
-         "firstName":"Elke",
-         "birthDay":"31.12.1900",
+         "lastName":"",
+         "firstName":"",
+         "birthDay":"",
          "ml":"",
          "dr":"2",
          "domainName":"Startunterlagen Sonntag",
@@ -317,7 +317,7 @@
       {  
          "lastName":"Liedtke",
          "firstName":"Thomas",
-         "birthDay":"31.12.1900",
+         "birthDay":"31.12.1800",
          "ml":"",
          "dr":"4",
          "domainName":"Schwimmen",
@@ -389,7 +389,7 @@
       {  
          "lastName":"Faltbootabteilung",
          "firstName":"Vater Jahn",
-         "birthDay":"31.12.1900",
+         "birthDay":"31.12.1901",
          "ml":"",
          "dr":"4",
          "domainName":"Schwimmen",
@@ -401,7 +401,7 @@
       {  
          "lastName":"Faltbootabteilung",
          "firstName":"Vater Jahn",
-         "birthDay":"31.12.1900",
+         "birthDay":"31.12.1902",
          "ml":"",
          "dr":"4",
          "domainName":"Schwimmen",
@@ -413,7 +413,7 @@
       {  
          "lastName":"Faltbootabteilung",
          "firstName":"Vater Jahn",
-         "birthDay":"31.12.1900",
+         "birthDay":"31.12.1903",
          "ml":"",
          "dr":"4",
          "domainName":"Schwimmen",
@@ -425,7 +425,7 @@
       {  
          "lastName":"Faltbootabteilung",
          "firstName":"Vater Jahn",
-         "birthDay":"31.12.1900",
+         "birthDay":"31.12.1904",
          "ml":"",
          "dr":"4",
          "domainName":"Schwimmen",
@@ -2103,9 +2103,9 @@
          "positionPriority":"-1"
       },
       {  
-         "lastName":"Kessler",
-         "firstName":"Elke",
-         "birthDay":"31.12.1900",
+         "lastName":"",
+         "firstName":"",
+         "birthDay":"",
          "ml":"",
          "dr":"13",
          "domainName":"Laufverpflegung Stadion",
@@ -3243,9 +3243,9 @@
          "positionPriority":"-1"
       },
       {  
-         "lastName":"Weidlich",
-         "firstName":"Marc",
-         "birthDay":"24.11.1967",
+         "lastName":"",
+         "firstName":"",
+         "birthDay":"",
          "ml":"",
          "dr":"27",
          "domainName":"Messe",
@@ -3255,9 +3255,9 @@
          "positionPriority":"-1"
       },
       {  
-         "lastName":"Weidlich",
-         "firstName":"Marc",
-         "birthDay":"24.11.1967",
+         "lastName":"",
+         "firstName":"",
+         "birthDay":"",
          "ml":"",
          "dr":"28",
          "domainName":"Video/Foto",

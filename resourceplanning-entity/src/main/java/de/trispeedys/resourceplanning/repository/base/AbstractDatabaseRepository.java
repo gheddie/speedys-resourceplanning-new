@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
+import de.trispeedys.resourceplanning.persistence.SessionToken;
 import de.trispeedys.resourceplanning.util.StringUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningPersistenceException;
 
@@ -19,19 +20,19 @@ public abstract class AbstractDatabaseRepository<T>
 
     protected abstract DefaultDatasource<T> createDataSource();
 
-    public List<T> findAll()
+    public List<T> findAll(SessionToken sessionToken)
     {
-        return dataSource.findAll();
+        return dataSource.findAll(sessionToken);
     }
 
     public T findById(Long id)
     {
-        return dataSource.findById(id);
+        return dataSource.findById(null, id);
     }
 
     public void saveOrUpdate(T entity)
     {
-        dataSource.saveOrUpdate(entity);
+        dataSource.saveOrUpdate(null, entity);
     }
 
     public void updateSingleValue(T entity, String attributeName, Object newValue)
@@ -51,7 +52,7 @@ public abstract class AbstractDatabaseRepository<T>
                 newValue.getClass()
             });
             setter.invoke(entity, newValue);
-            dataSource.saveOrUpdate(entity);
+            dataSource.saveOrUpdate(null, entity);
         }
         catch (Exception e)
         {

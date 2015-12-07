@@ -10,7 +10,7 @@ public class DomainRepository extends AbstractDatabaseRepository<Domain> impleme
 {
     public Domain findDomainByNumber(int domainNumber)
     {
-        return dataSource().findSingle(Domain.ATTR_DOMAIN_NUMBER, domainNumber);
+        return dataSource().findSingle(null, Domain.ATTR_DOMAIN_NUMBER, domainNumber);
     }
 
     protected DefaultDatasource<Domain> createDataSource()

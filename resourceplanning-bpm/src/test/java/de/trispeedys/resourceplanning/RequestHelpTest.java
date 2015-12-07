@@ -196,7 +196,7 @@ public class RequestHelpTest
         Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "TRI-2016", "TRI-2016", 21, 6, 2015, null, null);
         // start request process for every helper
         List<Helper> activeHelpers =
-                Datasources.getDatasource(Helper.class).find("helperState", HelperState.ACTIVE);
+                Datasources.getDatasource(Helper.class).find(null, "helperState", HelperState.ACTIVE);
         String businessKey = null;
         for (Helper helper : activeHelpers)
         {
@@ -205,7 +205,7 @@ public class RequestHelpTest
             RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, rule);
         }
         // a mail for every helper must have been sent
-        assertEquals(activeHelpers.size(), Datasources.getDatasource(MessageQueue.class).findAll().size());
+        assertEquals(activeHelpers.size(), Datasources.getDatasource(MessageQueue.class).findAll(null).size());
     }
 
     /**
@@ -230,7 +230,7 @@ public class RequestHelpTest
         Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "TRI-2016", "TRI-2016", 21, 6, 2015, null, null);
         // start request process for every helper
         List<Helper> helpers =
-                Datasources.getDatasource(Helper.class).find("helperState", HelperState.ACTIVE);
+                Datasources.getDatasource(Helper.class).find(null, "helperState", HelperState.ACTIVE);
         String businessKey = null;
         for (Helper helper : helpers)
         {
@@ -239,7 +239,7 @@ public class RequestHelpTest
             RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, rule);
         }
         // a mail for every helper must have been sent
-        assertEquals(5, Datasources.getDatasource(MessageQueue.class).findAll().size());
+        assertEquals(5, Datasources.getDatasource(MessageQueue.class).findAll(null).size());
         // three manual assignment tasks must have been generated
         assertEquals(
                 3,
@@ -268,7 +268,7 @@ public class RequestHelpTest
         // duplicate event
         Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "TRI-2016", "TRI-2016", 21, 6, 2015, null, null);
         // select created helper
-        Helper helper = (Helper) Datasources.getDatasource(Helper.class).findAll().get(0);
+        Helper helper = (Helper) Datasources.getDatasource(Helper.class).findAll(null).get(0);
         // start process
         String businessKey =
                 ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());

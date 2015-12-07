@@ -36,7 +36,7 @@ public class DuplicateEventTest
                 TestDataGenerator.createRealLifeEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015,
                         EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
         SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
-        List<Event> events = Datasources.getDatasource(Event.class).findAll();
+        List<Event> events = Datasources.getDatasource(Event.class).findAll(null);
         assertTrue(SpeedyRoutines.eventOutline(events.get(0)).equals(
                 SpeedyRoutines.eventOutline(events.get(1))));
     }
@@ -61,7 +61,7 @@ public class DuplicateEventTest
         Position pos = EntityFactory.buildPosition("", 99, domain, 666, true).saveOrUpdate();
         SpeedyRoutines.relatePositionsToEvent(event, pos);
 
-        Event loadedEvent = (Event) Datasources.getDatasource(Event.class).findAll().get(0);
+        Event loadedEvent = (Event) Datasources.getDatasource(Event.class).findAll(null).get(0);
         assertEquals("[E][D1][P0][P1][D2][P2][P137][P232][P398][D17][P38][P39][P666][D92][P93][P94]",
                 SpeedyRoutines.eventOutline(loadedEvent));
     }
@@ -99,7 +99,7 @@ public class DuplicateEventTest
         // real life event for 2015
         SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, excludes, includes);
         
-        Event loadedEvent2016 = Datasources.getDatasource(Event.class).findSingle(Event.ATTR_EVENT_STATE, EventState.PLANNED);
+        Event loadedEvent2016 = Datasources.getDatasource(Event.class).findSingle(null, Event.ATTR_EVENT_STATE, EventState.PLANNED);
         
         assertEquals("[E][D1][P0][P1][D2][P2][P232][P398][P7777][D17][P38][P39][D92][P93][P94][P8888]",
                 SpeedyRoutines.eventOutline(loadedEvent2016));
@@ -175,8 +175,8 @@ public class DuplicateEventTest
         SpeedyRoutines.duplicateEvent(minimalEvent, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
         
         // checks (event + event pos count must be doubled, pos count must remain the same)
-        assertEquals(2, Datasources.getDatasource(Event.class).findAll().size());
-        assertEquals(10, Datasources.getDatasource(EventPosition.class).findAll().size());
-        assertEquals(5, Datasources.getDatasource(Position.class).findAll().size());
+        assertEquals(2, Datasources.getDatasource(Event.class).findAll(null).size());
+        assertEquals(10, Datasources.getDatasource(EventPosition.class).findAll(null).size());
+        assertEquals(5, Datasources.getDatasource(Position.class).findAll(null).size());
     }
 }

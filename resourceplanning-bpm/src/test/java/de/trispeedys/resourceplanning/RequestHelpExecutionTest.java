@@ -80,7 +80,7 @@ public class RequestHelpExecutionTest
         Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
         // (3)
-        List<Helper> allHelpers = Datasources.getDatasource(Helper.class).findAll();
+        List<Helper> allHelpers = Datasources.getDatasource(Helper.class).findAll(null);
         assertEquals(5, allHelpers.size());
         Helper helperA = allHelpers.get(1);
         Helper helperB = allHelpers.get(3);
@@ -144,7 +144,7 @@ public class RequestHelpExecutionTest
 
         Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
-        List<Helper> allHelpers = RepositoryProvider.getRepository(HelperRepository.class).findAll();
+        List<Helper> allHelpers = RepositoryProvider.getRepository(HelperRepository.class).findAll(null);
         assertEquals(5, allHelpers.size());
         Helper helperA = allHelpers.get(1);
 
@@ -176,7 +176,7 @@ public class RequestHelpExecutionTest
         // duplicate event
         Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "TRI-2016", "TRI-2016", 21, 6, 2015, null, null);
         // start request process for every helper
-        List<Helper> activeHelpers = Datasources.getDatasource(Helper.class).find("helperState", HelperState.ACTIVE);
+        List<Helper> activeHelpers = Datasources.getDatasource(Helper.class).find(null, "helperState", HelperState.ACTIVE);
         Helper notCooperativeHelper = activeHelpers.get(0);
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(notCooperativeHelper.getId(), event2016.getId());
 
@@ -207,7 +207,7 @@ public class RequestHelpExecutionTest
         // duplicate event
         Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "TRI-2016", "TRI-2016", 21, 6, 2015, null, null);
         // start request process for every helper
-        List<Helper> activeHelpers = Datasources.getDatasource(Helper.class).find("helperState", HelperState.ACTIVE);
+        List<Helper> activeHelpers = Datasources.getDatasource(Helper.class).find(null, "helperState", HelperState.ACTIVE);
         Helper notCooperativeHelper = activeHelpers.get(0);
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(notCooperativeHelper.getId(), event2016.getId());
 
@@ -223,7 +223,7 @@ public class RequestHelpExecutionTest
         assertEquals(0, processEngine.getRuntimeService().createExecutionQuery().list().size());
 
         // helper state changes to 'INACTIVE'
-        assertEquals(HelperState.INACTIVE, ((Helper) Datasources.getDatasource(Helper.class).findById(notCooperativeHelper.getId())).getHelperState());
+        assertEquals(HelperState.INACTIVE, ((Helper) Datasources.getDatasource(Helper.class).findById(null, notCooperativeHelper.getId())).getHelperState());
     }
 
     /**
@@ -240,7 +240,7 @@ public class RequestHelpExecutionTest
 
         Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
-        List<Helper> allHelpers = Datasources.getDatasource(Helper.class).findAll();
+        List<Helper> allHelpers = Datasources.getDatasource(Helper.class).findAll(null);
         assertEquals(5, allHelpers.size());
         Helper helperA = allHelpers.get(1);
 
@@ -253,7 +253,7 @@ public class RequestHelpExecutionTest
 
         // process must be gone, helper must remain at state active
         assertEquals(0, processEngine.getRuntimeService().createExecutionQuery().list().size());
-        assertEquals(HelperState.ACTIVE, ((Helper) Datasources.getDatasource(Helper.class).findById(helperA.getId())).getHelperState());
+        assertEquals(HelperState.ACTIVE, ((Helper) Datasources.getDatasource(Helper.class).findById(null, helperA.getId())).getHelperState());
 
         // there must be a 'sorry to see you go' mail...
         assertTrue(RequestHelpTestUtil.checkMails(2, MessagingType.REMINDER_STEP_0, MessagingType.PAUSE_CONFIRM));
@@ -278,7 +278,7 @@ public class RequestHelpExecutionTest
 
         Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
-        List<Helper> allHelpers = Datasources.getDatasource(Helper.class).findAll();
+        List<Helper> allHelpers = Datasources.getDatasource(Helper.class).findAll(null);
         assertEquals(5, allHelpers.size());
         Helper helperA = allHelpers.get(1);
         Helper helperB = allHelpers.get(3);
@@ -329,7 +329,7 @@ public class RequestHelpExecutionTest
                         TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI),
                         "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
-        List<Helper> helpers = Datasources.getDatasource(Helper.class).findAll();
+        List<Helper> helpers = Datasources.getDatasource(Helper.class).findAll(null);
 
         Helper helperA = helpers.get(0);
         String businessKeyA = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperA.getId(), event2016.getId());
@@ -351,7 +351,7 @@ public class RequestHelpExecutionTest
         assertEquals(
                 1,
                 Datasources.getDatasource(HelperAssignment.class)
-                        .find(HelperAssignment.ATTR_EVENT, event2016, HelperAssignment.ATTR_HELPER, helperB, HelperAssignment.ATTR_POSITION, desiredPosition)
+                        .find(null, HelperAssignment.ATTR_EVENT, event2016, HelperAssignment.ATTR_HELPER, helperB, HelperAssignment.ATTR_POSITION, desiredPosition)
                         .size());
 
         // 'A' comes to late
@@ -361,7 +361,7 @@ public class RequestHelpExecutionTest
         assertEquals(
                 2,
                 Datasources.getDatasource(MessageQueue.class)
-                        .find(MessageQueue.ATTR_MESSAGING_TYPE, MessagingType.PROPOSE_POSITIONS, MessageQueue.ATTR_TO_ADDRESS, helperA.getEmail())
+                        .find(null, MessageQueue.ATTR_MESSAGING_TYPE, MessagingType.PROPOSE_POSITIONS, MessageQueue.ATTR_TO_ADDRESS, helperA.getEmail())
                         .size());
     }
 
@@ -403,7 +403,7 @@ public class RequestHelpExecutionTest
                         .list()
                         .get(0);
         HashMap<String, Object> variables = new HashMap<String, Object>();
-        Position someUnassignedTask = (Position) Datasources.getDatasource(Position.class).findAll().get(0);
+        Position someUnassignedTask = (Position) Datasources.getDatasource(Position.class).findAll(null).get(0);
         variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION, someUnassignedTask.getId());
         processEngine.getTaskService().complete(task.getId(), variables);
 
@@ -425,7 +425,7 @@ public class RequestHelpExecutionTest
         assertEquals(
                 HelperAssignmentState.CANCELLED,
                 ((HelperAssignment) Datasources.getDatasource(HelperAssignment.class)
-                        .find(HelperAssignment.ATTR_EVENT, event2016, HelperAssignment.ATTR_HELPER, helper)
+                        .find(null, HelperAssignment.ATTR_EVENT, event2016, HelperAssignment.ATTR_HELPER, helper)
                         .get(0)).getHelperAssignmentState());
 
         // admin mail and confirmation to user must have been sent
@@ -456,7 +456,7 @@ public class RequestHelpExecutionTest
                         "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
         // one of the helpers...
-        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findAll().get(0);
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findAll(null).get(0);
 
         // start the process
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
@@ -503,7 +503,7 @@ public class RequestHelpExecutionTest
                         "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
         // one of the helpers...
-        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findAll().get(0);
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findAll(null).get(0);
 
         // set email address to null...
         helper.setEmail(null);
@@ -535,7 +535,7 @@ public class RequestHelpExecutionTest
                         "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
         // one of the helpers...
-        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findAll().get(0);
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findAll(null).get(0);
 
         // start the process
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
@@ -565,7 +565,7 @@ public class RequestHelpExecutionTest
                         "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
         // the helpers...
-        List<Helper> allHelpers = RepositoryProvider.getRepository(HelperRepository.class).findAll();
+        List<Helper> allHelpers = RepositoryProvider.getRepository(HelperRepository.class).findAll(null);
         Helper helperA = allHelpers.get(0);
         Helper helperB = allHelpers.get(1);
 
@@ -701,7 +701,7 @@ public class RequestHelpExecutionTest
         }
 
         // pick a helper
-        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findAll().get(0);
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findAll(null).get(0);
 
         // block positions
         List<Position> unassigned = RepositoryProvider.getRepository(PositionRepository.class).findUnassignedPositionsInEvent(event2016, false);

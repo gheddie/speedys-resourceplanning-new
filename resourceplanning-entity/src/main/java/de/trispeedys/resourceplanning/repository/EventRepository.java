@@ -23,7 +23,7 @@ public class EventRepository extends AbstractDatabaseRepository<Event> implement
                         " ev INNER JOIN ev.eventTemplate et WHERE et.description = :description ORDER BY ev.eventDate ASC";
         HashMap<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("description", eventTemplateName);
-        List<Object[]> list = dataSource().find(queryString, parameters);
+        List<Object[]> list = dataSource().find(null, queryString, parameters);
         if (list.size() == 0)
         {
             return null;
@@ -38,7 +38,7 @@ public class EventRepository extends AbstractDatabaseRepository<Event> implement
 
     public Event findEventByEventKey(String eventKey)
     {
-        return dataSource().findSingle(Event.ATTR_EVENT_KEY, eventKey);
+        return dataSource().findSingle(null, Event.ATTR_EVENT_KEY, eventKey);
     }
     
     public List<Event> findEventsByTemplateAndStatus(String templateName, EventState eventState)
@@ -48,7 +48,7 @@ public class EventRepository extends AbstractDatabaseRepository<Event> implement
         parameters.put(EventTemplate.ATTR_DESCRIPTION, templateName);
         List<Object[]> list =
                 Datasources.getDatasource(EventTemplate.class)
-                        .find("FROM " +
+                        .find(null, "FROM " +
                                 Event.class.getSimpleName() +
                                 " ev INNER JOIN ev.eventTemplate et WHERE ev.eventState = :eventState AND et.description = :description", parameters);
         List<Event> result = new ArrayList<Event>();
@@ -76,6 +76,6 @@ public class EventRepository extends AbstractDatabaseRepository<Event> implement
 
     public List<Event> findInitiatedEvents()
     {
-        return dataSource().find(Event.ATTR_EVENT_STATE, EventState.INITIATED);
+        return dataSource().find(null, Event.ATTR_EVENT_STATE, EventState.INITIATED);
     }
 }

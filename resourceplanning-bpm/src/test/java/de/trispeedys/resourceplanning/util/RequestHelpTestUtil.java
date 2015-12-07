@@ -57,12 +57,12 @@ public class RequestHelpTestUtil
 
     public static int countMails()
     {
-        return RepositoryProvider.getRepository(MessageQueueRepository.class).findAll().size();
+        return RepositoryProvider.getRepository(MessageQueueRepository.class).findAll(null).size();
     }
 
     public static boolean checkMails(int expectedMailCount, MessagingType... types)
     {
-        List<MessageQueue> messages = RepositoryProvider.getRepository(MessageQueueRepository.class).findAll();
+        List<MessageQueue> messages = RepositoryProvider.getRepository(MessageQueueRepository.class).findAll(null);
         if ((messages == null) || (messages.size() != expectedMailCount))
         {
             return false;

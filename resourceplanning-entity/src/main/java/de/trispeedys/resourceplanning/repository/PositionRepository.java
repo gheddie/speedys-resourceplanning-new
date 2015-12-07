@@ -22,7 +22,7 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
 {
     public Position findPositionByPositionNumber(int positionNumber)
     {
-        return (Position) dataSource().findSingle(Position.ATTR_POS_NUMBER, positionNumber);
+        return (Position) dataSource().findSingle(null, Position.ATTR_POS_NUMBER, positionNumber);
     }
 
     public List<Position> findUnassignedPositionsByGenerator(Helper helper, Event event)
@@ -78,7 +78,7 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
                         HelperAssignmentState.CONFIRMED + "'))";
         HashMap<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("event", event);
-        List<EventPosition> eventPositions = Datasources.getDatasource(EventPosition.class).find(qryString, parameters);
+        List<EventPosition> eventPositions = Datasources.getDatasource(EventPosition.class).find(null, qryString, parameters);
         List<Position> result = new ArrayList<Position>();
         Position position = null;
         for (EventPosition ep : eventPositions)
@@ -104,7 +104,7 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
     public List<Position> findPositionsInEvent(Event event)
     {
         List<EventPosition> list =
-                Datasources.getDatasource(EventPosition.class).find(
+                Datasources.getDatasource(EventPosition.class).find(null, 
                         "FROM " + EventPosition.class.getSimpleName() + " ep INNER JOIN ep.position pos WHERE ep.event = :event", "event", event);
         List<Position> result = new ArrayList<Position>();
         Object[] tuple = null;

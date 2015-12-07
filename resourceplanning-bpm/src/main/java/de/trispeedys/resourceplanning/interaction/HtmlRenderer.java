@@ -21,7 +21,7 @@ public class HtmlRenderer
      */
     public static String renderCallbackSuccess(Long helperId, HelperCallback callback)
     {
-        Helper helper = (Helper) Datasources.getDatasource(Helper.class).findById(helperId);
+        Helper helper = (Helper) Datasources.getDatasource(Helper.class).findById(null, helperId);
         return new HtmlGenerator().withHeader("Hallo " + helper.getFirstName() + "!")
                 .withLinebreak()
                 .withParagraph("Danke, wir haben deine Nachricht erhalten (" + callback.getSummary() + ").")

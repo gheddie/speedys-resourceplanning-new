@@ -24,7 +24,7 @@ public class CheckHelperConditionDelegate implements JavaDelegate
         AppConfiguration.getInstance();
         
         Long helperId = (Long) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_HELPER_ID);
-        Helper helper = (Helper) Datasources.getDatasource(Helper.class).findById(helperId);
+        Helper helper = (Helper) Datasources.getDatasource(Helper.class).findById(null, helperId);
         boolean firstAssignment = AssignmentService.isFirstAssignment(helperId);   
         if ((firstAssignment) || (StringUtil.isBlank(helper.getEmail())))
         {

@@ -18,11 +18,11 @@ public class HelperRepository extends AbstractDatabaseRepository<Helper> impleme
 
     public Helper findByCode(String helperCode)
     {
-        return dataSource().findSingle(Helper.ATTR_CODE, helperCode);
+        return dataSource().findSingle(null, Helper.ATTR_CODE, helperCode);
     }
 
     public List<Helper> findActiveHelpers()
     {
-        return dataSource().find(Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
+        return dataSource().find(null, Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
     }
 }

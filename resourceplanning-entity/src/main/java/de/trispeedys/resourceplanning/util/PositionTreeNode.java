@@ -2,8 +2,10 @@ package de.trispeedys.resourceplanning.util;
 
 import java.util.List;
 
+import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
+import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HierarchicalEventItem;
 
 public class PositionTreeNode<T> extends EntityTreeNode<Position>
@@ -67,8 +69,13 @@ public class PositionTreeNode<T> extends EntityTreeNode<Position>
         }
     }
     
-    public String getAvailability(List<?> referencePositions)
+    public String getAvailability(List<?> referencePositions, Object parent)
     {
+        Event event = (Event) parent;
+        if (!(event.getEventState().equals(EventState.INITIATED)))
+        {
+            return "";
+        }
         Position position = ((AssignmentContainer) getPayLoad()).getPosition();
         if (position != null)
         {

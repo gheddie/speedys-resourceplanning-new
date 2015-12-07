@@ -38,7 +38,7 @@ public class CallbackChoiceGeneratorTest
                 SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
         // get helper
-        Helper helper = (Helper) Datasources.getDatasource(Helper.class).findAll().get(0);
+        Helper helper = (Helper) Datasources.getDatasource(Helper.class).findAll(null).get(0);
 
         assertTrue(checkChoices(HelperCallback.values(),
                 new CallbackChoiceGenerator().generate(helper, event2016)));
@@ -61,8 +61,8 @@ public class CallbackChoiceGeneratorTest
                 SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
         // get helpers
-        Helper helperA = (Helper) Datasources.getDatasource(Helper.class).findAll().get(0);
-        Helper helperB = (Helper) Datasources.getDatasource(Helper.class).findAll().get(1);
+        Helper helperA = (Helper) Datasources.getDatasource(Helper.class).findAll(null).get(0);
+        Helper helperB = (Helper) Datasources.getDatasource(Helper.class).findAll(null).get(1);
 
         // assign 'B' to 'A's prior position...
         AssignmentService.assignHelper(helperB, event2016,
@@ -98,7 +98,7 @@ public class CallbackChoiceGeneratorTest
         // remove prior position of helper 'A' from event 2016
         Helper helperA =
                 (Helper) Datasources.getDatasource(Helper.class)
-                        .findSingle(Helper.ATTR_LAST_NAME, "H3_First");
+                        .findSingle(null, Helper.ATTR_LAST_NAME, "H3_First");
         
         assertTrue(checkChoices(new HelperCallback[]
         {

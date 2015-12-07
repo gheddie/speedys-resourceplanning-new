@@ -35,7 +35,7 @@ public class ChoosablePositionGenerator extends RuleObject<Position>
             // no positions available, so...
             return new ArrayList<Position>();
         }
-        List<PositionAggregation> groups = RepositoryProvider.getRepository(PositionAggregationRepository.class).findAll();
+        List<PositionAggregation> groups = RepositoryProvider.getRepository(PositionAggregationRepository.class).findAll(null);
         if ((groups == null) || (groups.size() == 0))
         {
             // we take all positions as one group...
@@ -52,7 +52,7 @@ public class ChoosablePositionGenerator extends RuleObject<Position>
             // all relations between position and aggregation...
             HashMap<String, List<Position>> positionsByGroup = new HashMap<String, List<Position>>();
             Position pos = null;
-            for (AggregationRelation relation : RepositoryProvider.getRepository(AggregationRelationRepository.class).findAll())
+            for (AggregationRelation relation : RepositoryProvider.getRepository(AggregationRelationRepository.class).findAll(null))
             {
                 String key = relation.getPositionAggregation().getName();
                 if (positionsByGroup.get(key) == null)
