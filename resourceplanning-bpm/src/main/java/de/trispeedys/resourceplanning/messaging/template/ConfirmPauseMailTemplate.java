@@ -1,8 +1,9 @@
-package de.trispeedys.resourceplanning.messaging;
+package de.trispeedys.resourceplanning.messaging.template;
 
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
+import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 import de.trispeedys.resourceplanning.util.HtmlGenerator;
 
 public class ConfirmPauseMailTemplate extends AbstractMailTemplate

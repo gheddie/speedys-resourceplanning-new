@@ -82,6 +82,6 @@ public class TreeTableDataModel extends AbstractTreeTableModel
 
     public void setValueAt(Object aValue, Object node, int column)
     {
+        // ...
     }
-
 }

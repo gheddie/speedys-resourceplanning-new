@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -25,7 +24,6 @@ import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.persistence.SessionHolder;
 import de.trispeedys.resourceplanning.persistence.SessionManager;
-import de.trispeedys.resourceplanning.persistence.SessionToken;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
@@ -73,11 +71,11 @@ public class JsonEventImporter
         {
             tx = sessionHolder.beginTransaction();
             EventTemplate eventTemplate = EntityFactory.buildEventTemplate("TRI");
-            sessionHolder.save(eventTemplate);
+            sessionHolder.saveOrUpdate(eventTemplate);
             event =
                     EntityFactory.buildEvent("Triathlon 2015", "TRI-2015", 1, 1, 2015, EventState.FINISHED, eventTemplate,
                             null);
-            sessionHolder.save(event);
+            sessionHolder.saveOrUpdate(event);
             rows = parseRows();
             createHelpers();
             createPositions();
@@ -117,13 +115,13 @@ public class JsonEventImporter
         for (Integer domainNumber : domainsToPositions.keySet())
         {
             persistedDomain = EntityFactory.buildDomain(domainNumberToDomainName.get(domainNumber), domainNumber);
-            sessionHolder.save(persistedDomain);
+            sessionHolder.saveOrUpdate(persistedDomain);
             for (Position pos : domainsToPositions.get(domainNumber))
             {
                 pos.setDomain(persistedDomain);
-                sessionHolder.save(pos);
+                sessionHolder.saveOrUpdate(pos);
                 // relate position to event
-                sessionHolder.save(EntityFactory.buildEventPosition(event, pos));
+                sessionHolder.saveOrUpdate(EntityFactory.buildEventPosition(event, pos));
             }
         }
     }
@@ -140,7 +138,7 @@ public class JsonEventImporter
                     buildedHelper =
                             EntityFactory.buildHelper(row.getHelperLastName(), row.getHelperFirstName(),
                                     row.getHelperMail(), HelperState.ACTIVE, row.getDateOfBirth());
-                    sessionHolder.save(buildedHelper);
+                    sessionHolder.saveOrUpdate(buildedHelper);
                     helperIdToPosNumber.put(buildedHelper.getId(), new Integer(row.getPositionNumber()));
                 }
                 catch (Exception e)
@@ -180,7 +178,7 @@ public class JsonEventImporter
 
     private void buildHelperAssignment(Helper helper, Position position)
     {
-        sessionHolder.save(EntityFactory.buildHelperAssignment(helper, event, position, HelperAssignmentState.CONFIRMED));
+        sessionHolder.saveOrUpdate(EntityFactory.buildHelperAssignment(helper, event, position, HelperAssignmentState.CONFIRMED));
     }
 
     private List<ImportRow> parseRows()

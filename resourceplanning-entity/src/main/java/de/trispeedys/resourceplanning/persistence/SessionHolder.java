@@ -2,10 +2,12 @@ package de.trispeedys.resourceplanning.persistence;
 
 import java.io.Serializable;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import de.trispeedys.resourceplanning.entity.AbstractDbObject;
+import de.trispeedys.resourceplanning.entity.HelperAssignment;
 
 public class SessionHolder
 {
@@ -24,10 +26,10 @@ public class SessionHolder
     {
         return session.beginTransaction();
     }
-
-    public Serializable save(AbstractDbObject entity)
+    
+    public Query createQuery(String queryString)
     {
-        return session.save(entity);
+        return session.createQuery(queryString);
     }
 
     public SessionToken getToken()
@@ -38,5 +40,15 @@ public class SessionHolder
     public void flush()
     {
         session.flush();
+    }
+    
+    public Serializable saveOrUpdate(AbstractDbObject entity)
+    {
+        if (entity.isNew())
+        {
+            return session.save(entity);
+        }
+        session.update(entity);
+        return null;
     }
 }

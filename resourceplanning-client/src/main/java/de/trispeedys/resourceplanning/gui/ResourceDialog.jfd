@@ -398,6 +398,72 @@ new FormModel {
 				}, new FormLayoutConstraints( null ) {
 					"title": "Nachrichten"
 				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0:1.0"
+					"$rowSpecs": "0:1.0, 0, 0:1.0"
+					"$hGap": 5
+					"$vGap": 5
+					"$alignLeft": true
+					"$alignTop": true
+				} ) {
+					name: "pnlPostProcessing"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0:1.0"
+						"$rowSpecs": "0:1.0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignTop": true
+						"$alignLeft": true
+					} ) {
+						name: "borderPostProcessingSource"
+						"border": new javax.swing.border.TitledBorder( "Quelle" )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scPostProcessingSource"
+							add( new FormComponent( "de.trispeedys.resourceplanning.components.treetable.TreeTable" ) {
+								name: "treeTablePostProcessingSource"
+							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+					add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
+						name: "toolBar1"
+						"floatable": false
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnRefreshPostProcessing"
+							"text": "Aktualisieren"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/reload16px.png" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnRefreshPostProcessingPressed", true ) )
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnSwapPositions"
+							"text": "Tauschen"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/swap16px.png" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnSwapPositionsPressed", true ) )
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 1
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0:1.0"
+						"$rowSpecs": "0:1.0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignTop": true
+						"$alignLeft": true
+					} ) {
+						name: "borderPostProcessingTarget"
+						"border": new javax.swing.border.TitledBorder( "Ziel" )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scPostProcessingTarget"
+							add( new FormComponent( "de.trispeedys.resourceplanning.components.treetable.TreeTable" ) {
+								name: "treeTablePostProcessingTarget"
+							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 2
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "Nachbearbeitung"
+				} )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridheight": 2
 				"gridwidth": 3
@@ -405,6 +471,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JProgressBar" ) {
 				name: "pgMain"
+				"stringPainted": true
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridy": 3
 				"gridwidth": 3

@@ -9,45 +9,45 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
+import de.trispeedys.resourceplanning.util.StringUtil;
 
 @Entity
 public class Helper extends AbstractDbObject
-{    
+{
     public static final String TEST_MAIL_ADDRESS = "testhelper1.trispeedys@gmail.com";
 
     private static final String TEST_MAIL_PASSWORD = "trispeedys1234";
-    
+
     public static final String ATTR_FIRST_NAME = "firstName";
-    
+
     public static final String ATTR_LAST_NAME = "lastName";
-    
+
     public static final String ATTR_HELPER_STATE = "helperState";
 
     public static final String ATTR_CODE = "code";
 
-    public static final String ATTR_MAIL_ADDRESS = "email";   
+    public static final String ATTR_MAIL_ADDRESS = "email";
 
     @Column(name = "first_name")
-    @Length(min=2)
+    @Length(min = 2)
     private String firstName;
-    
+
     @Column(name = "last_name")
-    @Length(min=2)
+    @Length(min = 2)
     private String lastName;
-    
+
     @Temporal(TemporalType.DATE)
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
-    
+
     // @NotNull
     private String email;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name = "helper_state")
     @NotNull
@@ -80,32 +80,32 @@ public class Helper extends AbstractDbObject
     {
         return dateOfBirth;
     }
-    
+
     public void setDateOfBirth(Date dateOfBirth)
     {
         this.dateOfBirth = dateOfBirth;
     }
-    
+
     public String getEmail()
     {
         return email;
     }
-    
+
     public void setEmail(String email)
     {
         this.email = email;
     }
-    
+
     public HelperState getHelperState()
     {
         return helperState;
     }
-    
+
     public void setHelperState(HelperState helperState)
     {
         this.helperState = helperState;
     }
-    
+
     public String getCode()
     {
         return code;
@@ -115,10 +115,10 @@ public class Helper extends AbstractDbObject
     {
         this.code = code;
     }
-    
+
     public String toString()
     {
-        return getClass().getSimpleName() + " ["+lastName+", "+firstName+"]";
+        return getClass().getSimpleName() + " [" + lastName + ", " + firstName + "]";
     }
 
     public boolean isActive()
@@ -133,5 +133,10 @@ public class Helper extends AbstractDbObject
         cal.add(Calendar.YEAR, pos.getMinimalAge());
         Date added = cal.getTime();
         return (date.after(added));
+    }
+
+    public boolean isValid()
+    {
+        return ((!(StringUtil.isBlank(firstName))) && (!(StringUtil.isBlank(lastName))));
     }
 }

@@ -19,7 +19,7 @@ public class EventTreeNode<T> extends EntityTreeNode<Event>
     
     public String infoString()
     {
-        return getPayLoad().toString();
+        return ((Event) getPayLoad()).getDescription();
     }
     
     public HierarchicalEventItemType getItemType()

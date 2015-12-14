@@ -1,34 +1,33 @@
-package de.trispeedys.resourceplanning.messaging;
+package de.trispeedys.resourceplanning.messaging.template;
 
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
+import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 import de.trispeedys.resourceplanning.util.HtmlGenerator;
 
-public class AlertCancellationMailTemplate extends AbstractMailTemplate
+public class CancelConfirmationMailTemplate extends AbstractMailTemplate
 {
-    public AlertCancellationMailTemplate(Helper aHelper, Event aEvent, Position aPosition)
+    public CancelConfirmationMailTemplate(Helper aHelper, Event aEvent, Position aPosition)
     {
         super(aHelper, aEvent, aPosition);
     }
 
     public String constructBody()
     {
-        return new HtmlGenerator(true).withParagraph("Hallo, Admin!!")
-                .withParagraph(
-                        "Helfer " +
-                                getHelper().getLastName() + ", " + getHelper().getFirstName() + " (Position: " +
-                                getPosition().getDescription() + ") hat leider abgesagt!!")
+        return new HtmlGenerator(true).withParagraph("Hallo " + getHelper().getFirstName() + "!")
+                .withParagraph("Du hast Deinen Einsatz auf der Position '" + getPosition().getDescription() + "' erfolgreich gekündigt.")
+                .withParagraph("Deine Tri-Speedys.")
                 .render();
     }
 
     public String constructSubject()
     {
-        return "Helfer-Absage für den Wettkampf " + getEvent().getDescription();
+        return "Bestätigung Deiner Absage";
     }
-
+    
     public MessagingFormat getMessagingFormat()
     {
         return MessagingFormat.HTML;
@@ -36,6 +35,6 @@ public class AlertCancellationMailTemplate extends AbstractMailTemplate
 
     public MessagingType getMessagingType()
     {
-        return MessagingType.ALERT_BOOKING_CANCELLED;
+        return MessagingType.CANCELLATION_CONFIRM;
     }
 }

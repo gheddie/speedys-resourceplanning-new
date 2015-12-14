@@ -3,6 +3,7 @@ package de.trispeedys.resourceplanning.components.treetable;
 import java.awt.Dimension;
 
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 public class TreeTable extends JTable
 {
@@ -51,6 +52,8 @@ public class TreeTable extends JTable
 
         // Keine Abstaende.
         setIntercellSpacing(new Dimension(0, 0));
+        
+        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
     
     public TreeTableDataNode getPathComponent()

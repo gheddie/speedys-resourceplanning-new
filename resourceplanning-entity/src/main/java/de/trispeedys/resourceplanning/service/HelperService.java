@@ -12,6 +12,8 @@ import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
+import de.trispeedys.resourceplanning.repository.HelperRepository;
+import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 public class HelperService
 {
@@ -28,10 +30,9 @@ public class HelperService
 
     public static void deactivateHelper(Long helperId)
     {
-        DefaultDatasource<Helper> datasource = Datasources.getDatasource(Helper.class);
-        Helper helper = (Helper) datasource.findById(null, helperId);
-        helper.setHelperState(HelperState.INACTIVE);
-        helper.saveOrUpdate();
+        HelperRepository repository = RepositoryProvider.getRepository(HelperRepository.class);
+        Helper helper = repository.findById(helperId);
+        repository.updateSingleValue(helper, Helper.ATTR_HELPER_STATE, HelperState.INACTIVE);
     }
 
     public static boolean isHelperAssignedForPosition(Helper helper, Event event, Position position)

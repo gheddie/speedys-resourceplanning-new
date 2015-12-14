@@ -4,7 +4,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 
 import de.trispeedys.resourceplanning.delegate.requesthelp.misc.RequestHelpNotificationDelegate;
 import de.trispeedys.resourceplanning.entity.Helper;
-import de.trispeedys.resourceplanning.messaging.DeactivationRecoveryMailTemplate;
+import de.trispeedys.resourceplanning.messaging.template.DeactivationRecoveryMailTemplate;
 import de.trispeedys.resourceplanning.service.MessagingService;
 
 public class SendDeactivationRequestDelegate extends RequestHelpNotificationDelegate

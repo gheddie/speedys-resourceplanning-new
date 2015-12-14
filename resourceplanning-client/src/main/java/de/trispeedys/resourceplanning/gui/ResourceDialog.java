@@ -13,20 +13,8 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
-import javax.swing.*;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.JToggleButton;
-import javax.swing.JToolBar;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -43,6 +31,7 @@ import de.trispeedys.resourceplanning.gui.builder.TableModelBuilder;
 import de.trispeedys.resourceplanning.singleton.AppSingleton;
 import de.trispeedys.resourceplanning.thread.SendMessagesThread;
 import de.trispeedys.resourceplanning.thread.StartExecutionsThread;
+import de.trispeedys.resourceplanning.util.HierarchicalEventItemType;
 import de.trispeedys.resourceplanning.webservice.EventDTO;
 import de.trispeedys.resourceplanning.webservice.ExecutionDTO;
 import de.trispeedys.resourceplanning.webservice.HelperDTO;
@@ -83,16 +72,15 @@ public class ResourceDialog extends SpeedyFrame
     private List<PositionDTO> availablePositions;
 
     private List<ExecutionDTO> executions;
-    
+
     private List<MessageDTO> unsentMessages;
 
     private PositionDTO selectedAvailablePosition;
 
-    // private ResourceInfo resourceInfo = null;
+    private MessageDTO selectedMessage;
 
-    private MessageDTO selectedMessage;   
-
-    public ResourceDialog(String title, boolean resizable, boolean closable, boolean maximizable, boolean iconifiable, SpeedyView parentFrame)
+    public ResourceDialog(String title, boolean resizable, boolean closable, boolean maximizable, boolean iconifiable,
+            SpeedyView parentFrame)
     {
         super(title, resizable, closable, maximizable, iconifiable, parentFrame);
         initComponents();
@@ -176,12 +164,29 @@ public class ResourceDialog extends SpeedyFrame
                     mesageSelected(unsentMessages.get(convertedRowIndex));
                 }
             }
-        });        
+        });
+        // post processing source
+        treeTablePostProcessingSource.getSelectionModel().addListSelectionListener(new ListSelectionListener()
+        {
+            public void valueChanged(ListSelectionEvent e)
+            {
+                System.out.println("...source...");
+            }
+        });
+        // post processing target
+        treeTablePostProcessingTarget.getSelectionModel().addListSelectionListener(new ListSelectionListener()
+        {
+            public void valueChanged(ListSelectionEvent e)
+            {
+                System.out.println("...target...");
+            }
+        });
     }
 
     private void btnFinishProcessesPressed(ActionEvent e)
     {
-        if (JOptionPane.showConfirmDialog(ResourceDialog.this, "Planungen abschliessen?", "Bestätigung", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+        if (JOptionPane.showConfirmDialog(ResourceDialog.this, "Planungen abschliessen?", "Bestätigung",
+                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
         {
             AppSingleton.getInstance().getPort().finishUp();
         }
@@ -199,7 +204,7 @@ public class ResourceDialog extends SpeedyFrame
     private void refreshMessages()
     {
         unsentMessages = AppSingleton.getInstance().getPort().queryUnsentMessages().getItem();
-        tbMessages.setModel(TableModelBuilder.createGenericTableModel(unsentMessages));        
+        tbMessages.setModel(TableModelBuilder.createGenericTableModel(unsentMessages));
     }
 
     private void refreshExecutions()
@@ -228,9 +233,11 @@ public class ResourceDialog extends SpeedyFrame
 
     private void eventSelected(EventDTO event)
     {
+        updateAssignmentProgress(event.getAssignmentCount(), event.getPositionCount());
         selectedEvent = event;
         System.out.println("event selected : " + event.getDescription());
         fillTree(selectedEvent.getEventId());
+        fillPostProcessing(selectedEvent.getEventId());
     }
 
     private void manualAssignmentSelected(ManualAssignmentDTO manualAssignment)
@@ -238,11 +245,11 @@ public class ResourceDialog extends SpeedyFrame
         System.out.println("assignment selected : " + manualAssignment.getHelperName());
         selectedManualAssignment = manualAssignment;
     }
-    
+
     private void mesageSelected(MessageDTO message)
     {
         System.out.println("message selected : " + message.getSubject());
-        selectedMessage = message;        
+        selectedMessage = message;
         fillMessageDetails();
     }
 
@@ -256,7 +263,7 @@ public class ResourceDialog extends SpeedyFrame
     {
         System.out.println("helper selected : " + helperDTO.getLastName());
     }
-    
+
     private void fillMessageDetails()
     {
         tfRecipient.setText(selectedMessage.getRecipient());
@@ -264,11 +271,23 @@ public class ResourceDialog extends SpeedyFrame
         taBody.setText(selectedMessage.getBody());
     }
 
+    private void fillPostProcessing(Long eventId)
+    {
+        if (eventId != null)
+        {
+            TreeTableDataModel model =
+                    new TreeTableDataModel(ResourcePlanningClientRoutines.createDataStructure(eventId, true));
+            treeTablePostProcessingSource.setModel(model);
+            treeTablePostProcessingTarget.setModel(model);
+        }
+    }
+
     private void fillTree(Long eventId)
     {
         if (eventId != null)
         {
-            treeTablePositions.setModel(new TreeTableDataModel(ResourcePlanningClientRoutines.createDataStructure(eventId, chkUnassignedOnly.isSelected())));
+            treeTablePositions.setModel(new TreeTableDataModel(ResourcePlanningClientRoutines.createDataStructure(
+                    eventId, false)));
         }
         else
         {
@@ -302,12 +321,17 @@ public class ResourceDialog extends SpeedyFrame
             return;
         }
         String message =
-                "Dem Helfer " + selectedManualAssignment.getHelperName() + " die freie Position " + selectedAvailablePosition.getDescription() + " zuweisen?";
+                "Dem Helfer " +
+                        selectedManualAssignment.getHelperName() + " die freie Position " +
+                        selectedAvailablePosition.getDescription() + " zuweisen?";
         if (JOptionPane.showConfirmDialog(ResourceDialog.this, message, "Bestätigung", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
         {
             try
             {
-                AppSingleton.getInstance().getPort().completeManualAssignment(selectedManualAssignment.getTaskId(), selectedAvailablePosition.getPositionId());
+                AppSingleton.getInstance()
+                        .getPort()
+                        .completeManualAssignment(selectedManualAssignment.getTaskId(),
+                                selectedAvailablePosition.getPositionId());
             }
             catch (Exception e2)
             {
@@ -330,7 +354,8 @@ public class ResourceDialog extends SpeedyFrame
             return;
         }
         // TODO ignore canceled asignments !!
-        availablePositions = AppSingleton.getInstance().getPort().queryAvailablePositions(selectedEvent.getEventId()).getItem();
+        availablePositions =
+                AppSingleton.getInstance().getPort().queryAvailablePositions(selectedEvent.getEventId()).getItem();
         tbAvailablePositions.setModel(TableModelBuilder.createGenericTableModel(availablePositions));
     }
 
@@ -369,29 +394,43 @@ public class ResourceDialog extends SpeedyFrame
         refreshExecutions();
     }
 
-    private void btnSendMessagesPressed(ActionEvent e) {
-        //start sending messages in a thread
+    private void btnSendMessagesPressed(ActionEvent e)
+    {
+        // start sending messages in a thread
         new SendMessagesThread().start();
     }
-    
+
     private void btnPlanPressed(ActionEvent e)
     {
-        //start process instances in a thread
+        // start process instances in a thread
         if (selectedEvent != null)
         {
             new StartExecutionsThread(selectedEvent.getEventId(), this).start();
         }
     }
 
-    private void btnRefreshMessagesPressed(ActionEvent e) {
+    private void btnRefreshMessagesPressed(ActionEvent e)
+    {
         refreshMessages();
     }
 
-    private void btnAnonymizePressed(ActionEvent e) {
+    private void btnAnonymizePressed(ActionEvent e)
+    {
         // AppSingleton.getInstance().getPort().anonymizeHelperAddresses();
     }
 
-    private void btnMessageFormatStateChanged(ChangeEvent e) {
+    private void btnRefreshPostProcessingPressed(ActionEvent e)
+    {
+        if (selectedEvent == null)
+        {
+            JOptionPane.showMessageDialog(ResourceDialog.this, "Bitte ein Event wählen!!");
+            return;
+        }
+        fillPostProcessing(selectedEvent.getEventId());
+    }
+
+    private void btnMessageFormatStateChanged(ChangeEvent e)
+    {
         boolean selected = ((JToggleButton) e.getSource()).isSelected();
         System.out.println(selected);
         if (selected)
@@ -403,6 +442,41 @@ public class ResourceDialog extends SpeedyFrame
             taBody.setContentType("text/plain");
         }
         // taBody.repaint();
+    }
+
+    private void btnSwapPositionsPressed(ActionEvent e)
+    {
+        TreeTableDataNode sourceSwapNode = treeTablePostProcessingSource.getPathComponent();
+        TreeTableDataNode targetSwapNode = treeTablePostProcessingTarget.getPathComponent();
+        
+        if ((sourceSwapNode == null) || (targetSwapNode == null))
+        {
+            JOptionPane.showMessageDialog(ResourceDialog.this, "Bitte eine Quelle und ein Ziel wählen!!");
+            return;
+        }
+        if ((!(sourceSwapNode.getEventItemType().equals(HierarchicalEventItemType.POSITION))) ||
+                (!(targetSwapNode.getEventItemType().equals(HierarchicalEventItemType.POSITION))))
+        {
+            JOptionPane.showMessageDialog(ResourceDialog.this, "Quelle und Ziel müssen Positionen sein!!");
+            return;
+        }
+        if (sourceSwapNode.getEntityId().equals(targetSwapNode.getEntityId()))
+        {
+            JOptionPane.showMessageDialog(ResourceDialog.this, "Quellen - und Ziel-Position müssen unterschiedlich sein!!");
+            return;
+        }
+        if (JOptionPane.showConfirmDialog(ResourceDialog.this, "Positionen '"+sourceSwapNode.getDescription()+"' und '"+targetSwapNode.getDescription()+"' tauschen?", "Bestätigung",
+                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+        {
+            AppSingleton.getInstance().getPort().swapPositions(sourceSwapNode.getEntityId(), targetSwapNode.getEntityId(), selectedEvent.getEventId());   
+        }        
+    }
+    
+    private void updateAssignmentProgress(int assignmentCount, int positionCount)
+    {
+        pgMain.setMinimum(0);
+        pgMain.setValue(assignmentCount);
+        pgMain.setMaximum(positionCount);
     }
 
     private void initComponents()
@@ -460,6 +534,16 @@ public class ResourceDialog extends SpeedyFrame
         lblBody = new JLabel();
         scBody = new JScrollPane();
         taBody = new JTextPane();
+        pnlPostProcessing = new JPanel();
+        borderPostProcessingSource = new JPanel();
+        scPostProcessingSource = new JScrollPane();
+        treeTablePostProcessingSource = new TreeTable();
+        toolBar1 = new JToolBar();
+        btnRefreshPostProcessing = new JButton();
+        btnSwapPositions = new JButton();
+        borderPostProcessingTarget = new JPanel();
+        scPostProcessingTarget = new JScrollPane();
+        treeTablePostProcessingTarget = new TreeTable();
         pgMain = new JProgressBar();
 
         //======== this ========
@@ -925,10 +1009,93 @@ public class ResourceDialog extends SpeedyFrame
                     new Insets(0, 0, 0, 0), 0, 0));
             }
             tdbMain.addTab("Nachrichten", pnlMessages);
+
+            //======== pnlPostProcessing ========
+            {
+                pnlPostProcessing.setLayout(new GridBagLayout());
+                ((GridBagLayout)pnlPostProcessing.getLayout()).columnWidths = new int[] {0, 0};
+                ((GridBagLayout)pnlPostProcessing.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+                ((GridBagLayout)pnlPostProcessing.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+                ((GridBagLayout)pnlPostProcessing.getLayout()).rowWeights = new double[] {1.0, 0.0, 1.0, 1.0E-4};
+
+                //======== borderPostProcessingSource ========
+                {
+                    borderPostProcessingSource.setBorder(new TitledBorder("Quelle"));
+                    borderPostProcessingSource.setLayout(new GridBagLayout());
+                    ((GridBagLayout)borderPostProcessingSource.getLayout()).columnWidths = new int[] {0, 0};
+                    ((GridBagLayout)borderPostProcessingSource.getLayout()).rowHeights = new int[] {0, 0};
+                    ((GridBagLayout)borderPostProcessingSource.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+                    ((GridBagLayout)borderPostProcessingSource.getLayout()).rowWeights = new double[] {1.0, 1.0E-4};
+
+                    //======== scPostProcessingSource ========
+                    {
+                        scPostProcessingSource.setViewportView(treeTablePostProcessingSource);
+                    }
+                    borderPostProcessingSource.add(scPostProcessingSource, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
+                }
+                pnlPostProcessing.add(borderPostProcessingSource, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
+
+                //======== toolBar1 ========
+                {
+                    toolBar1.setFloatable(false);
+
+                    //---- btnRefreshPostProcessing ----
+                    btnRefreshPostProcessing.setText("Aktualisieren");
+                    btnRefreshPostProcessing.setIcon(new ImageIcon(getClass().getResource("/img/reload16px.png")));
+                    btnRefreshPostProcessing.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            btnRefreshPostProcessingPressed(e);
+                        }
+                    });
+                    toolBar1.add(btnRefreshPostProcessing);
+
+                    //---- btnSwapPositions ----
+                    btnSwapPositions.setText("Tauschen");
+                    btnSwapPositions.setIcon(new ImageIcon(getClass().getResource("/img/swap16px.png")));
+                    btnSwapPositions.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            btnSwapPositionsPressed(e);
+                        }
+                    });
+                    toolBar1.add(btnSwapPositions);
+                }
+                pnlPostProcessing.add(toolBar1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
+
+                //======== borderPostProcessingTarget ========
+                {
+                    borderPostProcessingTarget.setBorder(new TitledBorder("Ziel"));
+                    borderPostProcessingTarget.setLayout(new GridBagLayout());
+                    ((GridBagLayout)borderPostProcessingTarget.getLayout()).columnWidths = new int[] {0, 0};
+                    ((GridBagLayout)borderPostProcessingTarget.getLayout()).rowHeights = new int[] {0, 0};
+                    ((GridBagLayout)borderPostProcessingTarget.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+                    ((GridBagLayout)borderPostProcessingTarget.getLayout()).rowWeights = new double[] {1.0, 1.0E-4};
+
+                    //======== scPostProcessingTarget ========
+                    {
+                        scPostProcessingTarget.setViewportView(treeTablePostProcessingTarget);
+                    }
+                    borderPostProcessingTarget.add(scPostProcessingTarget, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
+                }
+                pnlPostProcessing.add(borderPostProcessingTarget, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
+            }
+            tdbMain.addTab("Nachbearbeitung", pnlPostProcessing);
         }
         contentPane.add(tdbMain, new GridBagConstraints(0, 1, 3, 2, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
+
+        //---- pgMain ----
+        pgMain.setStringPainted(true);
         contentPane.add(pgMain, new GridBagConstraints(0, 3, 3, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
@@ -988,6 +1155,16 @@ public class ResourceDialog extends SpeedyFrame
     private JLabel lblBody;
     private JScrollPane scBody;
     private JTextPane taBody;
+    private JPanel pnlPostProcessing;
+    private JPanel borderPostProcessingSource;
+    private JScrollPane scPostProcessingSource;
+    private TreeTable treeTablePostProcessingSource;
+    private JToolBar toolBar1;
+    private JButton btnRefreshPostProcessing;
+    private JButton btnSwapPositions;
+    private JPanel borderPostProcessingTarget;
+    private JScrollPane scPostProcessingTarget;
+    private TreeTable treeTablePostProcessingTarget;
     private JProgressBar pgMain;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 }

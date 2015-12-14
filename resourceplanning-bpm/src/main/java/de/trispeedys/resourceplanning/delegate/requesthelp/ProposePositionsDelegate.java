@@ -10,7 +10,7 @@ import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
-import de.trispeedys.resourceplanning.messaging.ProposePositionsMailTemplate;
+import de.trispeedys.resourceplanning.messaging.template.ProposePositionsMailTemplate;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.service.AssignmentService;

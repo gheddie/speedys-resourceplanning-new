@@ -25,4 +25,8 @@ public class AppConfigurationValues
     public static final String CONF_ATTR_NAME = "name";
 
     public static final String PROPERTY_NODE_NAME = "property";
+    
+    // ---test stuff
+    
+    public static final String PROCESS_TEST_MAIL = "process_test_mail";
 }

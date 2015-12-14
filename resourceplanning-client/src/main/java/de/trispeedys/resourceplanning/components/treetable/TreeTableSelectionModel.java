@@ -7,6 +7,8 @@ import javax.swing.tree.DefaultTreeSelectionModel;
 
 public class TreeTableSelectionModel extends DefaultTreeSelectionModel
 {
+    private static final long serialVersionUID = -530155318091269044L;
+
     public TreeTableSelectionModel()
     {
         super();

@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.messaging;
+package de.trispeedys.resourceplanning.messaging.template;
 
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
@@ -6,10 +6,16 @@ import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.interaction.HelperInteraction;
+import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 import de.trispeedys.resourceplanning.util.HtmlGenerator;
 
 public class BookingConfirmationMailTemplate extends AbstractMailTemplate
 {
+    public BookingConfirmationMailTemplate()
+    {
+        this(null, null, null);
+    }
+    
     public BookingConfirmationMailTemplate(Helper aHelper, Event aEvent, Position aPosition)
     {
         super(aHelper, aEvent, aPosition);

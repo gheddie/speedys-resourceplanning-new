@@ -5,6 +5,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import de.trispeedys.resourceplanning.persistence.SessionManager;
+
 public class HibernateUtil
 {
     private static final SessionFactory sessionFactory = buildSessionFactory();
@@ -51,11 +53,11 @@ public class HibernateUtil
 
     private static void clearTable(String tableName)
     {
-        Session session = getSessionFactory().openSession();
+        Session session = SessionManager.getInstance().getSession(null);
         Transaction tx = session.beginTransaction();
         String queryString = "delete from " + tableName;
         session.createSQLQuery(queryString).executeUpdate();
         tx.commit();
-        session.close();
+        SessionManager.getInstance().unregisterSession(session);
     }
 }

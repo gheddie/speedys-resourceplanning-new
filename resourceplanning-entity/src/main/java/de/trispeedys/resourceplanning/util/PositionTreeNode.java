@@ -27,7 +27,7 @@ public class PositionTreeNode<T> extends EntityTreeNode<Position>
 
     public String infoString()
     {
-        return ((AssignmentContainer) getPayLoad()).getPosition().toString();
+        return ((AssignmentContainer) getPayLoad()).getPosition().getDescription();
     }
 
     public HierarchicalEventItemType getItemType()

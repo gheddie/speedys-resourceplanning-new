@@ -7,7 +7,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import de.trispeedys.resourceplanning.HibernateUtil;
 import de.trispeedys.resourceplanning.entity.AbstractDbObject;
 import de.trispeedys.resourceplanning.persistence.SessionManager;
 import de.trispeedys.resourceplanning.persistence.SessionToken;
@@ -16,7 +15,7 @@ import de.trispeedys.resourceplanning.util.exception.ResourcePlanningPersistence
 public abstract class DefaultDatasource<T> implements IDatasource
 {
     @SuppressWarnings({
-            "rawtypes", "unchecked"
+            "rawtypes", "unchecked", "hiding"
     })
     public <T> List<T> find(SessionToken sessionToken, String qryString, HashMap<String, Object> parameters)
     {
@@ -32,8 +31,8 @@ public abstract class DefaultDatasource<T> implements IDatasource
         List result = q.list();
         if (sessionToken == null)
         {
-            // 'single use' session, so close it...
-            session.close();  
+            // 'single use' session, so close it...            
+            unregisterSession(session);  
         }
         return result;
     }
@@ -44,6 +43,7 @@ public abstract class DefaultDatasource<T> implements IDatasource
         return (List<T>) find(sessionToken, qryString, null);
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> find(SessionToken sessionToken, String qryString, String paramaterName, Object paramaterValue)
     {
         HashMap<String, Object> parameters = new HashMap<String, Object>();
@@ -51,7 +51,9 @@ public abstract class DefaultDatasource<T> implements IDatasource
         return find(sessionToken, qryString, parameters);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({
+            "unchecked", "hiding"
+    })
     public <T> List<T> find(SessionToken sessionToken, String paramaterName, Object paramaterValue)
     {
         return (List<T>) find(sessionToken, "FROM " +
@@ -59,6 +61,7 @@ public abstract class DefaultDatasource<T> implements IDatasource
                 paramaterValue);
     }
     
+    @SuppressWarnings("hiding")
     public <T> void remove(SessionToken sessionToken, T entity)
     {
         Transaction tx = null;
@@ -69,10 +72,11 @@ public abstract class DefaultDatasource<T> implements IDatasource
         if (sessionToken == null)
         {
             // 'single use' session, so close it...
-            session.close();     
+            unregisterSession(session);     
         }      
     }
     
+    @SuppressWarnings("hiding")
     public <T> T saveOrUpdate(SessionToken sessionToken, T entity)
     {
         Transaction tx = null;
@@ -90,17 +94,22 @@ public abstract class DefaultDatasource<T> implements IDatasource
         if (sessionToken == null)
         {
             // 'single use' session, so close it...
-            session.close();     
+            unregisterSession(session);     
         }
         return (T) entity;
     }    
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({
+            "unchecked", "hiding"
+    })
     public <T> List<T> findAll(SessionToken sessionToken)
     {
         return (List<T>) find(sessionToken, "FROM " + getGenericType().getSimpleName());
     }
     
+    @SuppressWarnings({
+            "hiding", "unchecked"
+    })
     public <T> List<T> find(SessionToken sessionToken, Object... filters)
     {
         if ((filters == null) || (filters.length == 0))
@@ -136,6 +145,7 @@ public abstract class DefaultDatasource<T> implements IDatasource
         return find(sessionToken, qryString, parameters);
     }
     
+    @SuppressWarnings("hiding")
     public <T> T findSingle(SessionToken sessionToken, String qryString, HashMap<String, Object> parameters)
     {
         List<T> result = find(sessionToken, qryString, parameters);
@@ -143,6 +153,9 @@ public abstract class DefaultDatasource<T> implements IDatasource
         return result.get(0);
     }
 
+    @SuppressWarnings({
+            "unchecked", "hiding"
+    })
     public <T> T findSingle(SessionToken sessionToken, String qryString)
     {
         List<T> result = (List<T>) find(sessionToken, qryString);
@@ -150,6 +163,9 @@ public abstract class DefaultDatasource<T> implements IDatasource
         return result.get(0);
     }
 
+    @SuppressWarnings({
+            "unchecked", "hiding"
+    })
     public <T> T findSingle(SessionToken sessionToken, String qryString, String paramaterName, Object paramaterValue)
     {
         List<T> result = (List<T>) find(sessionToken, qryString, paramaterName, paramaterValue);
@@ -157,6 +173,7 @@ public abstract class DefaultDatasource<T> implements IDatasource
         return result.get(0);
     }
 
+    @SuppressWarnings("hiding")
     public <T> T findSingle(SessionToken sessionToken, String paramaterName, Object paramaterValue)
     {
         List<T> result = find(sessionToken, paramaterName, paramaterValue);
@@ -164,6 +181,7 @@ public abstract class DefaultDatasource<T> implements IDatasource
         return result.get(0);
     }
 
+    @SuppressWarnings("hiding")
     public <T> T findSingle(SessionToken sessionToken, Object... filters)
     {
         List<T> result = find(sessionToken, filters);
@@ -179,7 +197,9 @@ public abstract class DefaultDatasource<T> implements IDatasource
         }
     }
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({
+            "unchecked", "hiding"
+    })
     public <T> T findById(SessionToken sessionToken, Long primaryKeyValue)
     {
         if (primaryKeyValue == null)
@@ -195,4 +215,9 @@ public abstract class DefaultDatasource<T> implements IDatasource
      * @return
      */
     protected abstract Class<T> getGenericType();
+    
+    private void unregisterSession(Session session)
+    {
+        SessionManager.getInstance().unregisterSession(session);
+    }
 }

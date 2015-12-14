@@ -16,7 +16,7 @@ import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
-import de.trispeedys.resourceplanning.messaging.ProposePositionsMailTemplate;
+import de.trispeedys.resourceplanning.messaging.template.ProposePositionsMailTemplate;
 import de.trispeedys.resourceplanning.service.MessagingService;
 
 public class MailTemplateTest

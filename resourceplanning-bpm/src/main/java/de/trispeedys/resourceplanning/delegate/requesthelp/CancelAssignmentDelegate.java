@@ -6,7 +6,7 @@ import de.trispeedys.resourceplanning.delegate.requesthelp.misc.RequestHelpNotif
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
-import de.trispeedys.resourceplanning.messaging.CancelConfirmationMailTemplate;
+import de.trispeedys.resourceplanning.messaging.template.CancelConfirmationMailTemplate;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.service.AssignmentService;

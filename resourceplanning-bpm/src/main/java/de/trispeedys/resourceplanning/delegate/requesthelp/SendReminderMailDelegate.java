@@ -11,7 +11,7 @@ import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HistoryType;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
-import de.trispeedys.resourceplanning.messaging.SendReminderMailTemplate;
+import de.trispeedys.resourceplanning.messaging.template.SendReminderMailTemplate;
 import de.trispeedys.resourceplanning.service.MessagingService;
 
 public class SendReminderMailDelegate extends RequestHelpNotificationDelegate

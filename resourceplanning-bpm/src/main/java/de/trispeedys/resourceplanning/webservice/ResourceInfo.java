@@ -31,9 +31,12 @@ import de.trispeedys.resourceplanning.dto.MessageDTO;
 import de.trispeedys.resourceplanning.dto.PositionDTO;
 import de.trispeedys.resourceplanning.entity.AggregationRelation;
 import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
+import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.MessageQueue;
 import de.trispeedys.resourceplanning.entity.Position;
+import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
@@ -41,8 +44,12 @@ import de.trispeedys.resourceplanning.execution.BpmSignals;
 import de.trispeedys.resourceplanning.execution.BpmTaskDefinitionKeys;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.interaction.EventManager;
+import de.trispeedys.resourceplanning.persistence.SessionHolder;
+import de.trispeedys.resourceplanning.persistence.SessionManager;
 import de.trispeedys.resourceplanning.repository.AggregationRelationRepository;
+import de.trispeedys.resourceplanning.repository.EventPositionRepository;
 import de.trispeedys.resourceplanning.repository.EventRepository;
+import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
@@ -117,6 +124,8 @@ public class ResourceInfo
         {
             dto = new EventDTO();
             dto.setDescription(event.getDescription());
+            dto.setPositionCount(RepositoryProvider.getRepository(EventPositionRepository.class).findByEvent(event).size());
+            dto.setAssignmentCount(RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByEvent(event).size());
             dto.setEventId(event.getId());
             dto.setEventState(event.getEventState().toString());
             dto.setEventDate(event.getEventDate());
@@ -140,7 +149,7 @@ public class ResourceInfo
     }
 
     @SuppressWarnings("rawtypes")
-    public HierarchicalEventItemDTO[] getEventNodes(Long eventId, boolean onlyUnassignedPositions)
+    public HierarchicalEventItemDTO[] getEventNodes(Long eventId, boolean confirmedAssignmentsOnly)
     {
         if (eventId == null)
         {
@@ -159,7 +168,7 @@ public class ResourceInfo
         {
             return null;
         }
-        List<EntityTreeNode> nodes = SpeedyRoutines.flattenedEventNodes(event, onlyUnassignedPositions);
+        List<EntityTreeNode> nodes = SpeedyRoutines.flattenedEventNodes(event, confirmedAssignmentsOnly);
         List<HierarchicalEventItemDTO> dtos = new ArrayList<HierarchicalEventItemDTO>();
         HierarchicalEventItemDTO dto = null;
         PositionTreeNode positionNode = null;
@@ -355,5 +364,50 @@ public class ResourceInfo
         {
             EventManager.startHelperRequestProcess(helper, event);
         }
-    }    
+    }
+    
+    public void swapPositions(Long helperIdSource, Long helperIdTarget, Long eventId)
+    {
+        if (eventId == null)
+        {
+            throw new ResourcePlanningException("event must not be NULL!!");
+        }
+        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        if (event == null)
+        {
+            throw new ResourcePlanningException("event with id '"+eventId+"' could not be found!!");
+        }        
+        if (!(event.getEventState().equals(EventState.INITIATED)))
+        {
+            throw new ResourcePlanningException("event must be initiated!!");
+        }        
+        HelperAssignmentRepository repository = RepositoryProvider.getRepository(HelperAssignmentRepository.class);
+
+        HelperAssignment assignmentSource = repository.findByHelperAndEvent(RepositoryProvider.getRepository(HelperRepository.class).findById(helperIdSource), event);
+        HelperAssignment assignmentTarget = repository.findByHelperAndEvent(RepositoryProvider.getRepository(HelperRepository.class).findById(helperIdTarget), event);
+        
+        Position posSource = assignmentSource.getPosition();
+        Position posTarget = assignmentTarget.getPosition();
+        
+        SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this);
+        Transaction tx = null;        
+        try
+        {
+            tx = sessionHolder.beginTransaction();
+            assignmentSource.setPosition(posTarget);
+            sessionHolder.saveOrUpdate(assignmentSource);
+            assignmentTarget.setPosition(posSource);
+            sessionHolder.saveOrUpdate(assignmentTarget);
+            tx.commit();   
+        }
+        catch (Exception e)
+        {
+            tx.rollback();
+            throw new ResourcePlanningException("positions could not be swapped : " + e.getMessage());
+        }
+        finally
+        {
+            SessionManager.getInstance().unregisterSession(sessionHolder);   
+        }
+    }
 }

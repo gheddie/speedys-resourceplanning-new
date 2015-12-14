@@ -1,5 +1,7 @@
 package de.trispeedys.resourceplanning.repository;
 
+import java.util.List;
+
 import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.EventPositionDatasource;
 import de.trispeedys.resourceplanning.entity.Event;
@@ -20,5 +22,10 @@ public class EventPositionRepository extends AbstractDatabaseRepository<EventPos
     protected DefaultDatasource<EventPosition> createDataSource()
     {
         return new EventPositionDatasource();
+    }
+
+    public List<EventPosition> findByEvent(Event event)
+    {
+        return dataSource().find(null, EventPosition.ATTR_EVENT, event);
     }
 }

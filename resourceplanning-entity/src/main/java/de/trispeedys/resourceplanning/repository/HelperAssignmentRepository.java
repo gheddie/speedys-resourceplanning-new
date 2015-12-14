@@ -7,8 +7,10 @@ import de.trispeedys.resourceplanning.datasource.HelperAssignmentDatasource;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
+import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.repository.base.AbstractDatabaseRepository;
 import de.trispeedys.resourceplanning.repository.base.DatabaseRepository;
+import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 public class HelperAssignmentRepository extends AbstractDatabaseRepository<HelperAssignment> implements
         DatabaseRepository<HelperAssignmentRepository>
@@ -53,5 +55,15 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
     public List<HelperAssignment> getHelperAssignments(Helper helper, Event event)
     {
         return dataSource().find(null, HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event);
+    }
+
+    public List<HelperAssignment> findByEventAndPosition(Event event, Position position)
+    {
+        return dataSource().find(null, HelperAssignment.ATTR_EVENT, event, HelperAssignment.ATTR_POSITION, position);
+    }
+
+    public List<HelperAssignment> findByEventAndPositionId(Event event, Long positionId)
+    {
+        return findByEventAndPosition(event, RepositoryProvider.getRepository(PositionRepository.class).findById(positionId));
     }
 }

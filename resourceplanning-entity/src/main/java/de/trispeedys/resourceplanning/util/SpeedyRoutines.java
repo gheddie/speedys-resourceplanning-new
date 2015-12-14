@@ -33,13 +33,18 @@ import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.comparator.EnumeratedEventItemComparator;
 import de.trispeedys.resourceplanning.util.comparator.TreeNodeComparator;
-import de.trispeedys.resourceplanning.util.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class SpeedyRoutines
 {
     public static Event duplicateEvent(Event event, String description, String eventKey, int day, int month, int year,
             List<Integer> positionExcludes, List<PositionInclude> includes)
+    {
+        return duplicateEvent(event, description, eventKey, day, month, year, positionExcludes, includes, EventState.PLANNED);
+    }
+    
+    public static Event duplicateEvent(Event event, String description, String eventKey, int day, int month, int year,
+            List<Integer> positionExcludes, List<PositionInclude> includes, EventState eventState)
     {
         if (event == null)
         {
@@ -51,8 +56,8 @@ public class SpeedyRoutines
         }
         checkExcludes(event, positionExcludes);
         Event newEvent =
-                EntityFactory.buildEvent(description, eventKey, day, month, year, EventState.PLANNED, event.getEventTemplate(),
-                        null).saveOrUpdate();
+                EntityFactory.buildEvent(description, eventKey, day, month, year, eventState,
+                        event.getEventTemplate(), null).saveOrUpdate();
         List<EventPosition> posRelations = Datasources.getDatasource(EventPosition.class).find(null, "event", event);
         Position pos = null;
         for (EventPosition evtpos : posRelations)
@@ -124,7 +129,7 @@ public class SpeedyRoutines
         if ((StringUtil.isBlank(helper.getFirstName())) || (helper.getFirstName().length() < 2))
         {
             throw new ResourcePlanningException("helpers first name must be at least 2 digits long!!");
-        }        
+        }
         Calendar cal = Calendar.getInstance();
         cal.setTime(helper.getDateOfBirth());
         StringBuffer result = new StringBuffer();
@@ -159,7 +164,7 @@ public class SpeedyRoutines
             EntityFactory.buildEventPosition(event, position).saveOrUpdate();
         }
     }
-    
+
     public static void createPositionAggregation(String groupName, Position... positions)
     {
         if (StringUtil.isBlank(groupName))
@@ -168,8 +173,9 @@ public class SpeedyRoutines
         }
         if ((positions == null) || (positions.length == 0))
         {
-            throw new ResourcePlanningException("at least one position must be provided for creating a position aggregation!!");
-        }   
+            throw new ResourcePlanningException(
+                    "at least one position must be provided for creating a position aggregation!!");
+        }
         PositionAggregation aggregation = EntityFactory.buildPositionAggregation(groupName).saveOrUpdate();
         for (Position pos : positions)
         {
@@ -196,21 +202,23 @@ public class SpeedyRoutines
             EntityFactory.buildHelperAssignment(helper, event, position).saveOrUpdate();
         }
     }
-    
+
     public static void confirmHelperToPositions(Helper helper, Event event, Position... positions)
     {
         for (Position position : positions)
         {
-            EntityFactory.buildHelperAssignment(helper, event, position, HelperAssignmentState.CONFIRMED).saveOrUpdate();
-        }        
+            EntityFactory.buildHelperAssignment(helper, event, position, HelperAssignmentState.CONFIRMED)
+                    .saveOrUpdate();
+        }
     }
 
-    public static EntityTreeNode eventAsTree(Long eventId, boolean onlyUnassigned)
+    public static EntityTreeNode eventAsTree(Long eventId, boolean confirmedAssignmentsOnly)
     {
-        return eventAsTree(RepositoryProvider.getRepository(EventRepository.class).findById(eventId), onlyUnassigned);
+        return eventAsTree(RepositoryProvider.getRepository(EventRepository.class).findById(eventId),
+                confirmedAssignmentsOnly);
     }
 
-    public static EntityTreeNode eventAsTree(Event event, boolean onlyUnassigned)
+    public static EntityTreeNode eventAsTree(Event event, boolean confirmedAssignmentsOnly)
     {
         if (event == null)
         {
@@ -236,14 +244,17 @@ public class SpeedyRoutines
         {
             return eventNode;
         }
-        for (EventPosition pos : eventPositions)
+        for (EventPosition eventPosition : eventPositions)
         {
-            key = pos.getPosition().getDomain();
-            if (positionsPerDomain.get(key) == null)
+            if (allowPosition(event, eventPosition, confirmedAssignmentsOnly))
             {
-                positionsPerDomain.put(key, new ArrayList<Position>());
+                key = eventPosition.getPosition().getDomain();
+                if (positionsPerDomain.get(key) == null)
+                {
+                    positionsPerDomain.put(key, new ArrayList<Position>());
+                }
+                positionsPerDomain.get(key).add(eventPosition.getPosition());
             }
-            positionsPerDomain.get(key).add(pos.getPosition());
         }
         EntityTreeNode<Domain> domainNode = null;
         // build tree
@@ -274,6 +285,23 @@ public class SpeedyRoutines
         return eventNode;
     }
 
+    private static boolean allowPosition(Event event, EventPosition eventPosition, boolean confirmedAssignmentsOnly)
+    {
+        if (!(confirmedAssignmentsOnly))
+        {
+            return true;
+        }
+        else
+        {
+            List<HelperAssignment> assignments =
+                    RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByEventAndPosition(event,
+                            eventPosition.getPosition());
+            return (assignments.size() > 0
+                    ? assignments.get(0).getHelperAssignmentState().equals(HelperAssignmentState.CONFIRMED)
+                    : false);
+        }
+    }
+
     private static Helper getAssignment(HashMap<Long, HelperAssignment> assignmentMap, Position pos)
     {
         return (assignmentMap.get(pos.getId()) != null
@@ -281,9 +309,9 @@ public class SpeedyRoutines
                 : null);
     }
 
-    public static List<EntityTreeNode> flattenedEventNodes(Event event, boolean onlyUnassigned)
+    public static List<EntityTreeNode> flattenedEventNodes(Event event, boolean confirmedAssignmentsOnly)
     {
-        EntityTreeNode<Event> root = eventAsTree(event, onlyUnassigned);
+        EntityTreeNode<Event> root = eventAsTree(event, confirmedAssignmentsOnly);
         return flattenedEventNodesRecursive(root, new ArrayList<EntityTreeNode>());
     }
 
@@ -300,9 +328,9 @@ public class SpeedyRoutines
         return nodes;
     }
 
-    public static List<AbstractDbObject> flattenedEventTree(Event event, boolean onlyUnassigned)
+    public static List<AbstractDbObject> flattenedEventTree(Event event, boolean confirmedAssignmentsOnly)
     {
-        EntityTreeNode<Event> root = eventAsTree(event, onlyUnassigned);
+        EntityTreeNode<Event> root = eventAsTree(event, confirmedAssignmentsOnly);
         return flattenedEventTreeRecursive(root, new ArrayList<AbstractDbObject>());
     }
 
@@ -358,7 +386,7 @@ public class SpeedyRoutines
         Transaction tx = null;
         try
         {
-            tx = session.beginTransaction();            
+            tx = session.beginTransaction();
             EventPosition evtpos = null;
             PositionRepository repository = RepositoryProvider.getRepository(PositionRepository.class);
             Event event =
@@ -369,7 +397,7 @@ public class SpeedyRoutines
                             1,
                             1980,
                             EventState.PLANNED,
-                            (EventTemplate) Datasources.getDatasource(EventTemplate.class).findSingle(null, 
+                            (EventTemplate) Datasources.getDatasource(EventTemplate.class).findSingle(null,
                                     EventTemplate.ATTR_DESCRIPTION, "TRI"), null);
             // positions
             NodeList positionNodeList = document.getElementsByTagName("eventposition");
@@ -377,10 +405,12 @@ public class SpeedyRoutines
             for (int positionIndex = 0; positionIndex < positionNodeList.getLength(); positionIndex++)
             {
                 positionNode = positionNodeList.item(positionIndex);
-                int positionNumber = Integer.parseInt(positionNode.getAttributes().getNamedItem("pos").getTextContent());
+                int positionNumber =
+                        Integer.parseInt(positionNode.getAttributes().getNamedItem("pos").getTextContent());
                 System.out.println(positionNumber);
                 session.save(event);
-                evtpos = EntityFactory.buildEventPosition(event, repository.findPositionByPositionNumber(positionNumber));
+                evtpos =
+                        EntityFactory.buildEventPosition(event, repository.findPositionByPositionNumber(positionNumber));
                 session.save(evtpos);
             }
             // positions
@@ -392,7 +422,7 @@ public class SpeedyRoutines
                 System.out.println("@@@" + assignmentNode.getAttributes().getNamedItem("pos"));
                 System.out.println(assignmentNode.getAttributes().getNamedItem("helper"));
                 // evtpos = EntityFactory.buildHelperAssignment(helper, event, position, helperAssignmentState);
-            }            
+            }
             tx.commit();
         }
         catch (Exception e)

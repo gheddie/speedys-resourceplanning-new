@@ -11,6 +11,10 @@ public class EventDTO
     private String eventState;
     
     private Date eventDate;
+
+    private int assignmentCount;
+
+    private int positionCount;
     
     public String getDescription()
     {
@@ -50,5 +54,25 @@ public class EventDTO
     public void setEventDate(Date eventDate)
     {
         this.eventDate = eventDate;
+    }
+    
+    public int getPositionCount()
+    {
+        return positionCount;
+    }
+
+    public void setPositionCount(int positionCount)
+    {
+        this.positionCount = positionCount;
+    }
+    
+    public int getAssignmentCount()
+    {
+        return assignmentCount;
+    }
+
+    public void setAssignmentCount(int assignmentCount)
+    {
+        this.assignmentCount = assignmentCount;
     }
 }

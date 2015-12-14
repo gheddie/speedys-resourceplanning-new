@@ -14,6 +14,11 @@ public abstract class AbstractMailTemplate<T>
 
     private Position position;
     
+    public AbstractMailTemplate()
+    {
+        super();
+    }
+    
     public AbstractMailTemplate(Helper helper, Event event, Position position)
     {
         super();
@@ -27,14 +32,29 @@ public abstract class AbstractMailTemplate<T>
         return helper;
     }
     
+    public void setHelper(Helper helper)
+    {
+        this.helper = helper;
+    }
+    
     public Event getEvent()
     {
         return event;
     }
     
+    public void setEvent(Event event)
+    {
+        this.event = event;
+    }
+    
     public Position getPosition()
     {
         return position;
+    }
+    
+    public void setPosition(Position position)
+    {
+        this.position = position;
     }
 
     public abstract String constructBody();

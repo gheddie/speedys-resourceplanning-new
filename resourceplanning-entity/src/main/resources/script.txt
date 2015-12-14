@@ -1,5 +1,7 @@
 create sequence hibernate_sequence;
 
+create sequence session_manager_sequence;
+
 ------------------------------------------------ Helper 
 create sequence helper_id_seq;
 

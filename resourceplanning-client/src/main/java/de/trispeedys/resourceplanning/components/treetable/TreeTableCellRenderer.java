@@ -10,6 +10,8 @@ import javax.swing.tree.TreeModel;
 
 public class TreeTableCellRenderer extends JTree implements TableCellRenderer
 {
+    private static final long serialVersionUID = -8085963995069038067L;
+
     /** Die letzte Zeile, die gerendert wurde. */
     protected int visibleRow;
 

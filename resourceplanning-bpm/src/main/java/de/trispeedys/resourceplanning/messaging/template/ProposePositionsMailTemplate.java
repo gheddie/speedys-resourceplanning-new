@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.messaging;
+package de.trispeedys.resourceplanning.messaging.template;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +11,7 @@ import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.interaction.HelperInteraction;
+import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 import de.trispeedys.resourceplanning.util.HtmlGenerator;
 
 public class ProposePositionsMailTemplate extends AbstractMailTemplate

@@ -21,7 +21,8 @@ public class DomainTreeNode<T> extends EntityTreeNode<Domain>
 
     public String infoString()
     {
-        return getPayLoad().toString();
+        Domain domain = (Domain) getPayLoad();
+        return domain.getName() + " ["+domain.getDomainNumber()+"]";
     }
 
     public HierarchicalEventItemType getItemType()

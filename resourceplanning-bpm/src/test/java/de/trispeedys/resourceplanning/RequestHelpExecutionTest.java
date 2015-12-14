@@ -158,6 +158,9 @@ public class RequestHelpExecutionTest
         assertEquals(1, helperAssignmentA2016.size());
 
         processEngine.getRuntimeService().signalEventReceived(BpmSignals.RequestHelpHelper.SIG_EVENT_STARTED);
+        
+        assertTrue(RequestHelpTestUtil.checkMails(3, MessagingType.REMINDER_STEP_0, MessagingType.BOOKING_CONFIRMATION, MessagingType.PREPLAN_INFO));
+        
         assertEquals(0, processEngine.getRuntimeService().createExecutionQuery().list().size());
     }
 

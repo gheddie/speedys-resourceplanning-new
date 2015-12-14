@@ -1,17 +1,23 @@
-package de.trispeedys.resourceplanning.messaging;
+package de.trispeedys.resourceplanning.messaging.template;
 
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
+import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 import de.trispeedys.resourceplanning.util.HtmlGenerator;
 
-public class AlertDeactivationMailTemplate extends AbstractMailTemplate
+public class AlertCancellationMailTemplate extends AbstractMailTemplate
 {
-    public AlertDeactivationMailTemplate(Helper helper, Event event, Position position)
+    public AlertCancellationMailTemplate()
     {
-        super(helper, event, position);
+        this(null, null, null);
+    }
+    
+    public AlertCancellationMailTemplate(Helper aHelper, Event aEvent, Position aPosition)
+    {
+        super(aHelper, aEvent, aPosition);
     }
 
     public String constructBody()
@@ -19,13 +25,14 @@ public class AlertDeactivationMailTemplate extends AbstractMailTemplate
         return new HtmlGenerator(true).withParagraph("Hallo, Admin!!")
                 .withParagraph(
                         "Helfer " +
-                                getHelper().getLastName() + ", " + getHelper().getFirstName() + " wurde soeben deaktiviert!!")
+                                getHelper().getLastName() + ", " + getHelper().getFirstName() + " (Position: " +
+                                getPosition().getDescription() + ") hat leider abgesagt!!")
                 .render();
     }
 
     public String constructSubject()
     {
-        return "Helfer-Deaktivierung";
+        return "Helfer-Absage für den Wettkampf " + getEvent().getDescription();
     }
 
     public MessagingFormat getMessagingFormat()
@@ -35,6 +42,6 @@ public class AlertDeactivationMailTemplate extends AbstractMailTemplate
 
     public MessagingType getMessagingType()
     {
-        return MessagingType.ALERT_HELPER_DEACTIVATED;
+        return MessagingType.ALERT_BOOKING_CANCELLED;
     }
 }

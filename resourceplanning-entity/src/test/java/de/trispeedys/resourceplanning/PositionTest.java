@@ -244,5 +244,5 @@ public class PositionTest
         HibernateUtil.clearAll();
         
         // TODO
-    }
+    }    
 }
