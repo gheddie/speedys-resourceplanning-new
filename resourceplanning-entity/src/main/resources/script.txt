@@ -148,23 +148,6 @@ create table message_queue
 	primary key (id)
 );
 
------------------------------------------------- HelperHistory 
-create sequence helper_history_id_seq;
-
-create table helper_history
-(
-	id bigint not null default nextval('helper_history_id_seq'),
-	creation_time timestamp not null,
-	history_type varchar(64) not null,
-	helper_id bigint not null,
-	event_id bigint not null,
-	primary key (id)
-);
-
-alter table helper_history add constraint fk_hist_helper foreign key (helper_id) references helper (id);
-
-alter table helper_history add constraint fk_hist_event foreign key (event_id) references event (id);
-
 ------------------------------------------------ PositionAggregation
 create sequence position_aggregation_id_seq;
 

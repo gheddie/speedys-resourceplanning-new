@@ -8,11 +8,8 @@ import org.camunda.bpm.BpmPlatform;
 import org.camunda.bpm.engine.MismatchingMessageCorrelationException;
 
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
-import de.trispeedys.resourceplanning.entity.misc.HistoryType;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
-import de.trispeedys.resourceplanning.repository.HelperHistoryRepository;
-import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.service.PositionService;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.configuration.AppConfiguration;
@@ -38,8 +35,6 @@ public class HelperInteraction
             case ASSIGNMENT_AS_BEFORE:
                 logger.info("the helper wants to be assigned as before...");
                 variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, HelperCallback.ASSIGNMENT_AS_BEFORE);
-                // write history
-                RepositoryProvider.getRepository(HelperHistoryRepository.class).createEntry(helperId, eventId, HistoryType.CALLBACK_ASSIGNMENT_AS_BEFORE);
                 break;
             case CHANGE_POS:
                 logger.info("the helper wants to change positions...");

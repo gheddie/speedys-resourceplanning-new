@@ -15,7 +15,7 @@ public class MessagingService
 {
     private static final Logger logger = Logger.getLogger(MessagingService.class);
 
-    private static final boolean INSTANT_SEND = false;
+    private static final boolean INSTANT_SEND = true;
 
     public static void sendAllUnprocessedMessages()
     {

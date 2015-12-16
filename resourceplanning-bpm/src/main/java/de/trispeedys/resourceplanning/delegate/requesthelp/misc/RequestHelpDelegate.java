@@ -5,10 +5,8 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
-import de.trispeedys.resourceplanning.entity.misc.HistoryType;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.repository.EventRepository;
-import de.trispeedys.resourceplanning.repository.HelperHistoryRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
@@ -35,10 +33,5 @@ public abstract class RequestHelpDelegate implements JavaDelegate
             throw new ResourcePlanningException("event with id '"+eventId+"' could not be found!!");
         }
         return event;
-    }
-    
-    protected void writeHistoryEntry(HistoryType historyType, DelegateExecution execution)
-    {
-        RepositoryProvider.getRepository(HelperHistoryRepository.class).createEntry(getHelper(execution), getEvent(execution), historyType);
     }
 }

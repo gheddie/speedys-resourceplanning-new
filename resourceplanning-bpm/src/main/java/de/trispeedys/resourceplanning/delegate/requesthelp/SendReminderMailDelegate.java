@@ -8,7 +8,6 @@ import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
-import de.trispeedys.resourceplanning.entity.misc.HistoryType;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.messaging.template.SendReminderMailTemplate;
@@ -33,9 +32,6 @@ public class SendReminderMailDelegate extends RequestHelpNotificationDelegate
                 template.constructBody(), getMessagingType(attemptCount), MessagingFormat.HTML, false);
         // increase attempts
         execution.setVariable(BpmVariables.RequestHelpHelper.VAR_MAIL_ATTEMPTS, (attemptCount + 1));
-
-        // write history entry...
-        writeHistoryEntry(HistoryType.REMINDER_MAIL_SENT, execution);
     }
 
     private MessagingType getMessagingType(int attempt)

@@ -13,16 +13,13 @@ import org.camunda.bpm.engine.test.ProcessEngineRule;
 
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
-import de.trispeedys.resourceplanning.entity.HelperHistory;
 import de.trispeedys.resourceplanning.entity.MessageQueue;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
-import de.trispeedys.resourceplanning.entity.misc.HistoryType;
 import de.trispeedys.resourceplanning.execution.BpmJobDefinitions;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
-import de.trispeedys.resourceplanning.repository.HelperHistoryRepository;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.service.PositionService;
@@ -144,25 +141,5 @@ public class RequestHelpTestUtil
     {
         List<Task> list = rule.getTaskService().createTaskQuery().taskDefinitionKey(taskId).list();
         return ((list != null) && (list.size() > 0));
-    }
-
-    public static boolean checkHistory(HistoryType[] historyTypes, Helper helper, Event event)
-    {
-        List<HelperHistory> actualEntries = RepositoryProvider.getRepository(HelperHistoryRepository.class).findOrdered(helper, event);
-        // length must be equal...
-        if (historyTypes.length != actualEntries.size())
-        {
-            return false;
-        }
-        // every entry must be equal !!
-        for (int index=0;index<historyTypes.length;index++)
-        {
-            if (!(historyTypes[index].equals(actualEntries.get(index).getHistoryType())))
-            {
-                return false;
-            }
-        }
-        // OK
-        return true;
     }
 }

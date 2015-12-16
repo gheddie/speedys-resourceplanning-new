@@ -40,7 +40,6 @@ public class HibernateUtil
         clearTable("domain_responsibility");
         clearTable("aggregation_relation");
         clearTable("position_aggregation");        
-        clearTable("helper_history");
         clearTable("event_position");
         clearTable("helper_assignment");
         clearTable("position");
