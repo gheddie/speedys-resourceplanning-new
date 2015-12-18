@@ -1,10 +1,13 @@
 package de.trispeedys.resourceplanning.interaction;
 
-import de.trispeedys.resourceplanning.datasource.Datasources;
+import de.trispeedys.resourceplanning.configuration.AppConfiguration;
+import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
+import de.trispeedys.resourceplanning.repository.EventRepository;
+import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
@@ -19,15 +22,34 @@ public class HtmlRenderer
      * @param callback
      * @return
      */
-    public static String renderCallbackSuccess(Long helperId, HelperCallback callback)
+    public static String renderCallbackSuccess(Long eventId, Long helperId, HelperCallback callback)
     {
-        Helper helper = (Helper) Datasources.getDatasource(Helper.class).findById(null, helperId);
-        return new HtmlGenerator().withHeader("Hallo " + helper.getFirstName() + "!")
-                .withLinebreak()
-                .withParagraph("Danke, wir haben deine Nachricht erhalten (" + callback.getSummary() + ").")
-                .withLinebreak()
-                .withParagraph("Deine Tri-Speedys.")
-                .render();
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        HtmlGenerator generator =
+                new HtmlGenerator().withHeader("Hallo " + helper.getFirstName() + "!").withParagraph(
+                        "Danke, wir haben deine Nachricht erhalten (" + callback.getSummary() + ").");
+        if (callback.equals(HelperCallback.ASSIGNMENT_AS_BEFORE))
+        {
+            // TODO we can check, if now there is an assignment (and if so, tell it to the user)
+            if (RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByHelperAndEvent(helper, event) != null)
+            {
+                // yes, we have...
+                generator =
+                        generator.withParagraph(AppConfiguration.getInstance().getText(HtmlRenderer.class, "assignmentSucces"));
+            }
+            else
+            {
+                // no, we have not...
+                generator =
+                        generator.withParagraph(AppConfiguration.getInstance().getText(HtmlRenderer.class, "assignmentFault"));
+            }
+        }
+        else if (callback.equals(HelperCallback.CHANGE_POS))
+        {
+            generator = generator.withParagraph("Du wirst demnächst eine weitere Mail erhalten.");
+        }
+        return generator.withParagraph("Deine Tri-Speedys.").render();
     }
 
     /**
@@ -41,7 +63,7 @@ public class HtmlRenderer
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         return new HtmlGenerator().withHeader("Hallo " + helper.getFirstName() + "!")
                 .withLinebreak()
-                .withParagraph("Das war ein Fehler. Die Eingabe konnte nicht verarbeitet werden. Hast du vielleicht schon mal aus diesen Link geklickt?")
+                .withParagraph(AppConfiguration.getInstance().getText("renderCorrelationFault"))
                 .withLinebreak()
                 .withParagraph("Deine Tri-Speedys.")
                 .render();
@@ -66,7 +88,8 @@ public class HtmlRenderer
                 .withLinebreak()
                 .withParagraph(
                         "Leider ist die von dir gewählte Position (" +
-                                chosenPosition.getDescription() + ") bereits besetzt. " + "Du wirst in Kürze eine Mail mit Alternativvorschlägen erhalten.")
+                                chosenPosition.getDescription() + ") bereits besetzt. " +
+                                "Du wirst in Kürze eine Mail mit Alternativvorschlägen erhalten.")
                 .withLinebreak(2)
                 .withParagraph("Deine Tri-Speedys.")
                 .render();

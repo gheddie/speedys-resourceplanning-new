@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.util;
+package de.trispeedys.resourceplanning.util.xml;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,8 +9,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-
-import de.trispeedys.resourceplanning.util.configuration.NullResolver;
 
 public class XmlReader
 {

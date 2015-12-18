@@ -7,13 +7,13 @@ import org.apache.log4j.Logger;
 import org.camunda.bpm.BpmPlatform;
 import org.camunda.bpm.engine.MismatchingMessageCorrelationException;
 
+import de.trispeedys.resourceplanning.configuration.AppConfiguration;
+import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.service.PositionService;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
-import de.trispeedys.resourceplanning.util.configuration.AppConfiguration;
-import de.trispeedys.resourceplanning.util.configuration.AppConfigurationValues;
 
 public class HelperInteraction
 {
@@ -54,7 +54,7 @@ public class HelperInteraction
             BpmPlatform.getDefaultProcessEngine()
                     .getRuntimeService()
                     .correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);                        
-            return HtmlRenderer.renderCallbackSuccess(helperId, callback);
+            return HtmlRenderer.renderCallbackSuccess(eventId, helperId, callback);
         }
         catch (MismatchingMessageCorrelationException e)
         {

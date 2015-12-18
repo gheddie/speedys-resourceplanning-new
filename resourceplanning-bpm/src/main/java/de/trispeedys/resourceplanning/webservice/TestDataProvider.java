@@ -18,6 +18,8 @@ import org.hibernate.Query;
 import org.hibernate.Transaction;
 
 import de.trispeedys.resourceplanning.HibernateUtil;
+import de.trispeedys.resourceplanning.configuration.AppConfiguration;
+import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.Event;
@@ -43,8 +45,6 @@ import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.PositionInclude;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
-import de.trispeedys.resourceplanning.util.configuration.AppConfiguration;
-import de.trispeedys.resourceplanning.util.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 @SuppressWarnings("restriction")

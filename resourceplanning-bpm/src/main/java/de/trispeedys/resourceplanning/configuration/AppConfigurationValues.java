@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.util.configuration;
+package de.trispeedys.resourceplanning.configuration;
 
 public class AppConfigurationValues
 {

@@ -6,7 +6,10 @@ import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import org.hibernate.Transaction;
 import org.json.simple.JSONArray;
@@ -19,6 +22,7 @@ import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
+import de.trispeedys.resourceplanning.entity.PositionAggregation;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
@@ -33,32 +37,49 @@ public class JsonEventImporterNewStyle
 
     private SessionHolder sessionHolder;
 
+    private HashMap<String, List<Position>> aggregationCache;
+
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
-    
+
     // parameter names for header
     private static final String JSON_PARAM_HEADER_DESCRIPTION = "description";
+
     private static final String JSON_PARAM_HEADER_KEY = "key";
+
     private static final String JSON_PARAM_HEADER_TEMPLATE = "template";
-    
+
     // parameter names list types
     private static final String JSON_PARAM_LIST_DOMAINS = "domains";
-    private static final String JSON_PARAM_LIST_ASSIGNMENTS = "assignments";    
-    
+
+    private static final String JSON_PARAM_LIST_ASSIGNMENTS = "assignments";
+
     // parameter names for domains
     private static final String JSON_PARAM_DOMAIN_NAME = "domainName";
+
     private static final String JSON_PARAM_DOMAIN_NUMBER = "domainNumber";
 
     // parameter names for positions/assignments
     private static final String JSON_PARAM_HELPER_MINIMAL_AGE = "minimalAge";
+
     private static final String JSON_PARAM_POSITION_PRIORITY = "positionPriority";
+
     private static final String JSON_PARAM_HELPER_BIRTHDAY = "birthDay";
+
     private static final String JSON_PARAM_POSITION_NAME = "positionName";
+
     private static final String JSON_PARAM_POSITION_NUMBER = "positionNumber";
+
     private static final String JSON_PARAM_HELPER_MAIL = "helperMail";
-    private static final String JSON_PARAM_HELPER_FIRST_NAME = "firstName";    
+
+    private static final String JSON_PARAM_HELPER_FIRST_NAME = "firstName";
+
     private static final String JSON_PARAM_HELPER_LAST_NAME = "lastName";
+
+    private static final String JSON_PARAM_POSITION_CHOOSABLE = "choosable";
     
-    private static final int MANDATORY_PROP_SIZE_ASSIGNMENT = 8;
+    private static final String JSON_PARAM_POSITION_AGG_GROUP = "aggregation";
+
+    private static final int MANDATORY_PROP_SIZE_ASSIGNMENT = 10;
 
     public void doImport(String aResourceName)
     {
@@ -81,8 +102,8 @@ public class JsonEventImporterNewStyle
             EventTemplate template = EntityFactory.buildEventTemplate((String) root.get(JSON_PARAM_HEADER_TEMPLATE));
             sessionHolder.saveOrUpdate(template);
             event =
-                    EntityFactory.buildEvent((String) root.get(JSON_PARAM_HEADER_DESCRIPTION), (String) root.get(JSON_PARAM_HEADER_KEY), 1, 1,
-                            1980, EventState.FINISHED, template, null);
+                    EntityFactory.buildEvent((String) root.get(JSON_PARAM_HEADER_DESCRIPTION),
+                            (String) root.get(JSON_PARAM_HEADER_KEY), 1, 1, 1980, EventState.FINISHED, template, null);
             sessionHolder.saveOrUpdate(event);
             JSONArray domains = (JSONArray) root.get(JSON_PARAM_LIST_DOMAINS);
             System.out.println(domains.size() + " domains.");
@@ -102,11 +123,14 @@ public class JsonEventImporterNewStyle
                 Helper helper = null;
                 Position position = null;
                 for (Object assignmentObj : assignments)
-                {                                                                      
+                {
                     jsonAssignment = (JSONObject) assignmentObj;
                     if (!(jsonAssignment.entrySet().size() == MANDATORY_PROP_SIZE_ASSIGNMENT))
                     {
-                        throw new ResourcePlanningException("assignment object [pos='"+jsonAssignment.get("positionName")+"'] has invalied property size ("+jsonAssignment.entrySet().size()+" instead of "+MANDATORY_PROP_SIZE_ASSIGNMENT+")!!");
+                        throw new ResourcePlanningException("assignment object [pos='" +
+                                jsonAssignment.get("positionName") + "'] has invalid property size (" +
+                                jsonAssignment.entrySet().size() + " instead of " + MANDATORY_PROP_SIZE_ASSIGNMENT +
+                                ")!!");
                     }
                     System.out.println((String) jsonAssignment.get(JSON_PARAM_POSITION_NUMBER));
                     System.out.println((String) jsonAssignment.get(JSON_PARAM_POSITION_NAME));
@@ -115,9 +139,9 @@ public class JsonEventImporterNewStyle
                     position =
                             EntityFactory.buildPosition((String) jsonAssignment.get(JSON_PARAM_POSITION_NAME),
                                     Integer.parseInt((String) jsonAssignment.get(JSON_PARAM_HELPER_MINIMAL_AGE)),
-                                    domain,
-                                    Integer.parseInt((String) jsonAssignment.get(JSON_PARAM_POSITION_NUMBER)),
-                                    false);
+                                    domain, Integer.parseInt((String) jsonAssignment.get(JSON_PARAM_POSITION_NUMBER)),
+                                    parseBoolean((String) jsonAssignment.get(JSON_PARAM_POSITION_CHOOSABLE)),
+                                    Integer.parseInt((String) jsonAssignment.get(JSON_PARAM_POSITION_PRIORITY)));
                     System.out.println(helper);
                     sessionHolder.saveOrUpdate(position);
                     sessionHolder.saveOrUpdate(EntityFactory.buildEventPosition(event, position));
@@ -130,18 +154,23 @@ public class JsonEventImporterNewStyle
                     else
                     {
                         helper =
-                                EntityFactory.buildHelper(lastName,
-                                        firstName,
+                                EntityFactory.buildHelper(lastName, firstName,
                                         (String) jsonAssignment.get(JSON_PARAM_HELPER_MAIL), HelperState.ACTIVE,
                                         parseDate((String) jsonAssignment.get(JSON_PARAM_HELPER_BIRTHDAY)));
                         if (helper.isValid())
                         {
                             sessionHolder.saveOrUpdate(helper);
                             sessionHolder.saveOrUpdate(EntityFactory.buildHelperAssignment(helper, event, position));
-                        }   
+                        }
                     }
+                    
+                    // cache aggregation
+                    cacheAggregation(position, (String) jsonAssignment.get(JSON_PARAM_POSITION_AGG_GROUP));
                 }
             }
+            
+            createAggregations();
+            
             tx.commit();
         }
         catch (Exception e)
@@ -153,6 +182,51 @@ public class JsonEventImporterNewStyle
         {
             SessionManager.getInstance().unregisterSession(sessionHolder);
         }
+    }
+
+    private void createAggregations()
+    {
+        if (aggregationCache == null)
+        {
+            return;
+        }
+        PositionAggregation group = null;
+        for (String key : aggregationCache.keySet())
+        {
+            // create group
+            group = EntityFactory.buildPositionAggregation(key, true);
+            sessionHolder.saveOrUpdate(group);
+            for (Position pos : aggregationCache.get(key))
+            {
+                sessionHolder.saveOrUpdate(EntityFactory.buildAggregationRelation(pos, group));    
+            }
+        }
+    }
+
+    private void cacheAggregation(Position position, String groupName)
+    {
+        if (StringUtil.isBlank(groupName))
+        {
+            return;
+        }
+        if (aggregationCache == null)
+        {
+            aggregationCache = new HashMap<String, List<Position>>();
+        }
+        if (aggregationCache.get(groupName) == null)
+        {
+            aggregationCache.put(groupName, new ArrayList<Position>());
+        }
+        aggregationCache.get(groupName).add(position);
+    }
+
+    private boolean parseBoolean(String b)
+    {   
+        if (StringUtil.isBlank(b))
+        {
+            return false;
+        }
+        return (b.equals("y"));
     }
 
     private Date parseDate(String dateOfBirth)
@@ -172,6 +246,7 @@ public class JsonEventImporterNewStyle
 
     public static void main(String[] args)
     {
-        new JsonEventImporterNewStyle().doImport("Helfer_2015_NewStyle.json");
+        // new JsonEventImporterNewStyle().doImport("Helfer_2015_NewStyle.json");
+        new JsonEventImporterNewStyle().doImport("Diana_NewStyle.json");
     }
 }

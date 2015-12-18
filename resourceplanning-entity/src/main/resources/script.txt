@@ -155,6 +155,7 @@ create table position_aggregation
 (
 	id bigint not null default nextval('position_aggregation_id_seq'),
 	name varchar(64) not null,
+	active boolean not null,
 	primary key (id),
 	constraint pos_aggr_unique_name unique (name)
 );

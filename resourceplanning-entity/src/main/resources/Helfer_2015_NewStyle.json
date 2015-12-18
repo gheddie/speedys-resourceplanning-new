@@ -1,7 +1,7 @@
 {
     "description":"Triathlon 2015",
     "key":"TRI-2015",
-    "template":"TRI-XYZ"
+    "template":"TRI-XYZ",
     "domains":[
         {
             "domainNumber":"1",
@@ -15,7 +15,9 @@
                     "positionNumber":"1",
                     "positionName":"SUSA-Aufgabeneinweisung vor Ort 01",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Scharke",
@@ -25,7 +27,9 @@
                     "positionNumber":"2",
                     "positionName":"SUSA-Aufgabeneinweisung vor Ort 02",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"",
@@ -35,7 +39,9 @@
                     "positionNumber":"3",
                     "positionName":"SUSA-Aufgabeneinweisung vor Ort 03",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Krohne",
@@ -45,7 +51,9 @@
                     "positionNumber":"4",
                     "positionName":"SUSA-Aufgabeneinweisung vor Ort 04",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Wackerhage",
@@ -55,7 +63,9 @@
                     "positionNumber":"5",
                     "positionName":"SUSA-Aufgabeneinweisung vor Ort 05",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Homann",
@@ -65,7 +75,9 @@
                     "positionNumber":"6",
                     "positionName":"SUSA-Aufgabeneinweisung vor Ort 06 ",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Kessler",
@@ -75,7 +87,9 @@
                     "positionNumber":"7",
                     "positionName":"SUSA-Aufgabeneinweisung vor Ort 07",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -91,7 +105,9 @@
                     "positionNumber":"8",
                     "positionName":"SUSO-Aufgabeneinweisung vor Ort 01",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Fornefett",
@@ -101,7 +117,9 @@
                     "positionNumber":"9",
                     "positionName":"SUSO-Aufgabeneinweisung vor Ort 02",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"",
@@ -111,7 +129,9 @@
                     "positionNumber":"10",
                     "positionName":"SUSO-Aufgabeneinweisung vor Ort 03",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"",
@@ -121,7 +141,9 @@
                     "positionNumber":"11",
                     "positionName":"SUSO-Aufgabeneinweisung vor Ort 04",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Andre",
@@ -131,7 +153,9 @@
                     "positionNumber":"12",
                     "positionName":"SUSO-Aufgabeneinweisung vor Ort 05",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Andre",
@@ -141,7 +165,9 @@
                     "positionNumber":"13",
                     "positionName":"SUSO-Aufgabeneinweisung vor Ort 06",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":"peter"
                 },
                 {
                     "lastName":"",
@@ -151,7 +177,9 @@
                     "positionNumber":"14",
                     "positionName":"SUSO-Aufgabeneinweisung vor Ort 07",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"",
@@ -161,7 +189,9 @@
                     "positionNumber":"15",
                     "positionName":"SUSO-Aufgabeneinweisung vor Ort 08",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Obi-Popadic",
@@ -171,7 +201,9 @@
                     "positionNumber":"16",
                     "positionName":"Hand- bzw. Wadenbeschriftung 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Popadic",
@@ -181,7 +213,9 @@
                     "positionNumber":"17",
                     "positionName":"Hand- bzw. Wadenbeschriftung 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Scharke",
@@ -191,7 +225,9 @@
                     "positionNumber":"18",
                     "positionName":"Hand- bzw. Wadenbeschriftung 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Amrhein-Thomala",
@@ -201,7 +237,9 @@
                     "positionNumber":"19",
                     "positionName":"Hand- bzw. Wadenbeschriftung 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -217,7 +255,9 @@
                     "positionNumber":"20",
                     "positionName":"Parkplatz-Pelikan morgens absperren bis BBZ voll",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Obst",
@@ -227,7 +267,9 @@
                     "positionNumber":"21",
                     "positionName":"Parkplatz-BBZ einweisen 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Weidlich",
@@ -237,7 +279,9 @@
                     "positionNumber":"22",
                     "positionName":"Parkplatz-BBZ einweisen 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Althans",
@@ -247,7 +291,9 @@
                     "positionNumber":"23",
                     "positionName":"Parkplatz-BBZ einweisen 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -263,7 +309,9 @@
                     "positionNumber":"24",
                     "positionName":"Startschuss/Koordinator",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Moeller",
@@ -273,7 +321,9 @@
                     "positionNumber":"25",
                     "positionName":"Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Zimmermann",
@@ -283,7 +333,9 @@
                     "positionNumber":"26",
                     "positionName":"Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Liedtke",
@@ -293,7 +345,9 @@
                     "positionNumber":"27",
                     "positionName":"Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Take",
@@ -303,7 +357,9 @@
                     "positionNumber":"28",
                     "positionName":"Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Schmidt",
@@ -313,7 +369,9 @@
                     "positionNumber":"29",
                     "positionName":"Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Schmidt",
@@ -323,7 +381,9 @@
                     "positionNumber":"30",
                     "positionName":"Aufgabeneinweisung vor Ort 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Hoffmann",
@@ -333,7 +393,9 @@
                     "positionNumber":"31",
                     "positionName":"Aufgabeneinweisung vor Ort 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Faltbootabteilung",
@@ -343,7 +405,9 @@
                     "positionNumber":"32",
                     "positionName":"Paddeln-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Faltbootabteilung",
@@ -353,7 +417,9 @@
                     "positionNumber":"33",
                     "positionName":"Paddeln-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Faltbootabteilung",
@@ -363,7 +429,9 @@
                     "positionNumber":"34",
                     "positionName":"Paddeln-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Faltbootabteilung",
@@ -373,7 +441,9 @@
                     "positionNumber":"35",
                     "positionName":"Paddeln-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Faltbootabteilung",
@@ -383,7 +453,9 @@
                     "positionNumber":"36",
                     "positionName":"Paddeln-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"",
@@ -393,7 +465,9 @@
                     "positionNumber":"37",
                     "positionName":"Sprecher 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Hoff",
@@ -403,7 +477,9 @@
                     "positionNumber":"38",
                     "positionName":"Sprecher 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -419,7 +495,9 @@
                     "positionNumber":"39",
                     "positionName":"VKS-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Dietrich",
@@ -429,7 +507,9 @@
                     "positionNumber":"40",
                     "positionName":"VKS-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Stolze",
@@ -439,7 +519,9 @@
                     "positionNumber":"41",
                     "positionName":"VKS-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Spoetter",
@@ -449,7 +531,9 @@
                     "positionNumber":"42",
                     "positionName":"VKS-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Liesegang",
@@ -459,7 +543,9 @@
                     "positionNumber":"43",
                     "positionName":"VKS-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Seeck",
@@ -469,7 +555,9 @@
                     "positionNumber":"44",
                     "positionName":"VKS-Aufgabeneinweisung vor Ort 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -485,7 +573,9 @@
                     "positionNumber":"45",
                     "positionName":"Koordinator",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":"peter"
                 },
                 {
                     "lastName":"Jansen",
@@ -495,7 +585,9 @@
                     "positionNumber":"46",
                     "positionName":"Aufgabeneinweisung vor Ort",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Dörries",
@@ -505,7 +597,9 @@
                     "positionNumber":"47",
                     "positionName":"LKW Fahrer Härke-LKW",
                     "minimalAge":"18",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Engel ",
@@ -515,7 +609,9 @@
                     "positionNumber":"48",
                     "positionName":"LKW Fahrer Küchenhaus B1-LKW",
                     "minimalAge":"18",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Deyhle",
@@ -525,7 +621,9 @@
                     "positionNumber":"49",
                     "positionName":"WZS-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Klinker",
@@ -535,7 +633,9 @@
                     "positionNumber":"50",
                     "positionName":"Aufsteigen 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Kaiser",
@@ -545,7 +645,9 @@
                     "positionNumber":"51",
                     "positionName":"Aufsteigen 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Wittek",
@@ -555,7 +657,9 @@
                     "positionNumber":"52",
                     "positionName":"Aufsteigen 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Heuer",
@@ -565,7 +669,9 @@
                     "positionNumber":"53",
                     "positionName":"WZS-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Zogbaum",
@@ -575,7 +681,9 @@
                     "positionNumber":"54",
                     "positionName":"WZS-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Fortune",
@@ -585,7 +693,9 @@
                     "positionNumber":"55",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Fortune",
@@ -595,7 +705,9 @@
                     "positionNumber":"56",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Deyhle",
@@ -605,7 +717,9 @@
                     "positionNumber":"57",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Heuer",
@@ -615,7 +729,9 @@
                     "positionNumber":"58",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Abend",
@@ -625,7 +741,9 @@
                     "positionNumber":"59",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Abend",
@@ -635,7 +753,9 @@
                     "positionNumber":"60",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Kaiser",
@@ -645,7 +765,9 @@
                     "positionNumber":"61",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Bosse",
@@ -655,7 +777,9 @@
                     "positionNumber":"62",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 8",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Schareina",
@@ -665,7 +789,9 @@
                     "positionNumber":"63",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 9",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Zogbaum",
@@ -675,7 +801,9 @@
                     "positionNumber":"64",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 10",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Rademacher",
@@ -685,7 +813,9 @@
                     "positionNumber":"65",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 11",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Weidlich",
@@ -695,7 +825,9 @@
                     "positionNumber":"66",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 12",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Thomala",
@@ -705,7 +837,9 @@
                     "positionNumber":"67",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 13",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Thomala",
@@ -715,7 +849,9 @@
                     "positionNumber":"68",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 14",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Kaiser",
@@ -725,7 +861,9 @@
                     "positionNumber":"69",
                     "positionName":"Hand- u. Wadenbeschriftung/anschließend Kistentransport",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -741,7 +879,9 @@
                     "positionNumber":"70",
                     "positionName":"Kampfrichter fahren 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Moorider",
@@ -751,7 +891,9 @@
                     "positionNumber":"71",
                     "positionName":"Kampfrichter fahren 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Moorider",
@@ -761,7 +903,9 @@
                     "positionNumber":"72",
                     "positionName":"Kampfrichter fahren 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Paege",
@@ -771,7 +915,9 @@
                     "positionNumber":"73",
                     "positionName":"Kampfrichter fahren ",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Dombrowski",
@@ -781,7 +927,9 @@
                     "positionNumber":"74",
                     "positionName":"Führungsmotorrad 1. Volks und 1. Kurz",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Hauschild",
@@ -791,7 +939,9 @@
                     "positionNumber":"75",
                     "positionName":"Besenmotorrad letzter Volks u.  Kurz auf 2. Runde (Streckenposten informieren)",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -807,7 +957,9 @@
                     "positionNumber":"76",
                     "positionName":"1. Kurve nach 1. Wz. Signal geben Weg freihalten ",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Grabbe",
@@ -817,7 +969,9 @@
                     "positionNumber":"77",
                     "positionName":"Beginn Radfahren 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Azay",
@@ -827,7 +981,9 @@
                     "positionNumber":"78",
                     "positionName":"Beginn Radfahren 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Depenau",
@@ -837,7 +993,9 @@
                     "positionNumber":"79",
                     "positionName":"DLRG-Haus/Einbahnstraßenregelung durchsetzen",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Jung",
@@ -847,7 +1005,9 @@
                     "positionNumber":"80",
                     "positionName":"Zuschauerleitung 'Am Mühlenberg' in Eixe  oben 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Schmidt",
@@ -857,7 +1017,9 @@
                     "positionNumber":"81",
                     "positionName":"Zuschauerleitung 'Am Mühlenberg' in Eixe  oben 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Meitzner",
@@ -867,7 +1029,9 @@
                     "positionNumber":"82",
                     "positionName":"Straßenteilung vor Im Neuen Lande",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Elsner",
@@ -877,7 +1041,9 @@
                     "positionNumber":"83",
                     "positionName":"Teerplatz 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Schmidt",
@@ -887,7 +1053,9 @@
                     "positionNumber":"84",
                     "positionName":"Teerplatz 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"André",
@@ -897,7 +1065,9 @@
                     "positionNumber":"85",
                     "positionName":"Teerplatz 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Beer",
@@ -907,7 +1077,9 @@
                     "positionNumber":"86",
                     "positionName":"Teerplatz 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Dedek",
@@ -917,7 +1089,9 @@
                     "positionNumber":"87",
                     "positionName":"Teerplatz 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Homann",
@@ -927,7 +1101,9 @@
                     "positionNumber":"88",
                     "positionName":"rechts Abbiegen auf die Hauptstaße sichern - Abbensen T-Kreuzung",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Klaengler",
@@ -937,7 +1113,9 @@
                     "positionNumber":"89",
                     "positionName":"Fußgängerüberweg sichern -Abbensen",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Ristig",
@@ -947,7 +1125,9 @@
                     "positionNumber":"90",
                     "positionName":"Durchfahrt Kreisel sichern -Abbensen",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Tostmann",
@@ -957,7 +1137,9 @@
                     "positionNumber":"91",
                     "positionName":"Abzweig Groß Oedesse Videokontrolle 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Tostmann",
@@ -967,7 +1149,9 @@
                     "positionNumber":"92",
                     "positionName":"Abzweig Groß Oedesse Videokontrolle 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Tapke-Jost ",
@@ -977,7 +1161,9 @@
                     "positionNumber":"93",
                     "positionName":"Durchfahrt Kreisel sichern - Edemissen Ortseingang",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Wesner",
@@ -987,7 +1173,9 @@
                     "positionNumber":"94",
                     "positionName":"rechts Abbiegen auf die B 444 sichern - Ampelkreuzung Edemissen ",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Bielefeld",
@@ -997,7 +1185,9 @@
                     "positionNumber":"95",
                     "positionName":"Durchfahrt Kreisel sichern - Stederdorf",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Pritzel",
@@ -1007,7 +1197,9 @@
                     "positionNumber":"96",
                     "positionName":"rechts Abbiegen in 'Zum Luhberg' einweisen - Festplatz Stederdorf",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Zellmann",
@@ -1017,7 +1209,9 @@
                     "positionNumber":"97",
                     "positionName":"Verkehr regeln/Straßen evtl. absperren - 'Ernst-Barlach-.Str.'",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Zellmann",
@@ -1027,7 +1221,9 @@
                     "positionNumber":"98",
                     "positionName":"Verkehr regeln/Straßen evtl. absperren - 'Im Lah'",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Zellmann",
@@ -1037,7 +1233,9 @@
                     "positionNumber":"99",
                     "positionName":"Verkehr regeln/Straßen evtl. absperren - 'Emil-Nolde-Str.'",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Burgdorf",
@@ -1047,7 +1245,9 @@
                     "positionNumber":"100",
                     "positionName":"Verkehr regeln/Straßen evtl. absperren - 'Zum Westerholz'",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Erber",
@@ -1057,7 +1257,9 @@
                     "positionNumber":"101",
                     "positionName":"Verkehr regeln/Straßen evtl. absperren -Käthe-Kollwitz-Str. ",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Fredrich",
@@ -1067,7 +1269,9 @@
                     "positionNumber":"102",
                     "positionName":"rechts Abbiegen sichern u. einweisen - Sundern/Luhberg 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"",
@@ -1077,7 +1281,9 @@
                     "positionNumber":"103",
                     "positionName":"rechts Abbiegen sichern u. einweisen - Sundern/Luhberg 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Naue",
@@ -1087,7 +1293,9 @@
                     "positionNumber":"104",
                     "positionName":"Ostparkplatz Eixer See auf Einbahnstraße hinweisen, Autos anhalten",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Unverzagt ",
@@ -1097,7 +1305,9 @@
                     "positionNumber":"105",
                     "positionName":"Gänse-Übergang 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Schlaphoff",
@@ -1107,7 +1317,9 @@
                     "positionNumber":"106",
                     "positionName":"Gänse-Übergang 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"",
@@ -1117,7 +1329,9 @@
                     "positionNumber":"107",
                     "positionName":"Zuschauerleitung 'Am Mühlenberg' unten Zuschauer und Athleten lenken 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"",
@@ -1127,7 +1341,9 @@
                     "positionNumber":"108",
                     "positionName":"Zuschauerleitung 'Am Mühlenberg' unten Zuschauer und Athleten lenken 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Haase",
@@ -1137,7 +1353,9 @@
                     "positionNumber":"109",
                     "positionName":"Kreuzung (ehemals NP-Markt) 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Hilarius",
@@ -1147,7 +1365,9 @@
                     "positionNumber":"110",
                     "positionName":"Kreuzung (ehemals NP-Markt) 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Hoff",
@@ -1157,7 +1377,9 @@
                     "positionNumber":"111",
                     "positionName":"Kreuzung (ehemals NP-Markt) 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Fruehling",
@@ -1167,7 +1389,9 @@
                     "positionNumber":"112",
                     "positionName":"Kreuzung Buschweg/Schwicheldter Str. 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Fruehling",
@@ -1177,7 +1401,9 @@
                     "positionNumber":"113",
                     "positionName":"Kreuzung Buschweg/Schwicheldter Str. 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Fruehling",
@@ -1187,7 +1413,9 @@
                     "positionNumber":"114",
                     "positionName":"Kreuzung Buschweg/Schwicheldter Str. 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"",
@@ -1197,7 +1425,9 @@
                     "positionNumber":"115",
                     "positionName":"rechts Abbiegen zum BBZ Zuschauer einweisen",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"",
@@ -1207,7 +1437,9 @@
                     "positionNumber":"116",
                     "positionName":"rechts Abbiegen zum BBZ Teilnehmer einweisen 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Momberg",
@@ -1217,7 +1449,9 @@
                     "positionNumber":"117",
                     "positionName":"rechts Abbiegen zum BBZ Teilnehmer einweisen 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Strub",
@@ -1227,7 +1461,9 @@
                     "positionNumber":"118",
                     "positionName":"Einweisen - Radkanal freihalten 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Straten",
@@ -1237,7 +1473,9 @@
                     "positionNumber":"119",
                     "positionName":"Einweisen - Radkanal freihalten 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"",
@@ -1247,7 +1485,9 @@
                     "positionNumber":"120",
                     "positionName":"Zuschauerübergang/Radeinfahrt BBZ 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Gotthardt",
@@ -1257,7 +1497,9 @@
                     "positionNumber":"121",
                     "positionName":"Zuschauerübergang/Radeinfahrt BBZ 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Beer",
@@ -1267,7 +1509,9 @@
                     "positionNumber":"122",
                     "positionName":"Vor 1. Volks und 1. Kurz Helfer wecken",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -1283,7 +1527,9 @@
                     "positionNumber":"123",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Reuter",
@@ -1293,7 +1539,9 @@
                     "positionNumber":"124",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Knaurek",
@@ -1303,7 +1551,9 @@
                     "positionNumber":"125",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Luehring",
@@ -1313,7 +1563,9 @@
                     "positionNumber":"126",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Gaus",
@@ -1323,7 +1575,9 @@
                     "positionNumber":"127",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Fella-Buleg",
@@ -1333,7 +1587,9 @@
                     "positionNumber":"128",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Fella-Buleg",
@@ -1343,7 +1599,9 @@
                     "positionNumber":"129",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Hellwig",
@@ -1353,7 +1611,9 @@
                     "positionNumber":"130",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 8",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Strohbecke",
@@ -1363,7 +1623,9 @@
                     "positionNumber":"131",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 9",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Moeller",
@@ -1373,7 +1635,9 @@
                     "positionNumber":"132",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 10",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Treu",
@@ -1383,7 +1647,9 @@
                     "positionNumber":"133",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 11",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -1399,7 +1665,9 @@
                     "positionNumber":"134",
                     "positionName":"Führungsradfahrer",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Gahre",
@@ -1409,7 +1677,9 @@
                     "positionNumber":"135",
                     "positionName":"Absperrung/Laufübergang Herrenfeldstr. 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Lueddecke",
@@ -1419,7 +1689,9 @@
                     "positionNumber":"136",
                     "positionName":"Absperrung/Laufübergang Herrenfeldstr. 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Hilbert",
@@ -1429,7 +1701,9 @@
                     "positionNumber":"137",
                     "positionName":"Absperrung/Laufübergang Herrenfeldstr. 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Schulz",
@@ -1439,7 +1713,9 @@
                     "positionNumber":"138",
                     "positionName":"Abzweig zum Ziel",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -1455,7 +1731,9 @@
                     "positionNumber":"139",
                     "positionName":"Wendepunkt Bandausgabe/Bänder vom Ziel holen",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Wackerhage",
@@ -1465,7 +1743,9 @@
                     "positionNumber":"140",
                     "positionName":"Wendepunkt Bandausgabe 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Abend",
@@ -1475,7 +1755,9 @@
                     "positionNumber":"141",
                     "positionName":"Wendepunkt Bandausgabe 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Franzke",
@@ -1485,7 +1767,9 @@
                     "positionNumber":"142",
                     "positionName":"Wendepunkt Bandausgabe 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Borsum",
@@ -1495,7 +1779,9 @@
                     "positionNumber":"143",
                     "positionName":"Wendepunkt Bandausgabe 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Hellwig",
@@ -1505,7 +1791,9 @@
                     "positionNumber":"144",
                     "positionName":"Wendepunkt Bandausgabe 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Tillmann",
@@ -1515,7 +1803,9 @@
                     "positionNumber":"145",
                     "positionName":"Wendepunkt Bandausgabe 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Teichmann",
@@ -1525,7 +1815,9 @@
                     "positionNumber":"146",
                     "positionName":"Wendepunkt Bandausgabe 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Popke",
@@ -1535,7 +1827,9 @@
                     "positionNumber":"147",
                     "positionName":"Wendepunkt Bandausgabe 8",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Kortz",
@@ -1545,7 +1839,9 @@
                     "positionNumber":"148",
                     "positionName":"Wendepunkt Bandausgabe 9",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Schiller",
@@ -1555,7 +1851,9 @@
                     "positionNumber":"149",
                     "positionName":"Wendepunkt Bandausgabe 10",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -1571,7 +1869,9 @@
                     "positionNumber":"150",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Pokrandt",
@@ -1581,7 +1881,9 @@
                     "positionNumber":"151",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Pokrandt",
@@ -1591,7 +1893,9 @@
                     "positionNumber":"152",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Pluemecke",
@@ -1601,7 +1905,9 @@
                     "positionNumber":"153",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Pluemecke",
@@ -1611,7 +1917,9 @@
                     "positionNumber":"154",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Pluemecke",
@@ -1621,7 +1929,9 @@
                     "positionNumber":"155",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Pluemecke",
@@ -1631,7 +1941,9 @@
                     "positionNumber":"156",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Pluemecke",
@@ -1641,7 +1953,9 @@
                     "positionNumber":"157",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 8",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Thierse",
@@ -1651,7 +1965,9 @@
                     "positionNumber":"158",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 9",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Thierse",
@@ -1661,7 +1977,9 @@
                     "positionNumber":"159",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 10",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Thierse",
@@ -1671,7 +1989,9 @@
                     "positionNumber":"160",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 11",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Thierse",
@@ -1681,7 +2001,9 @@
                     "positionNumber":"161",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 12",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Wntsch",
@@ -1691,7 +2013,9 @@
                     "positionNumber":"162",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 13",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Friehe",
@@ -1701,7 +2025,9 @@
                     "positionNumber":"163",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 14",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Dill",
@@ -1711,7 +2037,9 @@
                     "positionNumber":"164",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 15",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Harms",
@@ -1721,7 +2049,9 @@
                     "positionNumber":"165",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 16",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -1737,7 +2067,9 @@
                     "positionNumber":"166",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Busse",
@@ -1747,7 +2079,9 @@
                     "positionNumber":"167",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Busse",
@@ -1757,7 +2091,9 @@
                     "positionNumber":"168",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Busse",
@@ -1767,7 +2103,9 @@
                     "positionNumber":"169",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Krohne",
@@ -1777,7 +2115,9 @@
                     "positionNumber":"170",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Krohne",
@@ -1787,7 +2127,9 @@
                     "positionNumber":"171",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Wackerhage",
@@ -1797,7 +2139,9 @@
                     "positionNumber":"172",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Schulz",
@@ -1807,7 +2151,9 @@
                     "positionNumber":"173",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 8",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Zogbaum",
@@ -1817,7 +2163,9 @@
                     "positionNumber":"174",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 9",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Zogbaum",
@@ -1827,7 +2175,9 @@
                     "positionNumber":"175",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 10",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"",
@@ -1837,7 +2187,9 @@
                     "positionNumber":"176",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 11",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Kessler",
@@ -1847,7 +2199,9 @@
                     "positionNumber":"177",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 12",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Exner",
@@ -1857,7 +2211,9 @@
                     "positionNumber":"178",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 13",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Exner",
@@ -1867,7 +2223,9 @@
                     "positionNumber":"179",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 14",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Exner",
@@ -1877,7 +2235,9 @@
                     "positionNumber":"180",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 15",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Deyhle",
@@ -1887,7 +2247,9 @@
                     "positionNumber":"181",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 16",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Deyhle",
@@ -1897,7 +2259,9 @@
                     "positionNumber":"182",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 17",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Althans ",
@@ -1907,7 +2271,9 @@
                     "positionNumber":"183",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 18",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Dietrich",
@@ -1917,7 +2283,9 @@
                     "positionNumber":"184",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 19",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -1933,7 +2301,9 @@
                     "positionNumber":"185",
                     "positionName":"Koordinator-Stadion",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Schoenebeck",
@@ -1943,7 +2313,9 @@
                     "positionNumber":"186",
                     "positionName":"ZB-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"",
@@ -1953,7 +2325,9 @@
                     "positionNumber":"187",
                     "positionName":"Sprecher",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Zeiler",
@@ -1963,7 +2337,9 @@
                     "positionNumber":"188",
                     "positionName":"Haargummi abnehmen/DM Hawaii-Kränze umhängen",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Janecke",
@@ -1973,7 +2349,9 @@
                     "positionNumber":"189",
                     "positionName":"Haargummi abnehmen/DM Hawaii-Kränze umhängen 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Janecke",
@@ -1983,7 +2361,9 @@
                     "positionNumber":"190",
                     "positionName":"Haargummi abnehmen/DM Hawaii-Kränze umhängen 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Volney",
@@ -1993,7 +2373,9 @@
                     "positionNumber":"191",
                     "positionName":"Haargummi abnehmen/DM Hawaii-Kränze umhängen 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Lupp",
@@ -2003,7 +2385,9 @@
                     "positionNumber":"192",
                     "positionName":"T-Shirt-Ausgabe 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Franke",
@@ -2013,7 +2397,9 @@
                     "positionNumber":"193",
                     "positionName":"T-Shirt-Ausgabe 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Franke-Beyer",
@@ -2023,7 +2409,9 @@
                     "positionNumber":"194",
                     "positionName":"T-Shirt-Ausgabe 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Raulfs",
@@ -2033,7 +2421,9 @@
                     "positionNumber":"195",
                     "positionName":"Ziel Zeitnahmebox",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -2049,7 +2439,9 @@
                     "positionNumber":"196",
                     "positionName":"Auswertung",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"n",
+                    "aggregation":""
                 }
             ]
         },
@@ -2065,7 +2457,9 @@
                     "positionNumber":"197",
                     "positionName":"Getränke/Verpflegung (Verpflegung einteilen!)",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Lwe",
@@ -2075,7 +2469,9 @@
                     "positionNumber":"198",
                     "positionName":"ZV-Getränke/Verpflegung 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Gotthardt",
@@ -2085,7 +2481,9 @@
                     "positionNumber":"199",
                     "positionName":"ZV-Getränke/Verpflegung 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Fredrich",
@@ -2095,7 +2493,9 @@
                     "positionNumber":"200",
                     "positionName":"ZV-Getränke/Verpflegung 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Bufe",
@@ -2105,7 +2505,9 @@
                     "positionNumber":"201",
                     "positionName":"ZV-Getränke/Verpflegung 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Gotthardt",
@@ -2115,7 +2517,9 @@
                     "positionNumber":"202",
                     "positionName":"ZV-Getränke/Verpflegung 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Ahrens",
@@ -2125,7 +2529,9 @@
                     "positionNumber":"203",
                     "positionName":"ZV-Getränke/Verpflegung 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Ammen",
@@ -2135,7 +2541,9 @@
                     "positionNumber":"204",
                     "positionName":"ZV-Getränke/Verpflegung 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Habich",
@@ -2145,7 +2553,9 @@
                     "positionNumber":"205",
                     "positionName":"ZV-Getränke/Verpflegung 8",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Trappe",
@@ -2155,7 +2565,9 @@
                     "positionNumber":"206",
                     "positionName":"ZV-Getränke/Verpflegung 9",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Sorkalla",
@@ -2165,7 +2577,9 @@
                     "positionNumber":"207",
                     "positionName":"ZV-Getränke/Verpflegung 10",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Franke",
@@ -2175,7 +2589,9 @@
                     "positionNumber":"208",
                     "positionName":"ZV-Getränke/Verpflegung 11",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Kuck",
@@ -2185,7 +2601,9 @@
                     "positionNumber":"209",
                     "positionName":"ZV-Getränke/Verpflegung 12",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Kuck",
@@ -2195,7 +2613,9 @@
                     "positionNumber":"210",
                     "positionName":"ZV-Getränke/Verpflegung 13",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Lack",
@@ -2205,7 +2625,9 @@
                     "positionNumber":"211",
                     "positionName":"ZV-Getränke/Verpflegung 14",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -2221,7 +2643,9 @@
                     "positionNumber":"212",
                     "positionName":"Massieren",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -2237,7 +2661,9 @@
                     "positionNumber":"213",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"",
@@ -2247,7 +2673,9 @@
                     "positionNumber":"214",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Geckler",
@@ -2257,7 +2685,9 @@
                     "positionNumber":"215",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Franzke",
@@ -2267,7 +2697,9 @@
                     "positionNumber":"216",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Borrmann",
@@ -2277,7 +2709,9 @@
                     "positionNumber":"217",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Bielefeld",
@@ -2287,7 +2721,9 @@
                     "positionNumber":"218",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Homann",
@@ -2297,7 +2733,9 @@
                     "positionNumber":"219",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Redecke",
@@ -2307,7 +2745,9 @@
                     "positionNumber":"220",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 8",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Bendorf",
@@ -2317,7 +2757,9 @@
                     "positionNumber":"221",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 9",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Pruski",
@@ -2327,7 +2769,9 @@
                     "positionNumber":"222",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 10",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Renz",
@@ -2337,7 +2781,9 @@
                     "positionNumber":"223",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 11",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Neu",
@@ -2347,7 +2793,9 @@
                     "positionNumber":"224",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 12",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Bessing",
@@ -2357,7 +2805,9 @@
                     "positionNumber":"225",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 13",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Helmedag",
@@ -2367,7 +2817,9 @@
                     "positionNumber":"226",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 14",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Helmecke",
@@ -2377,7 +2829,9 @@
                     "positionNumber":"227",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 15",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Kanning",
@@ -2387,7 +2841,9 @@
                     "positionNumber":"228",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 16",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Kanning",
@@ -2397,7 +2853,9 @@
                     "positionNumber":"229",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 17",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Kanning ",
@@ -2407,7 +2865,9 @@
                     "positionNumber":"230",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 18",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Kanning",
@@ -2417,7 +2877,9 @@
                     "positionNumber":"231",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 19",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -2433,7 +2895,9 @@
                     "positionNumber":"232",
                     "positionName":"Sprecher Volks und Staffel",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Perlebach",
@@ -2443,7 +2907,9 @@
                     "positionNumber":"233",
                     "positionName":"Ehren Volks Kurz",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Krohne",
@@ -2453,7 +2919,9 @@
                     "positionNumber":"234",
                     "positionName":"Ehren Kurz",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Lindemann",
@@ -2463,7 +2931,9 @@
                     "positionNumber":"235",
                     "positionName":"Sprecher Kurz",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Weidlich",
@@ -2473,7 +2943,9 @@
                     "positionNumber":"236",
                     "positionName":"Fotografieren Volks ",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Spoetter",
@@ -2483,7 +2955,9 @@
                     "positionNumber":"237",
                     "positionName":"Fotografieren Kurz",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -2499,7 +2973,9 @@
                     "positionNumber":"238",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Abend",
@@ -2509,7 +2985,9 @@
                     "positionNumber":"239",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Abend",
@@ -2519,7 +2997,9 @@
                     "positionNumber":"240",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Schiewe",
@@ -2529,7 +3009,9 @@
                     "positionNumber":"241",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Ley",
@@ -2539,7 +3021,9 @@
                     "positionNumber":"242",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Panchyrz",
@@ -2549,7 +3033,9 @@
                     "positionNumber":"243",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Breskot",
@@ -2559,7 +3045,9 @@
                     "positionNumber":"244",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Ristock",
@@ -2569,7 +3057,9 @@
                     "positionNumber":"245",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 8",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Wedemann",
@@ -2579,7 +3069,9 @@
                     "positionNumber":"246",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 9",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Franke",
@@ -2589,7 +3081,9 @@
                     "positionNumber":"247",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 10",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Tirtje",
@@ -2599,7 +3093,9 @@
                     "positionNumber":"248",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 11",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Koehler",
@@ -2609,7 +3105,9 @@
                     "positionNumber":"249",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 12",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Koehler",
@@ -2619,7 +3117,9 @@
                     "positionNumber":"250",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 13",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Koehler",
@@ -2629,7 +3129,9 @@
                     "positionNumber":"251",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 14",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Haase",
@@ -2639,7 +3141,9 @@
                     "positionNumber":"252",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 15",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Grobe",
@@ -2649,7 +3153,9 @@
                     "positionNumber":"253",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 16",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Renno",
@@ -2659,7 +3165,9 @@
                     "positionNumber":"254",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 17",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Wiese",
@@ -2669,7 +3177,9 @@
                     "positionNumber":"255",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 18",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Weidlich",
@@ -2679,7 +3189,9 @@
                     "positionNumber":"256",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 19",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Wackerhage",
@@ -2689,7 +3201,9 @@
                     "positionNumber":"257",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 20",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -2705,7 +3219,9 @@
                     "positionNumber":"258",
                     "positionName":"GS-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Mehnert",
@@ -2715,7 +3231,9 @@
                     "positionNumber":"259",
                     "positionName":"GS-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Jacob",
@@ -2725,7 +3243,9 @@
                     "positionNumber":"260",
                     "positionName":"GS-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Schoeneberg-Hansen",
@@ -2735,7 +3255,9 @@
                     "positionNumber":"261",
                     "positionName":"GS-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"von Linden",
@@ -2745,7 +3267,9 @@
                     "positionNumber":"262",
                     "positionName":"GS-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -2761,7 +3285,9 @@
                     "positionNumber":"263",
                     "positionName":"Getränke verkaufen 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Wilhelm",
@@ -2771,7 +3297,9 @@
                     "positionNumber":"264",
                     "positionName":"Getränke verkaufen 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Wilhelm",
@@ -2781,7 +3309,9 @@
                     "positionNumber":"265",
                     "positionName":"Getränke verkaufen 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Malethan",
@@ -2791,7 +3321,9 @@
                     "positionNumber":"266",
                     "positionName":"Getränke verkaufen 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -2807,7 +3339,9 @@
                     "positionNumber":"267",
                     "positionName":"Starter mit Radpanne abholen",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -2823,7 +3357,9 @@
                     "positionNumber":"268",
                     "positionName":"Zuschauertransport",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -2839,7 +3375,9 @@
                     "positionNumber":"269",
                     "positionName":"Ärztliche Versorgung",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -2855,7 +3393,9 @@
                     "positionNumber":"270",
                     "positionName":"Ansprechpartner für die Kampfrichter",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -2871,7 +3411,9 @@
                     "positionNumber":"271",
                     "positionName":"Messe betreuen",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -2887,7 +3429,9 @@
                     "positionNumber":"272",
                     "positionName":"Filmen",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"",
@@ -2897,7 +3441,9 @@
                     "positionNumber":"273",
                     "positionName":"Fotografieren 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Nolden",
@@ -2907,7 +3453,9 @@
                     "positionNumber":"274",
                     "positionName":"Fotografieren 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Boegershausen",
@@ -2917,7 +3465,9 @@
                     "positionNumber":"275",
                     "positionName":"Fotografieren 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -2933,7 +3483,9 @@
                     "positionNumber":"276",
                     "positionName":"Technik",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"n",
+                    "aggregation":""
                 }
             ]
         },
@@ -2949,7 +3501,9 @@
                     "positionNumber":"277",
                     "positionName":"Aufsicht 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 },
                 {
                     "lastName":"Althans",
@@ -2959,7 +3513,9 @@
                     "positionNumber":"278",
                     "positionName":"Aufsicht 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
                 }
             ]
         },
@@ -2975,7 +3531,9 @@
                     "positionNumber":"279",
                     "positionName":"Hauptansprechpartner",
                     "minimalAge":"12",
-                    "positionPriority":"-1"
+                    "positionPriority":"-1",
+                    "choosable":"f",
+                    "aggregation":""
                 }
             ]
         }

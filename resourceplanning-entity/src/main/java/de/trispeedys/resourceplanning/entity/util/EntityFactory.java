@@ -154,9 +154,9 @@ public class EntityFactory
         return new DomainBuilder().withDomainNumber(domainNumber).withName(name).build();
     }
 
-    public static PositionAggregation buildPositionAggregation(String name)
+    public static PositionAggregation buildPositionAggregation(String name, boolean active)
     {
-        return new PositionAggregationBuilder().withName(name).build();
+        return new PositionAggregationBuilder().withName(name).withActive(active).build();
     }
 
     public static AggregationRelation buildAggregationRelation(Position position, PositionAggregation positionAggregation)

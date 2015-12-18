@@ -1,5 +1,6 @@
 package de.trispeedys.resourceplanning.messaging.template;
 
+import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
@@ -15,7 +16,7 @@ public class BookingConfirmationMailTemplate extends AbstractMailTemplate
     {
         this(null, null, null);
     }
-    
+
     public BookingConfirmationMailTemplate(Helper aHelper, Event aEvent, Position aPosition)
     {
         super(aHelper, aEvent, aPosition);
@@ -27,17 +28,14 @@ public class BookingConfirmationMailTemplate extends AbstractMailTemplate
                 HelperInteraction.getBaseLink() +
                         "/AssignmentCancellationReceiver.jsp?helperId=" + getHelper().getId() + "&eventId=" +
                         getEvent().getId();
+        AppConfiguration configuration = AppConfiguration.getInstance();
         return new HtmlGenerator(true).withParagraph("Hallo " + getHelper().getFirstName() + "!")
-                .withParagraph(
-                        "Du wurdest erfolgreich der Position '" +
-                                getPosition().getDescription() + "' im Bereich '" +
-                                getPosition().getDomain().getName() +
-                                "' zugeordnet. Falls Dir etwas dazwischenkommen sollte, kannst du diese Buchung " +
-                                "mit dem untenstehenden Link stornieren:")
+                .withParagraph(configuration.getText(this, "body", getPosition().getDescription(),
+                        getPosition().getDomain().getName()))
                 .withLinebreak()
-                .withLink(link, "Kündigen")
+                .withLink(link, configuration.getText(this, "cancel"))
                 .withLinebreak()
-                .withParagraph("Deine Tri-Speedys.")
+                .withParagraph(configuration.getText(SPEEDYS_GREETING))
                 .render();
     }
 

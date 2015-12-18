@@ -1,0 +1,27 @@
+{
+    "description":"Triathlon 2015",
+    "key":"TRI-2015",
+    "template":"TRI-XYZ",
+    "domains":
+    [
+        {
+            "domainNumber":"1",
+            "domainName":"Startunterlagen Samstag",
+            "assignments":
+            [
+                {
+                    "lastName":"Schulz",
+                    "firstName":"Diana",
+                    "birthDay":"04.03.1973",
+                    "helperMail":"schulzdb@googlemail.com",
+                    "positionNumber":"1",
+                    "positionName":"Was zu tun",
+                    "minimalAge":"12",
+                    "positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""
+                }
+            ]
+        }
+    ]
+}

@@ -41,7 +41,15 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
 
     public HelperAssignment findByHelperAndEvent(Helper helper, Event event)
     {
-        return dataSource().findSingle(null, HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event);
+        List<HelperAssignment> result = dataSource().find(null, HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event);
+        if (result == null)
+        {
+            return null;
+        }
+        else            
+        {
+            return (result.size() > 0 ? result.get(0) : null);
+        }        
     }
 
     /**

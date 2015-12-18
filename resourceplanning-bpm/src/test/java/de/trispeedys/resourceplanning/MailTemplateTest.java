@@ -16,12 +16,16 @@ import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
+import de.trispeedys.resourceplanning.messaging.template.AlertDeactivationMailTemplate;
+import de.trispeedys.resourceplanning.messaging.template.BookingConfirmationMailTemplate;
 import de.trispeedys.resourceplanning.messaging.template.ProposePositionsMailTemplate;
+import de.trispeedys.resourceplanning.messaging.template.SendReminderMailTemplate;
 import de.trispeedys.resourceplanning.service.MessagingService;
 
 public class MailTemplateTest
 {
-    @Test
+    // TODO useful test ?!?
+    //@Test
     public void testProposePositions()
     {
         // clear db
@@ -43,6 +47,7 @@ public class MailTemplateTest
         EventTemplate evTemplate = EntityFactory.buildEventTemplate("123").saveOrUpdate();
         
         Event event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, evTemplate, null).saveOrUpdate();
+        
         // send mail
         List<Position> positions = Datasources.getDatasource(Position.class).findAll(null);
         ProposePositionsMailTemplate template =
@@ -50,5 +55,63 @@ public class MailTemplateTest
         MessagingService.createMessage("noreply@tri-speedys.de", "testhelper1.trispeedys@gmail.com",
                 template.constructSubject(), template.constructBody(), MessagingType.NONE, MessagingFormat.HTML, true);
         MessagingService.sendAllUnprocessedMessages();
+    }
+    
+    // TODO useful test ?!?
+    @Test   
+    public void testBookingConfirmation()
+    {
+        System.out.println("---------------------------------------------------------------------------------------------");
+        
+        // clear db
+        HibernateUtil.clearAll();        
+        
+        EventTemplate template = EntityFactory.buildEventTemplate("123ggg").saveOrUpdate();
+        Event event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
+        
+        Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980).saveOrUpdate();
+        
+        Domain domain = EntityFactory.buildDomain("Schwimmen", 2).saveOrUpdate();
+        Position pos = EntityFactory.buildPosition("Alles wegräumen", 12, domain, 0, true).saveOrUpdate();
+        
+        System.out.println(new BookingConfirmationMailTemplate(helper, event, pos).constructBody());
+        
+        System.out.println("---------------------------------------------------------------------------------------------");
+    }
+    
+    // TODO useful test ?!?
+    //@Test   
+    public void testAlertDeactivation()
+    {
+        System.out.println("---------------------------------------------------------------------------------------------");
+        
+        // clear db
+        HibernateUtil.clearAll();
+        
+        Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980).saveOrUpdate();
+        
+        System.out.println(new AlertDeactivationMailTemplate(helper, null, null).constructBody());
+        
+        System.out.println("---------------------------------------------------------------------------------------------");
+    }
+    
+    // TODO useful test ?!?
+    //@Test   
+    public void testSendReminderMail()
+    {
+        System.out.println("---------------------------------------------------------------------------------------------");
+        
+        // clear db
+        HibernateUtil.clearAll();
+        
+        Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980).saveOrUpdate();
+        EventTemplate template = EntityFactory.buildEventTemplate("123ggg").saveOrUpdate();
+        Event event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
+        Domain domain = EntityFactory.buildDomain("Schwimmen", 2).saveOrUpdate();
+        Position pos = EntityFactory.buildPosition("Alles wegräumen", 12, domain, 0, true).saveOrUpdate();
+        
+        System.out.println(new SendReminderMailTemplate(helper, event, pos, true, 0).constructBody());
+        
+        System.out.println("---------------------------------------------------------------------------------------------");
     }
 }

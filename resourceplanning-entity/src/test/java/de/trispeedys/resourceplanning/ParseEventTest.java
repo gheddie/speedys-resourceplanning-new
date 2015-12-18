@@ -1,7 +1,6 @@
 package de.trispeedys.resourceplanning;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -13,7 +12,7 @@ import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
-import de.trispeedys.resourceplanning.util.XmlReader;
+import de.trispeedys.resourceplanning.util.xml.XmlReader;
 
 public class ParseEventTest
 {

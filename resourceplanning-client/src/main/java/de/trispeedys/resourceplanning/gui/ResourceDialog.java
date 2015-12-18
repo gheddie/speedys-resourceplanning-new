@@ -305,7 +305,7 @@ public class ResourceDialog extends SpeedyFrame
 
     private void tbEventsPropertyChange(PropertyChangeEvent e)
     {
-        // TODO add your code here
+        // ...
     }
 
     private void btnBookManuallyPressed(ActionEvent e)
@@ -353,7 +353,6 @@ public class ResourceDialog extends SpeedyFrame
             JOptionPane.showMessageDialog(ResourceDialog.this, "Bitte ein Event wählen!!");
             return;
         }
-        // TODO ignore canceled asignments !!
         availablePositions =
                 AppSingleton.getInstance().getPort().queryAvailablePositions(selectedEvent.getEventId()).getItem();
         tbAvailablePositions.setModel(TableModelBuilder.createGenericTableModel(availablePositions));

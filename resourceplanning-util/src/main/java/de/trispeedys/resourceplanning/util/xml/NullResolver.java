@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.util.configuration;
+package de.trispeedys.resourceplanning.util.xml;
 
 import java.io.IOException;
 import java.io.StringReader;

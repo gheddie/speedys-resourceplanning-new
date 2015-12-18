@@ -176,7 +176,7 @@ public class SpeedyRoutines
             throw new ResourcePlanningException(
                     "at least one position must be provided for creating a position aggregation!!");
         }
-        PositionAggregation aggregation = EntityFactory.buildPositionAggregation(groupName).saveOrUpdate();
+        PositionAggregation aggregation = EntityFactory.buildPositionAggregation(groupName, true).saveOrUpdate();
         for (Position pos : positions)
         {
             if (pos == null)

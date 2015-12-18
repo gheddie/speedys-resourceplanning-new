@@ -1,5 +1,6 @@
 package de.trispeedys.resourceplanning.messaging.template;
 
+import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
@@ -14,7 +15,7 @@ public class AlertDeactivationMailTemplate extends AbstractMailTemplate
     {
         this(null, null, null);
     }
-    
+
     public AlertDeactivationMailTemplate(Helper helper, Event event, Position position)
     {
         super(helper, event, position);
@@ -22,10 +23,10 @@ public class AlertDeactivationMailTemplate extends AbstractMailTemplate
 
     public String constructBody()
     {
-        return new HtmlGenerator(true).withParagraph("Hallo, Admin!!")
+        return new HtmlGenerator(true).withParagraph(AppConfiguration.getInstance().getText(this, "adminSulation"))
                 .withParagraph(
-                        "Helfer " +
-                                getHelper().getLastName() + ", " + getHelper().getFirstName() + " wurde soeben deaktiviert!!")
+                        AppConfiguration.getInstance().getText(this, "body", getHelper().getLastName(),
+                                getHelper().getFirstName()))
                 .render();
     }
 
