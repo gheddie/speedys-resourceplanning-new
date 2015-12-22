@@ -1,8 +1,8 @@
 package de.trispeedys.resourceplanning;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -17,10 +17,9 @@ import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
+import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.service.AssignmentService;
-import de.trispeedys.resourceplanning.service.HelperService;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 
@@ -33,7 +32,7 @@ public class HelperTest
         Helper helper =
                 EntityFactory.buildHelper("Stefan", "Schulz", Helper.TEST_MAIL_ADDRESS,
                         HelperState.ACTIVE, 13, 2, 1976).saveOrUpdate();
-        assertEquals(true, AssignmentService.isFirstAssignment(helper.getId()));
+        assertEquals(true, RepositoryProvider.getRepository(HelperAssignmentRepository.class).isFirstAssignment(helper.getId()));
     }
 
     /**
@@ -71,7 +70,7 @@ public class HelperTest
     {
         HibernateUtil.clearAll();
         TestDataGenerator.createSimpleEvent("TRI", "TRI", 1, 1, 1980, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
-        assertEquals(5, HelperService.queryActiveHelperIds().size());
+        assertEquals(5, RepositoryProvider.getRepository(HelperRepository.class).queryActiveHelperIds().size());
     }
 
     @Test

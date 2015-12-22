@@ -15,8 +15,9 @@ import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
+import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
+import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.rule.CallbackChoiceGenerator;
-import de.trispeedys.resourceplanning.service.AssignmentService;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 
@@ -65,8 +66,9 @@ public class CallbackChoiceGeneratorTest
         Helper helperB = (Helper) Datasources.getDatasource(Helper.class).findAll(null).get(1);
 
         // assign 'B' to 'A's prior position...
-        AssignmentService.assignHelper(helperB, event2016,
-                AssignmentService.getPriorAssignment(helperA, event2015.getEventTemplate()).getPosition());
+        HelperAssignmentRepository repository = RepositoryProvider.getRepository(HelperAssignmentRepository.class);
+        repository.assignHelper(helperB, event2016,
+                repository.getPriorAssignment(helperA, event2015.getEventTemplate()).getPosition());
 
         assertTrue(checkChoices(new HelperCallback[]
         {

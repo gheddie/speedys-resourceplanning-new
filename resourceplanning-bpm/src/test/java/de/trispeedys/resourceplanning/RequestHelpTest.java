@@ -26,9 +26,8 @@ import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmTaskDefinitionKeys;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
-import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
+import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.service.HelperService;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.RequestHelpTestUtil;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
@@ -279,8 +278,8 @@ public class RequestHelpTest
         rule.getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK,
                 businessKey, variables);
         // position the helper was assigned to in 2015
-        Position priorPosition = HelperService.getHelperAssignment(helper, event2015);
+        Position priorPosition = RepositoryProvider.getRepository(HelperRepository.class).getHelperAssignment(helper, event2015);
         // helper should be (in 2016) booked to the same position as in 2015 now...
-        assertEquals(true, HelperService.isHelperAssignedForPosition(helper, event2016, priorPosition));
+        assertEquals(true, RepositoryProvider.getRepository(HelperRepository.class).isHelperAssignedForPosition(helper, event2016, priorPosition));
     }
 }

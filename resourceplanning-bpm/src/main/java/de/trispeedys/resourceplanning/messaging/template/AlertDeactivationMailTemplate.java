@@ -6,8 +6,8 @@ import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
+import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
-import de.trispeedys.resourceplanning.util.HtmlGenerator;
 
 public class AlertDeactivationMailTemplate extends AbstractMailTemplate
 {

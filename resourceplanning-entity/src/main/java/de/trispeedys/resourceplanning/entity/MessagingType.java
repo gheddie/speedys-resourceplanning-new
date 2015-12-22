@@ -27,6 +27,9 @@ public enum MessagingType
     // confirm cancellation to helper
     CANCELLATION_CONFIRM,
     
+    // confirm manual assignment
+    MANUAL_ASSIGNMENT_CONFIRMATION,
+    
     // tell helper that his process is finished
     PREPLAN_INFO,
 

@@ -8,8 +8,9 @@ import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
-import de.trispeedys.resourceplanning.service.AssignmentService;
-import de.trispeedys.resourceplanning.service.PositionService;
+import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
+import de.trispeedys.resourceplanning.repository.PositionRepository;
+import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 public class CheckAvailabilityInitialDelegate extends RequestHelpDelegate
 {
@@ -19,8 +20,8 @@ public class CheckAvailabilityInitialDelegate extends RequestHelpDelegate
     {
         Helper helper = getHelper(execution);
         Event event = getEvent(execution);
-        Position position = AssignmentService.getPriorAssignment(helper, event.getEventTemplate()).getPosition();
-        boolean positionAvailable = PositionService.isPositionAvailable(event, position);
+        Position position = RepositoryProvider.getRepository(HelperAssignmentRepository.class).getPriorAssignment(helper, event.getEventTemplate()).getPosition();
+        boolean positionAvailable = RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(event, position);
         logger.info("ckecking availability for helper '" +
                 helper + "' and position '" + position + "' in event '" + event + "', position available : " + positionAvailable + " [bk:" +
                 execution.getBusinessKey() + "]");

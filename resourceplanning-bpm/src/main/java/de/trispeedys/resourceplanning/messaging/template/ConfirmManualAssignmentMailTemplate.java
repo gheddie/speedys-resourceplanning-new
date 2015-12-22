@@ -1,25 +1,18 @@
 package de.trispeedys.resourceplanning.messaging.template;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
-import de.trispeedys.resourceplanning.entity.Event;
-import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
-import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 
-public class CancelConfirmationMailTemplate extends AbstractMailTemplate
+@SuppressWarnings("rawtypes")
+public class ConfirmManualAssignmentMailTemplate extends AbstractMailTemplate
 {
-    public CancelConfirmationMailTemplate(Helper aHelper, Event aEvent, Position aPosition)
-    {
-        super(aHelper, aEvent, aPosition);
-    }
-
     public String constructBody()
     {
         return new HtmlGenerator(true).withParagraph(helperGreeting())
-                .withParagraph(AppConfiguration.getInstance().getText(this, "body", getPosition().getDescription()))
+                .withParagraph(AppConfiguration.getInstance().getText(this, "body", getEvent().getDescription()))
                 .withParagraph(sincerely())
                 .render();
     }
@@ -28,7 +21,7 @@ public class CancelConfirmationMailTemplate extends AbstractMailTemplate
     {
         return AppConfiguration.getInstance().getText(this, "subject");
     }
-    
+
     public MessagingFormat getMessagingFormat()
     {
         return MessagingFormat.HTML;
@@ -36,6 +29,6 @@ public class CancelConfirmationMailTemplate extends AbstractMailTemplate
 
     public MessagingType getMessagingType()
     {
-        return MessagingType.CANCELLATION_CONFIRM;
+        return MessagingType.MANUAL_ASSIGNMENT_CONFIRMATION;
     }
 }

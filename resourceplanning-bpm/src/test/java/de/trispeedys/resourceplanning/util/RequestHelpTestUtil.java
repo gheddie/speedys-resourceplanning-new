@@ -21,8 +21,8 @@ import de.trispeedys.resourceplanning.execution.BpmJobDefinitions;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
+import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.service.PositionService;
 
 public class RequestHelpTestUtil
 {
@@ -36,9 +36,10 @@ public class RequestHelpTestUtil
      * @param helper
      * @param businessKey
      * @param rule
-     * @return 
+     * @return
      */
-    public static ProcessInstance startHelperRequestProcess(Helper helper, Event event, String businessKey, ProcessEngineRule rule)
+    public static ProcessInstance startHelperRequestProcess(Helper helper, Event event, String businessKey,
+            ProcessEngineRule rule)
     {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_ID, new Long(helper.getId()));
@@ -69,7 +70,7 @@ public class RequestHelpTestUtil
         {
             if (!(messageTypePresent(type, messages)))
             {
-                   return false;
+                return false;
             }
         }
         // finally...
@@ -97,7 +98,8 @@ public class RequestHelpTestUtil
      * @param businessKey
      * @param processEngine
      */
-    public static void doNotRespondToAnything(Event event, Helper helper, String businessKey, ProcessEngineRule processEngine)
+    public static void doNotRespondToAnything(Event event, Helper helper, String businessKey,
+            ProcessEngineRule processEngine)
     {
         RequestHelpTestUtil.startHelperRequestProcess(helper, event, businessKey, processEngine);
         // a mail for every helper must have been sent
@@ -119,24 +121,31 @@ public class RequestHelpTestUtil
 
     public static void fireTimer(String jobDefinition, ProcessEngineRule processEngine)
     {
-        processEngine.getManagementService().executeJob(processEngine.getManagementService().createJobQuery().activityId(jobDefinition).list().get(0).getId());
+        processEngine.getManagementService().executeJob(
+                processEngine.getManagementService().createJobQuery().activityId(jobDefinition).list().get(0).getId());
     }
-    
+
     public static void doCallback(HelperCallback helperCallback, String businessKey, ProcessEngineRule processEngine)
     {
         Map<String, Object> variablesCallback = new HashMap<String, Object>();
         variablesCallback.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, helperCallback);
-        processEngine.getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variablesCallback);
+        processEngine.getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK,
+                businessKey, variablesCallback);
     }
-    
-    public static void choosePosition(String businessKey, Position position, ProcessEngineRule processEngine, Long eventId)
+
+    public static void choosePosition(String businessKey, Position position, ProcessEngineRule processEngine,
+            Long eventId)
     {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION, position.getId());
-        variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POS_AVAILABLE, PositionService.isPositionAvailable(eventId, position.getId()));
-        processEngine.getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_POS_CHOSEN, businessKey, variables);
+        variables.put(
+                BpmVariables.RequestHelpHelper.VAR_CHOSEN_POS_AVAILABLE,
+                RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(eventId,
+                        position.getId()));
+        processEngine.getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_POS_CHOSEN, businessKey,
+                variables);
     }
-    
+
     public static boolean wasTaskGenerated(String taskId, ProcessEngineRule rule)
     {
         List<Task> list = rule.getTaskService().createTaskQuery().taskDefinitionKey(taskId).list();

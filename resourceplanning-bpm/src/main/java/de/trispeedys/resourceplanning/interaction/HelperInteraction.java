@@ -12,7 +12,8 @@ import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
-import de.trispeedys.resourceplanning.service.PositionService;
+import de.trispeedys.resourceplanning.repository.PositionRepository;
+import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 
 public class HelperInteraction
@@ -76,7 +77,7 @@ public class HelperInteraction
     public static String processPositionChosenCallback(Long eventId, Long helperId, Long chosenPositionId)
             throws MismatchingMessageCorrelationException
     {
-        boolean positionAvailable = PositionService.isPositionAvailable(eventId, chosenPositionId);
+        boolean positionAvailable = RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(eventId, chosenPositionId);
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION, chosenPositionId);
         variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POS_AVAILABLE, positionAvailable);

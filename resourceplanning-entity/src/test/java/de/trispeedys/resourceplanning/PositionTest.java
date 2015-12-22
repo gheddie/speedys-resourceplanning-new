@@ -17,12 +17,10 @@ import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.misc.SpeedyTestUtil;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
+import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.rule.ChoosablePositionGenerator;
-import de.trispeedys.resourceplanning.service.AssignmentService;
-import de.trispeedys.resourceplanning.service.PositionService;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 
@@ -105,7 +103,7 @@ public class PositionTest
         EntityFactory.buildHelperAssignment(helper, evt2014, posC);
         
         // ...
-        PositionService.isPositionAvailable(evt2014, posC);
+        RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(evt2014, posC);
     }
     
     // TODO check available position querying with with new features 
@@ -125,12 +123,12 @@ public class PositionTest
         
         List<Helper> helpers = RepositoryProvider.getRepository(HelperRepository.class).findAll(null);
         // we assign one unpriorited...
-        AssignmentService.assignHelper(helpers.get(0), event2016, posMap.get(0));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(0), event2016, posMap.get(0));
         // ...and two prio 1 tasks...
-        AssignmentService.assignHelper(helpers.get(1), event2016, posMap.get(6));
-        AssignmentService.assignHelper(helpers.get(2), event2016, posMap.get(7));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(1), event2016, posMap.get(6));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(2), event2016, posMap.get(7));
         // ...and one prio 2 task...
-        AssignmentService.assignHelper(helpers.get(3), event2016, posMap.get(11));        
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(3), event2016, posMap.get(11));        
         
         // generator must provide 3 unpriorized and 3 PRIO 2 tasks... 
         assertEquals(6, RepositoryProvider.getRepository(PositionRepository.class).findUnassignedPositionsByGenerator(helpers.get(0), event2016).size());
@@ -154,10 +152,10 @@ public class PositionTest
         }
         
         List<Helper> helpers = RepositoryProvider.getRepository(HelperRepository.class).findAll(null);
-        AssignmentService.assignHelper(helpers.get(0), event2016, posMap.get(0));
-        AssignmentService.assignHelper(helpers.get(1), event2016, posMap.get(6));
-        AssignmentService.assignHelper(helpers.get(2), event2016, posMap.get(7));
-        AssignmentService.assignHelper(helpers.get(3), event2016, posMap.get(11));        
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(0), event2016, posMap.get(0));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(1), event2016, posMap.get(6));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(2), event2016, posMap.get(7));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(3), event2016, posMap.get(11));        
         
         // this must give 13-4=9 psotions to choose... 
         assertEquals(9, RepositoryProvider.getRepository(PositionRepository.class).findUnassignedPositionsByGenerator(helpers.get(0), event2016).size());
@@ -182,10 +180,10 @@ public class PositionTest
         
         List<Helper> helpers = RepositoryProvider.getRepository(HelperRepository.class).findAll(null);
         // we assign all unpriorited positions...
-        AssignmentService.assignHelper(helpers.get(0), event2016, posMap.get(0));
-        AssignmentService.assignHelper(helpers.get(1), event2016, posMap.get(1));
-        AssignmentService.assignHelper(helpers.get(2), event2016, posMap.get(2));
-        AssignmentService.assignHelper(helpers.get(3), event2016, posMap.get(3));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(0), event2016, posMap.get(0));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(1), event2016, posMap.get(1));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(2), event2016, posMap.get(2));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(3), event2016, posMap.get(3));
         
         // this must give all prio 2 positions (4)... 
         assertEquals(4, RepositoryProvider.getRepository(PositionRepository.class).findUnassignedPositionsByGenerator(helpers.get(0), event2016).size());

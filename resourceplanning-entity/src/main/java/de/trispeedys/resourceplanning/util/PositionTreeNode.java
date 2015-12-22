@@ -2,6 +2,7 @@ package de.trispeedys.resourceplanning.util;
 
 import java.util.List;
 
+import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -50,7 +51,7 @@ public class PositionTreeNode<T> extends EntityTreeNode<Position>
         }
         else
         {
-            return "[--N/A--]";
+            return AppConfiguration.getInstance().getText(this, "unassigned");
         }
     }
 
@@ -82,19 +83,19 @@ public class PositionTreeNode<T> extends EntityTreeNode<Position>
             if (!(position.isChoosable()))
             {
                 // nie wählbar
-                return "NIE";
+                return AppConfiguration.getInstance().getText(this, "choosableNever");
             }
             else
             {
                 if (referencePositions.contains(position))
                 {
                     // aktuell wählbar
-                    return "JA";
+                    return AppConfiguration.getInstance().getText(this, "choosableNow");
                 }
                 else
                 {
                     // noch nicht wählbar (Gruppierung)
-                    return "BLOCKIERT";
+                    return AppConfiguration.getInstance().getText(this, "choosableLater");                    
                 }
             }
         }

@@ -11,10 +11,10 @@ import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.messaging.template.ProposePositionsMailTemplate;
+import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
+import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.service.AssignmentService;
-import de.trispeedys.resourceplanning.service.MessagingService;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class ProposePositionsDelegate extends RequestHelpNotificationDelegate
@@ -46,8 +46,8 @@ public class ProposePositionsDelegate extends RequestHelpNotificationDelegate
                         event,
                         unassignedPositions,
                         (HelperCallback) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK),
-                        AssignmentService.getPriorAssignment(helper, event.getEventTemplate()).getPosition(), isReentrant);
-        MessagingService.createMessage("noreply@tri-speedys.de", helper.getEmail(), template.constructSubject(),
+                        RepositoryProvider.getRepository(HelperAssignmentRepository.class).getPriorAssignment(helper, event.getEventTemplate()).getPosition(), isReentrant);
+        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de", helper.getEmail(), template.constructSubject(),
                 template.constructBody(), template.getMessagingType(), template.getMessagingFormat(), true);
     }
 }

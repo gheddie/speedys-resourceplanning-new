@@ -3,29 +3,20 @@ package de.trispeedys.resourceplanning.delegate.requesthelp;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
-import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
-import de.trispeedys.resourceplanning.service.AssignmentService;
+import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
+import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.StringUtil;
 
 public class CheckHelperConditionDelegate implements JavaDelegate
 {
     public void execute(DelegateExecution execution) throws Exception
     {
-        /*
-        if (execution.getVariable(BpmVariables.RequestHelpHelper.VAR_HELPER_CODE) == null)
-        {
-            throw new ResourcePlanningException("helper code must not be NULL!!");
-        }
-        */
-        
-        AppConfiguration.getInstance();
-        
         Long helperId = (Long) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_HELPER_ID);
         Helper helper = (Helper) Datasources.getDatasource(Helper.class).findById(null, helperId);
-        boolean firstAssignment = AssignmentService.isFirstAssignment(helperId);   
+        boolean firstAssignment = RepositoryProvider.getRepository(HelperAssignmentRepository.class).isFirstAssignment(helperId);   
         if ((firstAssignment) || (StringUtil.isBlank(helper.getEmail())))
         {
             execution.setVariable(

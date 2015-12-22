@@ -293,11 +293,11 @@ public class SpeedyRoutines
         }
         else
         {
-            List<HelperAssignment> assignments =
+            HelperAssignment assignment =
                     RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByEventAndPosition(event,
                             eventPosition.getPosition());
-            return (assignments.size() > 0
-                    ? assignments.get(0).getHelperAssignmentState().equals(HelperAssignmentState.CONFIRMED)
+            return (assignment != null
+                    ? assignment.getHelperAssignmentState().equals(HelperAssignmentState.CONFIRMED)
                     : false);
         }
     }

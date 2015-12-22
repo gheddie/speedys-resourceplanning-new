@@ -1,54 +1,79 @@
-{  
-   "description":"Triathlon 2015",
-   "key":"TRI-2015",
-   "entries":[  
-      {  
-         "lastName":"Abend",
-         "firstName":"Judith",
-         "birthDay":"28.11.1970",
-         "ml":"stefan.schulz.1976@googlemail.com",
-         "dr":"1",
-         "domainName":"Startunterlagen Samstag",
-         "pr":"1",
-         "positionName":"Vorneweglaufen",
-         "ma":"12",
-         "positionPriority":"-1"
-      },
-      {  
-         "lastName":"Scharke",
-         "firstName":"Simone",
-         "birthDay":"31.12.1900",
-         "ml":"stefan.schulz.1976@googlemail.com",
-         "dr":"1",
-         "domainName":"Startunterlagen Samstag",
-         "pr":"2",
-         "positionName":"Wäsche aufhängen",
-         "ma":"12",
-         "positionPriority":"1"
-      },
-      {  
-         "lastName":"",
-         "firstName":"",
-         "birthDay":"",
-         "ml":"",
-         "dr":"1",
-         "domainName":"Startunterlagen Samstag",
-         "pr":"3",
-         "positionName":"Auto waschen",
-         "ma":"12",
-         "positionPriority":"2"
-      },
-      {  
-         "lastName":"Krohne",
-         "firstName":"Kiki",
-         "birthDay":"31.12.1900",
-         "ml":"stefan.schulz.1976@googlemail.com",
-         "dr":"2",
-         "domainName":"Moo",
-         "pr":"4",
-         "positionName":"Kaffee kochen",
-         "ma":"12",
-         "positionPriority":"1"
-      }
-   ]
+{
+	"description":"Triathlon 2015",
+	"key":"TRI-2015",
+	"domains":
+	[
+		{
+			"domainNumber":"1",
+			"domainName":"Startunterlagen Samstag",
+			"assignments":
+			[	
+				{
+					"lastName":"Abend",
+					"firstName":"Judith",
+					"birthDay":"28.11.1973",
+					"helperMail":"stefan.schulz.1976@googlemail.com",
+					"positionNumber":"1",
+					"positionName":"Vorneweglaufen1",
+					"minimalAge":"12",
+					"positionPriority":"-1",
+                    "choosable":"y",
+                    "aggregation":""					
+				}
+				,
+				{
+					"lastName":"",
+					"firstName":"",
+					"birthDay":"28.11.1970",
+					"helperMail":"stefan.schulz.1976@googlemail.com",
+					"positionNumber":"2",
+					"positionName":"Vorneweglaufen2",
+					"minimalAge":"12",
+					"positionPriority":"-1",
+					"choosable":"y",
+                    "aggregation":""
+				}
+			]
+		}
+		,
+		{
+			"domainNumber":"2",
+			"domainName":"Startunterlagen Sonntag",
+			"assignments":
+			[	
+				{
+					"lastName":"Abend",
+					"firstName":"Judith",
+					"birthDay":"28.11.1970",
+					"helperMail":"stefan.schulz.1976@googlemail.com",
+					"positionNumber":"3",
+					"positionName":"Vorneweglaufen3",
+					"minimalAge":"12",
+					"positionPriority":"-1",
+					"choosable":"y",
+                    "aggregation":""					
+				}
+			]
+		}
+		,
+		{
+			"domainNumber":"232",
+			"domainName":"Startunterlagen SonntagHH",
+			"assignments":
+			[	
+				{
+					"lastName":"Abend",
+					"firstName":"ggg",
+					"birthDay":"28.11.1970",
+					"helperMail":"stefan.schulz.1976@googlemail.com",
+					"positionNumber":"344",
+					"positionName":"Vorneweglaufen311",
+					"minimalAge":"12",
+					"positionPriority":"-1",
+					"choosable":"y",
+                    "aggregation":""					
+				}
+			]
+		}
+	]
 }

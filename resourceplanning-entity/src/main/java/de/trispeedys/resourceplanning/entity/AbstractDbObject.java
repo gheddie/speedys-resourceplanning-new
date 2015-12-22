@@ -25,6 +25,18 @@ public abstract class AbstractDbObject
         this.id = id;
     }
     
+    public void remove()
+    {
+        remove(null);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public <T> void remove(SessionToken sessionToken)
+    {
+        DefaultDatasource<T> datasource = (DefaultDatasource<T>) Datasources.getDatasource(getClass());
+        datasource.remove(sessionToken, this);
+    }    
+    
     public <T> T saveOrUpdate()
     {
         return saveOrUpdate(null);

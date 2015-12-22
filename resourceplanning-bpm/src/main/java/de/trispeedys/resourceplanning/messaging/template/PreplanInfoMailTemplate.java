@@ -1,29 +1,25 @@
 package de.trispeedys.resourceplanning.messaging.template;
 
+import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
+import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
-import de.trispeedys.resourceplanning.util.HtmlGenerator;
 
 @SuppressWarnings("rawtypes")
 public class PreplanInfoMailTemplate extends AbstractMailTemplate
 {
     public String constructBody()
     {
-        return new HtmlGenerator(true).withParagraph("Hallo " + getHelper().getFirstName() + "!")
-                .withParagraph(
-                        "Dein Einsatz auf der Position '" +
-                                getPosition().getDescription() +
-                                "' wurde in die abschliessende Event-Planung übernommen.")
-                .withParagraph(
-                        "Deine Zusage kann nun nicht mehr über den Link in der Bestätigungs-Mail gekündigt werden.")
-                .withParagraph("Deine Tri-Speedys.")
+        return new HtmlGenerator(true).withParagraph(helperGreeting())
+                .withParagraph(AppConfiguration.getInstance().getText(this, "body", getPosition().getDescription()))
+                .withParagraph(sincerely())
                 .render();
     }
 
     public String constructSubject()
     {
-        return "Abschluss der Planung";
+        return AppConfiguration.getInstance().getText(this, "subject");
     }
 
     public MessagingFormat getMessagingFormat()

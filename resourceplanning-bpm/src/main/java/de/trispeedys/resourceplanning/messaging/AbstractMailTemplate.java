@@ -9,8 +9,6 @@ import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 
 public abstract class AbstractMailTemplate<T>
 {
-    protected static final String SPEEDYS_GREETING = "speedysGreeting";
-
     private Helper helper;
 
     private Event event;
@@ -72,4 +70,9 @@ public abstract class AbstractMailTemplate<T>
     {
         return AppConfiguration.getInstance().getText(AbstractMailTemplate.class, "helperGreeting", getHelper().getFirstName());
     }
+    
+    public static String sincerely()
+    {
+        return AppConfiguration.getInstance().getText(AbstractMailTemplate.class, "speedysSincerely");
+    }    
 }

@@ -6,7 +6,8 @@ import de.trispeedys.resourceplanning.entity.MessageQueue;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.misc.MessagingState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
-import de.trispeedys.resourceplanning.service.MessagingService;
+import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
+import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 public class MailingTest
 {
@@ -20,7 +21,7 @@ public class MailingTest
         EntityFactory.buildMessageQueue("noreply@tri-speedys.de", "testhelper1.trispeedys@gmail.com", "Hallo", "Knallo", MessagingFormat.PLAIN).saveOrUpdate();
         
         //send
-        MessagingService.sendAllUnprocessedMessages();
+        RepositoryProvider.getRepository(MessageQueueRepository.class).sendAllUnprocessedMessages();
         
         //mail must have state 'PROCESSED'
         assertEquals(MessagingState.PROCESSED, ((MessageQueue) Datasources.getDatasource(MessageQueue.class).findAll(null).get(0)).getMessagingState());

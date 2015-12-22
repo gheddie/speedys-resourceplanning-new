@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
+import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
 import de.trispeedys.resourceplanning.interaction.HelperInteraction;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
-import de.trispeedys.resourceplanning.util.HtmlGenerator;
 
 public class ProposePositionsMailTemplate extends AbstractMailTemplate
 {
@@ -26,8 +27,8 @@ public class ProposePositionsMailTemplate extends AbstractMailTemplate
     // set if this mail is triggered because a former chosen position is already gone
     private boolean reentrant;
 
-    public ProposePositionsMailTemplate(Helper aHelper, Event aEvent, List<Position> aPositions, HelperCallback aTrigger,
-            Position aPriorAssignment, boolean aReentrant)
+    public ProposePositionsMailTemplate(Helper aHelper, Event aEvent, List<Position> aPositions,
+            HelperCallback aTrigger, Position aPriorAssignment, boolean aReentrant)
     {
         super(aHelper, aEvent, aPriorAssignment);
         this.positions = aPositions;
@@ -38,6 +39,8 @@ public class ProposePositionsMailTemplate extends AbstractMailTemplate
 
     public String constructBody()
     {
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        
         // group positions by domain (name)
         HashMap<String, List<Position>> grouping = new HashMap<String, List<Position>>();
         String domainName = null;
@@ -50,51 +53,44 @@ public class ProposePositionsMailTemplate extends AbstractMailTemplate
             }
             grouping.get(domainName).add(pos);
         }
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("Hallo, " + getHelper().getFirstName() + "!!");
-        buffer.append("<br><br>");
+        
+        HtmlGenerator generator = new HtmlGenerator(true);
+        generator.withParagraph(helperGreeting());
         if (reentrant)
         {
             // reentrant TODO welche zuvor gewählte Position?
-            buffer.append("Deine zuvor gewählte Position ist leider bereits besetzt.");
-            buffer.append("<br><br>");            
+            generator.withParagraph(configuration.getText(this, "priorAssignmentBlockedReentrant"));
         }
         else
         {
             // not reentrant --> assignment as before not possible
             if (trigger.equals(HelperCallback.ASSIGNMENT_AS_BEFORE))
-            {
-                buffer.append("Deine vormalige Position (" +
-                        priorAssignment.getDescription() + " im Bereich " + priorAssignment.getDomain().getName() +
-                        ") ist leider bereits besetzt.");
-                buffer.append("<br><br>");
-            }   
-        }
-        buffer.append("Bitte sag uns, welche Position du beim " + getEvent().getDescription() + " besetzen möchtest:");
-        buffer.append("<br><br>");
-        String entry = null;
-        for (String key : grouping.keySet())
-        {
-            buffer.append("<li>" + key + "</li>");
-            for (Position pos : grouping.get(key))
-            {
-                entry =
-                        HelperInteraction.getBaseLink() +
-                                "/ChosenPositionReceiver.jsp?chosenPosition=" + pos.getId() + "&helperId=" + getHelper().getId() +
-                                "&eventId=" + getEvent().getId();
-                buffer.append("<ul><a href=\"" + entry + "\">" + pos.getDescription() + "</a></ul>");
+            {                
+                generator.withParagraph(configuration.getText(this, "priorAssignmentBlocked",
+                        priorAssignment.getDescription(), priorAssignment.getDomain().getName()));
             }
         }
-        buffer.append("<br>");
-        buffer.append("Deine Speedys");
-        buffer.append("<br><br>");
-        buffer.append(HtmlGenerator.MACHINE_MESSAGE);        
-        return buffer.toString();
+        generator.withParagraph(configuration.getText(this, "requestAssignment", getEvent().getDescription()));
+        String link = null;
+        for (String key : grouping.keySet())
+        {
+            generator.withListItem(key);
+            for (Position pos : grouping.get(key))
+            {
+                link =
+                        HelperInteraction.getBaseLink() +
+                                "/ChosenPositionReceiver.jsp?chosenPosition=" + pos.getId() + "&helperId=" +
+                                getHelper().getId() + "&eventId=" + getEvent().getId();
+                generator.withUnorderedListEntry(link, pos.getDescription(), true);
+            }
+        }
+        generator.withParagraph(sincerely());
+        return generator.render();
     }
 
     public String constructSubject()
     {
-        return "Positions-Auswahl für den Wettkampf " + getEvent().getDescription();
+        return AppConfiguration.getInstance().getText(this, "subject", getEvent().getDescription());
     }
 
     public MessagingFormat getMessagingFormat()

@@ -6,17 +6,17 @@ import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.EventPositionDatasource;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventPosition;
+import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.repository.base.AbstractDatabaseRepository;
 import de.trispeedys.resourceplanning.repository.base.DatabaseRepository;
-import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 public class EventPositionRepository extends AbstractDatabaseRepository<EventPosition> implements DatabaseRepository<EventPositionRepository>
 {
-    public EventPosition findByEventAndPositionNumber(Event event, int positionNumber)
+    public EventPosition findByEventAndPositionNumber(Event event, Position position)
     {
-        return (EventPosition) dataSource().findSingle(null, EventPosition.ATTR_EVENT, event,
-                EventPosition.ATTR_POSITION, RepositoryProvider.getRepository(PositionRepository.class)
-                        .findPositionByPositionNumber(positionNumber));
+        List<EventPosition> result = dataSource().find(null, EventPosition.ATTR_EVENT, event,
+                EventPosition.ATTR_POSITION, position);
+        return (result == null || result.size() == 0 ? null : result.get(0));
     }
 
     protected DefaultDatasource<EventPosition> createDataSource()

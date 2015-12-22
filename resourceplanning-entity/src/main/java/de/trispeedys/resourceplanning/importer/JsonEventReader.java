@@ -31,7 +31,7 @@ import de.trispeedys.resourceplanning.persistence.SessionManager;
 import de.trispeedys.resourceplanning.util.StringUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
-public class JsonEventImporterNewStyle
+public class JsonEventReader
 {
     private String resourceName;
 
@@ -246,7 +246,6 @@ public class JsonEventImporterNewStyle
 
     public static void main(String[] args)
     {
-        // new JsonEventImporterNewStyle().doImport("Helfer_2015_NewStyle.json");
-        new JsonEventImporterNewStyle().doImport("Diana_NewStyle.json");
+        new JsonEventReader().doImport("AggregationTest.json");
     }
 }

@@ -5,7 +5,8 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import de.trispeedys.resourceplanning.delegate.requesthelp.misc.RequestHelpDelegate;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
-import de.trispeedys.resourceplanning.service.PositionService;
+import de.trispeedys.resourceplanning.repository.PositionRepository;
+import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class CheckManualAssignmentDelegate extends RequestHelpDelegate
@@ -18,7 +19,7 @@ public class CheckManualAssignmentDelegate extends RequestHelpDelegate
         }
         Event event = getEvent(execution);
         Long positionId = (Long) execution.getVariableLocal(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION);
-        if (PositionService.isPositionAvailable(event.getId(), positionId))
+        if (RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(event.getId(), positionId))
         {
             execution.setVariable(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POS_AVAILABLE, true);
         }

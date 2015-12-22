@@ -16,11 +16,9 @@ import org.camunda.bpm.engine.runtime.Execution;
 import org.camunda.bpm.engine.runtime.VariableInstance;
 import org.camunda.bpm.engine.runtime.VariableInstanceQuery;
 import org.camunda.bpm.engine.task.Task;
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import de.trispeedys.resourceplanning.HibernateUtil;
+import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.dto.EventDTO;
 import de.trispeedys.resourceplanning.dto.ExecutionDTO;
@@ -31,7 +29,7 @@ import de.trispeedys.resourceplanning.dto.MessageDTO;
 import de.trispeedys.resourceplanning.dto.PositionDTO;
 import de.trispeedys.resourceplanning.entity.AggregationRelation;
 import de.trispeedys.resourceplanning.entity.Event;
-import de.trispeedys.resourceplanning.entity.EventTemplate;
+import de.trispeedys.resourceplanning.entity.EventPosition;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.MessageQueue;
@@ -55,7 +53,6 @@ import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.rule.ChoosablePositionGenerator;
-import de.trispeedys.resourceplanning.service.MessagingService;
 import de.trispeedys.resourceplanning.util.EntityTreeNode;
 import de.trispeedys.resourceplanning.util.HierarchicalEventItemType;
 import de.trispeedys.resourceplanning.util.PositionTreeNode;
@@ -69,17 +66,38 @@ import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 public class ResourceInfo
 {
     private static final Logger logger = Logger.getLogger(ResourceInfo.class);
+    
+    private static final String EVENT_ID_REQUIRED = "EVENT_ID_REQUIRED";
+
+    private static final String EVENT_NOT_FOUND_BY_ID = "EVENT_NOT_FOUND_BY_ID";
+    
+    private static final String POSITIONS_NO_SWAP = "POSITIONS_NO_SWAP";
+    
+    private static final String WRONG_EVENT_STATE = "WRONG_EVENT_STATE";
+    
+    private static final String CANCELLATION_UNPROCESSABLE = "CANCELLATION_UNPROCESSABLE";
+    
+    private static final String PROC_INST_MISMATCH = "PROC_INST_MISMATCH";
+
+    private static final String POSITION_UNAVAILABLE_BY_NUMBER = "POSITION_UNAVAILABLE_BY_NUMBER";
+
+    private static final String POSITION_ALREADY_ASSIGNED_TO_EVENT = "POSITION_ALREADY_ASSIGNED_TO_EVENT";
+    
+    private static final String POSITION_NOT_ASSIGNED_TO_EVENT = "POSITION_NOT_ASSIGNED_TO_EVENT";
+    
+    private static final String POSITION_ASSIGNED_TO_HELPER = "POSITION_ASSIGNED_TO_HELPER";
 
     public PositionDTO[] queryAvailablePositions(Long eventId)
     {
+        AppConfiguration configuration = AppConfiguration.getInstance();
         if (eventId == null)
         {
-            throw new ResourcePlanningException("event id must not be null!!");
+            throw new ResourcePlanningException(configuration.getText(this, EVENT_ID_REQUIRED));
         }
         Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
         if (event == null)
         {
-            throw new ResourcePlanningException("event with id '" + eventId + "' could not found!!");
+            throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
         }
         List<PositionDTO> dtos = new ArrayList<PositionDTO>();
         PositionDTO dto = null;
@@ -97,13 +115,15 @@ public class ResourceInfo
 
     public void sendAllMessages()
     {
-        MessagingService.sendAllUnprocessedMessages();
+        RepositoryProvider.getRepository(MessageQueueRepository.class).sendAllUnprocessedMessages();
     }
 
+    /*
     public void startProcessesForActiveHelpersByTemplateName(String templateName)
     {
         EventManager.triggerHelperProcesses(templateName);
     }
+    */
 
     public void startProcessesForActiveHelpersByEventId(Long eventId)
     {
@@ -315,9 +335,7 @@ public class ResourceInfo
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         if (helper == null)
         {
-            throw new ResourcePlanningException("got helper id '" +
-                    helperId + "' from process with task id '" + task.getId() +
-                    "' but NO helper from repository --> possible mismatch between camunda an speedy DB?!?");
+            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, PROC_INST_MISMATCH, helperId, task.getId()));
         }
         return helper;
     }
@@ -336,7 +354,7 @@ public class ResourceInfo
         }
         catch (MismatchingMessageCorrelationException e)
         {
-            throw new ResourcePlanningException("can not correlate cancellation message [helper id=" + helperId + "]!!");
+            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, CANCELLATION_UNPROCESSABLE, helperId));            
         }
     }
 
@@ -368,18 +386,19 @@ public class ResourceInfo
     
     public void swapPositions(Long helperIdSource, Long helperIdTarget, Long eventId)
     {
+        AppConfiguration configuration = AppConfiguration.getInstance();        
         if (eventId == null)
         {
-            throw new ResourcePlanningException("event must not be NULL!!");
+            throw new ResourcePlanningException(configuration.getText(this, EVENT_ID_REQUIRED));
         }
         Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
         if (event == null)
         {
-            throw new ResourcePlanningException("event with id '"+eventId+"' could not be found!!");
-        }        
+            throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
+        }                
         if (!(event.getEventState().equals(EventState.INITIATED)))
         {
-            throw new ResourcePlanningException("event must be initiated!!");
+            throw new ResourcePlanningException(configuration.getText(this, WRONG_EVENT_STATE, EventState.INITIATED));
         }        
         HelperAssignmentRepository repository = RepositoryProvider.getRepository(HelperAssignmentRepository.class);
 
@@ -403,11 +422,81 @@ public class ResourceInfo
         catch (Exception e)
         {
             tx.rollback();
-            throw new ResourcePlanningException("positions could not be swapped : " + e.getMessage());
+            throw new ResourcePlanningException(configuration.getText(this, POSITIONS_NO_SWAP, e.getMessage()));
         }
         finally
         {
             SessionManager.getInstance().unregisterSession(sessionHolder);   
         }
+    }
+    
+    public void removePositionFromEvent(Long eventId, int positionNumber)
+    {
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        if (eventId == null)
+        {
+            throw new ResourcePlanningException(configuration.getText(this, EVENT_ID_REQUIRED));
+        }
+        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        if (event == null)
+        {
+            throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
+        }
+        // event must be 'INITIATED'
+        if (!(event.getEventState().equals(EventState.INITIATED)))
+        {
+            throw new ResourcePlanningException(configuration.getText(this, WRONG_EVENT_STATE, EventState.INITIATED));
+        }
+        // position must be there
+        Position position = RepositoryProvider.getRepository(PositionRepository.class).findPositionByPositionNumber(positionNumber);
+        if (position == null)
+        {
+            throw new ResourcePlanningException(configuration.getText(this, POSITION_UNAVAILABLE_BY_NUMBER, positionNumber));
+        }
+        // position must be an event position in the given event
+        EventPosition eventPosition = RepositoryProvider.getRepository(EventPositionRepository.class).findByEventAndPositionNumber(event, position);
+        if (eventPosition == null)
+        {
+            throw new ResourcePlanningException(configuration.getText(this, POSITION_NOT_ASSIGNED_TO_EVENT, positionNumber, event.getDescription()));
+        }
+        // position must NOT be assigned in the event
+        if (RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByEventAndPosition(event, position) != null)
+        {
+            throw new ResourcePlanningException(configuration.getText(this, POSITION_ASSIGNED_TO_HELPER, positionNumber, event.getDescription()));
+        }
+        // finally, remove the event position...
+        eventPosition.remove();
+    }
+    
+    public void addPositionToEvent(Long eventId, int positionNumber)
+    {
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        if (eventId == null)
+        {
+            throw new ResourcePlanningException(configuration.getText(this, EVENT_ID_REQUIRED));
+        }
+        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        if (event == null)
+        {
+            throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
+        }
+        // event must be 'INITIATED'
+        if (!(event.getEventState().equals(EventState.INITIATED)))
+        {
+            throw new ResourcePlanningException(configuration.getText(this, WRONG_EVENT_STATE, EventState.INITIATED));
+        }
+        // position must be there
+        Position position = RepositoryProvider.getRepository(PositionRepository.class).findPositionByPositionNumber(positionNumber);
+        if (position == null)
+        {
+            throw new ResourcePlanningException(configuration.getText(this, POSITION_UNAVAILABLE_BY_NUMBER, positionNumber));
+        }
+        // position must not already be an event position in the given event
+        if (RepositoryProvider.getRepository(EventPositionRepository.class).findByEventAndPositionNumber(event, position) != null)
+        {
+            throw new ResourcePlanningException(configuration.getText(this, POSITION_ALREADY_ASSIGNED_TO_EVENT, positionNumber, event.getDescription()));
+        }
+        // finally, create the event position...
+        EntityFactory.buildEventPosition(event, position).saveOrUpdate(null);
     }
 }

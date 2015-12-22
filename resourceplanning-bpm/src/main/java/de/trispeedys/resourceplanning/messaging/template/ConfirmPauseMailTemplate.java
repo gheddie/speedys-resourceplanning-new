@@ -1,10 +1,11 @@
 package de.trispeedys.resourceplanning.messaging.template;
 
+import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
+import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
-import de.trispeedys.resourceplanning.util.HtmlGenerator;
 
 public class ConfirmPauseMailTemplate extends AbstractMailTemplate
 {
@@ -15,9 +16,10 @@ public class ConfirmPauseMailTemplate extends AbstractMailTemplate
 
     public String constructBody()
     {
-        return new HtmlGenerator(true).withParagraph("Hallo " + getHelper().getFirstName() + "!")
-                .withParagraph("Schade, dass Du uns dieses Mal nicht helfen kannst. Bis zum nächsten Mal (?)!")
-                .withParagraph("Deine Tri-Speedys.")
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator(true).withParagraph(helperGreeting())
+                .withParagraph(configuration.getText(this, "body"))
+                .withParagraph(sincerely())
                 .render();
     }
 

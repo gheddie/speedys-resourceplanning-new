@@ -6,7 +6,8 @@ import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
-import de.trispeedys.resourceplanning.service.MessagingService;
+import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
+import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 /**
@@ -28,7 +29,7 @@ public abstract class RequestHelpNotificationDelegate extends RequestHelpDelegat
             String toAddress)
     {
         AbstractMailTemplate template = getMessageTemplate(execution, helper, position, event);
-        MessagingService.createMessage("noreply@tri-speedys.de", toAddress, template.constructSubject(),
+        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de", toAddress, template.constructSubject(),
                 template.constructBody(), template.getMessagingType(), template.getMessagingFormat(), true);
     }
 

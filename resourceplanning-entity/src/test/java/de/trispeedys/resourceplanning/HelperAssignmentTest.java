@@ -18,10 +18,9 @@ import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.misc.SpeedyTestUtil;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
+import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.service.AssignmentService;
-import de.trispeedys.resourceplanning.service.PositionService;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
@@ -57,7 +56,7 @@ public class HelperAssignmentTest
         EntityFactory.buildHelperAssignment(helper, event, position2).saveOrUpdate();
 
         // confirm helper for another position of the same event
-        AssignmentService.assignHelper(helper, event, position1);
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helper, event, position1);
     }
 
     /**
@@ -82,7 +81,7 @@ public class HelperAssignmentTest
                 EntityFactory.buildPosition("Laufverpflegung", 16, SpeedyTestUtil.buildDefaultDomain(1), 0, true).saveOrUpdate();
 
         // Muss zu Ausnahme führen
-        AssignmentService.assignHelper(helper, event, position);
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helper, event, position);
     }
 
     /**
@@ -110,7 +109,7 @@ public class HelperAssignmentTest
                         .saveOrUpdate();
 
         // Muss zu Ausnahme führen
-        AssignmentService.assignHelper(helper, event, position);
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helper, event, position);
     }
 
     @Test
@@ -138,7 +137,7 @@ public class HelperAssignmentTest
         EntityFactory.buildHelperAssignment(helper, evt2012, position).saveOrUpdate();
 
         // last confirmed assignment should be in 2012
-        HelperAssignment lastConfirmedAssignment = AssignmentService.getPriorAssignment(helper, evt2014.getEventTemplate());
+        HelperAssignment lastConfirmedAssignment = RepositoryProvider.getRepository(HelperAssignmentRepository.class).getPriorAssignment(helper, evt2014.getEventTemplate());
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(lastConfirmedAssignment.getEvent().getEventDate());
@@ -169,7 +168,7 @@ public class HelperAssignmentTest
         SpeedyRoutines.relatePositionsToEvent(event2014, position);
 
         // last confirmed assignment shuold be in 2012
-        HelperAssignment lastConfirmedAssignment = AssignmentService.getPriorAssignment(helper, event2014.getEventTemplate());
+        HelperAssignment lastConfirmedAssignment = RepositoryProvider.getRepository(HelperAssignmentRepository.class).getPriorAssignment(helper, event2014.getEventTemplate());
 
         assertEquals(null, lastConfirmedAssignment);
     }
@@ -215,7 +214,7 @@ public class HelperAssignmentTest
         EntityFactory.buildHelperAssignment(blockingHelper, event2016, position).saveOrUpdate();
 
         // 'helperToReassign' can not be reassigned in 2016 as the position is assigned to 'blockingHelper'...
-        assertFalse(PositionService.isPositionAvailable(event2016, AssignmentService.getPriorAssignment(helperToReassign, event2016.getEventTemplate()).getPosition()));
+        assertFalse(RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(event2016, RepositoryProvider.getRepository(HelperAssignmentRepository.class).getPriorAssignment(helperToReassign, event2016.getEventTemplate()).getPosition()));
     }
 
     /**

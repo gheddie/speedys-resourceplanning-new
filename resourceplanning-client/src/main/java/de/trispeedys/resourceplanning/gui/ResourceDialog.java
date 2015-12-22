@@ -78,6 +78,13 @@ public class ResourceDialog extends SpeedyFrame
     private PositionDTO selectedAvailablePosition;
 
     private MessageDTO selectedMessage;
+    
+    private static final int TABINDEX_POSITIONS = 0;
+    private static final int TABINDEX_PROCESSES = 1;
+    private static final int TABINDEX_HELPER = 2;
+    private static final int TABINDEX_MANUAL_ASSIGNMENTS = 3;
+    private static final int TABINDEX_MESSAGES = 4;
+    private static final int TABINDEX_POST_PROCESSING = 5;
 
     public ResourceDialog(String title, boolean resizable, boolean closable, boolean maximizable, boolean iconifiable,
             SpeedyView parentFrame)
@@ -238,6 +245,37 @@ public class ResourceDialog extends SpeedyFrame
         System.out.println("event selected : " + event.getDescription());
         fillTree(selectedEvent.getEventId());
         fillPostProcessing(selectedEvent.getEventId());
+        enableTabs(selectedEvent.getEventState());
+    }
+
+    private void enableTabs(String eventState)
+    {
+        switch (eventState)
+        {
+            case "PLANNED":                
+                enableTabs(1, 0, 1, 0, 0, 0);                
+                break;
+            case "INITIATED":
+                enableTabs(1, 1, 1, 1, 1, 1);
+                break;
+            case "FINISHED":
+                enableTabs(1, 0, 1, 0, 0, 0);
+                break;                
+        }
+    }
+
+    private void enableTabs(int... enableStates)
+    {
+        enableTab(TABINDEX_PROCESSES, enableStates);
+        enableTab(TABINDEX_HELPER, enableStates);
+        enableTab(TABINDEX_MANUAL_ASSIGNMENTS, enableStates);
+        enableTab(TABINDEX_MESSAGES, enableStates);
+        enableTab(TABINDEX_POST_PROCESSING, enableStates);
+    }
+
+    private void enableTab(int index, int... enableStates)
+    {
+        tdbMain.setEnabledAt(index, enableStates[index] == 1 ? true : false);
     }
 
     private void manualAssignmentSelected(ManualAssignmentDTO manualAssignment)
@@ -584,11 +622,13 @@ public class ResourceDialog extends SpeedyFrame
             {
 
                 // JFormDesigner evaluation mark
+                /*
                 pnlPositions.setBorder(new javax.swing.border.CompoundBorder(
                     new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
                         "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
                         javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
                         java.awt.Color.red), pnlPositions.getBorder())); pnlPositions.addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+                        */
 
                 pnlPositions.setLayout(new GridBagLayout());
                 ((GridBagLayout)pnlPositions.getLayout()).columnWidths = new int[] {0, 0};

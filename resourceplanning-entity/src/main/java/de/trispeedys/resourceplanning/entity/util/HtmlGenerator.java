@@ -1,10 +1,12 @@
-package de.trispeedys.resourceplanning.util;
+package de.trispeedys.resourceplanning.entity.util;
 
 import java.text.MessageFormat;
 
+import de.trispeedys.resourceplanning.configuration.AppConfiguration;
+
 public class HtmlGenerator
 {
-    public static final String MACHINE_MESSAGE = "Bitte antworte nicht auf diese Mail, da sie von einer herzlosen Maschine erstellt wurde.";
+    public static final String MACHINE_MESSAGE = "machineMessage";
     
     private StringBuffer buffer;
 
@@ -64,6 +66,28 @@ public class HtmlGenerator
         }
         return this;
     }
+    
+    public HtmlGenerator withListItem(String key)
+    {
+        buffer.append("<li>" + key + "</li>");
+        newLine();
+        return this;
+    }
+    
+    public HtmlGenerator withUnorderedListEntry(String link, String text, boolean renderAsLink)
+    {
+        if (renderAsLink)
+        {
+            buffer.append("<ul><a href=\"" + link + "\">" + text + "</a></ul>");   
+        }        
+        else
+        {
+            // no link, just the entry...
+            buffer.append("<ul>" + text + "</ul>");
+        }
+        newLine();
+        return this;        
+    }
 
     public HtmlGenerator withParagraph(String text)
     {
@@ -74,7 +98,7 @@ public class HtmlGenerator
     
     public HtmlGenerator withClosingLink()
     {
-        buffer.append("<a href=\"javascript:close_window();\">Schliessen</a>");
+        buffer.append("<a href=\"javascript:close_window();\">"+AppConfiguration.getInstance().getText(this, "close")+"</a>");
         newLine();
         return this;
     }
@@ -92,7 +116,7 @@ public class HtmlGenerator
     
     private void withMachineMessage()
     {
-        withParagraph(MACHINE_MESSAGE);
+        withParagraph(AppConfiguration.getInstance().getText(HtmlGenerator.MACHINE_MESSAGE));
     }
 
     private void newLine()

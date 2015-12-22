@@ -5,9 +5,9 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import de.trispeedys.resourceplanning.delegate.requesthelp.misc.RequestHelpDelegate;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
+import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.service.AssignmentService;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class ConfirmHelperDelegate extends RequestHelpDelegate
@@ -21,6 +21,6 @@ public class ConfirmHelperDelegate extends RequestHelpDelegate
         }
         Long positionId = (Long) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION);
         Position position = RepositoryProvider.getRepository(PositionRepository.class).findById(positionId);
-        AssignmentService.assignHelper(getHelper(execution), getEvent(execution), position);
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(getHelper(execution), getEvent(execution), position);
     }
 }

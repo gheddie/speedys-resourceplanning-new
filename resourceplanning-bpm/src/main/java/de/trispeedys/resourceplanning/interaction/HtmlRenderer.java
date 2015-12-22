@@ -5,13 +5,14 @@ import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
+import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
+import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.util.HtmlGenerator;
 
 public class HtmlRenderer
 {
@@ -26,30 +27,30 @@ public class HtmlRenderer
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        AppConfiguration configuration = AppConfiguration.getInstance();
         HtmlGenerator generator =
-                new HtmlGenerator().withHeader("Hallo " + helper.getFirstName() + "!").withParagraph(
-                        "Danke, wir haben deine Nachricht erhalten (" + callback.getSummary() + ").");
+                new HtmlGenerator().withHeader(
+                        configuration.getText(HtmlRenderer.class, "hello", helper.getFirstName())).withParagraph(
+                        configuration.getText(HtmlRenderer.class, "thanks", callback.getSummary()));
         if (callback.equals(HelperCallback.ASSIGNMENT_AS_BEFORE))
         {
             // TODO we can check, if now there is an assignment (and if so, tell it to the user)
             if (RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByHelperAndEvent(helper, event) != null)
             {
                 // yes, we have...
-                generator =
-                        generator.withParagraph(AppConfiguration.getInstance().getText(HtmlRenderer.class, "assignmentSucces"));
+                generator = generator.withParagraph(configuration.getText(HtmlRenderer.class, "assignmentSucces"));
             }
             else
             {
                 // no, we have not...
-                generator =
-                        generator.withParagraph(AppConfiguration.getInstance().getText(HtmlRenderer.class, "assignmentFault"));
+                generator = generator.withParagraph(configuration.getText(HtmlRenderer.class, "assignmentFault"));
             }
         }
         else if (callback.equals(HelperCallback.CHANGE_POS))
         {
-            generator = generator.withParagraph("Du wirst demnächst eine weitere Mail erhalten.");
+            generator = generator.withParagraph(configuration.getText(HtmlRenderer.class, "notice"));
         }
-        return generator.withParagraph("Deine Tri-Speedys.").render();
+        return generator.withParagraph(AbstractMailTemplate.sincerely()).render();
     }
 
     /**
@@ -61,11 +62,12 @@ public class HtmlRenderer
     public static String renderCorrelationFault(Long helperId)
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
-        return new HtmlGenerator().withHeader("Hallo " + helper.getFirstName() + "!")
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withHeader(configuration.getText(HtmlRenderer.class, "hello", helper.getFirstName()))
                 .withLinebreak()
-                .withParagraph(AppConfiguration.getInstance().getText("renderCorrelationFault"))
+                .withParagraph(configuration.getText(HtmlRenderer.class, "renderCorrelationFault"))
                 .withLinebreak()
-                .withParagraph("Deine Tri-Speedys.")
+                .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
 
@@ -82,16 +84,18 @@ public class HtmlRenderer
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         Position chosenPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(chosenPositionId);
-        return new HtmlGenerator().withHeader("Hallo " + helper.getFirstName() + "!")
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withHeader(configuration.getText(HtmlRenderer.class, "hello", helper.getFirstName()))
                 .withLinebreak(2)
-                .withParagraph("Deine Nachricht ist angekommen.")
+                .withParagraph(configuration.getText(HtmlRenderer.class, "messageReceived"))
                 .withLinebreak()
+                // TODO translate                
                 .withParagraph(
                         "Leider ist die von dir gewählte Position (" +
                                 chosenPosition.getDescription() + ") bereits besetzt. " +
                                 "Du wirst in Kürze eine Mail mit Alternativvorschlägen erhalten.")
                 .withLinebreak(2)
-                .withParagraph("Deine Tri-Speedys.")
+                .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
 
@@ -106,42 +110,46 @@ public class HtmlRenderer
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         Position chosenPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(chosenPositionId);
-        return new HtmlGenerator().withHeader("Hallo " + helper.getFirstName() + "!")
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withHeader(configuration.getText(HtmlRenderer.class, "hello", helper.getFirstName()))
                 .withLinebreak(2)
-                .withParagraph("Deine Nachricht ist angekommen.")
+                .withParagraph(configuration.getText(HtmlRenderer.class, "messageReceived"))
                 .withLinebreak()
+                // TODO translate
                 .withParagraph(
                         "Die von dir gewählte Position (" +
                                 chosenPosition.getDescription() + ") ist verfügbar und wurde Dir zugewiesen. " +
                                 "Du wirst hierzu in Kürze eine Bestätigungs-Mail hierzu erhalten.")
                 .withLinebreak(2)
-                .withParagraph("Deine Tri-Speedys.")
+                .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
 
     public static String renderCancellationCallback(Long helperId)
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
-        return new HtmlGenerator().withHeader("Hallo " + helper.getFirstName() + "!")
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withHeader(configuration.getText(HtmlRenderer.class, "hello", helper.getFirstName()))
                 .withLinebreak(2)
-                .withParagraph("Deine Nachricht ist angekommen.")
+                .withParagraph(configuration.getText(HtmlRenderer.class, "messageReceived"))
                 .withLinebreak()
-                .withParagraph("Du wirst hierzu in Kürze eine Bestätigungs-Mail hierzu erhalten.")
+                .withParagraph(configuration.getText(HtmlRenderer.class, "announceConfirmation"))
                 .withLinebreak(2)
-                .withParagraph("Deine Tri-Speedys.")
+                .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
 
     public static String renderDeactivationRecoveryCallback(Long helperId)
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
-        return new HtmlGenerator().withHeader("Hallo " + helper.getFirstName() + "!")
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withHeader(configuration.getText(HtmlRenderer.class, "hello", helper.getFirstName()))
                 .withLinebreak(2)
-                .withParagraph("Deine Nachricht ist angekommen.")
+                .withParagraph(configuration.getText(HtmlRenderer.class, "messageReceived"))
                 .withLinebreak()
-                .withParagraph("Du wirst bei der Helferplanung für die nächsten Events weiterhin berücksichtigt.")
+                .withParagraph(configuration.getText(HtmlRenderer.class, "furtherRegarding"))
                 .withLinebreak(2)
-                .withParagraph("Deine Tri-Speedys.")
+                .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
 }

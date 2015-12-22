@@ -1,5 +1,7 @@
 package de.trispeedys.resourceplanning;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,12 +22,10 @@ import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.service.PositionService;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.RequestHelpTestUtil;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
-import static org.junit.Assert.assertTrue;
 
 public class VariableAssignmentTest
 {
@@ -74,7 +74,7 @@ public class VariableAssignmentTest
         Position position = RepositoryProvider.getRepository(PositionRepository.class).findAll(null).get(0);
         
         Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POS_AVAILABLE, PositionService.isPositionAvailable(event2016.getId(), position.getId()));
+        variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POS_AVAILABLE, RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(event2016.getId(), position.getId()));
         variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION, position.getId());
         processEngine.getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_POS_CHOSEN, businessKey, variables);
         

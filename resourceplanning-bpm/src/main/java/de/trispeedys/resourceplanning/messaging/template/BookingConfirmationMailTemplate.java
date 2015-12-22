@@ -6,9 +6,9 @@ import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
+import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
 import de.trispeedys.resourceplanning.interaction.HelperInteraction;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
-import de.trispeedys.resourceplanning.util.HtmlGenerator;
 
 public class BookingConfirmationMailTemplate extends AbstractMailTemplate
 {
@@ -29,13 +29,12 @@ public class BookingConfirmationMailTemplate extends AbstractMailTemplate
                         "/AssignmentCancellationReceiver.jsp?helperId=" + getHelper().getId() + "&eventId=" +
                         getEvent().getId();
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator(true).withParagraph("Hallo " + getHelper().getFirstName() + "!")
+        return new HtmlGenerator(true).withParagraph(helperGreeting())
                 .withParagraph(configuration.getText(this, "body", getPosition().getDescription(),
                         getPosition().getDomain().getName()))
-                .withLinebreak()
                 .withLink(link, configuration.getText(this, "cancel"))
                 .withLinebreak()
-                .withParagraph(configuration.getText(SPEEDYS_GREETING))
+                .withParagraph(sincerely())
                 .render();
     }
 

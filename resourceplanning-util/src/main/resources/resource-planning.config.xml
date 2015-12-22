@@ -2,7 +2,7 @@
 <configuration>
 	<!-- app specific -->
 	<property name="version">0.0.1-SNAPSHOT</property>
-	<property name="host">http://192.168.0.8:8080</property>
+	<property name="host">http://129.103.241.74:8080</property>
 	<!-- smtp configuration -->
 	<property name="smtp_user">testhelper1.trispeedys@gmail.com</property>
 	<property name="smtp_passwd">trispeedys1234</property>

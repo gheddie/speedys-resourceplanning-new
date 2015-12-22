@@ -11,10 +11,10 @@ import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
+import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
 import de.trispeedys.resourceplanning.interaction.HelperInteraction;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 import de.trispeedys.resourceplanning.rule.CallbackChoiceGenerator;
-import de.trispeedys.resourceplanning.util.HtmlGenerator;
 
 public class SendReminderMailTemplate extends AbstractMailTemplate
 {
@@ -34,20 +34,21 @@ public class SendReminderMailTemplate extends AbstractMailTemplate
 
     public String constructBody()
     {
+        AppConfiguration configuration = AppConfiguration.getInstance();
         HtmlGenerator generator =
                 new HtmlGenerator(true).withParagraph(helperGreeting()).withParagraph(
-                        AppConfiguration.getInstance().getText(this, "priorAssignment", getPosition().getDescription(),
+                        configuration.getText(this, "priorAssignment", getPosition().getDescription(),
                                 getPosition().getDomain().getName()));
         if (!(priorPositionAvailable))
         {
-            generator = generator.withParagraph("Diese Position ist leider nicht mehr verfügbar.");
+            generator = generator.withParagraph(configuration.getText(this, "noLongerAvailable"));
         }
         else
         {
-            generator = generator.withParagraph("Diese Position auch dieses Mal wieder zu besetzen.");
+            generator = generator.withParagraph(configuration.getText(this, "available"));
         }
         generator =
-                generator.withParagraph(AppConfiguration.getInstance().getText(this, "body3",
+                generator.withParagraph(configuration.getText(this, "body3",
                         df.format(getEvent().getEventDate()), getEvent().getDescription()));
         List<HelperCallback> generated = new CallbackChoiceGenerator().generate(getHelper(), getEvent());
         if (generated != null)
@@ -62,20 +63,21 @@ public class SendReminderMailTemplate extends AbstractMailTemplate
                                 callback.getDescription()).withLinebreak(2);
             }
         }
-        generator = generator.withParagraph("Deine Tri-Speedys.");
+        generator = generator.withParagraph(sincerely());
         return generator.render();
     }
 
     public String constructSubject()
     {
+        AppConfiguration configuration = AppConfiguration.getInstance();
         String subject = null;
         switch (attemptCount)
         {
             case 0:
-                subject = "Helfermeldung zum " + getEvent().getDescription();
+                subject = configuration.getText(this, "subjectPlain", getEvent().getDescription());
                 break;
             default:
-                subject = "Helfermeldung zum " + getEvent().getDescription() + " (" + attemptCount + ". Erinnerung)";
+                subject = configuration.getText(this, "subjectReminded", getEvent().getDescription(), attemptCount);
                 break;
         }
         return subject;

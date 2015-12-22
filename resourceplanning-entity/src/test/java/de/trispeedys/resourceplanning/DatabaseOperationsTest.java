@@ -25,7 +25,6 @@ import de.trispeedys.resourceplanning.persistence.SessionManager;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
-import de.trispeedys.resourceplanning.util.exception.ResourcePlanningPersistenceException;
 
 public class DatabaseOperationsTest
 {
@@ -238,6 +237,25 @@ public class DatabaseOperationsTest
             assertEquals(0, SessionManager.getInstance().getOpenSessionCount());
         }
         // created stuff must be gone...
+        assertEquals(0, RepositoryProvider.getRepository(HelperRepository.class).findAll(null).size());
+    }
+    
+    @Test
+    public void testRemoveEntity()
+    {
+        // clear db
+        HibernateUtil.clearAll();
+        
+        assertEquals(0, RepositoryProvider.getRepository(HelperRepository.class).findAll(null).size());
+        
+        // create a helper
+        Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "moo@foo.fi", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
+        
+        assertEquals(1, RepositoryProvider.getRepository(HelperRepository.class).findAll(null).size());
+        
+        // remove the helper
+        helper.remove();
+        
         assertEquals(0, RepositoryProvider.getRepository(HelperRepository.class).findAll(null).size());
     }
 }

@@ -32,22 +32,20 @@ import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
-import de.trispeedys.resourceplanning.importer.JsonEventImporter;
-import de.trispeedys.resourceplanning.importer.JsonEventImporterNewStyle;
+import de.trispeedys.resourceplanning.importer.JsonEventReader;
 import de.trispeedys.resourceplanning.persistence.SessionHolder;
 import de.trispeedys.resourceplanning.persistence.SessionManager;
 import de.trispeedys.resourceplanning.repository.DomainRepository;
 import de.trispeedys.resourceplanning.repository.EventRepository;
+import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.service.AssignmentService;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.PositionInclude;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
-@SuppressWarnings("restriction")
 @WebService
 @SOAPBinding(style = Style.RPC)
 public class TestDataProvider
@@ -95,7 +93,7 @@ public class TestDataProvider
         // block one of the positions with a new helper
         Helper blockingHelper =
                 EntityFactory.buildHelper("New1", "New1", "a@b.de", HelperState.ACTIVE, 5, 5, 1980).saveOrUpdate();
-        AssignmentService.assignHelper(blockingHelper, event2016, (Position) Datasources.getDatasource(Position.class)
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(blockingHelper, event2016, (Position) Datasources.getDatasource(Position.class)
                 .findAll(null)
                 .get(0));
 
@@ -106,7 +104,7 @@ public class TestDataProvider
     }
 
     /**
-     * Duplicates the smimple event and creates two new helpers. Idea:
+     * Duplicates the simple event and creates two new helpers. Idea:
      * 
      * + Let one of the 'old helpers' choose option {@link HelperCallback#CHANGE_POS} (receives). + Inbetween, block two
      * of the positions with the new helpers. + Old helper can either choose a free or occupied positions (which causes
@@ -146,11 +144,11 @@ public class TestDataProvider
         // new helper 1 with assignment
         Helper newHelper1 =
                 EntityFactory.buildHelper("New1", "New1", "a@b.de", HelperState.ACTIVE, 5, 5, 1980).saveOrUpdate();
-        AssignmentService.assignHelper(newHelper1, event2016, positions.get(1));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(newHelper1, event2016, positions.get(1));
         // new helper 2 with assignment
         Helper newHelper2 =
                 EntityFactory.buildHelper("New2", "New2", "a@b.de", HelperState.ACTIVE, 5, 5, 1980).saveOrUpdate();
-        AssignmentService.assignHelper(newHelper2, event2016, positions.get(3));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(newHelper2, event2016, positions.get(3));
         for (Helper helper : activeHelpers)
         {
             startHelperRequestProcess(helper.getId(), event2016.getId());
@@ -307,7 +305,7 @@ public class TestDataProvider
         killAllExecutions();
 
         // (2) import json
-        new JsonEventImporterNewStyle().doImport(resourceName);
+        new JsonEventReader().doImport(resourceName);
 
         // (3) duplicate unchanged
         duplicate2015Unchanged();

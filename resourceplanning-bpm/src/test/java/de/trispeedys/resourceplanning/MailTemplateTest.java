@@ -9,25 +9,24 @@ import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
-import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
-import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.messaging.template.AlertDeactivationMailTemplate;
 import de.trispeedys.resourceplanning.messaging.template.BookingConfirmationMailTemplate;
 import de.trispeedys.resourceplanning.messaging.template.ProposePositionsMailTemplate;
 import de.trispeedys.resourceplanning.messaging.template.SendReminderMailTemplate;
-import de.trispeedys.resourceplanning.service.MessagingService;
 
 public class MailTemplateTest
 {
     // TODO useful test ?!?
-    //@Test
+    @Test
     public void testProposePositions()
     {
+        System.out.println("---------------------------------------------------------------------------------------------");
+        
         // clear db
         HibernateUtil.clearAll();
         // create domains
@@ -52,13 +51,20 @@ public class MailTemplateTest
         List<Position> positions = Datasources.getDatasource(Position.class).findAll(null);
         ProposePositionsMailTemplate template =
                 new ProposePositionsMailTemplate(helper, event, positions, HelperCallback.ASSIGNMENT_AS_BEFORE, pos3, false);
+        
+        System.out.println(template.constructBody());
+        
+        /*
         MessagingService.createMessage("noreply@tri-speedys.de", "testhelper1.trispeedys@gmail.com",
                 template.constructSubject(), template.constructBody(), MessagingType.NONE, MessagingFormat.HTML, true);
         MessagingService.sendAllUnprocessedMessages();
+        */
+        
+        System.out.println("---------------------------------------------------------------------------------------------");
     }
     
     // TODO useful test ?!?
-    @Test   
+    // @Test   
     public void testBookingConfirmation()
     {
         System.out.println("---------------------------------------------------------------------------------------------");

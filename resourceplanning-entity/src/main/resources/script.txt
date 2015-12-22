@@ -109,7 +109,8 @@ create table event_position
 	id bigint not null default nextval('event_position_id_seq'),
 	position_id bigint not null,
 	event_id bigint not null,	
-	primary key (id)
+	primary key (id),
+	constraint evt_pos_unique_evt unique (event_id, position_id)
 );
 
 alter table event_position add constraint fk_evt_pos_position foreign key (position_id) references position (id);
