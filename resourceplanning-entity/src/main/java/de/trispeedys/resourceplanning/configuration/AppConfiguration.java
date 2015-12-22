@@ -29,8 +29,11 @@ public class AppConfiguration
 
     private Properties textResources;
 
+    private boolean planningInProgress;
+
     private AppConfiguration()
     {
+        planningInProgress = false;
         parseConfiguration();
         initTextResources();
     }
@@ -121,5 +124,15 @@ public class AppConfiguration
     public String getText(String key)
     {
         return getText(null, key, null);
+    }
+
+    public boolean isPlanningInProgress()
+    {
+        return planningInProgress;
+    }
+
+    public void setPlanningInProgress(boolean planningInProgress)
+    {
+        this.planningInProgress = planningInProgress;
     }
 }

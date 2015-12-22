@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.camunda.bpm.BpmPlatform;
 
+import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
@@ -21,6 +23,10 @@ import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class EventManager
 {
+    private static final Logger logger = Logger.getLogger(EventManager.class);
+    
+    private static final String PLANNING_IN_PROGRESS = "PLANNING_IN_PROGRESS";
+    
     public static void triggerHelperProcesses(String templateName)
     {
         if (StringUtil.isBlank(templateName))
@@ -53,28 +59,50 @@ public class EventManager
 
     public static void triggerHelperProcesses(Long eventId)
     {
-        if (eventId == null)
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        
+        if (configuration.isPlanningInProgress())
         {
-            throw new ResourcePlanningException("event id must not be null!!");
+            // planning in progress --> exception
+            throw new ResourcePlanningException(configuration.getText(EventManager.class, PLANNING_IN_PROGRESS));
         }
-        Event event = Datasources.getDatasource(Event.class).findById(null, eventId);
-        if (event == null)
+        
+        try
         {
-            throw new ResourcePlanningException("event with id '" + eventId + "' could not be found!!");
+            configuration.setPlanningInProgress(true);
+            
+            if (eventId == null)
+            {
+                throw new ResourcePlanningException("event id must not be null!!");
+            }
+            Event event = Datasources.getDatasource(Event.class).findById(null, eventId);
+            if (event == null)
+            {
+                throw new ResourcePlanningException("event with id '" + eventId + "' could not be found!!");
+            }
+            if (!(event.getEventState().equals(EventState.PLANNED)))
+            {
+                throw new ResourcePlanningException("event must have state '"+EventState.PLANNED+"'!!");
+            }        
+            // start request process for every active helper...
+            List<Helper> activeHelpers =
+                    Datasources.getDatasource(Helper.class).find(null, Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
+            for (Helper helper : activeHelpers)
+            {
+                startHelperRequestProcess(helper, event);
+            }
+            // update event state
+            RepositoryProvider.getRepository(EventRepository.class).updateEventState(event, EventState.INITIATED);   
         }
-        if (!(event.getEventState().equals(EventState.PLANNED)))
+        catch (Exception e)
         {
-            throw new ResourcePlanningException("event must have state '"+EventState.PLANNED+"'!!");
-        }        
-        // start request process for every active helper...
-        List<Helper> activeHelpers =
-                Datasources.getDatasource(Helper.class).find(null, Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
-        for (Helper helper : activeHelpers)
-        {
-            startHelperRequestProcess(helper, event);
+            logger.error("error on triggering helper processes : " + e.getMessage());
+            throw e;
         }
-        // update event state
-        RepositoryProvider.getRepository(EventRepository.class).updateEventState(event, EventState.INITIATED);
+        finally
+        {
+            configuration.setPlanningInProgress(false);
+        }
     }
 
     public static void startHelperRequestProcess(Helper helper, Event event)
