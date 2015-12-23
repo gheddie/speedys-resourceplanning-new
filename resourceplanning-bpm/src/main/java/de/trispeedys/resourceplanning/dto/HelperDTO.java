@@ -8,11 +8,13 @@ public class HelperDTO
     
     private String email;
     
+    private String dateOfBirth;
+    
     private String code;
     
     private String helperState;
     
-    private Long helperId;
+    private Long helperId;   
 
     public String getFirstName()
     {
@@ -72,5 +74,15 @@ public class HelperDTO
     public void setHelperId(Long helperId)
     {
         this.helperId = helperId;
+    }
+    
+    public String getDateOfBirth()
+    {
+        return dateOfBirth;
+    }
+    
+    public void setDateOfBirth(String dateOfBirth)
+    {
+        this.dateOfBirth = dateOfBirth;        
     }
 }

@@ -12,6 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.*;
@@ -21,12 +26,15 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.lowagie.text.DocumentException;
+
 import net.coderazzi.filters.gui.TableFilterHeader;
 import de.trispeedys.resourceplanning.ResourcePlanningClientRoutines;
 import de.trispeedys.resourceplanning.components.ResourcePlanningTable;
 import de.trispeedys.resourceplanning.components.treetable.TreeTable;
 import de.trispeedys.resourceplanning.components.treetable.TreeTableDataModel;
 import de.trispeedys.resourceplanning.components.treetable.TreeTableDataNode;
+import de.trispeedys.resourceplanning.export.EventExporter;
 import de.trispeedys.resourceplanning.gui.builder.TableModelBuilder;
 import de.trispeedys.resourceplanning.singleton.AppSingleton;
 import de.trispeedys.resourceplanning.thread.SendMessagesThread;
@@ -58,6 +66,8 @@ import de.trispeedys.resourceplanning.webservice.PositionDTO;
 public class ResourceDialog extends SpeedyFrame
 {
     private static final long serialVersionUID = 2338002273562986827L;
+    
+    private static final DateFormat df = new SimpleDateFormat("dd.MM.yyyy_HH_mm_ss");
 
     private static List<EventDTO> events;
 
@@ -434,7 +444,7 @@ public class ResourceDialog extends SpeedyFrame
     private void btnSendMessagesPressed(ActionEvent e)
     {
         // start sending messages in a thread
-        new SendMessagesThread().start();
+        new SendMessagesThread(this).start();
     }
 
     private void btnPlanPressed(ActionEvent e)
@@ -453,7 +463,25 @@ public class ResourceDialog extends SpeedyFrame
 
     private void btnAnonymizePressed(ActionEvent e)
     {
-        // AppSingleton.getInstance().getPort().anonymizeHelperAddresses();
+        // TODO PDF-Export auf einen geeigneten Button legen...
+        if (selectedEvent == null)
+        {
+            JOptionPane.showMessageDialog(ResourceDialog.this, "Bitte ein Event wählen!!");
+            return;
+        }
+        try
+        {
+            JFileChooser chooser = new JFileChooser(); 
+            chooser.setCurrentDirectory(new java.io.File("."));
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            chooser.showOpenDialog(this);
+            File file = chooser.getSelectedFile();
+            new EventExporter(selectedEvent.getEventId()).export(file.getAbsolutePath() + "\\" + selectedEvent.getDescription() + "_" + df.format(new Date())+".pdf");
+        }
+        catch (FileNotFoundException | DocumentException e1)
+        {
+            e1.printStackTrace();
+        }
     }
 
     private void btnRefreshPostProcessingPressed(ActionEvent e)

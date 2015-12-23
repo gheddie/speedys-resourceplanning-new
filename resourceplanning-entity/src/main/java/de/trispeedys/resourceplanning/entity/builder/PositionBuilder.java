@@ -59,7 +59,6 @@ public class PositionBuilder extends AbstractEntityBuilder<Position>
         position.setDescription(description);
         position.setMinimalAge(minimalAge);
         position.setDomain(domain);
-        position.setAuthorityOverride(false);
         position.setPositionNumber(positionNumber);
         position.setChoosable(choosable);
         position.setAssignmentPriority(assignmentPriority);

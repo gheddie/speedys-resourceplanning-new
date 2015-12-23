@@ -20,6 +20,7 @@ import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.misc.SpeedyTestUtil;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
+import de.trispeedys.resourceplanning.importer.JsonEventReader;
 import de.trispeedys.resourceplanning.persistence.SessionHolder;
 import de.trispeedys.resourceplanning.persistence.SessionManager;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
@@ -28,6 +29,25 @@ import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class DatabaseOperationsTest
 {
+    
+    @Test
+    public void testSessionCount()
+    {
+        // clear db
+        HibernateUtil.clearAll();
+        
+        // all session closed again in the beginning...
+        assertEquals(0, SessionManager.getInstance().getOpenSessionCount());
+        
+        new JsonEventReader().doImport("Helfer_2015.json");
+        
+        // select some stuff
+        RepositoryProvider.getRepository(HelperRepository.class).findActiveHelpers();
+        
+        // ...and in the end.
+        assertEquals(0, SessionManager.getInstance().getOpenSessionCount());
+    }
+    
     @Test
     public void testFetchListByQuery()
     {

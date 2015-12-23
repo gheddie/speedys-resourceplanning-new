@@ -108,7 +108,6 @@ public class HelperInteraction
 
     public static String processAssignmentCancellation(Long eventId, Long helperId)
     {
-        // TODO use correct message here !!
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         try
         {
@@ -138,8 +137,6 @@ public class HelperInteraction
             return HtmlRenderer.renderCorrelationFault(helperId);
         }
     }
-
-    // ---
 
     public static String getBaseLink()
     {

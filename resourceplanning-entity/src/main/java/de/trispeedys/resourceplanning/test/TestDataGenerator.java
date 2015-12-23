@@ -295,6 +295,11 @@ public class TestDataGenerator
         Position p17 = EntityFactory.buildPosition("P17", 12, domLaufstrecke, 17, true).saveOrUpdate();
 
         SpeedyRoutines.relatePositionsToEvent(event, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17);
+        
+        Helper mirjaSzelag = EntityFactory.buildHelper("Szelag", "Mirja", "mirja.szelag@gmx.de", HelperState.ACTIVE, 13, 9, 1974).saveOrUpdate();
+        /*
+         * Szelag Mirja mirja.szelag@gmx.de 13.09.1974 
+         */
 
         Helper patrickHarms = EntityFactory.buildHelper("Harms", "Patrick", "info@patrick-harms.de", HelperState.ACTIVE, 13, 9, 1985).saveOrUpdate();
         /*
@@ -412,7 +417,7 @@ public class TestDataGenerator
          * Haase Mario mariohaase1@gmx.de 15.02.1983
          */
 
-        Helper marenPluemecke = EntityFactory.buildHelper("Plümecke", "Maren", "mpluemecke@t-online.de", HelperState.ACTIVE, 4, 3, 1973).saveOrUpdate();
+        Helper marenPluemecke = EntityFactory.buildHelper("Plümecke", "Maren", "mpluemecke@t-online.de", HelperState.ACTIVE, 4, 3, 1977).saveOrUpdate();
         /*
          * Plümecke Maren mpluemecke@t-online.de 04.03.1977
          */

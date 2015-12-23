@@ -29,8 +29,10 @@ public class SendReminderMailDelegate extends RequestHelpNotificationDelegate
         int attemptCount = (Integer) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_MAIL_ATTEMPTS);
         SendReminderMailTemplate template = new SendReminderMailTemplate(helper, event, position,
                 (Boolean) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_PRIOR_POS_AVAILABLE), attemptCount);
+        // send instantly for repeated attempts, do not for first mail...
+        boolean doSend = (attemptCount == 0) ? false : true;
         RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de", helper.getEmail(), template.constructSubject(),
-                template.constructBody(), getMessagingType(attemptCount), MessagingFormat.HTML, false);
+                template.constructBody(), getMessagingType(attemptCount), MessagingFormat.HTML, doSend);
         // increase attempts
         execution.setVariable(BpmVariables.RequestHelpHelper.VAR_MAIL_ATTEMPTS, (attemptCount + 1));
     }

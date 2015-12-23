@@ -11,12 +11,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import de.trispeedys.resourceplanning.HibernateUtil;
+import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
@@ -33,6 +35,10 @@ import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class JsonEventReader
 {
+    private static final Logger logger = Logger.getLogger(JsonEventReader.class);
+
+    private static final String HELPER_UNASSIGNABLE = "HELPER_UNASSIGNABLE";
+
     private String resourceName;
 
     private SessionHolder sessionHolder;
@@ -76,14 +82,13 @@ public class JsonEventReader
     private static final String JSON_PARAM_HELPER_LAST_NAME = "lastName";
 
     private static final String JSON_PARAM_POSITION_CHOOSABLE = "choosable";
-    
+
     private static final String JSON_PARAM_POSITION_AGG_GROUP = "aggregation";
 
     private static final int MANDATORY_PROP_SIZE_ASSIGNMENT = 10;
 
     public void doImport(String aResourceName)
     {
-        HibernateUtil.clearAll();
         this.resourceName = aResourceName;
         sessionHolder = SessionManager.getInstance().registerSession(this);
         Transaction tx = null;
@@ -96,9 +101,9 @@ public class JsonEventReader
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
             Object obj = parser.parse(reader);
             JSONObject root = (JSONObject) obj;
-            System.out.println(root);
-            System.out.println((String) root.get(JSON_PARAM_HEADER_DESCRIPTION));
-            System.out.println((String) root.get(JSON_PARAM_HEADER_KEY));
+            logger.info(root);
+            logger.info((String) root.get(JSON_PARAM_HEADER_DESCRIPTION));
+            logger.info((String) root.get(JSON_PARAM_HEADER_KEY));
             EventTemplate template = EntityFactory.buildEventTemplate((String) root.get(JSON_PARAM_HEADER_TEMPLATE));
             sessionHolder.saveOrUpdate(template);
             event =
@@ -106,14 +111,14 @@ public class JsonEventReader
                             (String) root.get(JSON_PARAM_HEADER_KEY), 1, 1, 1980, EventState.FINISHED, template, null);
             sessionHolder.saveOrUpdate(event);
             JSONArray domains = (JSONArray) root.get(JSON_PARAM_LIST_DOMAINS);
-            System.out.println(domains.size() + " domains.");
+            logger.info(domains.size() + " domains.");
             JSONObject jsonDomain = null;
             Domain domain = null;
             for (Object domainObj : domains)
             {
                 jsonDomain = (JSONObject) domainObj;
-                System.out.println((String) jsonDomain.get(JSON_PARAM_DOMAIN_NUMBER));
-                System.out.println((String) jsonDomain.get(JSON_PARAM_DOMAIN_NAME));
+                logger.info((String) jsonDomain.get(JSON_PARAM_DOMAIN_NUMBER));
+                logger.info((String) jsonDomain.get(JSON_PARAM_DOMAIN_NAME));
                 domain =
                         EntityFactory.buildDomain((String) jsonDomain.get(JSON_PARAM_DOMAIN_NAME),
                                 Integer.parseInt((String) jsonDomain.get(JSON_PARAM_DOMAIN_NUMBER)));
@@ -122,6 +127,7 @@ public class JsonEventReader
                 JSONObject jsonAssignment = null;
                 Helper helper = null;
                 Position position = null;
+                Date now = new Date();
                 for (Object assignmentObj : assignments)
                 {
                     jsonAssignment = (JSONObject) assignmentObj;
@@ -132,24 +138,23 @@ public class JsonEventReader
                                 jsonAssignment.entrySet().size() + " instead of " + MANDATORY_PROP_SIZE_ASSIGNMENT +
                                 ")!!");
                     }
-                    System.out.println((String) jsonAssignment.get(JSON_PARAM_POSITION_NUMBER));
-                    System.out.println((String) jsonAssignment.get(JSON_PARAM_POSITION_NAME));
-                    System.out.println((String) jsonAssignment.get(JSON_PARAM_HELPER_MINIMAL_AGE));
-                    System.out.println((String) jsonAssignment.get(JSON_PARAM_POSITION_PRIORITY));
+                    logger.info((String) jsonAssignment.get(JSON_PARAM_POSITION_NUMBER));
+                    logger.info((String) jsonAssignment.get(JSON_PARAM_POSITION_NAME));
+                    logger.info((String) jsonAssignment.get(JSON_PARAM_HELPER_MINIMAL_AGE));
+                    logger.info((String) jsonAssignment.get(JSON_PARAM_POSITION_PRIORITY));
                     position =
                             EntityFactory.buildPosition((String) jsonAssignment.get(JSON_PARAM_POSITION_NAME),
                                     Integer.parseInt((String) jsonAssignment.get(JSON_PARAM_HELPER_MINIMAL_AGE)),
                                     domain, Integer.parseInt((String) jsonAssignment.get(JSON_PARAM_POSITION_NUMBER)),
                                     parseBoolean((String) jsonAssignment.get(JSON_PARAM_POSITION_CHOOSABLE)),
                                     Integer.parseInt((String) jsonAssignment.get(JSON_PARAM_POSITION_PRIORITY)));
-                    System.out.println(helper);
                     sessionHolder.saveOrUpdate(position);
                     sessionHolder.saveOrUpdate(EntityFactory.buildEventPosition(event, position));
                     String lastName = (String) jsonAssignment.get(JSON_PARAM_HELPER_LAST_NAME);
                     String firstName = (String) jsonAssignment.get(JSON_PARAM_HELPER_FIRST_NAME);
                     if ((StringUtil.isBlank(firstName)) || (StringUtil.isBlank(lastName)))
                     {
-                        System.out.println(" ### IGNORING HELPER ### ");
+                        logger.info(" ### IGNORING HELPER ### ");
                     }
                     else
                     {
@@ -159,18 +164,25 @@ public class JsonEventReader
                                         parseDate((String) jsonAssignment.get(JSON_PARAM_HELPER_BIRTHDAY)));
                         if (helper.isValid())
                         {
+                            if (!(helper.isAssignableTo(position, now)))
+                            {
+                                throw new ResourcePlanningException("Der Helfer " +
+                                        helper.getLastName() + ", " + helper.getFirstName() + " (geboren : " +
+                                        helper.getDateOfBirth() + ") ist zu jung f\u00fcr die Position " +
+                                        position.getDescription() + " (Mindestalter : " + position.getMinimalAge() + ")!");
+                            }
                             sessionHolder.saveOrUpdate(helper);
                             sessionHolder.saveOrUpdate(EntityFactory.buildHelperAssignment(helper, event, position));
                         }
                     }
-                    
+
                     // cache aggregation
                     cacheAggregation(position, (String) jsonAssignment.get(JSON_PARAM_POSITION_AGG_GROUP));
                 }
             }
-            
+
             createAggregations();
-            
+
             tx.commit();
         }
         catch (Exception e)
@@ -198,7 +210,7 @@ public class JsonEventReader
             sessionHolder.saveOrUpdate(group);
             for (Position pos : aggregationCache.get(key))
             {
-                sessionHolder.saveOrUpdate(EntityFactory.buildAggregationRelation(pos, group));    
+                sessionHolder.saveOrUpdate(EntityFactory.buildAggregationRelation(pos, group));
             }
         }
     }
@@ -221,7 +233,7 @@ public class JsonEventReader
     }
 
     private boolean parseBoolean(String b)
-    {   
+    {
         if (StringUtil.isBlank(b))
         {
             return false;
@@ -237,7 +249,7 @@ public class JsonEventReader
         }
         catch (ParseException e)
         {
-            System.out.println(" ### ERROR ### : " + e.getMessage());
+            logger.info(" ### ERROR ### : " + e.getMessage());
             return null;
         }
     }
@@ -246,6 +258,7 @@ public class JsonEventReader
 
     public static void main(String[] args)
     {
-        new JsonEventReader().doImport("AggregationTest.json");
+        HibernateUtil.clearAll();
+        new JsonEventReader().doImport("TestEvent.json");
     }
 }

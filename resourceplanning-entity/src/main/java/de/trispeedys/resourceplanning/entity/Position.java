@@ -23,14 +23,6 @@ public class Position extends AbstractDbObject implements EnumeratedEventItem
     @ManyToOne
     private Domain domain;
     
-    /**
-     * If true, a helper ca be assigned to this position (even though under age)
-     * if a parent (or another person with similar authority) is assigned to a position
-     * in the same domain (and the same event).
-     */
-    @Column(name = "authority_override")
-    private boolean authorityOverride;
-    
     @Column(name = "position_number")
     private int positionNumber;
 
@@ -67,16 +59,6 @@ public class Position extends AbstractDbObject implements EnumeratedEventItem
     public void setDomain(Domain domain)
     {
         this.domain = domain;
-    }
-    
-    public boolean isAuthorityOverride()
-    {
-        return this.authorityOverride;
-    }
-    
-    public void setAuthorityOverride(boolean authorityOverride)
-    {
-        this.authorityOverride = authorityOverride;
     }
     
     public int getPositionNumber()

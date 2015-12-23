@@ -67,45 +67,6 @@ public class PositionTest
         assertEquals(2, positionRepository.findPositionsInEvent(event2).size());
     }
 
-    @Test
-    public void testPositionAssignment()
-    {
-        // clear db
-        HibernateUtil.clearAll();
-        
-        EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
-        
-        // create helper
-        Helper helper = EntityFactory.buildHelper("La", "Li", "", HelperState.ACTIVE, 1, 1, 1980);
-        // create events
-        Event evt2013 = EntityFactory.buildEvent("TRI-2013", "TRI-2013", 21, 6, 2013, EventState.FINISHED, template, null).saveOrUpdate();
-        Event evt2014 = EntityFactory.buildEvent("TRI-2014", "TRI-2014", 21, 6, 2014, EventState.PLANNED, template, null).saveOrUpdate();
-        // create positions
-        Domain defaultDomain = SpeedyTestUtil.buildDefaultDomain(1);
-        Position posA = EntityFactory.buildPosition("A", 12, defaultDomain, 0, true).saveOrUpdate();
-        Position posB = EntityFactory.buildPosition("B", 13, defaultDomain, 1, true).saveOrUpdate();
-        Position posC = EntityFactory.buildPosition("C", 14, defaultDomain, 2, true).saveOrUpdate();
-        // event 2013 has positions (A,B,C)
-        EntityFactory.buildEventPosition(evt2013, posA).saveOrUpdate();
-        EntityFactory.buildEventPosition(evt2013, posB).saveOrUpdate();
-        EntityFactory.buildEventPosition(evt2013, posC).saveOrUpdate();
-        // event 2014 only has positions (A,B)
-        EntityFactory.buildEventPosition(evt2014, posA).saveOrUpdate();
-        EntityFactory.buildEventPosition(evt2014, posB).saveOrUpdate();
-
-        // relate positions
-        SpeedyRoutines.relatePositionsToEvent(evt2013, posA, posB, posC);
-        SpeedyRoutines.relatePositionsToEvent(evt2014, posA, posB, posC);
-
-        // assign positions
-        // TODO not persisted assignments? -> what does the test do?
-        EntityFactory.buildHelperAssignment(helper, evt2013, posA);
-        EntityFactory.buildHelperAssignment(helper, evt2014, posC);
-        
-        // ...
-        RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(evt2014, posC);
-    }
-    
     // TODO check available position querying with with new features 
     @Test
     public void testPositionAggregationWithoutGroups()

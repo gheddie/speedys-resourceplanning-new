@@ -1,5 +1,7 @@
 package de.trispeedys.resourceplanning.webservice;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +67,8 @@ import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 @SOAPBinding(style = Style.RPC)
 public class ResourceInfo
 {
+    private static final DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+    
     private static final Logger logger = Logger.getLogger(ResourceInfo.class);
     
     private static final String EVENT_ID_REQUIRED = "EVENT_ID_REQUIRED";
@@ -86,6 +90,8 @@ public class ResourceInfo
     private static final String POSITION_NOT_ASSIGNED_TO_EVENT = "POSITION_NOT_ASSIGNED_TO_EVENT";
     
     private static final String POSITION_ASSIGNED_TO_HELPER = "POSITION_ASSIGNED_TO_HELPER";
+
+    private static final String MAILSENDING_IN_PROGRESS = "MAILSENDING_IN_PROGRESS";
 
     public PositionDTO[] queryAvailablePositions(Long eventId)
     {
@@ -115,15 +121,28 @@ public class ResourceInfo
 
     public void sendAllMessages()
     {
-        RepositoryProvider.getRepository(MessageQueueRepository.class).sendAllUnprocessedMessages();
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        if (configuration.isMailSendingInProgress())
+        {
+            // sending in progress --> exception
+            throw new ResourcePlanningException(configuration.getText(this, MAILSENDING_IN_PROGRESS));
+        }
+        
+        try
+        {
+            configuration.setMailSendingInProgress(true);
+            RepositoryProvider.getRepository(MessageQueueRepository.class).sendAllUnprocessedMessages();   
+        }
+        catch (Exception e)
+        {
+            logger.error("error on sending helper mails : " + e.getMessage());
+            throw e;
+        }       
+        finally
+        {
+            configuration.setMailSendingInProgress(false);
+        }        
     }
-
-    /*
-    public void startProcessesForActiveHelpersByTemplateName(String templateName)
-    {
-        EventManager.triggerHelperProcesses(templateName);
-    }
-    */
 
     public void startProcessesForActiveHelpersByEventId(Long eventId)
     {
@@ -225,6 +244,7 @@ public class ResourceInfo
             dto.setLastName(helper.getLastName());
             dto.setFirstName(helper.getFirstName());
             dto.setEmail(helper.getEmail());
+            dto.setDateOfBirth(df.format(helper.getDateOfBirth()));
             dto.setCode(helper.getCode());
             dto.setHelperState(helper.getHelperState().toString());
             dto.setHelperId(helper.getId());

@@ -57,7 +57,7 @@ public class SpeedyRoutines
         checkExcludes(event, positionExcludes);
         Event newEvent =
                 EntityFactory.buildEvent(description, eventKey, day, month, year, eventState,
-                        event.getEventTemplate(), null).saveOrUpdate();
+                        event.getEventTemplate(), event).saveOrUpdate();
         List<EventPosition> posRelations = Datasources.getDatasource(EventPosition.class).find(null, "event", event);
         Position pos = null;
         for (EventPosition evtpos : posRelations)

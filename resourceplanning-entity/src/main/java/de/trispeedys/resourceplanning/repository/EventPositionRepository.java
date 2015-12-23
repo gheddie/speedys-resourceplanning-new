@@ -16,7 +16,7 @@ public class EventPositionRepository extends AbstractDatabaseRepository<EventPos
     {
         List<EventPosition> result = dataSource().find(null, EventPosition.ATTR_EVENT, event,
                 EventPosition.ATTR_POSITION, position);
-        return (result == null || result.size() == 0 ? null : result.get(0));
+        return safeValue(result);
     }
 
     protected DefaultDatasource<EventPosition> createDataSource()

@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
+import de.trispeedys.resourceplanning.entity.EventPosition;
 import de.trispeedys.resourceplanning.persistence.SessionToken;
 import de.trispeedys.resourceplanning.util.StringUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningPersistenceException;
@@ -64,5 +65,10 @@ public abstract class AbstractDatabaseRepository<T>
     public DefaultDatasource<T> dataSource()
     {
         return dataSource;
+    }
+    
+    protected T safeValue(List<T> result)
+    {
+        return (T) (result == null || result.size() == 0 ? null : result.get(0));
     }
 }

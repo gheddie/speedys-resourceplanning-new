@@ -13,6 +13,7 @@ public class HelperDTOColumnDefinition extends TableColumnDefinition
         map.add(new TranslationItem("firstName", "Vorname"));
         map.add(new TranslationItem("lastName", "Nachname"));
         map.add(new TranslationItem("email", "Mail"));
+        map.add(new TranslationItem("dateOfBirth", "Geburtstag"));
         map.add(new TranslationItem("helperState", "Status"));
         return map;
     }

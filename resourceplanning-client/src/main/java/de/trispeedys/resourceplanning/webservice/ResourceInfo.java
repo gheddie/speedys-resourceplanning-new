@@ -26,6 +26,15 @@ public interface ResourceInfo {
     /**
      * 
      * @param arg0
+     */
+    @WebMethod
+    public void startProcessesForActiveHelpersByEventId(
+        @WebParam(name = "arg0", partName = "arg0")
+        long arg0);
+
+    /**
+     * 
+     * @param arg0
      * @return
      *     returns de.trispeedys.resourceplanning.webservice.PositionDTOArray
      */
@@ -142,27 +151,27 @@ public interface ResourceInfo {
 
     /**
      * 
-     * @param arg2
-     * @param arg1
-     * @param arg0
+     * @return
+     *     returns de.trispeedys.resourceplanning.webservice.HelperDTOArray
      */
     @WebMethod
-    public void swapPositions(
-        @WebParam(name = "arg0", partName = "arg0")
-        long arg0,
-        @WebParam(name = "arg1", partName = "arg1")
-        long arg1,
-        @WebParam(name = "arg2", partName = "arg2")
-        long arg2);
+    @WebResult(partName = "return")
+    public HelperDTOArray queryHelpers();
 
     /**
      * 
-     * @param arg0
      */
     @WebMethod
-    public void startProcessesForActiveHelpersByEventId(
-        @WebParam(name = "arg0", partName = "arg0")
-        long arg0);
+    public void finishUp();
+
+    /**
+     * 
+     * @return
+     *     returns de.trispeedys.resourceplanning.webservice.EventDTOArray
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    public EventDTOArray queryEvents();
 
     /**
      * 
@@ -178,30 +187,6 @@ public interface ResourceInfo {
         long arg0,
         @WebParam(name = "arg1", partName = "arg1")
         boolean arg1);
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void finishUp();
-
-    /**
-     * 
-     * @return
-     *     returns de.trispeedys.resourceplanning.webservice.HelperDTOArray
-     */
-    @WebMethod
-    @WebResult(partName = "return")
-    public HelperDTOArray queryHelpers();
-
-    /**
-     * 
-     * @return
-     *     returns de.trispeedys.resourceplanning.webservice.EventDTOArray
-     */
-    @WebMethod
-    @WebResult(partName = "return")
-    public EventDTOArray queryEvents();
 
     /**
      * 
@@ -226,5 +211,20 @@ public interface ResourceInfo {
         int arg4,
         @WebParam(name = "arg5", partName = "arg5")
         int arg5);
+
+    /**
+     * 
+     * @param arg2
+     * @param arg1
+     * @param arg0
+     */
+    @WebMethod
+    public void swapPositions(
+        @WebParam(name = "arg0", partName = "arg0")
+        long arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        long arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        long arg2);
 
 }

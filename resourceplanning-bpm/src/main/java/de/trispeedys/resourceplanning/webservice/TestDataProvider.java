@@ -198,11 +198,11 @@ public class TestDataProvider
                 EventTemplate.TEMPLATE_TRI);
     }
 
-    public void duplicate2015Unchanged()
+    public void duplicateUnchanged()
     {
         // real life event for 2015
-        Event event2015 = RepositoryProvider.getRepository(EventRepository.class).findEventByEventKey("TRI-2015");
-        SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
+        Event newEvent = RepositoryProvider.getRepository(EventRepository.class).findAll(null).get(0);
+        SpeedyRoutines.duplicateEvent(newEvent, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
     }
 
     public void duplicate2015()
@@ -299,6 +299,9 @@ public class TestDataProvider
 
     public void setupForTesting(String resourceName)
     {
+        // (0) clear DB
+        HibernateUtil.clearAll();
+        
         System.out.println("setting up by resource '" + resourceName + "'...");
 
         // (1) kill al executions
@@ -308,6 +311,6 @@ public class TestDataProvider
         new JsonEventReader().doImport(resourceName);
 
         // (3) duplicate unchanged
-        duplicate2015Unchanged();
+        duplicateUnchanged();
     }
 }

@@ -41,7 +41,6 @@ create table position
 	minimal_age int,
 	position_number int not null,
 	domain_id bigint,
-	authority_override boolean,
 	choosable boolean,
 	assignment_priority int,
 	primary key (id),

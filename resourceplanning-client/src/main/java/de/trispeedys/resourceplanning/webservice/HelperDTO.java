@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="code" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="dateOfBirth" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="email" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="firstName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="helperId" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
@@ -33,6 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "helperDTO", propOrder = {
     "code",
+    "dateOfBirth",
     "email",
     "firstName",
     "helperId",
@@ -42,6 +44,7 @@ import javax.xml.bind.annotation.XmlType;
 public class HelperDTO {
 
     protected String code;
+    protected String dateOfBirth;
     protected String email;
     protected String firstName;
     protected Long helperId;
@@ -70,6 +73,30 @@ public class HelperDTO {
      */
     public void setCode(String value) {
         this.code = value;
+    }
+
+    /**
+     * Gets the value of the dateOfBirth property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    /**
+     * Sets the value of the dateOfBirth property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setDateOfBirth(String value) {
+        this.dateOfBirth = value;
     }
 
     /**

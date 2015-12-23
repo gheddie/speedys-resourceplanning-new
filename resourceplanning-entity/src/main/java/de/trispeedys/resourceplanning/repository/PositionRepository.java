@@ -23,7 +23,7 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
     public Position findPositionByPositionNumber(int positionNumber)
     {
         List<Position> result = dataSource().find(null, Position.ATTR_POS_NUMBER, positionNumber);
-        return (result == null || result.size() == 0 ? null : result.get(0));
+        return safeValue(result);
     }
 
     public List<Position> findUnassignedPositionsByGenerator(Helper helper, Event event)

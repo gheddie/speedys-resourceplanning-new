@@ -31,9 +31,12 @@ public class AppConfiguration
 
     private boolean planningInProgress;
 
+    private boolean mailSendingInProgress;
+
     private AppConfiguration()
     {
         planningInProgress = false;
+        mailSendingInProgress = false;
         parseConfiguration();
         initTextResources();
     }
@@ -134,5 +137,15 @@ public class AppConfiguration
     public void setPlanningInProgress(boolean planningInProgress)
     {
         this.planningInProgress = planningInProgress;
+    }
+
+    public boolean isMailSendingInProgress()
+    {
+        return mailSendingInProgress;
+    }
+    
+    public void setMailSendingInProgress(boolean mailSendingInProgress)
+    {
+        this.mailSendingInProgress = mailSendingInProgress;
     }
 }

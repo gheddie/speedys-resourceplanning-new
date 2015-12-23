@@ -48,16 +48,7 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
     {
         List<HelperAssignment> result =
                 dataSource().find(null, HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event);
-        if (result == null)
-        {
-            return null;
-        }
-        else
-        {
-            return (result.size() > 0
-                    ? result.get(0)
-                    : null);
-        }
+        return safeValue(result);
     }
 
     /**
@@ -76,7 +67,7 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
     public HelperAssignment findByEventAndPosition(Event event, Position position)
     {
         List<HelperAssignment> result = dataSource().find(null, HelperAssignment.ATTR_EVENT, event, HelperAssignment.ATTR_POSITION, position);
-        return (result == null || result.size() == 0 ? null : result.get(0));
+        return safeValue(result);
     }
 
     public HelperAssignment findByEventAndPositionId(Event event, Long positionId)

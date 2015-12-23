@@ -34,7 +34,6 @@ public class HtmlRenderer
                         configuration.getText(HtmlRenderer.class, "thanks", callback.getSummary()));
         if (callback.equals(HelperCallback.ASSIGNMENT_AS_BEFORE))
         {
-            // TODO we can check, if now there is an assignment (and if so, tell it to the user)
             if (RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByHelperAndEvent(helper, event) != null)
             {
                 // yes, we have...
@@ -53,12 +52,6 @@ public class HtmlRenderer
         return generator.withParagraph(AbstractMailTemplate.sincerely()).render();
     }
 
-    /**
-     * RETURN_MESSAGE_UNPROCESSABLE
-     * 
-     * @param helperId
-     * @return
-     */
     public static String renderCorrelationFault(Long helperId)
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
