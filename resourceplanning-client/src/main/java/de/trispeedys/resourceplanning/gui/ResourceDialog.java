@@ -26,7 +26,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.lowagie.text.DocumentException;
+import com.itextpdf.text.DocumentException;
 
 import net.coderazzi.filters.gui.TableFilterHeader;
 import de.trispeedys.resourceplanning.ResourcePlanningClientRoutines;
@@ -93,8 +93,9 @@ public class ResourceDialog extends SpeedyFrame
     private static final int TABINDEX_PROCESSES = 1;
     private static final int TABINDEX_HELPER = 2;
     private static final int TABINDEX_MANUAL_ASSIGNMENTS = 3;
-    private static final int TABINDEX_MESSAGES = 4;
-    private static final int TABINDEX_POST_PROCESSING = 5;
+    private static final int TABINDEX_EVENT_TUNING = 4;
+    private static final int TABINDEX_MESSAGES = 5;
+    private static final int TABINDEX_POST_PROCESSING = 6;
 
     public ResourceDialog(String title, boolean resizable, boolean closable, boolean maximizable, boolean iconifiable,
             SpeedyView parentFrame)
@@ -263,13 +264,13 @@ public class ResourceDialog extends SpeedyFrame
         switch (eventState)
         {
             case "PLANNED":                
-                enableTabs(1, 0, 1, 0, 0, 0);                
+                enableTabs(1, 0, 1, 0, 0, 0, 0);                
                 break;
             case "INITIATED":
-                enableTabs(1, 1, 1, 1, 1, 1);
+                enableTabs(1, 1, 1, 1, 1, 1, 1);
                 break;
             case "FINISHED":
-                enableTabs(1, 0, 1, 0, 0, 0);
+                enableTabs(1, 0, 1, 0, 0, 0, 0);
                 break;                
         }
     }
@@ -279,6 +280,7 @@ public class ResourceDialog extends SpeedyFrame
         enableTab(TABINDEX_PROCESSES, enableStates);
         enableTab(TABINDEX_HELPER, enableStates);
         enableTab(TABINDEX_MANUAL_ASSIGNMENTS, enableStates);
+        enableTab(TABINDEX_EVENT_TUNING, enableStates);
         enableTab(TABINDEX_MESSAGES, enableStates);
         enableTab(TABINDEX_POST_PROCESSING, enableStates);
     }
@@ -461,29 +463,6 @@ public class ResourceDialog extends SpeedyFrame
         refreshMessages();
     }
 
-    private void btnAnonymizePressed(ActionEvent e)
-    {
-        // TODO PDF-Export auf einen geeigneten Button legen...
-        if (selectedEvent == null)
-        {
-            JOptionPane.showMessageDialog(ResourceDialog.this, "Bitte ein Event wählen!!");
-            return;
-        }
-        try
-        {
-            JFileChooser chooser = new JFileChooser(); 
-            chooser.setCurrentDirectory(new java.io.File("."));
-            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            chooser.showOpenDialog(this);
-            File file = chooser.getSelectedFile();
-            new EventExporter(selectedEvent.getEventId()).export(file.getAbsolutePath() + "\\" + selectedEvent.getDescription() + "_" + df.format(new Date())+".pdf");
-        }
-        catch (FileNotFoundException | DocumentException e1)
-        {
-            e1.printStackTrace();
-        }
-    }
-
     private void btnRefreshPostProcessingPressed(ActionEvent e)
     {
         if (selectedEvent == null)
@@ -544,10 +523,34 @@ public class ResourceDialog extends SpeedyFrame
         pgMain.setMaximum(positionCount);
     }
 
+    private void btnExportEventPressed(ActionEvent e)
+    {
+        if (selectedEvent == null)
+        {
+            JOptionPane.showMessageDialog(ResourceDialog.this, "Bitte ein Event wählen!!");
+            return;
+        }
+        try
+        {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setCurrentDirectory(new java.io.File("."));
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            chooser.showOpenDialog(this);
+            File file = chooser.getSelectedFile();
+            new EventExporter(selectedEvent.getEventId(), selectedEvent.getPositionCount(),
+                    selectedEvent.getAssignmentCount()).export(file.getAbsolutePath() +
+                    "\\" + selectedEvent.getDescription() + "_" + df.format(new Date()) + ".pdf");
+        }
+        catch (FileNotFoundException | DocumentException e1)
+        {
+            e1.printStackTrace();
+        }
+    }
+
     private void initComponents()
     {
         // JFormDesigner - Component initialization - DO NOT MODIFY //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Stefan Schulz
+        // Generated using JFormDesigner non-commercial license
         tbMain = new JToolBar();
         btnFinishProcesses = new JButton();
         tdbMain = new JTabbedPane();
@@ -562,6 +565,7 @@ public class ResourceDialog extends SpeedyFrame
         btnRefreshEvents = new JButton();
         scEvents = new JScrollPane();
         tbEvents = new ResourcePlanningTable();
+        btnExportEvent = new JButton();
         pnlExecutions = new JPanel();
         borderExecutions = new JPanel();
         scExecutions = new JScrollPane();
@@ -573,7 +577,6 @@ public class ResourceDialog extends SpeedyFrame
         tbHelpers = new ResourcePlanningTable();
         btnRefreshHelpers = new JButton();
         btnCreateHelper = new JButton();
-        btnAnonymize = new JButton();
         pnlManualAssignments = new JPanel();
         borderManualAssignments = new JPanel();
         scManualAssignments = new JScrollPane();
@@ -584,6 +587,17 @@ public class ResourceDialog extends SpeedyFrame
         scAvailablePositions = new JScrollPane();
         tbAvailablePositions = new ResourcePlanningTable();
         btnReloadAvailablePositions = new JButton();
+        pnlEventTuning = new JPanel();
+        borderPosAdding = new JPanel();
+        scPosAdding = new JScrollPane();
+        tbPosAdding = new ResourcePlanningTable();
+        btnAddPosition = new JButton();
+        tbTuning = new JToolBar();
+        btnRefreshAddRemovePos = new JButton();
+        borderPosRemoving = new JPanel();
+        scPosRemoving = new JScrollPane();
+        tbPosRemoving = new ResourcePlanningTable();
+        btnRemovePosition = new JButton();
         pnlMessages = new JPanel();
         borderMessages = new JPanel();
         scMessages = new JScrollPane();
@@ -603,7 +617,7 @@ public class ResourceDialog extends SpeedyFrame
         borderPostProcessingSource = new JPanel();
         scPostProcessingSource = new JScrollPane();
         treeTablePostProcessingSource = new TreeTable();
-        toolBar1 = new JToolBar();
+        tbPostProcessing = new JToolBar();
         btnRefreshPostProcessing = new JButton();
         btnSwapPositions = new JButton();
         borderPostProcessingTarget = new JPanel();
@@ -628,6 +642,7 @@ public class ResourceDialog extends SpeedyFrame
             btnFinishProcesses.setText("Abschliessen");
             btnFinishProcesses.setIcon(new ImageIcon(getClass().getResource("/img/shutdown48px.png")));
             btnFinishProcesses.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     btnFinishProcessesPressed(e);
                 }
@@ -641,6 +656,7 @@ public class ResourceDialog extends SpeedyFrame
         //======== tdbMain ========
         {
             tdbMain.addChangeListener(new ChangeListener() {
+                @Override
                 public void stateChanged(ChangeEvent e) {
                     tdbMainStateChanged(e);
                 }
@@ -648,16 +664,6 @@ public class ResourceDialog extends SpeedyFrame
 
             //======== pnlPositions ========
             {
-
-                // JFormDesigner evaluation mark
-                /*
-                pnlPositions.setBorder(new javax.swing.border.CompoundBorder(
-                    new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                        "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-                        javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-                        java.awt.Color.red), pnlPositions.getBorder())); pnlPositions.addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
-                        */
-
                 pnlPositions.setLayout(new GridBagLayout());
                 ((GridBagLayout)pnlPositions.getLayout()).columnWidths = new int[] {0, 0};
                 ((GridBagLayout)pnlPositions.getLayout()).rowHeights = new int[] {203, 0, 0, 131, 0};
@@ -685,6 +691,7 @@ public class ResourceDialog extends SpeedyFrame
                     btnRefreshTree.setText("Aktualisieren");
                     btnRefreshTree.setIcon(new ImageIcon(getClass().getResource("/img/reload16px.png")));
                     btnRefreshTree.addActionListener(new ActionListener() {
+                        @Override
                         public void actionPerformed(ActionEvent e) {
                             btnRefreshTreePressed(e);
                         }
@@ -708,14 +715,15 @@ public class ResourceDialog extends SpeedyFrame
                     borderEvents.setBorder(new TitledBorder("Event-Historie"));
                     borderEvents.setLayout(new GridBagLayout());
                     ((GridBagLayout)borderEvents.getLayout()).columnWidths = new int[] {0, 0, 0};
-                    ((GridBagLayout)borderEvents.getLayout()).rowHeights = new int[] {0, 0, 131, 0};
+                    ((GridBagLayout)borderEvents.getLayout()).rowHeights = new int[] {0, 0, 0, 131, 0};
                     ((GridBagLayout)borderEvents.getLayout()).columnWeights = new double[] {1.0, 0.0, 1.0E-4};
-                    ((GridBagLayout)borderEvents.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0, 1.0E-4};
+                    ((GridBagLayout)borderEvents.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0, 1.0E-4};
 
                     //---- btnPlanEvent ----
                     btnPlanEvent.setText("Planen");
                     btnPlanEvent.setIcon(new ImageIcon(getClass().getResource("/img/process16px.png")));
                     btnPlanEvent.addActionListener(new ActionListener() {
+                        @Override
                         public void actionPerformed(ActionEvent e) {
                             btnPlanPressed(e);
                         }
@@ -728,6 +736,7 @@ public class ResourceDialog extends SpeedyFrame
                     btnRefreshEvents.setText("Aktualisieren");
                     btnRefreshEvents.setIcon(new ImageIcon(getClass().getResource("/img/reload16px.png")));
                     btnRefreshEvents.addActionListener(new ActionListener() {
+                        @Override
                         public void actionPerformed(ActionEvent e) {
                             btnRefreshEventsPressed(e);
                         }
@@ -741,6 +750,7 @@ public class ResourceDialog extends SpeedyFrame
 
                         //---- tbEvents ----
                         tbEvents.addPropertyChangeListener(new PropertyChangeListener() {
+                            @Override
                             public void propertyChange(PropertyChangeEvent e) {
                                 tbEventsPropertyChange(e);
                                 tbEventsPropertyChange(e);
@@ -748,9 +758,22 @@ public class ResourceDialog extends SpeedyFrame
                         });
                         scEvents.setViewportView(tbEvents);
                     }
-                    borderEvents.add(scEvents, new GridBagConstraints(0, 0, 1, 3, 0.0, 0.0,
+                    borderEvents.add(scEvents, new GridBagConstraints(0, 0, 1, 4, 0.0, 0.0,
                         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                         new Insets(0, 0, 0, 5), 0, 0));
+
+                    //---- btnExportEvent ----
+                    btnExportEvent.setText("Exportieren");
+                    btnExportEvent.setIcon(new ImageIcon(getClass().getResource("/img/export16px.png")));
+                    btnExportEvent.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            btnExportEventPressed(e);
+                        }
+                    });
+                    borderEvents.add(btnExportEvent, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
                 }
                 pnlPositions.add(borderEvents, new GridBagConstraints(0, 2, 1, 2, 0.0, 0.0,
                     GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -787,6 +810,7 @@ public class ResourceDialog extends SpeedyFrame
                     btnRefreshExecutions.setText("Aktualisieren");
                     btnRefreshExecutions.setIcon(new ImageIcon(getClass().getResource("/img/reload16px.png")));
                     btnRefreshExecutions.addActionListener(new ActionListener() {
+                        @Override
                         public void actionPerformed(ActionEvent e) {
                             btnRefreshExecutionsPressed(e);
                         }
@@ -814,22 +838,23 @@ public class ResourceDialog extends SpeedyFrame
                     borderHelpers.setBorder(new TitledBorder("Alle Helfer"));
                     borderHelpers.setLayout(new GridBagLayout());
                     ((GridBagLayout)borderHelpers.getLayout()).columnWidths = new int[] {0, 0, 0};
-                    ((GridBagLayout)borderHelpers.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
+                    ((GridBagLayout)borderHelpers.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
                     ((GridBagLayout)borderHelpers.getLayout()).columnWeights = new double[] {1.0, 0.0, 1.0E-4};
-                    ((GridBagLayout)borderHelpers.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0, 1.0E-4};
+                    ((GridBagLayout)borderHelpers.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0, 1.0E-4};
 
                     //======== scHelpers ========
                     {
                         scHelpers.setViewportView(tbHelpers);
                     }
-                    borderHelpers.add(scHelpers, new GridBagConstraints(0, 0, 1, 4, 0.0, 0.0,
+                    borderHelpers.add(scHelpers, new GridBagConstraints(0, 0, 1, 3, 0.0, 0.0,
                         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                         new Insets(0, 0, 0, 5), 0, 0));
 
                     //---- btnRefreshHelpers ----
-                    btnRefreshHelpers.setText("Aktualsieren");
+                    btnRefreshHelpers.setText("Aktualisieren");
                     btnRefreshHelpers.setIcon(new ImageIcon(getClass().getResource("/img/reload16px.png")));
                     btnRefreshHelpers.addActionListener(new ActionListener() {
+                        @Override
                         public void actionPerformed(ActionEvent e) {
                             btnRefreshHelpersPressed(e);
                         }
@@ -842,23 +867,12 @@ public class ResourceDialog extends SpeedyFrame
                     btnCreateHelper.setText("Neu");
                     btnCreateHelper.setIcon(new ImageIcon(getClass().getResource("/img/new16px.png")));
                     btnCreateHelper.addActionListener(new ActionListener() {
+                        @Override
                         public void actionPerformed(ActionEvent e) {
                             btnCreateHelperPressed(e);
                         }
                     });
                     borderHelpers.add(btnCreateHelper, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 0), 0, 0));
-
-                    //---- btnAnonymize ----
-                    btnAnonymize.setText("Anonymisieren");
-                    btnAnonymize.setIcon(new ImageIcon(getClass().getResource("/img/anonymous16px.png")));
-                    btnAnonymize.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent e) {
-                            btnAnonymizePressed(e);
-                        }
-                    });
-                    borderHelpers.add(btnAnonymize, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
                         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                         new Insets(0, 0, 5, 0), 0, 0));
                 }
@@ -897,6 +911,7 @@ public class ResourceDialog extends SpeedyFrame
                     btnBookManually.setText("Buchen");
                     btnBookManually.setIcon(new ImageIcon(getClass().getResource("/img/process16px.png")));
                     btnBookManually.addActionListener(new ActionListener() {
+                        @Override
                         public void actionPerformed(ActionEvent e) {
                             btnBookManuallyPressed(e);
                         }
@@ -909,6 +924,7 @@ public class ResourceDialog extends SpeedyFrame
                     btnRefreshManualAssignments.setText("Aktualisieren");
                     btnRefreshManualAssignments.setIcon(new ImageIcon(getClass().getResource("/img/reload16px.png")));
                     btnRefreshManualAssignments.addActionListener(new ActionListener() {
+                        @Override
                         public void actionPerformed(ActionEvent e) {
                             btnRefreshManualAssignmentsPressed(e);
                         }
@@ -942,6 +958,7 @@ public class ResourceDialog extends SpeedyFrame
                     btnReloadAvailablePositions.setText("Aktualisieren");
                     btnReloadAvailablePositions.setIcon(new ImageIcon(getClass().getResource("/img/reload16px.png")));
                     btnReloadAvailablePositions.addActionListener(new ActionListener() {
+                        @Override
                         public void actionPerformed(ActionEvent e) {
                             btnReloadAvailablePositionsPressed(e);
                         }
@@ -955,6 +972,83 @@ public class ResourceDialog extends SpeedyFrame
                     new Insets(0, 0, 0, 0), 0, 0));
             }
             tdbMain.addTab("Manuelle Zuweisungen", pnlManualAssignments);
+
+            //======== pnlEventTuning ========
+            {
+                pnlEventTuning.setLayout(new GridBagLayout());
+                ((GridBagLayout)pnlEventTuning.getLayout()).columnWidths = new int[] {0, 0};
+                ((GridBagLayout)pnlEventTuning.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+                ((GridBagLayout)pnlEventTuning.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+                ((GridBagLayout)pnlEventTuning.getLayout()).rowWeights = new double[] {1.0, 0.0, 1.0, 1.0E-4};
+
+                //======== borderPosAdding ========
+                {
+                    borderPosAdding.setBorder(new TitledBorder("Position hinzuf\u00fcgen"));
+                    borderPosAdding.setLayout(new GridBagLayout());
+                    ((GridBagLayout)borderPosAdding.getLayout()).columnWidths = new int[] {0, 0, 0};
+                    ((GridBagLayout)borderPosAdding.getLayout()).rowHeights = new int[] {0, 0, 0};
+                    ((GridBagLayout)borderPosAdding.getLayout()).columnWeights = new double[] {1.0, 0.0, 1.0E-4};
+                    ((GridBagLayout)borderPosAdding.getLayout()).rowWeights = new double[] {0.0, 1.0, 1.0E-4};
+
+                    //======== scPosAdding ========
+                    {
+                        scPosAdding.setViewportView(tbPosAdding);
+                    }
+                    borderPosAdding.add(scPosAdding, new GridBagConstraints(0, 0, 1, 2, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
+
+                    //---- btnAddPosition ----
+                    btnAddPosition.setText("Hinzuf\u00fcgen");
+                    borderPosAdding.add(btnAddPosition, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+                }
+                pnlEventTuning.add(borderPosAdding, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
+
+                //======== tbTuning ========
+                {
+                    tbTuning.setFloatable(false);
+
+                    //---- btnRefreshAddRemovePos ----
+                    btnRefreshAddRemovePos.setText("Aktualisieren");
+                    btnRefreshAddRemovePos.setIcon(new ImageIcon(getClass().getResource("/img/reload16px.png")));
+                    tbTuning.add(btnRefreshAddRemovePos);
+                }
+                pnlEventTuning.add(tbTuning, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
+
+                //======== borderPosRemoving ========
+                {
+                    borderPosRemoving.setBorder(new TitledBorder("Position entfernen"));
+                    borderPosRemoving.setLayout(new GridBagLayout());
+                    ((GridBagLayout)borderPosRemoving.getLayout()).columnWidths = new int[] {0, 0, 0};
+                    ((GridBagLayout)borderPosRemoving.getLayout()).rowHeights = new int[] {0, 0, 0};
+                    ((GridBagLayout)borderPosRemoving.getLayout()).columnWeights = new double[] {1.0, 0.0, 1.0E-4};
+                    ((GridBagLayout)borderPosRemoving.getLayout()).rowWeights = new double[] {0.0, 1.0, 1.0E-4};
+
+                    //======== scPosRemoving ========
+                    {
+                        scPosRemoving.setViewportView(tbPosRemoving);
+                    }
+                    borderPosRemoving.add(scPosRemoving, new GridBagConstraints(0, 0, 1, 2, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
+
+                    //---- btnRemovePosition ----
+                    btnRemovePosition.setText("Entfernen");
+                    borderPosRemoving.add(btnRemovePosition, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+                }
+                pnlEventTuning.add(borderPosRemoving, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
+            }
+            tdbMain.addTab("Event-Tuning", pnlEventTuning);
 
             //======== pnlMessages ========
             {
@@ -985,6 +1079,7 @@ public class ResourceDialog extends SpeedyFrame
                     btnRefreshMessages.setText("Aktualisieren");
                     btnRefreshMessages.setIcon(new ImageIcon(getClass().getResource("/img/reload16px.png")));
                     btnRefreshMessages.addActionListener(new ActionListener() {
+                        @Override
                         public void actionPerformed(ActionEvent e) {
                             btnRefreshMessagesPressed(e);
                         }
@@ -997,6 +1092,7 @@ public class ResourceDialog extends SpeedyFrame
                     btnSendMessages.setText("Alle senden");
                     btnSendMessages.setIcon(new ImageIcon(getClass().getResource("/img/mail16px.png")));
                     btnSendMessages.addActionListener(new ActionListener() {
+                        @Override
                         public void actionPerformed(ActionEvent e) {
                             btnSendMessagesPressed(e);
                         }
@@ -1033,6 +1129,7 @@ public class ResourceDialog extends SpeedyFrame
                     //---- btnMessageFormat ----
                     btnMessageFormat.setText("HTML/Plain");
                     btnMessageFormat.addChangeListener(new ChangeListener() {
+                        @Override
                         public void stateChanged(ChangeEvent e) {
                             btnMessageFormatStateChanged(e);
                         }
@@ -1106,31 +1203,33 @@ public class ResourceDialog extends SpeedyFrame
                     GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                     new Insets(0, 0, 5, 0), 0, 0));
 
-                //======== toolBar1 ========
+                //======== tbPostProcessing ========
                 {
-                    toolBar1.setFloatable(false);
+                    tbPostProcessing.setFloatable(false);
 
                     //---- btnRefreshPostProcessing ----
                     btnRefreshPostProcessing.setText("Aktualisieren");
                     btnRefreshPostProcessing.setIcon(new ImageIcon(getClass().getResource("/img/reload16px.png")));
                     btnRefreshPostProcessing.addActionListener(new ActionListener() {
+                        @Override
                         public void actionPerformed(ActionEvent e) {
                             btnRefreshPostProcessingPressed(e);
                         }
                     });
-                    toolBar1.add(btnRefreshPostProcessing);
+                    tbPostProcessing.add(btnRefreshPostProcessing);
 
                     //---- btnSwapPositions ----
                     btnSwapPositions.setText("Tauschen");
                     btnSwapPositions.setIcon(new ImageIcon(getClass().getResource("/img/swap16px.png")));
                     btnSwapPositions.addActionListener(new ActionListener() {
+                        @Override
                         public void actionPerformed(ActionEvent e) {
                             btnSwapPositionsPressed(e);
                         }
                     });
-                    toolBar1.add(btnSwapPositions);
+                    tbPostProcessing.add(btnSwapPositions);
                 }
-                pnlPostProcessing.add(toolBar1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                pnlPostProcessing.add(tbPostProcessing, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
                     GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                     new Insets(0, 0, 5, 0), 0, 0));
 
@@ -1170,7 +1269,7 @@ public class ResourceDialog extends SpeedyFrame
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Stefan Schulz
+    // Generated using JFormDesigner non-commercial license
     private JToolBar tbMain;
     private JButton btnFinishProcesses;
     private JTabbedPane tdbMain;
@@ -1185,6 +1284,7 @@ public class ResourceDialog extends SpeedyFrame
     private JButton btnRefreshEvents;
     private JScrollPane scEvents;
     private ResourcePlanningTable tbEvents;
+    private JButton btnExportEvent;
     private JPanel pnlExecutions;
     private JPanel borderExecutions;
     private JScrollPane scExecutions;
@@ -1196,7 +1296,6 @@ public class ResourceDialog extends SpeedyFrame
     private ResourcePlanningTable tbHelpers;
     private JButton btnRefreshHelpers;
     private JButton btnCreateHelper;
-    private JButton btnAnonymize;
     private JPanel pnlManualAssignments;
     private JPanel borderManualAssignments;
     private JScrollPane scManualAssignments;
@@ -1207,6 +1306,17 @@ public class ResourceDialog extends SpeedyFrame
     private JScrollPane scAvailablePositions;
     private ResourcePlanningTable tbAvailablePositions;
     private JButton btnReloadAvailablePositions;
+    private JPanel pnlEventTuning;
+    private JPanel borderPosAdding;
+    private JScrollPane scPosAdding;
+    private ResourcePlanningTable tbPosAdding;
+    private JButton btnAddPosition;
+    private JToolBar tbTuning;
+    private JButton btnRefreshAddRemovePos;
+    private JPanel borderPosRemoving;
+    private JScrollPane scPosRemoving;
+    private ResourcePlanningTable tbPosRemoving;
+    private JButton btnRemovePosition;
     private JPanel pnlMessages;
     private JPanel borderMessages;
     private JScrollPane scMessages;
@@ -1226,7 +1336,7 @@ public class ResourceDialog extends SpeedyFrame
     private JPanel borderPostProcessingSource;
     private JScrollPane scPostProcessingSource;
     private TreeTable treeTablePostProcessingSource;
-    private JToolBar toolBar1;
+    private JToolBar tbPostProcessing;
     private JButton btnRefreshPostProcessing;
     private JButton btnSwapPositions;
     private JPanel borderPostProcessingTarget;

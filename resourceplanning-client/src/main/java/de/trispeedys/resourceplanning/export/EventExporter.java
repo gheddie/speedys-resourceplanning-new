@@ -4,35 +4,43 @@ import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Font;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.FontSelector;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.FontSelector;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import de.trispeedys.resourceplanning.singleton.AppSingleton;
 import de.trispeedys.resourceplanning.webservice.HierarchicalEventItemDTO;
 
 public class EventExporter
 {
-    private static final Color COLOR_EVENT = new Color(128, 128, 128);
-    private static final Color COLOR_DOMAIN = new Color(192, 192, 192);
-    private static final Color COLOR_POSITION = new Color(255, 255, 255);
+    private static final BaseColor COLOR_EVENT = new BaseColor(128, 128, 128);
+    private static final BaseColor COLOR_DOMAIN = new BaseColor(192, 192, 192);
+    private static final BaseColor COLOR_POSITION = new BaseColor(255, 255, 255);
     
-    private static final Font FONT_EVENT = new Font(BaseFont.SUPERSCRIPT_OFFSET, 12);
-    private static final Font FONT_DOMAIN = new Font(BaseFont.SUPERSCRIPT_OFFSET, 10);
-    private static final Font FONT_POSITION = new Font(BaseFont.SUPERSCRIPT_OFFSET, 8);
+    private static final Font FONT_EVENT = new Font(FontFamily.HELVETICA, 12);
+    private static final Font FONT_DOMAIN = new Font(FontFamily.HELVETICA, 10);
+    private static final Font FONT_POSITION = new Font(FontFamily.HELVETICA, 8);
     
     private long eventId;
     
-    public EventExporter(Long aEventId)
+    private int positionCount;
+    
+    private int assignmentCount;
+    
+    public EventExporter(Long aEventId, int aPositionCount, int anAssignmentCount)
     {
         super();
-        this.eventId = aEventId;        
+        this.eventId = aEventId;
+        this.positionCount = aPositionCount;
+        this.assignmentCount = anAssignmentCount;
     }
 
     public void export(String filename) throws FileNotFoundException, DocumentException
@@ -58,7 +66,7 @@ public class EventExporter
                 case "EVENT":
                     selector = new FontSelector();
                     selector.addFont(FONT_EVENT);
-                    phraseA = selector.process(node.getInfoString());
+                    phraseA = selector.process(node.getInfoString() + " ["+assignmentCount+" von "+positionCount+" Pos. besetzt]");
                     cellA = new PdfPCell(phraseA);            
                     cellA.setBackgroundColor(COLOR_EVENT);                        
                     cellA.setColspan(2);
@@ -91,18 +99,4 @@ public class EventExporter
         }        
         return table;
     }    
-    
-    // ---
-    
-    public static void main(String[] args)
-    {
-        try
-        {
-            new EventExporter(new Long(13922)).export("D:\\export\\result_"+System.currentTimeMillis()+".pdf");
-        }
-        catch (FileNotFoundException | DocumentException e)
-        {
-            e.printStackTrace();
-        }
-    }
 }

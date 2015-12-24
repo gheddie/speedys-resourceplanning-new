@@ -104,6 +104,11 @@ public class AppConfiguration
         return configurationValues.get(key);
     }
     
+    public void setConfigurationValue(String key, String value)
+    {
+        configurationValues.put(key, value);
+    }
+    
     public String getText(Object context, String key, Object... parameters)
     {
         return getText(context.getClass(), key, parameters);

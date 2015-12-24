@@ -21,6 +21,7 @@ import org.camunda.bpm.engine.task.Task;
 import org.hibernate.Transaction;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
+import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.dto.EventDTO;
 import de.trispeedys.resourceplanning.dto.ExecutionDTO;
@@ -118,6 +119,17 @@ public class ResourceInfo
         }
         return dtos.toArray(new PositionDTO[dtos.size()]);
     }
+    
+    /**
+     * returns all {@link Position}} which are not included in the given {@link Event}.
+     * 
+     * @param eventId
+     * @return
+     */
+    public PositionDTO[] queryNonEventPositions(Long eventId)
+    {
+        return null;
+    }
 
     public void sendAllMessages()
     {
@@ -164,6 +176,7 @@ public class ResourceInfo
             dto = new EventDTO();
             dto.setDescription(event.getDescription());
             dto.setPositionCount(RepositoryProvider.getRepository(EventPositionRepository.class).findByEvent(event).size());
+            // TODO nur ungekündigte !!
             dto.setAssignmentCount(RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByEvent(event).size());
             dto.setEventId(event.getId());
             dto.setEventState(event.getEventState().toString());
@@ -518,5 +531,10 @@ public class ResourceInfo
         }
         // finally, create the event position...
         EntityFactory.buildEventPosition(event, position).saveOrUpdate(null);
+    }
+    
+    public void changeHost(String host)
+    {
+        AppConfiguration.getInstance().setConfigurationValue(AppConfigurationValues.HOST, host);
     }
 }
