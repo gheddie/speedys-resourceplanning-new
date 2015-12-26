@@ -7,18 +7,21 @@ import java.util.List;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.PositionDatasource;
+import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventPosition;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperAssignmentState;
+import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.repository.base.AbstractDatabaseRepository;
 import de.trispeedys.resourceplanning.repository.base.DatabaseRepository;
 import de.trispeedys.resourceplanning.rule.ChoosablePositionGenerator;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
-public class PositionRepository extends AbstractDatabaseRepository<Position> implements DatabaseRepository<PositionRepository>
+public class PositionRepository extends AbstractDatabaseRepository<Position> implements
+        DatabaseRepository<PositionRepository>
 {
     public Position findPositionByPositionNumber(int positionNumber)
     {
@@ -75,11 +78,12 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
                         " ec WHERE ec.event = :event AND" +
                         // helper assignments must from both states 'PLANNED' and 'CONFIRMED' must be
                         // regarded (and grouped) as exclusions
-                        " (ec.helperAssignmentState = '" + HelperAssignmentState.PLANNED + "' OR ec.helperAssignmentState = '" +
-                        HelperAssignmentState.CONFIRMED + "'))";
+                        " (ec.helperAssignmentState = '" + HelperAssignmentState.PLANNED +
+                        "' OR ec.helperAssignmentState = '" + HelperAssignmentState.CONFIRMED + "'))";
         HashMap<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("event", event);
-        List<EventPosition> eventPositions = Datasources.getDatasource(EventPosition.class).find(null, qryString, parameters);
+        List<EventPosition> eventPositions =
+                Datasources.getDatasource(EventPosition.class).find(null, qryString, parameters);
         List<Position> result = new ArrayList<Position>();
         Position position = null;
         for (EventPosition ep : eventPositions)
@@ -105,8 +109,11 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
     public List<Position> findPositionsInEvent(Event event)
     {
         List<EventPosition> list =
-                Datasources.getDatasource(EventPosition.class).find(null, 
-                        "FROM " + EventPosition.class.getSimpleName() + " ep INNER JOIN ep.position pos WHERE ep.event = :event", "event", event);
+                Datasources.getDatasource(EventPosition.class).find(
+                        null,
+                        "FROM " +
+                                EventPosition.class.getSimpleName() +
+                                " ep INNER JOIN ep.position pos WHERE ep.event = :event", "event", event);
         List<Position> result = new ArrayList<Position>();
         Object[] tuple = null;
         for (Object obj : list)
@@ -116,7 +123,7 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
         }
         return result;
     }
-    
+
     public boolean isPositionAvailable(Long eventId, Long positionId)
     {
         Position position = (Position) Datasources.getDatasource(Position.class).findById(null, positionId);
@@ -141,7 +148,7 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
         {
             return false;
         }
-        // pos is not available if we find an assignment which is not cancelled 
+        // pos is not available if we find an assignment which is not cancelled
         String queryString =
                 "FROM " +
                         HelperAssignment.class.getSimpleName() +
@@ -150,7 +157,8 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
         HashMap<String, Object> variables = new HashMap<String, Object>();
         variables.put(HelperAssignment.ATTR_EVENT, event);
         variables.put(HelperAssignment.ATTR_POSITION, position);
-        List<HelperAssignment> helperAssignments = Datasources.getDatasource(HelperAssignment.class).find(null, queryString, variables);
+        List<HelperAssignment> helperAssignments =
+                Datasources.getDatasource(HelperAssignment.class).find(null, queryString, variables);
         // no helper assignments -> position available
         return ((helperAssignments == null) || (helperAssignments.size() == 0));
     }
@@ -168,15 +176,42 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
         parameters.put("position", position);
         parameters.put("event", event);
         List<?> result =
-                Datasources.getDatasource(EventPosition.class)
-                        .find(null, "FROM " +
-                                EventPosition.class.getSimpleName() + " ep WHERE ep.position = :position AND ep.event = :event",
-                                parameters);
+                Datasources.getDatasource(EventPosition.class).find(
+                        null,
+                        "FROM " +
+                                EventPosition.class.getSimpleName() +
+                                " ep WHERE ep.position = :position AND ep.event = :event", parameters);
         return ((result != null) && (result.size() > 0));
     }
 
     protected DefaultDatasource<Position> createDataSource()
     {
         return new PositionDatasource();
+    }
+
+    public List<Position> findEventPositions(Event event, boolean includedInEvent)
+    {
+        HashMap<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("event", event);
+        String condition = null;
+        if (includedInEvent)
+        {
+            condition = " WHERE p.id IN";
+        }
+        else
+        {
+            condition = " WHERE p.id NOT IN";
+        }
+        String qryString =
+                "FROM " +
+                        Position.class.getSimpleName() + " p" + condition + " (SELECT ep.position.id FROM " +
+                        EventPosition.class.getSimpleName() + " ep WHERE ep.event = :event)";
+        return dataSource().find(null, qryString, parameters);
+    }
+
+    public Position createPosition(String description, int positionNumber, Domain domain, int minimalAge,
+            boolean choosable)
+    {
+        return EntityFactory.buildPosition(description, minimalAge, domain, positionNumber, choosable).saveOrUpdate();
     }
 }

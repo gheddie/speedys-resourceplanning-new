@@ -1,7 +1,8 @@
 {
-   "description":"Test-Triathlon 2016",
-   "key":"TEST-TRI-2016",
-   "template":"TRI-XYZ",
+   "description":"Test-Triathlon 2015",
+   "key":"TEST-TRI-2015",
+   "template":"TRI-GENERAL",
+   "eventDate":"21.06.2015",
    "domains":[
       {
          "domainNumber":"1",

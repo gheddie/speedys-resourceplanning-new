@@ -105,6 +105,18 @@ public class EntityFactory
     {
         return new EventTemplateBuilder().withDescription(description).build();
     }
+    
+    public static Event buildEvent(String description, String eventKey, Date eventDate, EventState eventState, EventTemplate eventTemplate,
+            Event parentEvent)
+    {
+        return new EventBuilder().withDescription(description)
+                .withDate(eventDate)
+                .withEventKey(eventKey)
+                .withEventState(eventState)
+                .withEventTemplate(eventTemplate)
+                .withParentEvent(parentEvent)
+                .build();
+    }
 
     public static Event buildEvent(String description, String eventKey, int day, int month, int year, EventState eventState, EventTemplate eventTemplate,
             Event parentEvent)
@@ -113,13 +125,7 @@ public class EntityFactory
         eventDate.set(Calendar.DAY_OF_MONTH, day);
         eventDate.set(Calendar.MONTH, month - 1);
         eventDate.set(Calendar.YEAR, year);
-        return new EventBuilder().withDescription(description)
-                .withDate(eventDate.getTime())
-                .withEventKey(eventKey)
-                .withEventState(eventState)
-                .withEventTemplate(eventTemplate)
-                .withParentEvent(parentEvent)
-                .build();
+        return buildEvent(description, eventKey, eventDate.getTime(), eventState, eventTemplate, parentEvent);
     }
 
     public static MessageQueue buildMessageQueue(String fromAddress, String toAddress, String subject, String body, MessagingFormat messagingFormat)

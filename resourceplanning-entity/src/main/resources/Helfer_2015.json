@@ -1,7 +1,8 @@
 {
     "description":"Triathlon 2015",
     "key":"TRI-2015",
-    "template":"TRI-XYZ",
+    "template":"TRI-GENERAL",
+    "eventDate":"21.06.2015",
     "domains":[
         {
             "domainNumber":"1",
@@ -1916,7 +1917,7 @@
                     "helperMail":"",
                     "positionNumber":"154",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 5",
-                    "minimalAge":"12",
+                    "minimalAge":"8",
                     "positionPriority":"-1",
                     "choosable":"y",
                     "aggregation":""
@@ -1940,7 +1941,7 @@
                     "helperMail":"",
                     "positionNumber":"156",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 7",
-                    "minimalAge":"12",
+                    "minimalAge":"8",
                     "positionPriority":"-1",
                     "choosable":"y",
                     "aggregation":""
@@ -1976,7 +1977,7 @@
                     "helperMail":"silke.thierse@arcor.de",
                     "positionNumber":"159",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 10",
-                    "minimalAge":"12",
+                    "minimalAge":"8",
                     "positionPriority":"-1",
                     "choosable":"y",
                     "aggregation":""
@@ -2000,7 +2001,7 @@
                     "helperMail":"silke.thierse@arcor.de",
                     "positionNumber":"161",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 12",
-                    "minimalAge":"12",
+                    "minimalAge":"8",
                     "positionPriority":"-1",
                     "choosable":"y",
                     "aggregation":""
@@ -2150,7 +2151,7 @@
                     "helperMail":"stefan.schulz.1976@googlemail.com",
                     "positionNumber":"173",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 8",
-                    "minimalAge":"12",
+                    "minimalAge":"8",
                     "positionPriority":"-1",
                     "choosable":"y",
                     "aggregation":""
@@ -2270,7 +2271,7 @@
                     "helperMail":"",
                     "positionNumber":"183",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 18",
-                    "minimalAge":"12",
+                    "minimalAge":"8",
                     "positionPriority":"-1",
                     "choosable":"y",
                     "aggregation":""

@@ -9,6 +9,8 @@ public class PositionDTO
     private String domain;
 
     private int minimalAge;
+    
+    private int positionNumber;
 
     public String getDescription()
     {
@@ -48,5 +50,15 @@ public class PositionDTO
     public void setMinimalAge(int minimalAge)
     {
         this.minimalAge = minimalAge;
+    }
+    
+    public int getPositionNumber()
+    {
+        return positionNumber;
+    }
+    
+    public void setPositionNumber(int positionNumber)
+    {
+        this.positionNumber = positionNumber;
     }
 }

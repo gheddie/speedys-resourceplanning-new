@@ -18,7 +18,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import de.trispeedys.resourceplanning.HibernateUtil;
-import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
@@ -53,6 +52,8 @@ public class JsonEventReader
     private static final String JSON_PARAM_HEADER_KEY = "key";
 
     private static final String JSON_PARAM_HEADER_TEMPLATE = "template";
+    
+    private static final String JSON_PARAM_HEADER_EVT_DATE = "eventDate";
 
     // parameter names list types
     private static final String JSON_PARAM_LIST_DOMAINS = "domains";
@@ -108,7 +109,7 @@ public class JsonEventReader
             sessionHolder.saveOrUpdate(template);
             event =
                     EntityFactory.buildEvent((String) root.get(JSON_PARAM_HEADER_DESCRIPTION),
-                            (String) root.get(JSON_PARAM_HEADER_KEY), 1, 1, 1980, EventState.FINISHED, template, null);
+                            (String) root.get(JSON_PARAM_HEADER_KEY), parseDate((String) root.get(JSON_PARAM_HEADER_EVT_DATE)), EventState.FINISHED, template, null);
             sessionHolder.saveOrUpdate(event);
             JSONArray domains = (JSONArray) root.get(JSON_PARAM_LIST_DOMAINS);
             logger.info(domains.size() + " domains.");
@@ -241,17 +242,9 @@ public class JsonEventReader
         return (b.equals("y"));
     }
 
-    private Date parseDate(String dateOfBirth)
+    private Date parseDate(String dateOfBirth) throws ParseException
     {
-        try
-        {
-            return DATE_FORMAT.parse(dateOfBirth);
-        }
-        catch (ParseException e)
-        {
-            logger.info(" ### ERROR ### : " + e.getMessage());
-            return null;
-        }
+        return DATE_FORMAT.parse(dateOfBirth);
     }
 
     // ---
@@ -259,6 +252,6 @@ public class JsonEventReader
     public static void main(String[] args)
     {
         HibernateUtil.clearAll();
-        new JsonEventReader().doImport("TestEvent.json");
+        new JsonEventReader().doImport("Helfer_2015.json");
     }
 }

@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="domain" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="minimalAge" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="positionId" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
+ *         &lt;element name="positionNumber" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -33,7 +34,8 @@ import javax.xml.bind.annotation.XmlType;
     "description",
     "domain",
     "minimalAge",
-    "positionId"
+    "positionId",
+    "positionNumber"
 })
 public class PositionDTO {
 
@@ -41,6 +43,7 @@ public class PositionDTO {
     protected String domain;
     protected int minimalAge;
     protected Long positionId;
+    protected int positionNumber;
 
     /**
      * Gets the value of the description property.
@@ -128,6 +131,22 @@ public class PositionDTO {
      */
     public void setPositionId(Long value) {
         this.positionId = value;
+    }
+
+    /**
+     * Gets the value of the positionNumber property.
+     * 
+     */
+    public int getPositionNumber() {
+        return positionNumber;
+    }
+
+    /**
+     * Sets the value of the positionNumber property.
+     * 
+     */
+    public void setPositionNumber(int value) {
+        this.positionNumber = value;
     }
 
 }

@@ -21,7 +21,6 @@ import org.camunda.bpm.engine.task.Task;
 import org.hibernate.Transaction;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
-import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.dto.EventDTO;
 import de.trispeedys.resourceplanning.dto.ExecutionDTO;
@@ -31,6 +30,7 @@ import de.trispeedys.resourceplanning.dto.ManualAssignmentDTO;
 import de.trispeedys.resourceplanning.dto.MessageDTO;
 import de.trispeedys.resourceplanning.dto.PositionDTO;
 import de.trispeedys.resourceplanning.entity.AggregationRelation;
+import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventPosition;
 import de.trispeedys.resourceplanning.entity.Helper;
@@ -48,6 +48,7 @@ import de.trispeedys.resourceplanning.interaction.EventManager;
 import de.trispeedys.resourceplanning.persistence.SessionHolder;
 import de.trispeedys.resourceplanning.persistence.SessionManager;
 import de.trispeedys.resourceplanning.repository.AggregationRelationRepository;
+import de.trispeedys.resourceplanning.repository.DomainRepository;
 import de.trispeedys.resourceplanning.repository.EventPositionRepository;
 import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
@@ -69,27 +70,27 @@ import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 public class ResourceInfo
 {
     private static final DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-    
+
     private static final Logger logger = Logger.getLogger(ResourceInfo.class);
-    
+
     private static final String EVENT_ID_REQUIRED = "EVENT_ID_REQUIRED";
 
     private static final String EVENT_NOT_FOUND_BY_ID = "EVENT_NOT_FOUND_BY_ID";
-    
+
     private static final String POSITIONS_NO_SWAP = "POSITIONS_NO_SWAP";
-    
+
     private static final String WRONG_EVENT_STATE = "WRONG_EVENT_STATE";
-    
+
     private static final String CANCELLATION_UNPROCESSABLE = "CANCELLATION_UNPROCESSABLE";
-    
+
     private static final String PROC_INST_MISMATCH = "PROC_INST_MISMATCH";
 
     private static final String POSITION_UNAVAILABLE_BY_NUMBER = "POSITION_UNAVAILABLE_BY_NUMBER";
 
     private static final String POSITION_ALREADY_ASSIGNED_TO_EVENT = "POSITION_ALREADY_ASSIGNED_TO_EVENT";
-    
+
     private static final String POSITION_NOT_ASSIGNED_TO_EVENT = "POSITION_NOT_ASSIGNED_TO_EVENT";
-    
+
     private static final String POSITION_ASSIGNED_TO_HELPER = "POSITION_ASSIGNED_TO_HELPER";
 
     private static final String MAILSENDING_IN_PROGRESS = "MAILSENDING_IN_PROGRESS";
@@ -107,28 +108,50 @@ public class ResourceInfo
             throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
         }
         List<PositionDTO> dtos = new ArrayList<PositionDTO>();
-        PositionDTO dto = null;
-        for (Position pos : RepositoryProvider.getRepository(PositionRepository.class).findUnassignedPositionsInEvent(event, false))
+        for (Position pos : RepositoryProvider.getRepository(PositionRepository.class).findUnassignedPositionsInEvent(
+                event, false))
         {
-            dto = new PositionDTO();
-            dto.setDescription(pos.getDescription());
-            dto.setMinimalAge(pos.getMinimalAge());
-            dto.setDomain(pos.getDomain().getName());
-            dto.setPositionId(pos.getId());
-            dtos.add(dto);
+            dtos.add(asPositionDTO(pos));
         }
         return dtos.toArray(new PositionDTO[dtos.size()]);
     }
-    
+
+    private PositionDTO asPositionDTO(Position pos)
+    {
+        PositionDTO dto = new PositionDTO();
+        dto.setDescription(pos.getDescription());
+        dto.setMinimalAge(pos.getMinimalAge());
+        dto.setDomain(pos.getDomain().getName());
+        dto.setPositionNumber(pos.getPositionNumber());
+        dto.setPositionId(pos.getId());
+        return dto;
+    }
+
     /**
-     * returns all {@link Position}} which are not included in the given {@link Event}.
+     * returns all {@link Position} which are not included in the given {@link Event}.
      * 
      * @param eventId
+     * @param includedInEvent 
      * @return
      */
-    public PositionDTO[] queryNonEventPositions(Long eventId)
+    public PositionDTO[] queryEventPositions(Long eventId, boolean includedInEvent)
     {
-        return null;
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        if (eventId == null)
+        {
+            throw new ResourcePlanningException(configuration.getText(this, EVENT_ID_REQUIRED));
+        }
+        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        if (event == null)
+        {
+            throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
+        }
+        List<PositionDTO> dtos = new ArrayList<PositionDTO>();
+        for (Position pos : RepositoryProvider.getRepository(PositionRepository.class).findEventPositions(event, includedInEvent))
+        {
+            dtos.add(asPositionDTO(pos));
+        }
+        return dtos.toArray(new PositionDTO[dtos.size()]);
     }
 
     public void sendAllMessages()
@@ -139,21 +162,21 @@ public class ResourceInfo
             // sending in progress --> exception
             throw new ResourcePlanningException(configuration.getText(this, MAILSENDING_IN_PROGRESS));
         }
-        
+
         try
         {
             configuration.setMailSendingInProgress(true);
-            RepositoryProvider.getRepository(MessageQueueRepository.class).sendAllUnprocessedMessages();   
+            RepositoryProvider.getRepository(MessageQueueRepository.class).sendAllUnprocessedMessages();
         }
         catch (Exception e)
         {
             logger.error("error on sending helper mails : " + e.getMessage());
             throw e;
-        }       
+        }
         finally
         {
             configuration.setMailSendingInProgress(false);
-        }        
+        }
     }
 
     public void startProcessesForActiveHelpersByEventId(Long eventId)
@@ -163,7 +186,9 @@ public class ResourceInfo
 
     public void finishUp()
     {
-        BpmPlatform.getDefaultProcessEngine().getRuntimeService().signalEventReceived(BpmSignals.RequestHelpHelper.SIG_EVENT_STARTED);
+        BpmPlatform.getDefaultProcessEngine()
+                .getRuntimeService()
+                .signalEventReceived(BpmSignals.RequestHelpHelper.SIG_EVENT_STARTED);
     }
 
     public EventDTO[] queryEvents()
@@ -175,9 +200,13 @@ public class ResourceInfo
         {
             dto = new EventDTO();
             dto.setDescription(event.getDescription());
-            dto.setPositionCount(RepositoryProvider.getRepository(EventPositionRepository.class).findByEvent(event).size());
+            dto.setPositionCount(RepositoryProvider.getRepository(EventPositionRepository.class)
+                    .findByEvent(event)
+                    .size());
             // TODO nur ungekündigte !!
-            dto.setAssignmentCount(RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByEvent(event).size());
+            dto.setAssignmentCount(RepositoryProvider.getRepository(HelperAssignmentRepository.class)
+                    .findByEvent(event)
+                    .size());
             dto.setEventId(event.getId());
             dto.setEventState(event.getEventState().toString());
             dto.setEventDate(event.getEventDate());
@@ -210,7 +239,8 @@ public class ResourceInfo
         logger.info("getting event nodes...");
         // key : position id, value : aggregation relation
         HashMap<Long, AggregationRelation> relationHash = new HashMap<Long, AggregationRelation>();
-        for (AggregationRelation relation : RepositoryProvider.getRepository(AggregationRelationRepository.class).findAll(null))
+        for (AggregationRelation relation : RepositoryProvider.getRepository(AggregationRelationRepository.class)
+                .findAll(null))
         {
             relationHash.put(relation.getPositionId(), relation);
         }
@@ -265,7 +295,7 @@ public class ResourceInfo
         }
         return dtos.toArray(new HelperDTO[dtos.size()]);
     }
-    
+
     public MessageDTO[] queryUnsentMessages()
     {
         List<MessageDTO> dtos = new ArrayList<MessageDTO>();
@@ -304,35 +334,32 @@ public class ResourceInfo
 
     public ExecutionDTO[] queryExecutions()
     {
-        List<ExecutionDTO> dtos = new ArrayList<ExecutionDTO>();        
+        List<ExecutionDTO> dtos = new ArrayList<ExecutionDTO>();
         dtos.addAll(queryExecutionsByMessageName(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, "Option wählen"));
         dtos.addAll(queryExecutionsByMessageName(BpmMessages.RequestHelpHelper.MSG_POS_CHOSEN, "Position wählen"));
         dtos.addAll(queryExecutionsByMessageName(BpmMessages.RequestHelpHelper.MSG_ASSIG_CANCELLED, "Übernahme Planung"));
         dtos.addAll(queryExecutionsByMessageName(BpmMessages.RequestHelpHelper.MSG_DEACT_RESP, "Deaktivierung"));
         return dtos.toArray(new ExecutionDTO[dtos.size()]);
     }
-    
+
     private List<ExecutionDTO> queryExecutionsByMessageName(String messageName, String waitState)
     {
         List<ExecutionDTO> dtos = new ArrayList<ExecutionDTO>();
         Helper helper = null;
         ExecutionDTO dto;
-        RuntimeService runtimeService = BpmPlatform.getDefaultProcessEngine()
-                .getRuntimeService();
-        for (Execution execution : runtimeService
-                .createExecutionQuery()
+        RuntimeService runtimeService = BpmPlatform.getDefaultProcessEngine().getRuntimeService();
+        for (Execution execution : runtimeService.createExecutionQuery()
                 .messageEventSubscriptionName(messageName)
                 .list())
         {
-            List<VariableInstance> variables = runtimeService
-                    .createVariableInstanceQuery()
-                    .processInstanceIdIn(execution.getProcessInstanceId())
-                    .variableName(BpmVariables.RequestHelpHelper.VAR_HELPER_ID)
-                    .list();
-            helper = RepositoryProvider.getRepository(HelperRepository.class).findById(
-                    (Long) variables
-                            .get(0)
-                            .getValue());
+            List<VariableInstance> variables =
+                    runtimeService.createVariableInstanceQuery()
+                            .processInstanceIdIn(execution.getProcessInstanceId())
+                            .variableName(BpmVariables.RequestHelpHelper.VAR_HELPER_ID)
+                            .list();
+            helper =
+                    RepositoryProvider.getRepository(HelperRepository.class).findById(
+                            (Long) variables.get(0).getValue());
             dto = new ExecutionDTO();
             dto.setHelperFirstName(helper.getFirstName());
             dto.setHelperLastName(helper.getLastName());
@@ -340,17 +367,18 @@ public class ResourceInfo
             switch (messageName)
             {
                 case BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK:
-                    dto.setAdditionalInfo(String.valueOf(runtimeService
-                            .createVariableInstanceQuery()
+                    dto.setAdditionalInfo(String.valueOf(runtimeService.createVariableInstanceQuery()
                             .processInstanceIdIn(execution.getProcessInstanceId())
                             .variableName(BpmVariables.RequestHelpHelper.VAR_MAIL_ATTEMPTS)
-                            .list().get(0).getValue()));
+                            .list()
+                            .get(0)
+                            .getValue()));
                     break;
                 default:
                     dto.setAdditionalInfo(null);
                     break;
             }
-            dtos.add(dto);                        
+            dtos.add(dto);
         }
         return dtos;
     }
@@ -368,7 +396,8 @@ public class ResourceInfo
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         if (helper == null)
         {
-            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, PROC_INST_MISMATCH, helperId, task.getId()));
+            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, PROC_INST_MISMATCH,
+                    helperId, task.getId()));
         }
         return helper;
     }
@@ -383,11 +412,14 @@ public class ResourceInfo
         try
         {
             businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
-            BpmPlatform.getDefaultProcessEngine().getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_ASSIG_CANCELLED, businessKey);
+            BpmPlatform.getDefaultProcessEngine()
+                    .getRuntimeService()
+                    .correlateMessage(BpmMessages.RequestHelpHelper.MSG_ASSIG_CANCELLED, businessKey);
         }
         catch (MismatchingMessageCorrelationException e)
         {
-            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, CANCELLATION_UNPROCESSABLE, helperId));            
+            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this,
+                    CANCELLATION_UNPROCESSABLE, helperId));
         }
     }
 
@@ -407,19 +439,37 @@ public class ResourceInfo
         BpmPlatform.getDefaultProcessEngine().getTaskService().complete(taskId, variables);
     }
 
-    public void createHelper(String lastName, String firstName, String email, int dayOfBirth, int monthOfBirth, int yearOfBirth)
+    public void createHelper(String lastName, String firstName, String email, int dayOfBirth, int monthOfBirth,
+            int yearOfBirth)
     {
-        Helper helper = EntityFactory.buildHelper(lastName, firstName, email, HelperState.ACTIVE, dayOfBirth, monthOfBirth, yearOfBirth).saveOrUpdate();
+        Helper helper =
+                EntityFactory.buildHelper(lastName, firstName, email, HelperState.ACTIVE, dayOfBirth, monthOfBirth,
+                        yearOfBirth).saveOrUpdate();
         // start a request help process for every event which is initiated in this moment...
         for (Event event : RepositoryProvider.getRepository(EventRepository.class).findInitiatedEvents())
         {
             EventManager.startHelperRequestProcess(helper, event);
         }
     }
-    
+
+    public void createPosition(String description, int positionNumber, Long domainId, int minimalAge, boolean choosable)
+    {
+        if (domainId == null)
+        {
+            throw new ResourcePlanningException("domain id must not be null!!");
+        }
+        Domain domain = RepositoryProvider.getRepository(DomainRepository.class).findById(domainId);
+        if (domain == null)
+        {
+            throw new ResourcePlanningException("domain with id '" + domainId + "' could not found!!");
+        }
+        RepositoryProvider.getRepository(PositionRepository.class).createPosition(description, positionNumber, domain,
+                minimalAge, choosable);
+    }
+
     public void swapPositions(Long helperIdSource, Long helperIdTarget, Long eventId)
     {
-        AppConfiguration configuration = AppConfiguration.getInstance();        
+        AppConfiguration configuration = AppConfiguration.getInstance();
         if (eventId == null)
         {
             throw new ResourcePlanningException(configuration.getText(this, EVENT_ID_REQUIRED));
@@ -428,21 +478,25 @@ public class ResourceInfo
         if (event == null)
         {
             throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
-        }                
+        }
         if (!(event.getEventState().equals(EventState.INITIATED)))
         {
             throw new ResourcePlanningException(configuration.getText(this, WRONG_EVENT_STATE, EventState.INITIATED));
-        }        
+        }
         HelperAssignmentRepository repository = RepositoryProvider.getRepository(HelperAssignmentRepository.class);
 
-        HelperAssignment assignmentSource = repository.findByHelperAndEvent(RepositoryProvider.getRepository(HelperRepository.class).findById(helperIdSource), event);
-        HelperAssignment assignmentTarget = repository.findByHelperAndEvent(RepositoryProvider.getRepository(HelperRepository.class).findById(helperIdTarget), event);
-        
+        HelperAssignment assignmentSource =
+                repository.findByHelperAndEvent(
+                        RepositoryProvider.getRepository(HelperRepository.class).findById(helperIdSource), event);
+        HelperAssignment assignmentTarget =
+                repository.findByHelperAndEvent(
+                        RepositoryProvider.getRepository(HelperRepository.class).findById(helperIdTarget), event);
+
         Position posSource = assignmentSource.getPosition();
         Position posTarget = assignmentTarget.getPosition();
-        
+
         SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this);
-        Transaction tx = null;        
+        Transaction tx = null;
         try
         {
             tx = sessionHolder.beginTransaction();
@@ -450,7 +504,7 @@ public class ResourceInfo
             sessionHolder.saveOrUpdate(assignmentSource);
             assignmentTarget.setPosition(posSource);
             sessionHolder.saveOrUpdate(assignmentTarget);
-            tx.commit();   
+            tx.commit();
         }
         catch (Exception e)
         {
@@ -459,10 +513,10 @@ public class ResourceInfo
         }
         finally
         {
-            SessionManager.getInstance().unregisterSession(sessionHolder);   
+            SessionManager.getInstance().unregisterSession(sessionHolder);
         }
     }
-    
+
     public void removePositionFromEvent(Long eventId, int positionNumber)
     {
         AppConfiguration configuration = AppConfiguration.getInstance();
@@ -475,32 +529,38 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
         }
-        // event must be 'INITIATED'
-        if (!(event.getEventState().equals(EventState.INITIATED)))
+        // event must be 'PLANNED'
+        if (!(event.getEventState().equals(EventState.PLANNED)))
         {
-            throw new ResourcePlanningException(configuration.getText(this, WRONG_EVENT_STATE, EventState.INITIATED));
+            throw new ResourcePlanningException(configuration.getText(this, WRONG_EVENT_STATE, EventState.PLANNED));
         }
         // position must be there
-        Position position = RepositoryProvider.getRepository(PositionRepository.class).findPositionByPositionNumber(positionNumber);
+        Position position =
+                RepositoryProvider.getRepository(PositionRepository.class).findPositionByPositionNumber(positionNumber);
         if (position == null)
         {
-            throw new ResourcePlanningException(configuration.getText(this, POSITION_UNAVAILABLE_BY_NUMBER, positionNumber));
+            throw new ResourcePlanningException(configuration.getText(this, POSITION_UNAVAILABLE_BY_NUMBER,
+                    positionNumber));
         }
         // position must be an event position in the given event
-        EventPosition eventPosition = RepositoryProvider.getRepository(EventPositionRepository.class).findByEventAndPositionNumber(event, position);
+        EventPosition eventPosition =
+                RepositoryProvider.getRepository(EventPositionRepository.class).findByEventAndPositionNumber(event,
+                        position);
         if (eventPosition == null)
         {
-            throw new ResourcePlanningException(configuration.getText(this, POSITION_NOT_ASSIGNED_TO_EVENT, positionNumber, event.getDescription()));
+            throw new ResourcePlanningException(configuration.getText(this, POSITION_NOT_ASSIGNED_TO_EVENT,
+                    positionNumber, event.getDescription()));
         }
         // position must NOT be assigned in the event
         if (RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByEventAndPosition(event, position) != null)
         {
-            throw new ResourcePlanningException(configuration.getText(this, POSITION_ASSIGNED_TO_HELPER, positionNumber, event.getDescription()));
+            throw new ResourcePlanningException(configuration.getText(this, POSITION_ASSIGNED_TO_HELPER,
+                    positionNumber, event.getDescription()));
         }
         // finally, remove the event position...
         eventPosition.remove();
     }
-    
+
     public void addPositionToEvent(Long eventId, int positionNumber)
     {
         AppConfiguration configuration = AppConfiguration.getInstance();
@@ -513,28 +573,27 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
         }
-        // event must be 'INITIATED'
-        if (!(event.getEventState().equals(EventState.INITIATED)))
+        // event must be 'PLANNED'
+        if (!(event.getEventState().equals(EventState.PLANNED)))
         {
-            throw new ResourcePlanningException(configuration.getText(this, WRONG_EVENT_STATE, EventState.INITIATED));
+            throw new ResourcePlanningException(configuration.getText(this, WRONG_EVENT_STATE, EventState.PLANNED));
         }
         // position must be there
-        Position position = RepositoryProvider.getRepository(PositionRepository.class).findPositionByPositionNumber(positionNumber);
+        Position position =
+                RepositoryProvider.getRepository(PositionRepository.class).findPositionByPositionNumber(positionNumber);
         if (position == null)
         {
-            throw new ResourcePlanningException(configuration.getText(this, POSITION_UNAVAILABLE_BY_NUMBER, positionNumber));
+            throw new ResourcePlanningException(configuration.getText(this, POSITION_UNAVAILABLE_BY_NUMBER,
+                    positionNumber));
         }
         // position must not already be an event position in the given event
-        if (RepositoryProvider.getRepository(EventPositionRepository.class).findByEventAndPositionNumber(event, position) != null)
+        if (RepositoryProvider.getRepository(EventPositionRepository.class).findByEventAndPositionNumber(event,
+                position) != null)
         {
-            throw new ResourcePlanningException(configuration.getText(this, POSITION_ALREADY_ASSIGNED_TO_EVENT, positionNumber, event.getDescription()));
+            throw new ResourcePlanningException(configuration.getText(this, POSITION_ALREADY_ASSIGNED_TO_EVENT,
+                    positionNumber, event.getDescription()));
         }
         // finally, create the event position...
         EntityFactory.buildEventPosition(event, position).saveOrUpdate(null);
-    }
-    
-    public void changeHost(String host)
-    {
-        AppConfiguration.getInstance().setConfigurationValue(AppConfigurationValues.HOST, host);
     }
 }
