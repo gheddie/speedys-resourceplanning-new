@@ -15,7 +15,7 @@
                     "helperMail":"abend@tri-speedys.de",
                     "positionNumber":"1",
                     "positionName":"SUSA-Aufgabeneinweisung vor Ort 01",
-                    "minimalAge":"12",
+                    "minimalAge":"8",
                     "positionPriority":"-1",
                     "choosable":"y",
                     "aggregation":""
@@ -27,7 +27,7 @@
                     "helperMail":"",
                     "positionNumber":"2",
                     "positionName":"SUSA-Aufgabeneinweisung vor Ort 02",
-                    "minimalAge":"12",
+                    "minimalAge":"8",
                     "positionPriority":"-1",
                     "choosable":"y",
                     "aggregation":""
