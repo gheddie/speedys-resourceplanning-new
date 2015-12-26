@@ -57,9 +57,7 @@ public class HtmlRenderer
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         AppConfiguration configuration = AppConfiguration.getInstance();
         return new HtmlGenerator().withHeader(configuration.getText(HtmlRenderer.class, "hello", helper.getFirstName()))
-                .withLinebreak()
                 .withParagraph(configuration.getText(HtmlRenderer.class, "renderCorrelationFault"))
-                .withLinebreak()
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
@@ -79,15 +77,8 @@ public class HtmlRenderer
         Position chosenPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(chosenPositionId);
         AppConfiguration configuration = AppConfiguration.getInstance();
         return new HtmlGenerator().withHeader(configuration.getText(HtmlRenderer.class, "hello", helper.getFirstName()))
-                .withLinebreak(2)
                 .withParagraph(configuration.getText(HtmlRenderer.class, "messageReceived"))
-                .withLinebreak()
-                // TODO translate                
-                .withParagraph(
-                        "Leider ist die von dir gewählte Position (" +
-                                chosenPosition.getDescription() + ") bereits besetzt. " +
-                                "Du wirst in Kürze eine Mail mit Alternativvorschlägen erhalten.")
-                .withLinebreak(2)
+                .withParagraph(configuration.getText(HtmlRenderer.class, "positionUnavailable", chosenPosition.getDescription()))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
@@ -105,15 +96,8 @@ public class HtmlRenderer
         Position chosenPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(chosenPositionId);
         AppConfiguration configuration = AppConfiguration.getInstance();
         return new HtmlGenerator().withHeader(configuration.getText(HtmlRenderer.class, "hello", helper.getFirstName()))
-                .withLinebreak(2)
                 .withParagraph(configuration.getText(HtmlRenderer.class, "messageReceived"))
-                .withLinebreak()
-                // TODO translate
-                .withParagraph(
-                        "Die von dir gewählte Position (" +
-                                chosenPosition.getDescription() + ") ist verfügbar und wurde Dir zugewiesen. " +
-                                "Du wirst hierzu in Kürze eine Bestätigungs-Mail hierzu erhalten.")
-                .withLinebreak(2)
+                .withParagraph(configuration.getText(HtmlRenderer.class, "positionAvailable", chosenPosition.getDescription()))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
@@ -123,11 +107,8 @@ public class HtmlRenderer
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         AppConfiguration configuration = AppConfiguration.getInstance();
         return new HtmlGenerator().withHeader(configuration.getText(HtmlRenderer.class, "hello", helper.getFirstName()))
-                .withLinebreak(2)
                 .withParagraph(configuration.getText(HtmlRenderer.class, "messageReceived"))
-                .withLinebreak()
                 .withParagraph(configuration.getText(HtmlRenderer.class, "announceConfirmation"))
-                .withLinebreak(2)
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
@@ -137,11 +118,8 @@ public class HtmlRenderer
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         AppConfiguration configuration = AppConfiguration.getInstance();
         return new HtmlGenerator().withHeader(configuration.getText(HtmlRenderer.class, "hello", helper.getFirstName()))
-                .withLinebreak(2)
                 .withParagraph(configuration.getText(HtmlRenderer.class, "messageReceived"))
-                .withLinebreak()
                 .withParagraph(configuration.getText(HtmlRenderer.class, "furtherRegarding"))
-                .withLinebreak(2)
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }

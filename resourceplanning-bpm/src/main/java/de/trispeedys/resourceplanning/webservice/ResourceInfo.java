@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -64,6 +65,7 @@ import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 import de.trispeedys.resourceplanning.util.StringUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
+import de.trispeedys.resourceplanning.util.marshalling.ListMarshaller;
 
 @WebService
 @SOAPBinding(style = Style.RPC)
@@ -131,7 +133,7 @@ public class ResourceInfo
      * returns all {@link Position} which are not included in the given {@link Event}.
      * 
      * @param eventId
-     * @param includedInEvent 
+     * @param includedInEvent
      * @return
      */
     public PositionDTO[] queryEventPositions(Long eventId, boolean includedInEvent)
@@ -147,7 +149,8 @@ public class ResourceInfo
             throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
         }
         List<PositionDTO> dtos = new ArrayList<PositionDTO>();
-        for (Position pos : RepositoryProvider.getRepository(PositionRepository.class).findEventPositions(event, includedInEvent))
+        for (Position pos : RepositoryProvider.getRepository(PositionRepository.class).findEventPositions(event,
+                includedInEvent))
         {
             dtos.add(asPositionDTO(pos));
         }
@@ -452,6 +455,11 @@ public class ResourceInfo
         }
     }
 
+    public Long createDomain(String name, int domainNumber)
+    {
+        return RepositoryProvider.getRepository(DomainRepository.class).createDomain(name, domainNumber).getId();
+    }
+
     public void createPosition(String description, int positionNumber, Long domainId, int minimalAge, boolean choosable)
     {
         if (domainId == null)
@@ -516,8 +524,8 @@ public class ResourceInfo
             SessionManager.getInstance().unregisterSession(sessionHolder);
         }
     }
-
-    public void removePositionFromEvent(Long eventId, int positionNumber)
+    
+    public void removePositionsFromEvent(Long eventId, String positionNumbers)
     {
         AppConfiguration configuration = AppConfiguration.getInstance();
         if (eventId == null)
@@ -534,6 +542,21 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException(configuration.getText(this, WRONG_EVENT_STATE, EventState.PLANNED));
         }
+        List<Integer> posNumbers = ListMarshaller.unmarshall(positionNumbers);
+        if ((posNumbers == null) || (posNumbers.size() == 0))
+        {
+            return;
+        }
+        for (Integer posNumber : posNumbers)
+        {
+            // TODO do this in a dedicated transaction!!
+            removePositionFromEvent(event, posNumber);
+        }
+    }
+
+    private void removePositionFromEvent(Event event, int positionNumber)
+    {
+        AppConfiguration configuration = AppConfiguration.getInstance();
         // position must be there
         Position position =
                 RepositoryProvider.getRepository(PositionRepository.class).findPositionByPositionNumber(positionNumber);

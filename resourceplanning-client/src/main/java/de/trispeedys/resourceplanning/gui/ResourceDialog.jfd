@@ -320,6 +320,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JButton" ) {
 							name: "btnAddPosition"
 							"text": "Hinzufügen"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/add16px.png" )
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnAddPositionPressed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
@@ -358,6 +359,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JButton" ) {
 							name: "btnRemovePosition"
 							"text": "Entfernen"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/remove16px.png" )
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnRemovePositionPressed", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1

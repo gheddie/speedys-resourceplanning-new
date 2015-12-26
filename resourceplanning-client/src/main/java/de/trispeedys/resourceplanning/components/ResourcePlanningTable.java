@@ -17,4 +17,9 @@ public class ResourcePlanningTable extends JTable
     {
         return false;
     }
+    
+    public void enableMultiSelection()
+    {
+        setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+    }
 }
