@@ -92,7 +92,7 @@ public class TestDataProvider
 
         // block one of the positions with a new helper
         Helper blockingHelper =
-                EntityFactory.buildHelper("New1", "New1", "a@b.de", HelperState.ACTIVE, 5, 5, 1980).saveOrUpdate();
+                EntityFactory.buildHelper("New123", "New123", "a@b.de", HelperState.ACTIVE, 5, 5, 1980).saveOrUpdate();
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(blockingHelper, event2016, (Position) Datasources.getDatasource(Position.class)
                 .findAll(null)
                 .get(0));
