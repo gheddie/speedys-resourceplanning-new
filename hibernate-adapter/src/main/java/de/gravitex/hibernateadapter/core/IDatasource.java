@@ -1,9 +1,7 @@
-package de.trispeedys.resourceplanning.datasource;
+package de.gravitex.hibernateadapter.core;
 
 import java.util.HashMap;
 import java.util.List;
-
-import de.trispeedys.resourceplanning.persistence.SessionToken;
 
 public interface IDatasource
 {

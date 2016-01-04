@@ -10,6 +10,7 @@
 		<module>../resourceplanning-entity</module>
 		<module>../resourceplanning-client</module>
 		<module>../resourceplanning-util</module>
+		<module>../hibernate-adapter</module>
 	</modules>
 	<dependencies>
 		<dependency>

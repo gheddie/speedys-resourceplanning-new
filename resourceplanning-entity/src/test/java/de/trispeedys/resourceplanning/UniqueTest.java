@@ -13,6 +13,7 @@ import de.trispeedys.resourceplanning.entity.misc.HelperAssignmentState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
+import de.trispeedys.resourceplanning.util.TestUtil;
 
 /**
  * Tests the unique criterias for the {@link HelperAssignment} entity.
@@ -30,7 +31,7 @@ public class UniqueTest
     public void testReassignCancelledAssignment()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
         
@@ -55,7 +56,7 @@ public class UniqueTest
     public void testPositionUniqueByEnumeration()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         Domain dom = EntityFactory.buildDomain("123", 123).saveOrUpdate();
         EntityFactory.buildPosition("Ansage Zieleinlauf", 12, dom , 173, true).saveOrUpdate();
@@ -66,7 +67,7 @@ public class UniqueTest
     public void testDomainUniqueByEnumeration()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         EntityFactory.buildDomain("D1", 173).saveOrUpdate();
         EntityFactory.buildDomain("D1", 173).saveOrUpdate();

@@ -1,6 +1,8 @@
 package de.trispeedys.resourceplanning.repository.base;
 
-import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
+import de.gravitex.hibernateadapter.core.repository.AbstractDatabaseRepository;
+import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
+import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.PositionAggregationDatasource;
 import de.trispeedys.resourceplanning.entity.PositionAggregation;
 

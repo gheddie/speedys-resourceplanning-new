@@ -2,6 +2,7 @@ package de.trispeedys.resourceplanning.repository.base;
 
 import java.util.HashMap;
 
+import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
 import de.trispeedys.resourceplanning.entity.AbstractDbObject;
 import de.trispeedys.resourceplanning.repository.AggregationRelationRepository;
 import de.trispeedys.resourceplanning.repository.DomainRepository;
@@ -45,7 +46,6 @@ public class RepositoryProvider
         try
         {
             DatabaseRepository repositoryInstance = clazz.newInstance();
-            //repositoryInstance.createDataSource();
             repositoryCache.put(clazz, repositoryInstance);
         }
         catch (Exception e)

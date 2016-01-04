@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.persistence;
+package de.gravitex.hibernateadapter.core;
 
 public class SessionToken
 {

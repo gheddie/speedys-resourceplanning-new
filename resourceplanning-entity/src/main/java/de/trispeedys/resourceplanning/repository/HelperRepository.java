@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.gravitex.hibernateadapter.core.repository.AbstractDatabaseRepository;
+import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
+import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.Datasources;
-import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.HelperDatasource;
 import de.trispeedys.resourceplanning.entity.AbstractDbObject;
 import de.trispeedys.resourceplanning.entity.Event;
@@ -13,8 +15,6 @@ import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
-import de.trispeedys.resourceplanning.repository.base.AbstractDatabaseRepository;
-import de.trispeedys.resourceplanning.repository.base.DatabaseRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 public class HelperRepository extends AbstractDatabaseRepository<Helper> implements DatabaseRepository<HelperRepository>

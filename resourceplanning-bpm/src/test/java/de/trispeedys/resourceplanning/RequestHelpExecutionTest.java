@@ -44,6 +44,7 @@ import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.RequestHelpTestUtil;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
+import de.trispeedys.resourceplanning.util.TestUtil;
 
 public class RequestHelpExecutionTest
 {
@@ -67,7 +68,7 @@ public class RequestHelpExecutionTest
     public void testProposePositionsOnAssignmentRequestedAsBefore()
     {
         // (0)
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         PositionRepository positionRepository = RepositoryProvider.getRepository(PositionRepository.class);
 
@@ -148,7 +149,7 @@ public class RequestHelpExecutionTest
     @Deployment(resources = "RequestHelp.bpmn")
     public void testAssignmentRequestedAsBeforeSuccesful()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2015 =
                 TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED,
@@ -188,7 +189,7 @@ public class RequestHelpExecutionTest
     public void testNotCooperativeAndRecoveredHelper()
     {
         // clear all tables in db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         // create 'little' event for 2015
         Event event2015 =
                 TestDataGenerator.createSimpleEvent("TRI-2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED,
@@ -225,7 +226,7 @@ public class RequestHelpExecutionTest
     public void testCompletetlyUncooperativeHelper()
     {
         // clear all tables in db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         // create 'little' event for 2015
         Event event2015 =
                 TestDataGenerator.createSimpleEvent("TRI-2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED,
@@ -265,7 +266,7 @@ public class RequestHelpExecutionTest
     public void testPauseMe()
     {
         // clear all tables in db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2015 =
                 TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED,
@@ -306,7 +307,7 @@ public class RequestHelpExecutionTest
     @Deployment(resources = "RequestHelp.bpmn")
     public void testChangePositions()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         PositionRepository positionRepository = RepositoryProvider.getRepository(PositionRepository.class);
 
@@ -367,7 +368,7 @@ public class RequestHelpExecutionTest
     @Deployment(resources = "RequestHelp.bpmn")
     public void testPositionBlockedOnChoosePosition()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         PositionRepository positionRepository = RepositoryProvider.getRepository(PositionRepository.class);
 
@@ -423,7 +424,7 @@ public class RequestHelpExecutionTest
     @Deployment(resources = "RequestHelp.bpmn")
     public void testNewHelperCancelsAssignment()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
@@ -510,7 +511,7 @@ public class RequestHelpExecutionTest
     @Deployment(resources = "RequestHelp.bpmn")
     public void testNoPositionsProposableManualAssignment()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
@@ -574,7 +575,7 @@ public class RequestHelpExecutionTest
     @Deployment(resources = "RequestHelp.bpmn")
     public void testNoMailRequiresManualAssignment()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
@@ -607,7 +608,7 @@ public class RequestHelpExecutionTest
     @Deployment(resources = "RequestHelp.bpmn")
     public void testFollowingAssignmentWithManualAssignmentChosen()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
@@ -638,7 +639,7 @@ public class RequestHelpExecutionTest
     @Deployment(resources = "RequestHelp.bpmn")
     public void testReducedOptionsAfterReminderStepOne()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
@@ -685,7 +686,7 @@ public class RequestHelpExecutionTest
     @Deployment(resources = "RequestHelp.bpmn")
     public void testPendingProcessInstances()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
@@ -720,7 +721,7 @@ public class RequestHelpExecutionTest
     @Deployment(resources = "RequestHelp.bpmn")
     public void testChoosePositionsReentrancy()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
@@ -781,7 +782,7 @@ public class RequestHelpExecutionTest
     @Deployment(resources = "RequestHelp.bpmn")
     public void testAssignmentAsBeforeWithAllPositionsBlocked()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,

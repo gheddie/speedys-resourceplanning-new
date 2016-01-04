@@ -8,8 +8,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.gravitex.hibernateadapter.core.SessionManager;
+import de.gravitex.hibernateadapter.core.util.HibernateUtil;
+import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.Datasources;
-import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessageQueue;
@@ -20,9 +22,9 @@ import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.misc.SpeedyTestUtil;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.importer.JsonEventReader;
-import de.trispeedys.resourceplanning.persistence.SessionManager;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
+import de.trispeedys.resourceplanning.util.TestUtil;
 
 public class DatabaseOperationsTest
 {
@@ -31,7 +33,7 @@ public class DatabaseOperationsTest
     public void testSessionCount()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         // all session closed again in the beginning...
         assertEquals(0, SessionManager.getInstance().getOpenSessionCount());
@@ -49,7 +51,7 @@ public class DatabaseOperationsTest
     public void testFetchListByQuery()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         EntityFactory.buildHelper("Helfer", "Eins", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
         EntityFactory.buildHelper("Helfer", "Zwei", "", HelperState.INACTIVE, 1, 1, 1980).saveOrUpdate();
@@ -67,7 +69,7 @@ public class DatabaseOperationsTest
     public void testFetchDedicated()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Helper helper =
                 EntityFactory.buildHelper("Helfer", "Eins", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
@@ -80,7 +82,7 @@ public class DatabaseOperationsTest
     public void testFetchListWithOneParamter()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         EntityFactory.buildHelper("Helfer", "Eins", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
         EntityFactory.buildHelper("Helfer", "Zwei", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
@@ -94,7 +96,7 @@ public class DatabaseOperationsTest
     public void testFetchByClassWithMutlipleParamters()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         // create messages
         EntityFactory.buildMessageQueue("noreply@tri-speedys.de", "testhelper1.trispeedys@gmail.com", "SUB1",
@@ -118,7 +120,7 @@ public class DatabaseOperationsTest
     public void testValidationFail()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
 
@@ -132,7 +134,7 @@ public class DatabaseOperationsTest
     public void testFindSome()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         // create positions
         for (int i = 1; i <= 10; i++)
         {
@@ -182,7 +184,7 @@ public class DatabaseOperationsTest
     public void testFindSingleResultFailing()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         // create helpers
         EntityFactory.buildHelper("Helfer", "Eins", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
@@ -195,7 +197,7 @@ public class DatabaseOperationsTest
     public void testFindSingleResultOk()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         // create helpers
         EntityFactory.buildHelper("Hansen", "Klaus", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
@@ -218,7 +220,7 @@ public class DatabaseOperationsTest
     public void testRemoveEntity()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         assertEquals(0, RepositoryProvider.getRepository(HelperRepository.class).findAll(null).size());
         

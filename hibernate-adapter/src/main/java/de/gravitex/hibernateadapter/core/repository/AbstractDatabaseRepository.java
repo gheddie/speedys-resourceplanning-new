@@ -1,13 +1,11 @@
-package de.trispeedys.resourceplanning.repository.base;
+package de.gravitex.hibernateadapter.core.repository;
 
 import java.lang.reflect.Method;
 import java.util.List;
 
-import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
-import de.trispeedys.resourceplanning.entity.EventPosition;
-import de.trispeedys.resourceplanning.persistence.SessionToken;
-import de.trispeedys.resourceplanning.util.StringUtil;
-import de.trispeedys.resourceplanning.util.exception.ResourcePlanningPersistenceException;
+import de.gravitex.hibernateadapter.core.SessionToken;
+import de.gravitex.hibernateadapter.core.exception.HibernateAdapterException;
+import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 
 public abstract class AbstractDatabaseRepository<T>
 {
@@ -45,15 +43,15 @@ public abstract class AbstractDatabaseRepository<T>
     {
         if (entity == null)
         {
-            throw new ResourcePlanningPersistenceException("entity must not be NULL!!");
+            throw new IllegalArgumentException("entity must not be NULL!!");
         }
-        if (StringUtil.isBlank(attributeName))
+        if ((attributeName == null) || (attributeName.length() == 0))
         {
-            throw new ResourcePlanningPersistenceException("attribute name must not be set!!");
+            throw new IllegalArgumentException("attribute name must be set!!");
         }        
         try
         {
-            Method setter = entity.getClass().getDeclaredMethod(StringUtil.setterName(attributeName), new Class[]
+            Method setter = entity.getClass().getDeclaredMethod(setterName(attributeName), new Class[]
             {
                 newValue.getClass()
             });
@@ -62,10 +60,19 @@ public abstract class AbstractDatabaseRepository<T>
         }
         catch (Exception e)
         {
-            throw new ResourcePlanningPersistenceException("could not update value of attribute '" +
+            throw new HibernateAdapterException("could not update value of attribute '" +
                     attributeName + "' in a bean of class '" + entity.getClass().getSimpleName() + "' : ", e);
         }
     }
+    
+    private String setterName(String attribute)
+    {
+        String tmp = "";
+        tmp += attribute.charAt(0);
+        tmp = tmp.toUpperCase();
+        tmp += attribute.substring(1, attribute.length());
+        return "set" + tmp;
+    }    
 
     public DefaultDatasource<T> dataSource()
     {

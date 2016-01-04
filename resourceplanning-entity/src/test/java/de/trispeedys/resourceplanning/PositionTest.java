@@ -17,7 +17,6 @@ import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.misc.SpeedyTestUtil;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
-import de.trispeedys.resourceplanning.importer.JsonEventReader;
 import de.trispeedys.resourceplanning.repository.DomainRepository;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
@@ -25,6 +24,7 @@ import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
+import de.trispeedys.resourceplanning.util.TestUtil;
 
 public class PositionTest
 {
@@ -37,7 +37,7 @@ public class PositionTest
     @Test
     public void testEventPositions()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         PositionRepository positionRepository = RepositoryProvider.getRepository(PositionRepository.class);
 
@@ -78,7 +78,7 @@ public class PositionTest
     @Test
     public void testPositionAggregationWithoutGroups()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 TestDataGenerator.createAggregationEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015,
@@ -117,7 +117,7 @@ public class PositionTest
     @Test
     public void testPositionAggregationWithoutGroupsNoPrios()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 TestDataGenerator.createAggregationEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015,
@@ -153,7 +153,7 @@ public class PositionTest
     @Test
     public void testPositionAggregationWithAllUnpriorizedPositionsAssigned()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 TestDataGenerator.createAggregationEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015,
@@ -190,7 +190,7 @@ public class PositionTest
     @Test
     public void testPositionAggregationWithRelationGroups()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Helper helper = EntityFactory.buildHelper("Müller", "Peter", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
 
@@ -237,7 +237,7 @@ public class PositionTest
     @Test
     public void testPositionAggregationDisjunct()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         // TODO
     }
@@ -245,7 +245,7 @@ public class PositionTest
     @Test
     public void testNonEventPositions()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,

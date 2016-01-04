@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.datasource;
+package de.gravitex.hibernateadapter.datasource;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,10 +7,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import de.trispeedys.resourceplanning.entity.AbstractDbObject;
-import de.trispeedys.resourceplanning.persistence.SessionManager;
-import de.trispeedys.resourceplanning.persistence.SessionToken;
-import de.trispeedys.resourceplanning.util.exception.ResourcePlanningPersistenceException;
+import de.gravitex.hibernateadapter.core.DbObject;
+import de.gravitex.hibernateadapter.core.IDatasource;
+import de.gravitex.hibernateadapter.core.SessionManager;
+import de.gravitex.hibernateadapter.core.SessionToken;
 
 public class DefaultDatasource<T> implements IDatasource
 {
@@ -89,7 +89,7 @@ public class DefaultDatasource<T> implements IDatasource
         if (sessionToken != null)
         {
             // session token set --> use registered session to save or update...
-            if (((AbstractDbObject) entity).isNew())
+            if (((DbObject) entity).isNew())
             {
                 SessionManager.getInstance().getSession(sessionToken).save(entity);   
             }
@@ -105,7 +105,7 @@ public class DefaultDatasource<T> implements IDatasource
             Transaction tx = null;
             Session session = SessionManager.getInstance().getSession(null);
             tx = session.beginTransaction();
-            if (((AbstractDbObject) entity).isNew())
+            if (((DbObject) entity).isNew())
             {
                 session.save(entity);
             }
@@ -143,7 +143,7 @@ public class DefaultDatasource<T> implements IDatasource
         if (!(filters.length % 2 == 0))
         {
             // odd number of filters arguments
-            throw new ResourcePlanningPersistenceException("odd number of filters arguments ("+filters.length+")!");
+            throw new IllegalArgumentException("odd number of filters arguments ("+filters.length+")!");
         }
         if (filters.length == 2)
         {
@@ -234,7 +234,7 @@ public class DefaultDatasource<T> implements IDatasource
     }
 
     /**
-     * gets the generic type of the datasource instance (inherit of {@link AbstractDbObject})
+     * gets the generic type of the datasource instance (inherit of {@link DbObject})
      * @return
      */
     protected Class<T> getGenericType()

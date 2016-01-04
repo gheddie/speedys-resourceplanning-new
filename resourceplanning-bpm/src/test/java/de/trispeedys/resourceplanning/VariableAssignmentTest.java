@@ -26,6 +26,7 @@ import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.RequestHelpTestUtil;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
+import de.trispeedys.resourceplanning.util.TestUtil;
 
 public class VariableAssignmentTest
 {
@@ -41,7 +42,7 @@ public class VariableAssignmentTest
     public void testPositionAndAvailability()
     {
         // as always...
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2015 =
                 TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED,

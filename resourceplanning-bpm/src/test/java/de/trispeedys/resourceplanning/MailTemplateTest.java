@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.gravitex.hibernateadapter.core.util.HibernateUtil;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.Event;
@@ -18,6 +19,7 @@ import de.trispeedys.resourceplanning.messaging.template.AlertDeactivationMailTe
 import de.trispeedys.resourceplanning.messaging.template.BookingConfirmationMailTemplate;
 import de.trispeedys.resourceplanning.messaging.template.ProposePositionsMailTemplate;
 import de.trispeedys.resourceplanning.messaging.template.SendReminderMailTemplate;
+import de.trispeedys.resourceplanning.util.TestUtil;
 
 public class MailTemplateTest
 {
@@ -28,7 +30,7 @@ public class MailTemplateTest
         System.out.println("---------------------------------------------------------------------------------------------");
         
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         // create domains
         Domain domain1 = EntityFactory.buildDomain("dom1", 1).saveOrUpdate();
         Domain domain2 = EntityFactory.buildDomain("dom2", 2).saveOrUpdate();
@@ -70,7 +72,7 @@ public class MailTemplateTest
         System.out.println("---------------------------------------------------------------------------------------------");
         
         // clear db
-        HibernateUtil.clearAll();        
+        TestUtil.clearAll();        
         
         EventTemplate template = EntityFactory.buildEventTemplate("123ggg").saveOrUpdate();
         Event event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
@@ -92,7 +94,7 @@ public class MailTemplateTest
         System.out.println("---------------------------------------------------------------------------------------------");
         
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980).saveOrUpdate();
         
@@ -108,7 +110,7 @@ public class MailTemplateTest
         System.out.println("---------------------------------------------------------------------------------------------");
         
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980).saveOrUpdate();
         EventTemplate template = EntityFactory.buildEventTemplate("123ggg").saveOrUpdate();

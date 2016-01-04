@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.repository.base;
+package de.gravitex.hibernateadapter.core.repository;
 
 public interface DatabaseRepository<T extends DatabaseRepository<T>>
 {

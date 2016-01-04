@@ -9,13 +9,14 @@ import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
+import de.trispeedys.resourceplanning.util.TestUtil;
 
 public class RepositoryProviderTest
 {
     @Test
     public void testBasics()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         // build domain
         Domain domain = EntityFactory.buildDomain("D1", 1).saveOrUpdate();

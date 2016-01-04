@@ -12,6 +12,7 @@ import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.interaction.EventManager;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
+import de.trispeedys.resourceplanning.util.TestUtil;
 
 public class EventTest
 {
@@ -23,7 +24,7 @@ public class EventTest
     public void testHelperProcesses()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         // there is a new event (with 7 active helpers)...
         Event event2016 =

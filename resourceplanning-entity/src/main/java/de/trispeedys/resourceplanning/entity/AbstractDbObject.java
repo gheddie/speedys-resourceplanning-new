@@ -4,12 +4,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import de.gravitex.hibernateadapter.core.DbObject;
+import de.gravitex.hibernateadapter.core.SessionToken;
+import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.Datasources;
-import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
-import de.trispeedys.resourceplanning.persistence.SessionToken;
 
 @MappedSuperclass
-public abstract class AbstractDbObject
+public abstract class AbstractDbObject implements DbObject
 {
     @Id
     @GeneratedValue

@@ -1,14 +1,10 @@
-package de.trispeedys.resourceplanning.persistence;
-
-import java.io.Serializable;
+package de.gravitex.hibernateadapter.core;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import de.trispeedys.resourceplanning.datasource.Datasources;
-import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
-import de.trispeedys.resourceplanning.entity.AbstractDbObject;
+import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 
 public class SessionHolder
 {
@@ -25,7 +21,7 @@ public class SessionHolder
         super();
         this.sessionToken = key;
         this.session = session;
-        datasource = Datasources.getDatasource(null);
+        datasource = new DefaultDatasource();
     }
 
     public void beginTransaction()
@@ -59,13 +55,13 @@ public class SessionHolder
     }
     
     @SuppressWarnings("unchecked")
-    public Object saveOrUpdate(AbstractDbObject entity)
+    public Object saveOrUpdate(DbObject entity)
     {
         return datasource.saveOrUpdate(sessionToken, entity);
     }
     
     @SuppressWarnings("unchecked")
-    public void remove(AbstractDbObject entity)
+    public void remove(DbObject entity)
     {
         datasource.remove(sessionToken, entity);
     }

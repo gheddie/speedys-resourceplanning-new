@@ -2,13 +2,13 @@ package de.trispeedys.resourceplanning.repository;
 
 import java.util.List;
 
-import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
+import de.gravitex.hibernateadapter.core.repository.AbstractDatabaseRepository;
+import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
+import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.EventPositionDatasource;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventPosition;
 import de.trispeedys.resourceplanning.entity.Position;
-import de.trispeedys.resourceplanning.repository.base.AbstractDatabaseRepository;
-import de.trispeedys.resourceplanning.repository.base.DatabaseRepository;
 
 public class EventPositionRepository extends AbstractDatabaseRepository<EventPosition> implements DatabaseRepository<EventPositionRepository>
 {

@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.gravitex.hibernateadapter.core.util.HibernateUtil;
 import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
@@ -23,6 +24,7 @@ import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
+import de.trispeedys.resourceplanning.util.TestUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class HelperAssignmentTest
@@ -36,7 +38,7 @@ public class HelperAssignmentTest
     // @Test
     public void testDuplicateAssignment() throws ResourcePlanningException
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
 
@@ -67,7 +69,7 @@ public class HelperAssignmentTest
     // @Test
     public void testAssignmentUnderAgeAuthorityOverride()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, null, null).saveOrUpdate();
 
@@ -93,7 +95,7 @@ public class HelperAssignmentTest
     // @Test(expected = ResourcePlanningException.class)
     public void testAssignmentUnderAge() throws ResourcePlanningException
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
 
@@ -116,7 +118,7 @@ public class HelperAssignmentTest
     @Test
     public void testGetLastConfirmedHelperAssignment()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
 
@@ -148,7 +150,7 @@ public class HelperAssignmentTest
     @Test
     public void testNoConfirmedHelperAssignment()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
 
@@ -181,7 +183,7 @@ public class HelperAssignmentTest
     public void testPosAvailableForFollowingAssignment()
     {
         // clear database
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         // create a position
         Position position =
@@ -225,7 +227,7 @@ public class HelperAssignmentTest
     public void testValidAssignment()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
         
@@ -250,7 +252,7 @@ public class HelperAssignmentTest
     public void testInvalidAssignment()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
         
@@ -274,7 +276,7 @@ public class HelperAssignmentTest
     public void testAvailablePositionsForEvent()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         PositionRepository positionRepository = RepositoryProvider.getRepository(PositionRepository.class);
 

@@ -11,6 +11,7 @@ import de.trispeedys.resourceplanning.entity.MessageQueue;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.misc.MessagingState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
+import de.trispeedys.resourceplanning.util.TestUtil;
 
 public class MailTriggerTest
 {
@@ -21,7 +22,7 @@ public class MailTriggerTest
     @Deployment(resources = "MailTriggerProcess.bpmn")
     public void testSendAll()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         EntityFactory.buildMessageQueue("noreply@tri-speedys.de", "testhelper1.trispeedys@gmail.com", "M1", "M1", MessagingFormat.PLAIN).saveOrUpdate();
         EntityFactory.buildMessageQueue("noreply@tri-speedys.de", "testhelper1.trispeedys@gmail.com", "M2", "M2", MessagingFormat.PLAIN).saveOrUpdate();

@@ -1,5 +1,6 @@
 package de.trispeedys.resourceplanning.datasource;
 
+import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.entity.Position;
 
 public class PositionDatasource extends DefaultDatasource<Position>

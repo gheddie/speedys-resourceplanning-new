@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.gravitex.hibernateadapter.core.repository.AbstractDatabaseRepository;
+import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
+import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.Datasources;
-import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.EventDatasource;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
-import de.trispeedys.resourceplanning.repository.base.AbstractDatabaseRepository;
-import de.trispeedys.resourceplanning.repository.base.DatabaseRepository;
 
 public class EventRepository extends AbstractDatabaseRepository<Event> implements DatabaseRepository<EventRepository>
 {

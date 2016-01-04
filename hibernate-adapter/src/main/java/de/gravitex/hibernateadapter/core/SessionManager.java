@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.persistence;
+package de.gravitex.hibernateadapter.core;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
-import de.trispeedys.resourceplanning.HibernateUtil;
+import de.gravitex.hibernateadapter.core.util.HibernateUtil;
 
 public class SessionManager
 {

@@ -5,15 +5,15 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
+import de.gravitex.hibernateadapter.core.repository.AbstractDatabaseRepository;
+import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
+import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.MessageQueueDatasource;
 import de.trispeedys.resourceplanning.entity.MessageQueue;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.misc.MessagingState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
-import de.trispeedys.resourceplanning.repository.base.AbstractDatabaseRepository;
-import de.trispeedys.resourceplanning.repository.base.DatabaseRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.MailSender;
 

@@ -8,6 +8,7 @@ import de.trispeedys.resourceplanning.entity.misc.MessagingState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
+import de.trispeedys.resourceplanning.util.TestUtil;
 
 public class MailingTest
 {
@@ -15,7 +16,7 @@ public class MailingTest
     public void testSendMails()
     {
         //clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         //create message
         EntityFactory.buildMessageQueue("noreply@tri-speedys.de", "testhelper1.trispeedys@gmail.com", "Hallo", "Knallo", MessagingFormat.PLAIN).saveOrUpdate();

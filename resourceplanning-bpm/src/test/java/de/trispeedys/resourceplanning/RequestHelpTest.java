@@ -12,6 +12,7 @@ import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.junit.Rule;
 import org.junit.Test;
 
+import de.gravitex.hibernateadapter.core.util.HibernateUtil;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
@@ -32,6 +33,7 @@ import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.RequestHelpTestUtil;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
+import de.trispeedys.resourceplanning.util.TestUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class RequestHelpTest
@@ -66,7 +68,7 @@ public class RequestHelpTest
     public void testStartWithoutBusinessKey()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         EventTemplate template = EntityFactory.buildEventTemplate("TRI123").saveOrUpdate();
 
@@ -84,7 +86,7 @@ public class RequestHelpTest
     public void testFirstAssigmnment()
     {
         // clear all tables in db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
 
@@ -114,7 +116,8 @@ public class RequestHelpTest
     public void testFollowingAssigmnmentForPosition()
     {
         // clear all tables in db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
+        
         // create position
         Position positionBikeEntry =
                 EntityFactory.buildPosition("Radeinfahrt Helmkontrolle", 12,
@@ -158,7 +161,7 @@ public class RequestHelpTest
     public void testStartReminderProcesses()
     {
         // clear all tables in db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         // create event
         TestDataGenerator.createSimpleEvent("TRI", "TRI", 1, 1, 1980, EventState.FINISHED,
@@ -186,7 +189,8 @@ public class RequestHelpTest
     public void testFollowingEventWithSameHelpers()
     {
         // clear all tables in db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
+        
         // create 'little' event for 2015
         Event event2015 =
                 TestDataGenerator.createSimpleEvent("TRI-2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED,
@@ -216,7 +220,8 @@ public class RequestHelpTest
     public void testFollowingEventWithOldAndNewHelpers()
     {
         // clear all tables in db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
+        
         // create 3 new helpers
         EntityFactory.buildHelper("Helper1", "Helper1", "a@b.de", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
         EntityFactory.buildHelper("Helper2", "Helper2", "a@b.de", HelperState.ACTIVE, 1, 2, 1980).saveOrUpdate();
@@ -259,7 +264,8 @@ public class RequestHelpTest
     public void testAutonomicBooking()
     {
         // clear all tables in db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
+        
         // create 'minimal' event for 2015
         Event event2015 =
                 TestDataGenerator.createMinimalEvent("TRI-2015", "TRI-2015", 21, 6, 2015,

@@ -1,11 +1,11 @@
 package de.trispeedys.resourceplanning.repository;
 
-import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
+import de.gravitex.hibernateadapter.core.repository.AbstractDatabaseRepository;
+import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
+import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.DomainDatasource;
 import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
-import de.trispeedys.resourceplanning.repository.base.AbstractDatabaseRepository;
-import de.trispeedys.resourceplanning.repository.base.DatabaseRepository;
 
 public class DomainRepository extends AbstractDatabaseRepository<Domain> implements DatabaseRepository<DomainRepository>
 {

@@ -17,12 +17,12 @@ import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.repository.DomainRepository;
-import de.trispeedys.resourceplanning.repository.EventPositionRepository;
 import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.PositionInclude;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
+import de.trispeedys.resourceplanning.util.TestUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class DuplicateEventTest
@@ -30,7 +30,7 @@ public class DuplicateEventTest
     @Test
     public void testDuplicateEventWithoutModifications()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2015 =
                 TestDataGenerator.createRealLifeEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015,
@@ -49,7 +49,7 @@ public class DuplicateEventTest
     public void testDuplicateEventWithAddedPositions()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         // real life event for 2015
         Event event =
@@ -75,7 +75,7 @@ public class DuplicateEventTest
     public void testDuplicateEventWithAddedAndRemovedPositions()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         // create event 2015
         Event event2015 = TestDataGenerator.createRealLifeEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015,
@@ -120,7 +120,7 @@ public class DuplicateEventTest
     public void testDuplicateEventWithRemovedPositions()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         List<Integer> excludes = new ArrayList<Integer>();
         excludes.add(137);
@@ -149,7 +149,7 @@ public class DuplicateEventTest
     public void testDuplicationExcludeFault()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         // this position can not be excluded (this is a fault) !!
         List<Integer> excludes = new ArrayList<Integer>();
@@ -166,7 +166,7 @@ public class DuplicateEventTest
     public void testSuccessfulEventDuplication()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         // an event with 5 positions...
         Event minimalEvent = TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015,

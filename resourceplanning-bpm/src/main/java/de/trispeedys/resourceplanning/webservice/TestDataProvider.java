@@ -15,9 +15,10 @@ import org.camunda.bpm.engine.runtime.Execution;
 import org.camunda.bpm.engine.runtime.Job;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.hibernate.Query;
-import org.hibernate.Transaction;
 
-import de.trispeedys.resourceplanning.HibernateUtil;
+import de.gravitex.hibernateadapter.core.SessionHolder;
+import de.gravitex.hibernateadapter.core.SessionManager;
+import de.gravitex.hibernateadapter.core.util.HibernateUtil;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.datasource.Datasources;
@@ -33,8 +34,6 @@ import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.importer.JsonEventReader;
-import de.trispeedys.resourceplanning.persistence.SessionHolder;
-import de.trispeedys.resourceplanning.persistence.SessionManager;
 import de.trispeedys.resourceplanning.repository.DomainRepository;
 import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
@@ -44,6 +43,7 @@ import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.PositionInclude;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
+import de.trispeedys.resourceplanning.util.TestUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 @WebService
@@ -63,7 +63,7 @@ public class TestDataProvider
 
     public void startSomeProcesses()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
@@ -83,7 +83,7 @@ public class TestDataProvider
      */
     public void prepareBlockedChoosePosition()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
@@ -112,7 +112,7 @@ public class TestDataProvider
      */
     public void prepareSimpleEventWithFloatingHelpers()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
@@ -133,7 +133,7 @@ public class TestDataProvider
      */
     public void startSomeProcessesWithNewHelpers()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
@@ -157,7 +157,7 @@ public class TestDataProvider
 
     public void startOneProcesses()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         Event event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
@@ -171,7 +171,7 @@ public class TestDataProvider
     public void prepareRealLife()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         // there is a new event (with 7 active helpers)...
         SpeedyRoutines.duplicateEvent(TestDataGenerator.createRealLifeEvent("Triathlon 2016", "TRI-2016", 21, 6, 2016,
@@ -181,7 +181,7 @@ public class TestDataProvider
     public void prepareUserTest()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         // there is a new event (with 7 active helpers)...
         SpeedyRoutines.duplicateEvent(TestDataGenerator.createUserTestEvent("Test-Duathlon 2015", "DU-TEST-2015", 1, 3,
@@ -193,7 +193,8 @@ public class TestDataProvider
 
     public void finish2015()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
+        
         TestDataGenerator.createRealLifeEvent("Triathlon 2015", "TRI-2015", 21, 6, 2016, EventState.FINISHED,
                 EventTemplate.TEMPLATE_TRI);
     }
@@ -299,7 +300,7 @@ public class TestDataProvider
     public void setupForTesting(String resourceName)
     {
         // (0) clear DB
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         System.out.println("setting up by resource '" + resourceName + "'...");
 

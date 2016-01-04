@@ -22,13 +22,14 @@ import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
+import de.trispeedys.resourceplanning.util.TestUtil;
 
 public class HelperTest
 {
     @Test
     public void testFirstAssignment()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         Helper helper =
                 EntityFactory.buildHelper("Stefan", "Schulz", Helper.TEST_MAIL_ADDRESS,
                         HelperState.ACTIVE, 13, 2, 1976).saveOrUpdate();
@@ -42,7 +43,7 @@ public class HelperTest
     public void testDuplicateAssignment()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         // create helper
         Helper helper =
                 EntityFactory.buildHelper("Diana", "Schulz", "a@b.de", HelperState.ACTIVE, 4, 3, 1973)
@@ -68,7 +69,7 @@ public class HelperTest
     @Test
     public void testSelectActiveHelperIds()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         TestDataGenerator.createSimpleEvent("TRI123", "TRI123", 1, 1, 1980, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
         assertEquals(5, RepositoryProvider.getRepository(HelperRepository.class).queryActiveHelperIds().size());
     }
@@ -91,7 +92,7 @@ public class HelperTest
     @Test
     public void testHelperFitsPosition()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         // helper turns 16 on 15.06.2016
         EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 15, 6, 2000).saveOrUpdate();
@@ -110,7 +111,7 @@ public class HelperTest
     @Test
     public void testCreateUserTestEvent()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         TestDataGenerator.createUserTestEvent("Test-Duathlon 2015", "DU-TEST-2015", 1, 3, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
     }

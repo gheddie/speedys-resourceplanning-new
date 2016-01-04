@@ -2,6 +2,7 @@ package de.trispeedys.resourceplanning.datasource;
 
 import java.util.HashMap;
 
+import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.entity.AbstractDbObject;
 import de.trispeedys.resourceplanning.entity.AggregationRelation;
 import de.trispeedys.resourceplanning.entity.Domain;

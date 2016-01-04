@@ -20,6 +20,7 @@ import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.rule.CallbackChoiceGenerator;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
+import de.trispeedys.resourceplanning.util.TestUtil;
 
 public class CallbackChoiceGeneratorTest
 {
@@ -29,7 +30,7 @@ public class CallbackChoiceGeneratorTest
     @Test
     public void testAllChoices()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         // create events
         Event event2015 =
@@ -52,7 +53,7 @@ public class CallbackChoiceGeneratorTest
     @Test
     public void testPriorPositionAlreadyAssigned()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         // create events
         Event event2015 =
@@ -83,7 +84,7 @@ public class CallbackChoiceGeneratorTest
     @Test
     public void testChoicesWithPriorPositionRemoved()
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
 
         // create events
         Event event2015 =

@@ -4,13 +4,14 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import de.gravitex.hibernateadapter.core.SessionHolder;
+import de.gravitex.hibernateadapter.core.SessionManager;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
-import de.trispeedys.resourceplanning.persistence.SessionHolder;
-import de.trispeedys.resourceplanning.persistence.SessionManager;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
+import de.trispeedys.resourceplanning.util.TestUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class SessionManagerTest
@@ -20,7 +21,7 @@ public class SessionManagerTest
     public void testTransactionRollback()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         // assertEquals(0, SessionManager.getInstance().getOpenSessionCount());
         
@@ -62,7 +63,7 @@ public class SessionManagerTest
     public void testExtended()
     {
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         HelperRepository repository = RepositoryProvider.getRepository(HelperRepository.class);
         
@@ -80,7 +81,7 @@ public class SessionManagerTest
         assertEquals(1,  repository.findAll(null).size());
         
         // clear db
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         
         // now with a managed transaction...
         SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this);

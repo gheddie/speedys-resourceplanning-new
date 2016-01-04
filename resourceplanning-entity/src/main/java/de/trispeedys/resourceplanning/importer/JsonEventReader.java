@@ -16,7 +16,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import de.trispeedys.resourceplanning.HibernateUtil;
+import de.gravitex.hibernateadapter.core.SessionHolder;
+import de.gravitex.hibernateadapter.core.SessionManager;
 import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
@@ -26,9 +27,8 @@ import de.trispeedys.resourceplanning.entity.PositionAggregation;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
-import de.trispeedys.resourceplanning.persistence.SessionHolder;
-import de.trispeedys.resourceplanning.persistence.SessionManager;
 import de.trispeedys.resourceplanning.util.StringUtil;
+import de.trispeedys.resourceplanning.util.TestUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class JsonEventReader
@@ -253,7 +253,7 @@ public class JsonEventReader
 
     public static void main(String[] args)
     {
-        HibernateUtil.clearAll();
+        TestUtil.clearAll();
         new JsonEventReader().doImport("TestEvent.json");
     }
 }
