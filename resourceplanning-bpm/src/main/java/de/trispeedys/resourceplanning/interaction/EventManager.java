@@ -15,6 +15,7 @@ import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
+import de.trispeedys.resourceplanning.messaging.template.PlanningSuccessMailTemplate;
 import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
@@ -55,6 +56,8 @@ public class EventManager
         }
         // update event state
         RepositoryProvider.getRepository(EventRepository.class).updateEventState(event, EventState.INITIATED);
+        
+        informAdminAboutSuccess(event);
     }
 
     public static void triggerHelperProcesses(Long eventId)
@@ -93,6 +96,8 @@ public class EventManager
             }
             // update event state
             RepositoryProvider.getRepository(EventRepository.class).updateEventState(event, EventState.INITIATED);   
+            
+            informAdminAboutSuccess(event);
         }
         catch (Exception e)
         {
@@ -103,6 +108,12 @@ public class EventManager
         {
             configuration.setPlanningInProgress(false);
         }
+    }
+
+    private static void informAdminAboutSuccess(Event event)
+    {
+        // TODO write mail to admin in case of successful planning !!
+        new PlanningSuccessMailTemplate(null, event, null).send();
     }
 
     public static void startHelperRequestProcess(Helper helper, Event event)

@@ -1,11 +1,14 @@
 package de.trispeedys.resourceplanning.messaging;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
+import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
+import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
+import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 public abstract class AbstractMailTemplate<T>
 {
@@ -75,4 +78,13 @@ public abstract class AbstractMailTemplate<T>
     {
         return AppConfiguration.getInstance().getText(AbstractMailTemplate.class, "speedysSincerely");
     }    
+    
+    public void send()
+    {
+        // TODO use for more templates --> need to configure 'to address'!!
+        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
+                AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.ADMIN_MAIL),
+                constructSubject(), constructBody(), getMessagingType(),
+                getMessagingFormat(), true);
+    }
 }
