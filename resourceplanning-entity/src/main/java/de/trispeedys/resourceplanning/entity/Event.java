@@ -17,6 +17,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HierarchicalEventItem;
 
@@ -34,9 +36,11 @@ public class Event extends AbstractDbObject implements HierarchicalEventItem
     
     @Column(name = "event_key")
     @NotNull
+    @Length(min = 5)
     private String eventKey;
     
     @NotNull
+    @Length(min = 5)
     private String description;
     
     @ManyToOne
@@ -140,5 +144,10 @@ public class Event extends AbstractDbObject implements HierarchicalEventItem
     public String getDifferentiator()
     {
         return "[E]";
+    }
+
+    public boolean isFinished()
+    {
+        return (eventState.equals(EventState.FINISHED));
     }
 }

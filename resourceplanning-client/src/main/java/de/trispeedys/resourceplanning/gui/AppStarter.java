@@ -2,9 +2,12 @@ package de.trispeedys.resourceplanning.gui;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Window;
+import java.beans.PropertyVetoException;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -35,10 +38,10 @@ public class AppStarter extends JFrame implements SpeedyView
         Container container = (Container) frame;
         deskPane.add(container);
         container.setLocation(0, 0);
-        // container.setMaximum(true);
-        container.show();
+        // container.show();
         add(deskPane);
         setVisible(true);
+        ((JInternalFrame) frame).toFront();
     }
     
     // ---

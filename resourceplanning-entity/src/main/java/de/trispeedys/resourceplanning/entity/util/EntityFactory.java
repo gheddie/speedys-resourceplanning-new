@@ -3,6 +3,7 @@ package de.trispeedys.resourceplanning.entity.util;
 import java.util.Calendar;
 import java.util.Date;
 
+import de.trispeedys.resourceplanning.entity.AbstractDbObject;
 import de.trispeedys.resourceplanning.entity.AggregationRelation;
 import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.DomainResponsibility;
@@ -15,6 +16,7 @@ import de.trispeedys.resourceplanning.entity.MessageQueue;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.PositionAggregation;
+import de.trispeedys.resourceplanning.entity.TemplateDomain;
 import de.trispeedys.resourceplanning.entity.builder.AggregationRelationBuilder;
 import de.trispeedys.resourceplanning.entity.builder.DomainBuilder;
 import de.trispeedys.resourceplanning.entity.builder.DomainResponsibilityBuilder;
@@ -26,6 +28,7 @@ import de.trispeedys.resourceplanning.entity.builder.HelperBuilder;
 import de.trispeedys.resourceplanning.entity.builder.MessageQueueBuilder;
 import de.trispeedys.resourceplanning.entity.builder.PositionAggregationBuilder;
 import de.trispeedys.resourceplanning.entity.builder.PositionBuilder;
+import de.trispeedys.resourceplanning.entity.builder.TemplateDomainBuilder;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperAssignmentState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
@@ -168,5 +171,10 @@ public class EntityFactory
     public static AggregationRelation buildAggregationRelation(Position position, PositionAggregation positionAggregation)
     {
         return new AggregationRelationBuilder().withPosition(position).withPositionAggregation(positionAggregation).build();
+    }
+
+    public static TemplateDomain buildTemplateDomain(EventTemplate template, Domain domain)
+    {
+        return new TemplateDomainBuilder().withEventTemplate(template).withDomain(domain).build();
     }
 }

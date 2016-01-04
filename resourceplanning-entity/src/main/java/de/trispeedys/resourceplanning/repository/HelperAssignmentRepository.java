@@ -3,6 +3,7 @@ package de.trispeedys.resourceplanning.repository;
 import java.util.HashMap;
 import java.util.List;
 
+import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.HelperAssignmentDatasource;
@@ -21,6 +22,8 @@ import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 public class HelperAssignmentRepository extends AbstractDatabaseRepository<HelperAssignment> implements
         DatabaseRepository<HelperAssignmentRepository>
 {
+    private static final String HELPER_TOO_YOUNG = "HELPER_TOO_YOUNG";
+
     public List<HelperAssignment> findByEvent(Event event)
     {
         return dataSource().find(null, HelperAssignment.ATTR_EVENT, event);
@@ -66,7 +69,8 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
 
     public HelperAssignment findByEventAndPosition(Event event, Position position)
     {
-        List<HelperAssignment> result = dataSource().find(null, HelperAssignment.ATTR_EVENT, event, HelperAssignment.ATTR_POSITION, position);
+        List<HelperAssignment> result =
+                dataSource().find(null, HelperAssignment.ATTR_EVENT, event, HelperAssignment.ATTR_POSITION, position);
         return safeValue(result);
     }
 
@@ -80,7 +84,8 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
     {
         if (!(helper.isAssignableTo(position, event.getEventDate())))
         {
-            throw new ResourcePlanningException("helper is to young for this position!");
+            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, HELPER_TOO_YOUNG,
+                    helper.getLastName(), helper.getFirstName(), position.getDescription()));
         }
         EntityFactory.buildHelperAssignment(helper, event, position).saveOrUpdate();
     }

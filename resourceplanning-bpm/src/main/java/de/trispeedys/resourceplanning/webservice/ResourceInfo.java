@@ -138,6 +138,9 @@ public class ResourceInfo
      */
     public PositionDTO[] queryEventPositions(Long eventId, boolean includedInEvent)
     {
+        // TODO only query positions (in case of adding) from domains which are suitable for the given event template 
+        // perhaps we should have different methods for adding/removing positions?
+        
         AppConfiguration configuration = AppConfiguration.getInstance();
         if (eventId == null)
         {
@@ -504,19 +507,18 @@ public class ResourceInfo
         Position posTarget = assignmentTarget.getPosition();
 
         SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this);
-        Transaction tx = null;
         try
         {
-            tx = sessionHolder.beginTransaction();
+            sessionHolder.beginTransaction();
             assignmentSource.setPosition(posTarget);
             sessionHolder.saveOrUpdate(assignmentSource);
             assignmentTarget.setPosition(posSource);
             sessionHolder.saveOrUpdate(assignmentTarget);
-            tx.commit();
+            sessionHolder.commitTransaction();
         }
         catch (Exception e)
         {
-            tx.rollback();
+            sessionHolder.rollbackTransaction();
             throw new ResourcePlanningException(configuration.getText(this, POSITIONS_NO_SWAP, e.getMessage()));
         }
         finally
@@ -583,8 +585,8 @@ public class ResourceInfo
         // finally, remove the event position...
         eventPosition.remove();
     }
-
-    public void addPositionToEvent(Long eventId, int positionNumber)
+    
+    public void addPositionsToEvent(Long eventId, String positionNumbers)
     {
         AppConfiguration configuration = AppConfiguration.getInstance();
         if (eventId == null)
@@ -601,6 +603,18 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException(configuration.getText(this, WRONG_EVENT_STATE, EventState.PLANNED));
         }
+        List<Integer> posNumbers = ListMarshaller.unmarshall(positionNumbers);
+        for (Integer posNumber : posNumbers)
+        {
+            // TODO do this in a dedicated transaction!!
+            addPositionToEvent(event, posNumber);
+        }
+    }
+
+    private void addPositionToEvent(Event event, int positionNumber)
+    {
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        
         // position must be there
         Position position =
                 RepositoryProvider.getRepository(PositionRepository.class).findPositionByPositionNumber(positionNumber);

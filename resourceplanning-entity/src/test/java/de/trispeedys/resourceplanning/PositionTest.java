@@ -19,7 +19,6 @@ import de.trispeedys.resourceplanning.entity.misc.SpeedyTestUtil;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.importer.JsonEventReader;
 import de.trispeedys.resourceplanning.repository.DomainRepository;
-import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
@@ -197,7 +196,7 @@ public class PositionTest
 
         EventTemplate template = EntityFactory.buildEventTemplate("999").saveOrUpdate();
 
-        Event event = EntityFactory.buildEvent("", "", 14, 4, 2016, EventState.PLANNED, template, null).saveOrUpdate();
+        Event event = EntityFactory.buildEvent("TRI123", "TRI123", 14, 4, 2016, EventState.PLANNED, template, null).saveOrUpdate();
 
         Domain domain = EntityFactory.buildDomain("123", 123).saveOrUpdate();
 

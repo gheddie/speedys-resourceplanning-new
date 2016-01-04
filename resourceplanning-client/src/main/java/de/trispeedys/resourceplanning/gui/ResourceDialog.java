@@ -93,7 +93,7 @@ public class ResourceDialog extends SpeedyFrame
 
     private List<PositionDTO> positionsToAdd;
 
-    private PositionDTO selectedPositionToAdd;
+    private List<PositionDTO> selectedPositionsToAdd;
 
     private List<PositionDTO> positionsToRemove;
 
@@ -223,14 +223,15 @@ public class ResourceDialog extends SpeedyFrame
         {
             public void valueChanged(ListSelectionEvent e)
             {
-                int selectedRow = tbPosAdding.getSelectedRow();
-                if (selectedRow >= 0)
+                List<PositionDTO> list = new ArrayList<PositionDTO>();
+                for (int selectedRow : tbPosAdding.getSelectedRows())
                 {
-                    int convertedRowIndex = tbPosAdding.convertRowIndexToModel(selectedRow);
-                    posToAddSelected(positionsToAdd.get(convertedRowIndex));
+                    list.add(positionsToAdd.get(tbPosAdding.convertRowIndexToModel(selectedRow)));
                 }
+                posToAddSelected(list);
             }
         });
+        tbPosAdding.enableMultiSelection();
         // removing positions
         tbPosRemoving.getSelectionModel().addListSelectionListener(new ListSelectionListener()
         {
@@ -305,9 +306,9 @@ public class ResourceDialog extends SpeedyFrame
         enableTabs(selectedEvent.getEventState());
     }
 
-    private void posToAddSelected(PositionDTO positionDTO)
+    private void posToAddSelected(List<PositionDTO> positionDTO)
     {
-        selectedPositionToAdd = positionDTO;
+        selectedPositionsToAdd = positionDTO;
     }
 
     private void posToRemoveSelected(List<PositionDTO> positionDTO)
@@ -636,33 +637,44 @@ public class ResourceDialog extends SpeedyFrame
 
     private void btnAddPositionPressed(ActionEvent e)
     {
-        if (selectedPositionToAdd == null)
+        // TODO translate !!
+        if ((selectedPositionsToAdd == null) || (selectedPositionsToAdd.size() == 0))
         {
-            JOptionPane.showMessageDialog(ResourceDialog.this, "Bitte eine Position wählen!!");
+            JOptionPane.showMessageDialog(ResourceDialog.this, "Bitte eine oder mehrere Position(en) wählen!!");
             return;
         }
-        AppSingleton.getInstance()
-                .getPort()
-                .addPositionToEvent(selectedEvent.getEventId(), selectedPositionToAdd.getPositionNumber());
-        JOptionPane.showMessageDialog(ResourceDialog.this, "Position '" +
-                selectedPositionToAdd.getDescription() + "' wurde dem Event hinzugefügt!!");
-        selectedPositionToAdd = null;
-        refreshTuningPositions();
+        if (JOptionPane.showConfirmDialog(ResourceDialog.this, "Position(en) hinzufügen?", "Bestätigung",
+                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+        {
+            AppSingleton.getInstance()
+                    .getPort()
+                    .addPositionsToEvent(selectedEvent.getEventId(),
+                            ListMarshaller.marshall(retrievePosNumbers(selectedPositionsToAdd)));
+            JOptionPane.showMessageDialog(ResourceDialog.this, "Position(en) wurde(n) dem Event hinzugefügt!!");
+            refreshTuningPositions();
+        }
+        selectedPositionsToAdd = null;
     }
 
     private void btnRemovePositionPressed(ActionEvent e)
     {
+        // TODO translate !!
         if ((selectedPositionsToRemove == null) || (selectedPositionsToRemove.size() == 0))
         {
             JOptionPane.showMessageDialog(ResourceDialog.this, "Bitte eine oder mehrere Position(en) wählen!!");
             return;
         }
-        AppSingleton.getInstance()
-                .getPort()
-                .removePositionsFromEvent(selectedEvent.getEventId(), ListMarshaller.marshall(retrievePosNumbers(selectedPositionsToRemove)));
-        JOptionPane.showMessageDialog(ResourceDialog.this, "Position(en) wurde(n) aus dem Event entfernt!!");
+        if (JOptionPane.showConfirmDialog(ResourceDialog.this, "Position(en) löschen?", "Bestätigung",
+                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+        {
+            AppSingleton.getInstance()
+                    .getPort()
+                    .removePositionsFromEvent(selectedEvent.getEventId(),
+                            ListMarshaller.marshall(retrievePosNumbers(selectedPositionsToRemove)));
+            JOptionPane.showMessageDialog(ResourceDialog.this, "Position(en) wurde(n) aus dem Event entfernt!!");
+            refreshTuningPositions();
+        }
         selectedPositionsToRemove = null;
-        refreshTuningPositions();
     }
 
     private List<Integer> retrievePosNumbers(List<PositionDTO> dtos)
@@ -673,6 +685,15 @@ public class ResourceDialog extends SpeedyFrame
             result.add(dto.getPositionNumber());
         }
         return result;
+    }
+
+    private void btnDuplicateEventPressed(ActionEvent e) {
+        if (selectedEvent == null)
+        {
+            JOptionPane.showMessageDialog(ResourceDialog.this, "Bitte ein Event wählen!!");
+            return;
+        }
+        publishFrame(new EventReplicator("Dokument 1", true, true, true, true, this, selectedEvent));
     }
 
     private void initComponents()
@@ -694,6 +715,7 @@ public class ResourceDialog extends SpeedyFrame
         scEvents = new JScrollPane();
         tbEvents = new ResourcePlanningTable();
         btnExportEvent = new JButton();
+        btnDuplicateEvent = new JButton();
         pnlExecutions = new JPanel();
         borderExecutions = new JPanel();
         scExecutions = new JScrollPane();
@@ -843,9 +865,9 @@ public class ResourceDialog extends SpeedyFrame
                     borderEvents.setBorder(new TitledBorder("Event-Historie"));
                     borderEvents.setLayout(new GridBagLayout());
                     ((GridBagLayout)borderEvents.getLayout()).columnWidths = new int[] {0, 0, 0};
-                    ((GridBagLayout)borderEvents.getLayout()).rowHeights = new int[] {0, 0, 0, 131, 0};
+                    ((GridBagLayout)borderEvents.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 131, 0};
                     ((GridBagLayout)borderEvents.getLayout()).columnWeights = new double[] {1.0, 0.0, 1.0E-4};
-                    ((GridBagLayout)borderEvents.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0, 1.0E-4};
+                    ((GridBagLayout)borderEvents.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4};
 
                     //---- btnPlanEvent ----
                     btnPlanEvent.setText("Planen");
@@ -886,7 +908,7 @@ public class ResourceDialog extends SpeedyFrame
                         });
                         scEvents.setViewportView(tbEvents);
                     }
-                    borderEvents.add(scEvents, new GridBagConstraints(0, 0, 1, 4, 0.0, 0.0,
+                    borderEvents.add(scEvents, new GridBagConstraints(0, 0, 1, 5, 0.0, 0.0,
                         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                         new Insets(0, 0, 0, 5), 0, 0));
 
@@ -900,6 +922,18 @@ public class ResourceDialog extends SpeedyFrame
                         }
                     });
                     borderEvents.add(btnExportEvent, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+
+                    //---- btnDuplicateEvent ----
+                    btnDuplicateEvent.setText("Neu erstellen");
+                    btnDuplicateEvent.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            btnDuplicateEventPressed(e);
+                        }
+                    });
+                    borderEvents.add(btnDuplicateEvent, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
                         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                         new Insets(0, 0, 5, 0), 0, 0));
                 }
@@ -1433,6 +1467,7 @@ public class ResourceDialog extends SpeedyFrame
     private JScrollPane scEvents;
     private ResourcePlanningTable tbEvents;
     private JButton btnExportEvent;
+    private JButton btnDuplicateEvent;
     private JPanel pnlExecutions;
     private JPanel borderExecutions;
     private JScrollPane scExecutions;

@@ -9,17 +9,24 @@ import org.camunda.bpm.engine.MismatchingMessageCorrelationException;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
+import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
+import de.trispeedys.resourceplanning.messaging.template.AlertPlanningExceptionMailTemplate;
+import de.trispeedys.resourceplanning.repository.EventRepository;
+import de.trispeedys.resourceplanning.repository.HelperRepository;
+import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
+import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class HelperInteraction
 {
     private static final Logger logger = Logger.getLogger(HelperInteraction.class);
-    
+
     /**
      * called from 'HelperCallbackReceiver.jsp'
      * 
@@ -54,13 +61,39 @@ public class HelperInteraction
         {
             BpmPlatform.getDefaultProcessEngine()
                     .getRuntimeService()
-                    .correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);                        
+                    .correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
             return HtmlRenderer.renderCallbackSuccess(eventId, helperId, callback);
         }
         catch (MismatchingMessageCorrelationException e)
         {
             return HtmlRenderer.renderCorrelationFault(helperId);
         }
+        catch (ResourcePlanningException e)
+        {
+            // this is an exception raised from the business logic...
+            alertPlanningException(helperId, eventId, e.getMessage());
+            return HtmlRenderer.renderPlanningException(helperId, e.getMessage());
+        }
+    }
+
+    /**
+     * generates a mail to the admin informing him about a problem caused by by a {@link ResourcePlanningException}
+     * which occured while processing a helper interaction.
+     * 
+     * @param helperId
+     * @param eventId
+     * @param message
+     */
+    private static void alertPlanningException(Long helperId, Long eventId, String message)
+    {
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        AlertPlanningExceptionMailTemplate template =
+                new AlertPlanningExceptionMailTemplate(helper, event, null, message);
+        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
+                AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.ADMIN_MAIL),
+                template.constructSubject(), template.constructBody(), template.getMessagingType(),
+                template.getMessagingFormat(), true);
     }
 
     /**
@@ -77,7 +110,9 @@ public class HelperInteraction
     public static String processPositionChosenCallback(Long eventId, Long helperId, Long chosenPositionId)
             throws MismatchingMessageCorrelationException
     {
-        boolean positionAvailable = RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(eventId, chosenPositionId);
+        boolean positionAvailable =
+                RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(eventId,
+                        chosenPositionId);
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION, chosenPositionId);
         variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POS_AVAILABLE, positionAvailable);
@@ -121,7 +156,7 @@ public class HelperInteraction
             return HtmlRenderer.renderCorrelationFault(helperId);
         }
     }
-    
+
     public static String processDeactivationRecovery(Long eventId, Long helperId)
     {
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
@@ -141,6 +176,7 @@ public class HelperInteraction
     public static String getBaseLink()
     {
         return AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.HOST) +
-                "/resourceplanning-bpm-" + AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.VERSION);
+                "/resourceplanning-bpm-" +
+                AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.VERSION);
     }
 }

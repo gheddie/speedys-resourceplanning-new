@@ -35,6 +35,11 @@ public abstract class AbstractDatabaseRepository<T>
     {
         dataSource.saveOrUpdate(null, entity);
     }
+    
+    public void remove(T entity)
+    {
+        dataSource.remove(null, entity);
+    }
 
     public void updateSingleValue(T entity, String attributeName, Object newValue)
     {

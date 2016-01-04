@@ -272,10 +272,9 @@ public class TestDataProvider
     public int anonymizeHelperAddresses()
     {
         SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this);
-        Transaction tx = null;
         try
         {
-            tx = sessionHolder.beginTransaction();
+            sessionHolder.beginTransaction();
             Query qry =
                     sessionHolder.createQuery("UPDATE " +
                             Helper.class.getSimpleName() + " SET " + Helper.ATTR_MAIL_ADDRESS + " = :address WHERE " +
@@ -283,12 +282,12 @@ public class TestDataProvider
             qry.setParameter("address",
                     AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.PROCESS_TEST_MAIL));
             int rows = qry.executeUpdate();
-            tx.commit();
+            sessionHolder.commitTransaction();
             return rows;
         }
         catch (Exception e)
         {
-            tx.rollback();
+            sessionHolder.rollbackTransaction();;
             throw new ResourcePlanningException("helper addresses could not be anonymized : " + e.getMessage());
         }
         finally

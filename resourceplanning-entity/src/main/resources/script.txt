@@ -174,3 +174,19 @@ create table aggregation_relation
 alter table aggregation_relation add constraint fk_aggr_rel_pos foreign key (position_id) references position (id);
 
 alter table aggregation_relation add constraint fk_aggr_rel_aggr foreign key (position_aggregation_id) references position_aggregation (id);
+
+------------------------------------------------ TemplateDomain
+create sequence template_domain_id_seq;
+
+create table template_domain
+(
+	id bigint not null default nextval('template_domain_id_seq'),
+	event_template_id bigint not null,
+	domain_id bigint not null,	
+	primary key (id),
+	constraint tpl_dom_unique_tpl_dom unique (event_template_id, domain_id)
+);
+
+alter table template_domain add constraint fk_tpl_dom_tmplate foreign key (event_template_id) references event_template (id);
+
+alter table template_domain add constraint fk_tpl_dom_domain foreign key (domain_id) references domain (id);

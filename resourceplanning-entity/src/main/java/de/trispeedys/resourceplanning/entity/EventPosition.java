@@ -6,7 +6,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * Realtion betweeb {@link Event} and {@link Position}.
+ * Relation betweeb {@link Event} and {@link Position}.
  * 
  * @author Stefan.Schulz
  *

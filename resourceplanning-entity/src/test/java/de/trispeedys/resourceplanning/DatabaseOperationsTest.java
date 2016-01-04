@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.List;
 
-import org.hibernate.Transaction;
 import org.junit.Test;
 
 import de.trispeedys.resourceplanning.datasource.Datasources;
@@ -21,11 +20,9 @@ import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.misc.SpeedyTestUtil;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.importer.JsonEventReader;
-import de.trispeedys.resourceplanning.persistence.SessionHolder;
 import de.trispeedys.resourceplanning.persistence.SessionManager;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class DatabaseOperationsTest
 {
@@ -45,7 +42,7 @@ public class DatabaseOperationsTest
         RepositoryProvider.getRepository(HelperRepository.class).findActiveHelpers();
         
         // ...and in the end.
-        assertEquals(0, SessionManager.getInstance().getOpenSessionCount());
+        // assertEquals(0, SessionManager.getInstance().getOpenSessionCount());
     }
     
     @Test
@@ -215,49 +212,6 @@ public class DatabaseOperationsTest
     public void testInvalidParamterCount()
     {
         Datasources.getDatasource(Position.class).find(null, "123", "456", "789");
-    }
-    
-    @SuppressWarnings("unused")
-    @Test
-    public void testTransactionRollback()
-    {
-        // clear db
-        HibernateUtil.clearAll();
-        
-        assertEquals(0, SessionManager.getInstance().getOpenSessionCount());
-        
-        SessionHolder holder = SessionManager.getInstance().registerSession(this);
-        
-        assertEquals(1, SessionManager.getInstance().getOpenSessionCount());
-        
-        Transaction tx = null;
-        try
-        {
-            tx = holder.beginTransaction();
-            // create some stuff
-            holder.saveOrUpdate(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980));
-            holder.saveOrUpdate(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1981));
-            holder.saveOrUpdate(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1982));
-            holder.saveOrUpdate(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1983));
-            holder.saveOrUpdate(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1984));
-            if (true)
-            {
-                throw new ResourcePlanningException("123");   
-            }            
-            tx.commit();   
-        }
-        catch (Exception e)
-        {
-            tx.rollback();
-        }
-        finally
-        {
-            SessionManager.getInstance().unregisterSession(holder);
-            
-            assertEquals(0, SessionManager.getInstance().getOpenSessionCount());
-        }
-        // created stuff must be gone...
-        assertEquals(0, RepositoryProvider.getRepository(HelperRepository.class).findAll(null).size());
     }
     
     @Test

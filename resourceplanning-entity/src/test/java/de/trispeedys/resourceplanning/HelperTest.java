@@ -69,7 +69,7 @@ public class HelperTest
     public void testSelectActiveHelperIds()
     {
         HibernateUtil.clearAll();
-        TestDataGenerator.createSimpleEvent("TRI", "TRI", 1, 1, 1980, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
+        TestDataGenerator.createSimpleEvent("TRI123", "TRI123", 1, 1, 1980, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
         assertEquals(5, RepositoryProvider.getRepository(HelperRepository.class).queryActiveHelperIds().size());
     }
 

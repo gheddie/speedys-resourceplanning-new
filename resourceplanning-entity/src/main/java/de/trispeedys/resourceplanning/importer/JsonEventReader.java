@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Transaction;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -92,10 +91,9 @@ public class JsonEventReader
     {
         this.resourceName = aResourceName;
         sessionHolder = SessionManager.getInstance().registerSession(this);
-        Transaction tx = null;
         try
         {
-            tx = sessionHolder.beginTransaction();
+            sessionHolder.beginTransaction();
             JSONParser parser = new JSONParser();
             Event event = null;
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourceName);
@@ -124,6 +122,10 @@ public class JsonEventReader
                         EntityFactory.buildDomain((String) jsonDomain.get(JSON_PARAM_DOMAIN_NAME),
                                 Integer.parseInt((String) jsonDomain.get(JSON_PARAM_DOMAIN_NUMBER)));
                 sessionHolder.saveOrUpdate(domain);
+                
+                // create link between domain and template
+                sessionHolder.saveOrUpdate(EntityFactory.buildTemplateDomain(template, domain));
+                
                 JSONArray assignments = (JSONArray) jsonDomain.get(JSON_PARAM_LIST_ASSIGNMENTS);
                 JSONObject jsonAssignment = null;
                 Helper helper = null;
@@ -184,11 +186,11 @@ public class JsonEventReader
 
             createAggregations();
 
-            tx.commit();
+            sessionHolder.commitTransaction();
         }
         catch (Exception e)
         {
-            tx.rollback();
+            sessionHolder.rollbackTransaction();
             throw new ResourcePlanningException("event could not be parsed : " + e.getMessage());
         }
         finally
@@ -252,6 +254,6 @@ public class JsonEventReader
     public static void main(String[] args)
     {
         HibernateUtil.clearAll();
-        new JsonEventReader().doImport("Helfer_2015.json");
+        new JsonEventReader().doImport("TestEvent.json");
     }
 }

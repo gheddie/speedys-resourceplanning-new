@@ -12,7 +12,7 @@ import de.trispeedys.resourceplanning.persistence.SessionManager;
 import de.trispeedys.resourceplanning.persistence.SessionToken;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningPersistenceException;
 
-public abstract class DefaultDatasource<T> implements IDatasource
+public class DefaultDatasource<T> implements IDatasource
 {
     @SuppressWarnings({
             "rawtypes", "unchecked", "hiding"
@@ -64,39 +64,62 @@ public abstract class DefaultDatasource<T> implements IDatasource
     @SuppressWarnings("hiding")
     public <T> void remove(SessionToken sessionToken, T entity)
     {
-        Transaction tx = null;
-        Session session = SessionManager.getInstance().getSession(sessionToken);
-        tx = session.beginTransaction();
-        session.delete(entity);
-        tx.commit();
-        if (sessionToken == null)
+        if (sessionToken != null)
         {
+            // session token set --> use registered session to remove...
+            SessionManager.getInstance().getSession(sessionToken).delete(entity);
+        }
+        else
+        {
+            // no session token --> do remove in an isolated transaction
+            Transaction tx = null;
+            Session session = SessionManager.getInstance().getSession(sessionToken);
+            tx = session.beginTransaction();
+            session.delete(entity);
+            tx.commit();
+            
             // 'single use' session, so close it...
-            unregisterSession(session);     
-        }      
+            unregisterSession(session);            
+        }     
     }
     
     @SuppressWarnings("hiding")
     public <T> T saveOrUpdate(SessionToken sessionToken, T entity)
     {
-        Transaction tx = null;
-        Session session = SessionManager.getInstance().getSession(sessionToken);
-        tx = session.beginTransaction();
-        if (((AbstractDbObject) entity).isNew())
+        if (sessionToken != null)
         {
-            session.save(entity);
+            // session token set --> use registered session to save or update...
+            if (((AbstractDbObject) entity).isNew())
+            {
+                SessionManager.getInstance().getSession(sessionToken).save(entity);   
+            }
+            else
+            {
+                SessionManager.getInstance().getSession(sessionToken).update(entity);
+            }            
+            return (T) entity;
         }
         else
         {
-            session.update(entity);
-        }
-        tx.commit();
-        if (sessionToken == null)
-        {
+            // no session token --> do save or update in an isolated transaction
+            Transaction tx = null;
+            Session session = SessionManager.getInstance().getSession(null);
+            tx = session.beginTransaction();
+            if (((AbstractDbObject) entity).isNew())
+            {
+                session.save(entity);
+            }
+            else
+            {
+                session.update(entity);
+            }
+            tx.commit();
+            
             // 'single use' session, so close it...
-            unregisterSession(session);     
+            unregisterSession(session);
+            
+            return (T) entity;   
         }
-        return (T) entity;
     }    
 
     @SuppressWarnings({
@@ -214,7 +237,10 @@ public abstract class DefaultDatasource<T> implements IDatasource
      * gets the generic type of the datasource instance (inherit of {@link AbstractDbObject})
      * @return
      */
-    protected abstract Class<T> getGenericType();
+    protected Class<T> getGenericType()
+    {
+        return null;
+    }
     
     private void unregisterSession(Session session)
     {

@@ -15,14 +15,14 @@ import de.trispeedys.resourceplanning.repository.base.DatabaseRepository;
 
 public class EventRepository extends AbstractDatabaseRepository<Event> implements DatabaseRepository<EventRepository>
 {
-    public List<Event> findEventByTemplateOrdered(String eventTemplateName)
+    public List<Event> findEventByTemplateOrdered(String description)
     {
         String queryString =
                 "From " +
                         Event.class.getSimpleName() +
                         " ev INNER JOIN ev.eventTemplate et WHERE et.description = :description ORDER BY ev.eventDate ASC";
         HashMap<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("description", eventTemplateName);
+        parameters.put("description", description);
         List<Object[]> list = dataSource().find(null, queryString, parameters);
         if (list.size() == 0)
         {

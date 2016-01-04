@@ -68,10 +68,10 @@ public class RequestHelpTest
         // clear db
         HibernateUtil.clearAll();
 
-        EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
+        EventTemplate template = EntityFactory.buildEventTemplate("TRI123").saveOrUpdate();
 
         // ...
-        Event event = EntityFactory.buildEvent("", "", 1, 1, 2000, EventState.PLANNED, template, null).saveOrUpdate();
+        Event event = EntityFactory.buildEvent("TRI123", "TRI123", 1, 1, 2000, EventState.PLANNED, template, null).saveOrUpdate();
         RequestHelpTestUtil.startHelperRequestProcess(DEFAULT_HELPER, event, null, rule);
     }
 

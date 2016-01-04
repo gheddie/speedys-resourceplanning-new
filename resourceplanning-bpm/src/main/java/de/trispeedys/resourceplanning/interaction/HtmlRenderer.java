@@ -61,6 +61,16 @@ public class HtmlRenderer
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
+    
+    public static String renderPlanningException(Long helperId, String errorMessage)
+    {
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withHeader(configuration.getText(HtmlRenderer.class, "hello", helper.getFirstName()))
+                .withParagraph(configuration.getText(HtmlRenderer.class, "planningExceptionCaught", errorMessage))
+                .withParagraph(AbstractMailTemplate.sincerely())
+                .render();
+    }
 
     /**
      * called from chosen position receiver jsp. Informs the user that his message has been received and gives an

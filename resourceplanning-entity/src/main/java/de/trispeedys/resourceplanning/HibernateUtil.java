@@ -37,6 +37,7 @@ public class HibernateUtil
 
     public static void clearAll()
     {
+        clearTable("template_domain");
         clearTable("domain_responsibility");
         clearTable("aggregation_relation");
         clearTable("position_aggregation");        

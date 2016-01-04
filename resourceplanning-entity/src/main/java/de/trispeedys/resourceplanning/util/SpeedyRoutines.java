@@ -6,13 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import de.trispeedys.resourceplanning.HibernateUtil;
+import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.entity.AbstractDbObject;
 import de.trispeedys.resourceplanning.entity.Domain;
@@ -37,12 +31,19 @@ import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class SpeedyRoutines
 {
+    private static final String EVENT_WITHOUT_TEMPLATE = "EVENT_WITHOUT_TEMPLATE";
+
+    private static final String INVALID_DUPLICATION_STATE = "INVALID_DUPLICATION_STATE";
+
+    private static final String UNFINISHED_PREDECESSOR = "UNFINISHED_PREDECESSOR";
+
     public static Event duplicateEvent(Event event, String description, String eventKey, int day, int month, int year,
             List<Integer> positionExcludes, List<PositionInclude> includes)
     {
-        return duplicateEvent(event, description, eventKey, day, month, year, positionExcludes, includes, EventState.PLANNED);
+        return duplicateEvent(event, description, eventKey, day, month, year, positionExcludes, includes,
+                EventState.PLANNED);
     }
-    
+
     public static Event duplicateEvent(Event event, String description, String eventKey, int day, int month, int year,
             List<Integer> positionExcludes, List<PositionInclude> includes, EventState eventState)
     {
@@ -52,12 +53,20 @@ public class SpeedyRoutines
         }
         if (!(event.getEventState().equals(EventState.FINISHED)))
         {
-            throw new ResourcePlanningException("only a finished event can be duplicated!!");
+            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(SpeedyRoutines.class,
+                    INVALID_DUPLICATION_STATE));
         }
         checkExcludes(event, positionExcludes);
+        EventTemplate template = event.getEventTemplate();
+        if (template == null)
+        {
+            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(SpeedyRoutines.class,
+                    EVENT_WITHOUT_TEMPLATE));
+        }
+        checkPredecessorsForReplication(template);
         Event newEvent =
-                EntityFactory.buildEvent(description, eventKey, day, month, year, eventState,
-                        event.getEventTemplate(), event).saveOrUpdate();
+                EntityFactory.buildEvent(description, eventKey, day, month, year, eventState, template, event)
+                        .saveOrUpdate();
         List<EventPosition> posRelations = Datasources.getDatasource(EventPosition.class).find(null, "event", event);
         Position pos = null;
         for (EventPosition evtpos : posRelations)
@@ -80,6 +89,7 @@ public class SpeedyRoutines
                                 include.getPositionNumber());
                 if (additionalPosition == null)
                 {
+                    // TODO translate
                     throw new ResourcePlanningException("unable to find position by position number '" +
                             include.getPositionNumber() + "'!!");
                 }
@@ -87,6 +97,23 @@ public class SpeedyRoutines
             }
         }
         return newEvent;
+    }
+
+    private static void checkPredecessorsForReplication(EventTemplate template)
+    {
+        // TODO must the new event be the latest concerning ist event date?
+        List<Event> predecessors =
+                RepositoryProvider.getRepository(EventRepository.class).findEventByTemplateOrdered(
+                        template.getDescription());
+        for (Event predecessor : predecessors)
+        {
+            if (!(predecessor.isFinished()))
+            {
+                throw new ResourcePlanningException(AppConfiguration.getInstance().getText(SpeedyRoutines.class,
+                        UNFINISHED_PREDECESSOR, predecessor.getEventDate(), template.getDescription(),
+                        predecessor.getEventState()));
+            }
+        }
     }
 
     private static void checkExcludes(Event event, List<Integer> positionExcludes)

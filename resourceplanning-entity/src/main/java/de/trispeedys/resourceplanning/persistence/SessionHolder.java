@@ -6,24 +6,41 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import de.trispeedys.resourceplanning.datasource.Datasources;
+import de.trispeedys.resourceplanning.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.entity.AbstractDbObject;
 
 public class SessionHolder
 {
-    private SessionToken key;
+    private SessionToken sessionToken;
     
     private Session session;
+
+    private Transaction tx;
+    
+    private DefaultDatasource datasource;
 
     public SessionHolder(SessionToken key, Session session)
     {
         super();
-        this.key = key;
+        this.sessionToken = key;
         this.session = session;
+        datasource = Datasources.getDatasource(null);
     }
 
-    public Transaction beginTransaction()
+    public void beginTransaction()
     {
-        return session.beginTransaction();
+        tx = session.beginTransaction();
+    }
+    
+    public void commitTransaction()
+    {
+        tx.commit();
+    }
+    
+    public void rollbackTransaction()
+    {
+        tx.rollback();
     }
     
     public Query createQuery(String queryString)
@@ -33,7 +50,7 @@ public class SessionHolder
 
     public SessionToken getToken()
     {
-        return key;
+        return sessionToken;
     }
 
     public void flush()
@@ -41,13 +58,15 @@ public class SessionHolder
         session.flush();
     }
     
-    public Serializable saveOrUpdate(AbstractDbObject entity)
+    @SuppressWarnings("unchecked")
+    public Object saveOrUpdate(AbstractDbObject entity)
     {
-        if (entity.isNew())
-        {
-            return session.save(entity);
-        }
-        session.update(entity);
-        return null;
+        return datasource.saveOrUpdate(sessionToken, entity);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void remove(AbstractDbObject entity)
+    {
+        datasource.remove(sessionToken, entity);
     }
 }

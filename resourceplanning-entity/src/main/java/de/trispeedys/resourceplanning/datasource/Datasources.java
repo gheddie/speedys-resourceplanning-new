@@ -26,7 +26,7 @@ public class Datasources
     {
         registeredDatasources = new HashMap<Class<? extends AbstractDbObject>, DefaultDatasource>();
         registerDatasources();
-//        defaultDatasource = new DefaultDatasource();
+        defaultDatasource = new DefaultDatasource();
     }
 
     private void registerDatasources()
