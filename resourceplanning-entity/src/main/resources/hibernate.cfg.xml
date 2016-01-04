@@ -5,7 +5,7 @@
 <hibernate-configuration>
 	<session-factory>
 
-		<property name="connection.url">jdbc:postgresql://localhost/speedys-resource-planning-test</property>
+		<property name="connection.url">jdbc:postgresql://localhost/speedys-resource-planning</property>
 		<property name="connection.username">postgres</property>
 		<property name="connection.password">pgvedder</property>
 		<property name="connection.driver_class">org.postgresql.Driver</property>
