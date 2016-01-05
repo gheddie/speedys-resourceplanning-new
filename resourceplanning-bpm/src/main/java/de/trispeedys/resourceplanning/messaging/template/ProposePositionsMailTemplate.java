@@ -40,7 +40,7 @@ public class ProposePositionsMailTemplate extends AbstractMailTemplate
     public String constructBody()
     {
         AppConfiguration configuration = AppConfiguration.getInstance();
-        
+
         // group positions by domain (name)
         HashMap<String, List<Position>> grouping = new HashMap<String, List<Position>>();
         String domainName = null;
@@ -53,7 +53,7 @@ public class ProposePositionsMailTemplate extends AbstractMailTemplate
             }
             grouping.get(domainName).add(pos);
         }
-        
+
         HtmlGenerator generator = new HtmlGenerator(true);
         generator.withParagraph(helperGreeting());
         if (reentrant)
@@ -65,7 +65,7 @@ public class ProposePositionsMailTemplate extends AbstractMailTemplate
         {
             // not reentrant --> assignment as before not possible
             if (trigger.equals(HelperCallback.ASSIGNMENT_AS_BEFORE))
-            {                
+            {
                 generator.withParagraph(configuration.getText(this, "priorAssignmentBlocked",
                         priorAssignment.getDescription(), priorAssignment.getDomain().getName()));
             }
@@ -78,7 +78,7 @@ public class ProposePositionsMailTemplate extends AbstractMailTemplate
             for (Position pos : grouping.get(key))
             {
                 link =
-                        HelperInteraction.getBaseLink() +
+                        getBaseLink() +
                                 "/ChosenPositionReceiver.jsp?chosenPosition=" + pos.getId() + "&helperId=" +
                                 getHelper().getId() + "&eventId=" + getEvent().getId();
                 generator.withUnorderedListEntry(link, pos.getDescription(), true);

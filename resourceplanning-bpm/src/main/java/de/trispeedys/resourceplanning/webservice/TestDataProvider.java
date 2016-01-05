@@ -178,17 +178,6 @@ public class TestDataProvider
                 EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
     }
 
-    public void prepareUserTest()
-    {
-        // clear db
-        TestUtil.clearAll();
-
-        // there is a new event (with 7 active helpers)...
-        SpeedyRoutines.duplicateEvent(TestDataGenerator.createUserTestEvent("Test-Duathlon 2015", "DU-TEST-2015", 1, 3,
-                2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Test-Duathlon 2016", "DU-TEST-2016", 1, 3,
-                2016, null, null);
-    }
-
     // --- Real life test
 
     public void finish2015()
@@ -304,7 +293,7 @@ public class TestDataProvider
         
         System.out.println("setting up by resource '" + resourceName + "'...");
 
-        // (1) kill al executions
+        // (1) kill all executions
         killAllExecutions();
 
         // (2) import json

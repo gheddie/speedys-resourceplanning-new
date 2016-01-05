@@ -9,7 +9,6 @@ import java.util.List;
 import org.junit.Test;
 
 import de.gravitex.hibernateadapter.core.SessionManager;
-import de.gravitex.hibernateadapter.core.util.HibernateUtil;
 import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.entity.EventTemplate;

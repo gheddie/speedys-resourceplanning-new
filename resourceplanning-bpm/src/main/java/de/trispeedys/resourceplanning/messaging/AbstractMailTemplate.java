@@ -87,4 +87,11 @@ public abstract class AbstractMailTemplate<T>
                 constructSubject(), constructBody(), getMessagingType(),
                 getMessagingFormat(), true);
     }
+    
+    protected String getBaseLink()
+    {
+        return AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.HOST) +
+                "/resourceplanning-bpm-" +
+                AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.VERSION);
+    }    
 }

@@ -12,7 +12,6 @@ import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
-import de.trispeedys.resourceplanning.interaction.HelperInteraction;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 import de.trispeedys.resourceplanning.rule.CallbackChoiceGenerator;
 
@@ -57,7 +56,7 @@ public class SendReminderMailTemplate extends AbstractMailTemplate
             {
                 generator =
                         generator.withLink(
-                                HelperInteraction.getBaseLink() +
+                                getBaseLink() +
                                         "/HelperCallbackReceiver.jsp?callbackResult=" + callback + "&helperId=" +
                                         getHelper().getId() + "&eventId=" + getEvent().getId(),
                                 callback.getDescription()).withLinebreak(2);

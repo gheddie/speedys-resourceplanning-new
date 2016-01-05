@@ -12,12 +12,18 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.log4j.Logger;
+
 public class MailSender
 {
-    private static final String FROM = "from-email@gmail.com";
+    private static final Logger logger = Logger.getLogger(MailSender.class);
+    
+    private static final String SPEEDYS_FROM = "noreply@tri-speedys.de";
 
     public static void sendMail(String toAddress, String body, String subject) throws AddressException, MessagingException
     {
+        logger.info("sending mail [subject:"+subject+"] to : " + toAddress);
+        
         final String username = "testhelper1.trispeedys@gmail.com";
         final String password = "trispeedys1234";
 
@@ -34,7 +40,7 @@ public class MailSender
             }
         });
         Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(FROM));
+        message.setFrom(new InternetAddress(SPEEDYS_FROM));
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toAddress));
         message.setSubject(subject);
         message.setText(body);
@@ -44,6 +50,8 @@ public class MailSender
 
     public static void sendHtmlMail(String toAddress, String body, String subject) throws AddressException, MessagingException
     {
+        logger.info("sending mail [subject:"+subject+"] to : " + toAddress);
+        
         final String username = "testhelper1.trispeedys@gmail.com";
         final String password = "trispeedys1234";
 
@@ -60,6 +68,7 @@ public class MailSender
             }
         });
         Message msg = new MimeMessage(session);
+        msg.setFrom(new InternetAddress(SPEEDYS_FROM));
         msg.setSubject(subject);
         msg.setRecipient(Message.RecipientType.TO, new InternetAddress(toAddress, false));
         msg.setContent(body, "text/html; charset=utf-8");

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.camunda.bpm.BpmPlatform;
 import org.camunda.bpm.engine.MismatchingMessageCorrelationException;
+import org.camunda.bpm.engine.ProcessEngine;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
@@ -77,26 +78,6 @@ public class HelperInteraction
     }
 
     /**
-     * generates a mail to the admin informing him about a problem caused by by a {@link ResourcePlanningException}
-     * which occured while processing a helper interaction.
-     * 
-     * @param helperId
-     * @param eventId
-     * @param message
-     */
-    private static void alertPlanningException(Long helperId, Long eventId, String message)
-    {
-        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
-        AlertPlanningExceptionMailTemplate template =
-                new AlertPlanningExceptionMailTemplate(helper, event, null, message);
-        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
-                AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.ADMIN_MAIL),
-                template.constructSubject(), template.constructBody(), template.getMessagingType(),
-                template.getMessagingFormat(), true);
-    }
-
-    /**
      * called from 'ChosenPositionReceiver.jsp'
      * 
      * @param eventId
@@ -134,10 +115,15 @@ public class HelperInteraction
                 return HtmlRenderer.renderChosenPositionUnavailableCallback(helperId, chosenPositionId);
             }
         }
-        catch (Exception e)
+        catch (MismatchingMessageCorrelationException e)
         {
-            // TODO really catch exception here (not MismatchingMessageCorrelationException ?!?)
             return HtmlRenderer.renderCorrelationFault(helperId);
+        }
+        catch (ResourcePlanningException e)
+        {
+            // this is an exception raised from the business logic...
+            alertPlanningException(helperId, eventId, e.getMessage());
+            return HtmlRenderer.renderPlanningException(helperId, e.getMessage());
         }
     }
 
@@ -155,6 +141,12 @@ public class HelperInteraction
         {
             return HtmlRenderer.renderCorrelationFault(helperId);
         }
+        catch (ResourcePlanningException e)
+        {
+            // this is an exception raised from the business logic...
+            alertPlanningException(helperId, eventId, e.getMessage());
+            return HtmlRenderer.renderPlanningException(helperId, e.getMessage());
+        }
     }
 
     public static String processDeactivationRecovery(Long eventId, Long helperId)
@@ -171,12 +163,31 @@ public class HelperInteraction
         {
             return HtmlRenderer.renderCorrelationFault(helperId);
         }
+        catch (ResourcePlanningException e)
+        {
+            // this is an exception raised from the business logic...
+            alertPlanningException(helperId, eventId, e.getMessage());
+            return HtmlRenderer.renderPlanningException(helperId, e.getMessage());
+        }
     }
 
-    public static String getBaseLink()
+    /**
+     * generates a mail to the admin informing him about a problem caused by by a {@link ResourcePlanningException}
+     * which occured while processing a helper interaction.
+     * 
+     * @param helperId
+     * @param eventId
+     * @param message
+     */
+    private static void alertPlanningException(Long helperId, Long eventId, String message)
     {
-        return AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.HOST) +
-                "/resourceplanning-bpm-" +
-                AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.VERSION);
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        AlertPlanningExceptionMailTemplate template =
+                new AlertPlanningExceptionMailTemplate(helper, event, null, message);
+        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
+                AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.ADMIN_MAIL),
+                template.constructSubject(), template.constructBody(), template.getMessagingType(),
+                template.getMessagingFormat(), true);
     }
 }
