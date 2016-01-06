@@ -16,7 +16,7 @@
       Long helperId = Long.parseLong(request.getParameter("helperId"));            
       HelperCallback callback = HelperCallback.valueOf(request.getParameter("callbackResult"));
 	  // render action result
-      out.println(HelperInteraction.processReminderCallback(eventId, helperId, callback));
+      out.println(HelperInteraction.processReminderCallback(eventId, helperId, callback, null));
 	%>
 </body>
 </html>

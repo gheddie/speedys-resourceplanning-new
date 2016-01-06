@@ -14,7 +14,7 @@
       Long eventId = Long.parseLong(request.getParameter("eventId"));
 	  Long helperId = Long.parseLong(request.getParameter("helperId"));
 	  // render action result
-	  out.println(HelperInteraction.processDeactivationRecovery(eventId, helperId));
+	  out.println(HelperInteraction.processDeactivationRecovery(eventId, helperId, null));
 	%>
 </body>
 </html>

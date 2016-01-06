@@ -209,9 +209,9 @@ public class ResourceInfo
             dto.setPositionCount(RepositoryProvider.getRepository(EventPositionRepository.class)
                     .findByEvent(event)
                     .size());
-            // TODO nur ungekündigte !!
+            // TODO nur ungekündigte (jetzt OK ?!?) !!
             dto.setAssignmentCount(RepositoryProvider.getRepository(HelperAssignmentRepository.class)
-                    .findByEvent(event)
+                    .findUncancelledByEvent(event)
                     .size());
             dto.setEventId(event.getId());
             dto.setEventState(event.getEventState().toString());

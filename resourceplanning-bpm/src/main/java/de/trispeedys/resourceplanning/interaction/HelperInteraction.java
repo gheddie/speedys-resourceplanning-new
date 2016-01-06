@@ -35,7 +35,7 @@ public class HelperInteraction
      * @param businessKey
      * @return
      */
-    public static String processReminderCallback(Long eventId, Long helperId, HelperCallback callback)
+    public static String processReminderCallback(Long eventId, Long helperId, HelperCallback callback, ProcessEngine testEngine)
     {
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         Map<String, Object> variables = new HashMap<String, Object>();
@@ -60,7 +60,7 @@ public class HelperInteraction
         }
         try
         {
-            BpmPlatform.getDefaultProcessEngine()
+            getProcessEngine(testEngine)
                     .getRuntimeService()
                     .correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
             return HtmlRenderer.renderCallbackSuccess(eventId, helperId, callback);
@@ -88,7 +88,7 @@ public class HelperInteraction
      * 
      * @throws MismatchingMessageCorrelationException
      */
-    public static String processPositionChosenCallback(Long eventId, Long helperId, Long chosenPositionId)
+    public static String processPositionChosenCallback(Long eventId, Long helperId, Long chosenPositionId, ProcessEngine testEngine)
             throws MismatchingMessageCorrelationException
     {
         boolean positionAvailable =
@@ -100,7 +100,7 @@ public class HelperInteraction
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         try
         {
-            BpmPlatform.getDefaultProcessEngine()
+            getProcessEngine(testEngine)
                     .getRuntimeService()
                     .correlateMessage(BpmMessages.RequestHelpHelper.MSG_POS_CHOSEN, businessKey, variables);
             if (positionAvailable)
@@ -127,12 +127,12 @@ public class HelperInteraction
         }
     }
 
-    public static String processAssignmentCancellation(Long eventId, Long helperId)
+    public static String processAssignmentCancellation(Long eventId, Long helperId, ProcessEngine testEngine)
     {
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         try
         {
-            BpmPlatform.getDefaultProcessEngine()
+            getProcessEngine(testEngine)
                     .getRuntimeService()
                     .correlateMessage(BpmMessages.RequestHelpHelper.MSG_ASSIG_CANCELLED, businessKey);
             return HtmlRenderer.renderCancellationCallback(helperId);
@@ -149,12 +149,12 @@ public class HelperInteraction
         }
     }
 
-    public static String processDeactivationRecovery(Long eventId, Long helperId)
+    public static String processDeactivationRecovery(Long eventId, Long helperId, ProcessEngine testEngine)
     {
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         try
         {
-            BpmPlatform.getDefaultProcessEngine()
+            getProcessEngine(testEngine)
                     .getRuntimeService()
                     .correlateMessage(BpmMessages.RequestHelpHelper.MSG_DEACT_RESP, businessKey);
             return HtmlRenderer.renderDeactivationRecoveryCallback(helperId);
@@ -169,6 +169,12 @@ public class HelperInteraction
             alertPlanningException(helperId, eventId, e.getMessage());
             return HtmlRenderer.renderPlanningException(helperId, e.getMessage());
         }
+    }
+    
+    private static ProcessEngine getProcessEngine(ProcessEngine testEngine)
+    {
+        // return test engine if set, default engine from bpm platform otherwise
+        return testEngine != null ? testEngine : BpmPlatform.getDefaultProcessEngine();        
     }
 
     /**

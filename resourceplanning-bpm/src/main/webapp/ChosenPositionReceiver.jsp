@@ -15,7 +15,7 @@
 	  Long helperId = Long.parseLong(request.getParameter("helperId"));
 	  Long chosenPositionId = Long.parseLong(request.getParameter("chosenPosition"));        	        
 	  // render action result
-	  out.println(HelperInteraction.processPositionChosenCallback(eventId, helperId, chosenPositionId));
+	  out.println(HelperInteraction.processPositionChosenCallback(eventId, helperId, chosenPositionId, null));
 	%>
 </body>
 </html>

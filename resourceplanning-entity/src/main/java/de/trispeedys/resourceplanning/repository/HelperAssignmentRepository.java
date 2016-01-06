@@ -29,6 +29,16 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
         return dataSource().find(null, HelperAssignment.ATTR_EVENT, event);
     }
 
+    public List<HelperAssignment> findUncancelledByEvent(Event event)
+    {
+        return dataSource().find(
+                null,
+                "FROM " +
+                        HelperAssignment.class.getSimpleName() +
+                        " ec WHERE ec.event = :event AND ec.helperAssignmentState <> '" +
+                        HelperAssignmentState.CANCELLED + "'", "event", event);
+    }
+
     protected DefaultDatasource<HelperAssignment> createDataSource()
     {
         return new HelperAssignmentDatasource();
@@ -37,13 +47,13 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
     public List<HelperAssignment> findAllHelperAssignmentsByEvent(Event event)
     {
         return dataSource().find(null,
-                "From " + HelperAssignment.class.getSimpleName() + " ec WHERE ec.event = :event", "event", event);
+                "FROM " + HelperAssignment.class.getSimpleName() + " ec WHERE ec.event = :event", "event", event);
     }
 
     public List<HelperAssignment> findAllHelperAssignments(Long helperId)
     {
         return dataSource().find(null,
-                "From " + HelperAssignment.class.getSimpleName() + " ec WHERE ec.helperId = :helperId", "helperId",
+                "FROM " + HelperAssignment.class.getSimpleName() + " ec WHERE ec.helperId = :helperId", "helperId",
                 helperId);
     }
 
@@ -120,7 +130,7 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
     public HelperAssignment getPriorAssignment(Helper helper, EventTemplate eventTemplate)
     {
         String queryString =
-                "From " +
+                "FROM " +
                         HelperAssignment.class.getSimpleName() +
                         " ha INNER JOIN ha.event ev WHERE ha.helperId = :helperId AND ev.eventTemplate = :eventTemplate ORDER BY ev.eventDate DESC";
         HashMap<String, Object> parameters = new HashMap<String, Object>();

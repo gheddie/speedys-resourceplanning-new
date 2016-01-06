@@ -19,6 +19,7 @@ import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
+import de.trispeedys.resourceplanning.interaction.HelperInteraction;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
@@ -69,7 +70,7 @@ public class VariableAssignmentTest
         assertTrue(processEngine.getRuntimeService().getVariable(execution.getId(), BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION) == null);
         
         // call back 'CHANGE POS'...
-        RequestHelpTestUtil.doCallback(HelperCallback.CHANGE_POS, businessKey, processEngine);
+        HelperInteraction.processReminderCallback(event2016.getId(), helperA.getId(), HelperCallback.CHANGE_POS, processEngine.getProcessEngine());
         
         // ...choose a position (all of them are available)...
         Position position = RepositoryProvider.getRepository(PositionRepository.class).findAll(null).get(0);
