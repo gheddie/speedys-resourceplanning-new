@@ -133,4 +133,10 @@ public class HtmlRenderer
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
+
+    public static String renderPositionRecoveryOnCancellation(Long helperId)
+    {
+        // TODO
+        return "123";
+    }
 }

@@ -6,7 +6,6 @@ import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
-import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
@@ -65,33 +64,39 @@ public abstract class AbstractMailTemplate<T>
 
     public abstract String constructSubject();
 
-    public abstract MessagingFormat getMessagingFormat();
-
     public abstract MessagingType getMessagingType();
 
     protected String helperGreeting()
     {
-        return AppConfiguration.getInstance().getText(AbstractMailTemplate.class, "helperGreeting", getHelper().getFirstName());
+        return AppConfiguration.getInstance().getText(AbstractMailTemplate.class, "helperGreeting",
+                getHelper().getFirstName());
     }
-    
+
     public static String sincerely()
     {
         return AppConfiguration.getInstance().getText(AbstractMailTemplate.class, "speedysSincerely");
-    }    
-    
-    public void send()
-    {
-        // TODO use for more templates --> need to configure 'to address'!!
-        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
-                AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.ADMIN_MAIL),
-                constructSubject(), constructBody(), getMessagingType(),
-                getMessagingFormat(), true);
     }
-    
+
+    public void send(boolean toAdmin)
+    {
+        String receiverAddress = (toAdmin
+                ? AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.ADMIN_MAIL)
+                : getHelper().getEmail());
+        // perhaps the receiver is a helper without a mail address set...
+        if ((receiverAddress == null) || (receiverAddress.length() == 0))
+        {
+            return;
+        }
+        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
+                receiverAddress, constructSubject(), constructBody(), getMessagingType(), true, (toAdmin
+                        ? null
+                        : helper));
+    }
+
     protected String getBaseLink()
     {
         return AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.HOST) +
                 "/resourceplanning-bpm-" +
                 AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.VERSION);
-    }    
+    }
 }

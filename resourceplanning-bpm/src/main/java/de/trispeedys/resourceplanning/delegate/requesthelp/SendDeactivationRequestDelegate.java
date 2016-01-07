@@ -15,7 +15,8 @@ public class SendDeactivationRequestDelegate extends RequestHelpNotificationDele
         Helper helper = getHelper(execution);
         DeactivationRecoveryMailTemplate template =
                 new DeactivationRecoveryMailTemplate(getHelper(execution), getEvent(execution));
-        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de", helper.getEmail(), template.constructSubject(), template.constructBody(),
-                template.getMessagingType(), template.getMessagingFormat(), true);
+        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
+                helper.getEmail(), template.constructSubject(), template.constructBody(), template.getMessagingType(),
+                true, helper);
     }
 }

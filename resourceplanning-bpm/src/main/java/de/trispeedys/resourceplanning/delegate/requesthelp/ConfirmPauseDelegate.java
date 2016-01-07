@@ -14,9 +14,9 @@ public class ConfirmPauseDelegate extends RequestHelpNotificationDelegate
     {
         // send mail
         Helper helper = getHelper(execution);
-        ConfirmPauseMailTemplate template =
-                new ConfirmPauseMailTemplate(helper);
-        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de", helper.getEmail(), template.constructSubject(),
-                template.constructBody(), template.getMessagingType(), template.getMessagingFormat(), true);
+        ConfirmPauseMailTemplate template = new ConfirmPauseMailTemplate(helper);
+        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
+                helper.getEmail(), template.constructSubject(), template.constructBody(), template.getMessagingType(),
+                true, helper);
     }
 }

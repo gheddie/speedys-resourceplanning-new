@@ -57,6 +57,24 @@ public class RequestHelpTestUtil
     {
         return RepositoryProvider.getRepository(MessageQueueRepository.class).findAll(null).size();
     }
+    
+    public static boolean checkSingleMessageType(MessagingType messagingType)
+    {
+        List<MessageQueue> messages = RepositoryProvider.getRepository(MessageQueueRepository.class).findAll(null);
+        if ((messages == null) || (messages.size() == 0))
+        {
+            return false;
+        }
+        for (MessageQueue message : messages)
+        {
+            if ((message.getMessagingType() != null) && (message.getMessagingType().equals(messagingType)))
+            {
+                // at least one of the found message has the given type...
+                return true;
+            }
+        }
+        return false;        
+    }
 
     public static boolean checkMails(int expectedMailCount, MessagingType... types)
     {

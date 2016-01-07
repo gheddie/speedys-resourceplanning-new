@@ -31,7 +31,8 @@
 		<mapping class="de.trispeedys.resourceplanning.entity.EventTemplate" />
 		<mapping class="de.trispeedys.resourceplanning.entity.PositionAggregation" />
 		<mapping class="de.trispeedys.resourceplanning.entity.AggregationRelation" />
-		<mapping class="de.trispeedys.resourceplanning.entity.TemplateDomain" />		
+		<mapping class="de.trispeedys.resourceplanning.entity.TemplateDomain" />
+		<mapping class="de.trispeedys.resourceplanning.entity.MissedAssignment" />		
 		
 	</session-factory>
 </hibernate-configuration>

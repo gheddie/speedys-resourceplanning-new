@@ -144,9 +144,11 @@ create table message_queue
 	creation_time timestamp,
 	messaging_state varchar(64),
 	messaging_type varchar(64),
-	messaging_format varchar(64),
+	helper_id bigint,
 	primary key (id)
 );
+
+alter table message_queue add constraint fk_mess_queue_helper foreign key (helper_id) references helper (id);
 
 ------------------------------------------------ PositionAggregation
 create sequence position_aggregation_id_seq;
@@ -190,3 +192,22 @@ create table template_domain
 alter table template_domain add constraint fk_tpl_dom_tmplate foreign key (event_template_id) references event_template (id);
 
 alter table template_domain add constraint fk_tpl_dom_domain foreign key (domain_id) references domain (id);
+
+------------------------------------------------ MissedAssignment
+create sequence missed_assignment_id_seq;
+
+create table missed_assignment
+(
+	id bigint not null default nextval('missed_assignment_id_seq'),
+	time_stamp timestamp not null,
+	helper_id bigint not null,
+	position_id bigint not null,
+	event_id bigint not null,
+	primary key (id)	
+);
+
+alter table missed_assignment add constraint fk_m_assig_helper foreign key (helper_id) references helper (id);
+
+alter table missed_assignment add constraint fk_m_assig_position foreign key (position_id) references position (id);
+
+alter table missed_assignment add constraint fk_m_assig_event foreign key (event_id) references event (id);

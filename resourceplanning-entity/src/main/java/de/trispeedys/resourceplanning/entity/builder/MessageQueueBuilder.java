@@ -2,9 +2,9 @@ package de.trispeedys.resourceplanning.entity.builder;
 
 import java.util.Date;
 
+import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessageQueue;
 import de.trispeedys.resourceplanning.entity.MessagingType;
-import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.misc.MessagingState;
 
 public class MessageQueueBuilder extends AbstractEntityBuilder<MessageQueue>
@@ -21,7 +21,7 @@ public class MessageQueueBuilder extends AbstractEntityBuilder<MessageQueue>
 
     private MessagingType messagingType;
 
-    private MessagingFormat messagingFormat;
+    private Helper helper;
 
     public MessageQueueBuilder withFromAddress(String aFromAddress)
     {
@@ -59,9 +59,9 @@ public class MessageQueueBuilder extends AbstractEntityBuilder<MessageQueue>
         return this;
     }
     
-    public MessageQueueBuilder withMessagingFormat(MessagingFormat aMessagingFormat)
+    public MessageQueueBuilder withHelper(Helper aHelper)
     {
-        messagingFormat = aMessagingFormat;
+        helper = aHelper;
         return this;
     }
     
@@ -74,8 +74,8 @@ public class MessageQueueBuilder extends AbstractEntityBuilder<MessageQueue>
         messageQueue.setBody(body);
         messageQueue.setMessagingState(MessagingState.UNPROCESSED);
         messageQueue.setMessagingType(messagingType);
-        messageQueue.setMessagingFormat(messagingFormat);
         messageQueue.setCreationTime(new Date());
+        messageQueue.setHelper(helper);
         return messageQueue;
     }
 }

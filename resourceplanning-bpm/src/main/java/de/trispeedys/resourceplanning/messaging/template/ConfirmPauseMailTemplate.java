@@ -3,7 +3,6 @@ package de.trispeedys.resourceplanning.messaging.template;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
-import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 
@@ -26,11 +25,6 @@ public class ConfirmPauseMailTemplate extends AbstractMailTemplate
     public String constructSubject()
     {
         return "Bestätigung Deiner Absage";
-    }
-    
-    public MessagingFormat getMessagingFormat()
-    {
-        return MessagingFormat.HTML;
     }
 
     public MessagingType getMessagingType()

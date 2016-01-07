@@ -6,6 +6,7 @@ import de.trispeedys.resourceplanning.delegate.requesthelp.misc.RequestHelpNotif
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
+import de.trispeedys.resourceplanning.interaction.EventManager;
 import de.trispeedys.resourceplanning.messaging.template.CancelConfirmationMailTemplate;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
@@ -20,13 +21,18 @@ public class CancelAssignmentDelegate extends RequestHelpNotificationDelegate
         Event event = getEvent(execution);
         Helper helper = getHelper(execution);
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).cancelHelperAssignment(helper, event);
-        
+
+        // trigger cancellation in event manager
+        EventManager.onAssignmentCancelled(event.getId(),
+                (Long) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION));
+
         // send confirmation
         CancelConfirmationMailTemplate template =
-                new CancelConfirmationMailTemplate(getHelper(execution), getEvent(execution), RepositoryProvider.getRepository(
-                        PositionRepository.class).findById(
-                        (Long) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION)));
-        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de", helper.getEmail(), template.constructSubject(), template.constructBody(),
-                template.getMessagingType(), template.getMessagingFormat(), true);
+                new CancelConfirmationMailTemplate(getHelper(execution), getEvent(execution),
+                        RepositoryProvider.getRepository(PositionRepository.class).findById(
+                                (Long) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION)));
+        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
+                helper.getEmail(), template.constructSubject(), template.constructBody(), template.getMessagingType(),
+                true, helper);
     }
 }

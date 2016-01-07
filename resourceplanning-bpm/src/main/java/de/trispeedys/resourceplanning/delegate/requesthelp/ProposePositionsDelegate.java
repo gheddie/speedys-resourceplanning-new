@@ -24,11 +24,12 @@ public class ProposePositionsDelegate extends RequestHelpNotificationDelegate
         // send a mail with all unassigned positions in the current event
         Event event = getEvent(execution);
         Helper helper = getHelper(execution);
-        List<Position> unassignedPositions = RepositoryProvider.getRepository(PositionRepository.class).findUnassignedPositionsByGenerator(helper, event);
+        List<Position> unassignedPositions =
+                RepositoryProvider.getRepository(PositionRepository.class).findUnassignedPositionsByGenerator(helper,
+                        event);
         if ((unassignedPositions == null) || (unassignedPositions.size() == 0))
         {
-            throw new ResourcePlanningException(
-                    "can not propose any unassigned positions as there are none!!");
+            throw new ResourcePlanningException("can not propose any unassigned positions as there are none!!");
         }
         // send mail
         boolean isReentrant = false;
@@ -41,13 +42,13 @@ public class ProposePositionsDelegate extends RequestHelpNotificationDelegate
             }
         }
         ProposePositionsMailTemplate template =
-                new ProposePositionsMailTemplate(
-                        helper,
-                        event,
-                        unassignedPositions,
+                new ProposePositionsMailTemplate(helper, event, unassignedPositions,
                         (HelperCallback) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK),
-                        RepositoryProvider.getRepository(HelperAssignmentRepository.class).getPriorAssignment(helper, event.getEventTemplate()).getPosition(), isReentrant);
-        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de", helper.getEmail(), template.constructSubject(),
-                template.constructBody(), template.getMessagingType(), template.getMessagingFormat(), true);
+                        RepositoryProvider.getRepository(HelperAssignmentRepository.class)
+                                .getPriorAssignment(helper, event.getEventTemplate())
+                                .getPosition(), isReentrant);
+        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
+                helper.getEmail(), template.constructSubject(), template.constructBody(), template.getMessagingType(),
+                true, helper);
     }
 }

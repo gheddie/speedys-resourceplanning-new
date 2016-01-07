@@ -5,7 +5,6 @@ import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
-import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 
@@ -40,11 +39,6 @@ public class BookingConfirmationMailTemplate extends AbstractMailTemplate
     public String constructSubject()
     {
         return "Buchungsbestätigung";
-    }
-
-    public MessagingFormat getMessagingFormat()
-    {
-        return MessagingFormat.HTML;
     }
 
     public MessagingType getMessagingType()

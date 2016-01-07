@@ -10,9 +10,7 @@ import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
-import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
-import de.trispeedys.resourceplanning.interaction.HelperInteraction;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 
 public class ProposePositionsMailTemplate extends AbstractMailTemplate
@@ -91,11 +89,6 @@ public class ProposePositionsMailTemplate extends AbstractMailTemplate
     public String constructSubject()
     {
         return AppConfiguration.getInstance().getText(this, "subject", getEvent().getDescription());
-    }
-
-    public MessagingFormat getMessagingFormat()
-    {
-        return MessagingFormat.HTML;
     }
 
     public MessagingType getMessagingType()

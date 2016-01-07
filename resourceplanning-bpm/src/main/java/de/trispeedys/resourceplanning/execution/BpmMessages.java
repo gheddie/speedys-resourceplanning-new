@@ -17,5 +17,9 @@ public class BpmMessages
         
         // assigment cancelled by helper
         public static final String MSG_ASSIG_CANCELLED = "MSG_ASSIG_CANCELLED";
+        
+        // assigment cancelled -> told to prior requester
+        // -> prior requester claims he wants to be assigned as the assignment is available again
+        public static final String MSG_ASSIG_RECOVERY = "MSG_ASSIG_RECOVERY";
     }
 }

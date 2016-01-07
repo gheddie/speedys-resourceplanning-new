@@ -13,11 +13,9 @@ import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
-import de.trispeedys.resourceplanning.entity.MessageQueue;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
-import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.misc.SpeedyTestUtil;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.importer.JsonEventReader;
@@ -89,30 +87,6 @@ public class DatabaseOperationsTest
         List<Helper> found =
                 Datasources.getDatasource(Helper.class).find(null, Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
         assertEquals(2, found.size());
-    }
-
-    @Test
-    public void testFetchByClassWithMutlipleParamters()
-    {
-        // clear db
-        TestUtil.clearAll();
-
-        // create messages
-        EntityFactory.buildMessageQueue("noreply@tri-speedys.de", "testhelper1.trispeedys@gmail.com", "SUB1",
-                "BODY1", MessagingFormat.PLAIN).saveOrUpdate();
-        EntityFactory.buildMessageQueue("klaus", "testhelper1.trispeedys@gmail.com", "SUB1", "BODY1",
-                MessagingFormat.PLAIN).saveOrUpdate();
-        EntityFactory.buildMessageQueue("noreply@tri-speedys.de", "testhelper1.trispeedys@gmail.com", "SUB1",
-                "BODY2", MessagingFormat.PLAIN).saveOrUpdate();
-
-        assertEquals(
-                1,
-                Datasources.getDatasource(MessageQueue.class)
-                        .find(null, MessageQueue.ATTR_SUBJECT, "SUB1", MessageQueue.ATTR_BODY, "BODY1",
-                                MessageQueue.ATTR_FROM_ADDRESS, "klaus")
-                        .size());
-
-        ;
     }
 
     // @Test(expected = ResourcePlanningPersistenceException.class)

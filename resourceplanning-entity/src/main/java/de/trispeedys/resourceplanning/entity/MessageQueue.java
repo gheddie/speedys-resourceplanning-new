@@ -6,12 +6,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.misc.MessagingState;
 
 @Entity
@@ -27,6 +29,8 @@ public class MessageQueue extends AbstractDbObject
     public static final String ATTR_BODY = "body";
     
     public static final String ATTR_MESSAGING_TYPE = "messagingType";
+
+    public static final String ATTR_HELPER = "helper";
     
     @Column(name = "from_address")
     private String fromAddress;
@@ -48,13 +52,13 @@ public class MessageQueue extends AbstractDbObject
     @Column(name = "messaging_type")
     private MessagingType messagingType;
     
-    @Enumerated(EnumType.STRING)
-    @Column(name = "messaging_format")
-    private MessagingFormat messagingFormat;
-    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_time")
     private Date creationTime;
+    
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "helper_id")
+    private Helper helper;
     
     public String getFromAddress()
     {
@@ -116,16 +120,6 @@ public class MessageQueue extends AbstractDbObject
         this.messagingType = messagingType;
     }
     
-    public MessagingFormat getMessagingFormat()
-    {
-        return messagingFormat;
-    }
-    
-    public void setMessagingFormat(MessagingFormat messagingFormat)
-    {
-        this.messagingFormat = messagingFormat;
-    }
-    
     public Date getCreationTime()
     {
         return creationTime;
@@ -134,6 +128,16 @@ public class MessageQueue extends AbstractDbObject
     public void setCreationTime(Date creationTime)
     {
         this.creationTime = creationTime;
+    }
+    
+    public Helper getHelper()
+    {
+        return helper;
+    }
+    
+    public void setHelper(Helper helper)
+    {
+        this.helper = helper;
     }
     
     public String toString()

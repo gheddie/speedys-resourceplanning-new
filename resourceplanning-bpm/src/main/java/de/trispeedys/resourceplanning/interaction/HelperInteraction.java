@@ -35,7 +35,8 @@ public class HelperInteraction
      * @param businessKey
      * @return
      */
-    public static String processReminderCallback(Long eventId, Long helperId, HelperCallback callback, ProcessEngine testEngine)
+    public static String processReminderCallback(Long eventId, Long helperId, HelperCallback callback,
+            ProcessEngine testEngine)
     {
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         Map<String, Object> variables = new HashMap<String, Object>();
@@ -60,9 +61,8 @@ public class HelperInteraction
         }
         try
         {
-            getProcessEngine(testEngine)
-                    .getRuntimeService()
-                    .correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
+            getProcessEngine(testEngine).getRuntimeService().correlateMessage(
+                    BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
             return HtmlRenderer.renderCallbackSuccess(eventId, helperId, callback);
         }
         catch (MismatchingMessageCorrelationException e)
@@ -88,8 +88,8 @@ public class HelperInteraction
      * 
      * @throws MismatchingMessageCorrelationException
      */
-    public static String processPositionChosenCallback(Long eventId, Long helperId, Long chosenPositionId, ProcessEngine testEngine)
-            throws MismatchingMessageCorrelationException
+    public static String processPositionChosenCallback(Long eventId, Long helperId, Long chosenPositionId,
+            ProcessEngine testEngine) throws MismatchingMessageCorrelationException
     {
         boolean positionAvailable =
                 RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(eventId,
@@ -100,9 +100,8 @@ public class HelperInteraction
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         try
         {
-            getProcessEngine(testEngine)
-                    .getRuntimeService()
-                    .correlateMessage(BpmMessages.RequestHelpHelper.MSG_POS_CHOSEN, businessKey, variables);
+            getProcessEngine(testEngine).getRuntimeService().correlateMessage(
+                    BpmMessages.RequestHelpHelper.MSG_POS_CHOSEN, businessKey, variables);
             if (positionAvailable)
             {
                 // inform the user about position assignment success
@@ -132,9 +131,8 @@ public class HelperInteraction
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         try
         {
-            getProcessEngine(testEngine)
-                    .getRuntimeService()
-                    .correlateMessage(BpmMessages.RequestHelpHelper.MSG_ASSIG_CANCELLED, businessKey);
+            getProcessEngine(testEngine).getRuntimeService().correlateMessage(
+                    BpmMessages.RequestHelpHelper.MSG_ASSIG_CANCELLED, businessKey);
             return HtmlRenderer.renderCancellationCallback(helperId);
         }
         catch (MismatchingMessageCorrelationException e)
@@ -154,9 +152,8 @@ public class HelperInteraction
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         try
         {
-            getProcessEngine(testEngine)
-                    .getRuntimeService()
-                    .correlateMessage(BpmMessages.RequestHelpHelper.MSG_DEACT_RESP, businessKey);
+            getProcessEngine(testEngine).getRuntimeService().correlateMessage(
+                    BpmMessages.RequestHelpHelper.MSG_DEACT_RESP, businessKey);
             return HtmlRenderer.renderDeactivationRecoveryCallback(helperId);
         }
         catch (MismatchingMessageCorrelationException e)
@@ -170,11 +167,34 @@ public class HelperInteraction
             return HtmlRenderer.renderPlanningException(helperId, e.getMessage());
         }
     }
-    
+
+    public static String processPositionRecoveryOnCancellation(Long eventId, Long helperId, ProcessEngine testEngine)
+    {
+        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
+        try
+        {
+            getProcessEngine(testEngine).getRuntimeService().correlateMessage(
+                    BpmMessages.RequestHelpHelper.MSG_ASSIG_RECOVERY, businessKey);
+            return HtmlRenderer.renderPositionRecoveryOnCancellation(helperId);
+        }
+        catch (MismatchingMessageCorrelationException e)
+        {
+            return HtmlRenderer.renderCorrelationFault(helperId);
+        }
+        catch (ResourcePlanningException e)
+        {
+            // this is an exception raised from the business logic...
+            alertPlanningException(helperId, eventId, e.getMessage());
+            return HtmlRenderer.renderPlanningException(helperId, e.getMessage());
+        }
+    }
+
     private static ProcessEngine getProcessEngine(ProcessEngine testEngine)
     {
         // return test engine if set, default engine from bpm platform otherwise
-        return testEngine != null ? testEngine : BpmPlatform.getDefaultProcessEngine();        
+        return testEngine != null
+                ? testEngine
+                : BpmPlatform.getDefaultProcessEngine();
     }
 
     /**
@@ -193,7 +213,6 @@ public class HelperInteraction
                 new AlertPlanningExceptionMailTemplate(helper, event, null, message);
         RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
                 AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.ADMIN_MAIL),
-                template.constructSubject(), template.constructBody(), template.getMessagingType(),
-                template.getMessagingFormat(), true);
+                template.constructSubject(), template.constructBody(), template.getMessagingType(), true, null);
     }
 }

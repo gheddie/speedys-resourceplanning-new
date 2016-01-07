@@ -9,9 +9,9 @@ import de.gravitex.hibernateadapter.core.repository.AbstractDatabaseRepository;
 import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
 import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.MessageQueueDatasource;
+import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessageQueue;
 import de.trispeedys.resourceplanning.entity.MessagingType;
-import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.misc.MessagingState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
@@ -61,15 +61,7 @@ public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQu
     {
         try
         {
-            switch (message.getMessagingFormat())
-            {
-                case PLAIN:
-                    MailSender.sendMail(message.getToAddress(), message.getBody(), message.getSubject());
-                    break;
-                case HTML:
-                    MailSender.sendHtmlMail(message.getToAddress(), message.getBody(), message.getSubject());
-                    break;
-            }
+            MailSender.sendHtmlMail(message.getToAddress(), message.getBody(), message.getSubject());
             message.setMessagingState(MessagingState.PROCESSED);
             logger.info("message [" +
                     message.getMessagingType() + "] succesfully sent to '" + message.getToAddress() + "'...");
@@ -87,14 +79,21 @@ public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQu
     }
 
     public void createMessage(String fromAddress, String toAddress, String subject, String body,
-            MessagingType messagingType, MessagingFormat messagingFormat, boolean doSend)
+            MessagingType messagingType, boolean doSend, Helper helper)
     {
         MessageQueue message =
-                (MessageQueue) EntityFactory.buildMessageQueue(fromAddress, toAddress, subject, body, messagingType,
-                        messagingFormat).saveOrUpdate();
+                (MessageQueue) EntityFactory.buildMessageQueue(fromAddress, toAddress, subject, body, messagingType, helper).saveOrUpdate();
         if ((INSTANT_SEND) && (doSend))
         {
             sendUnprocessedMessage(message);
         }
+    }
+
+    public List<MessageQueue> findByHelperAndMessagingType(Helper helper, MessagingType messagingType)
+    {
+        HashMap<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(MessageQueue.ATTR_MESSAGING_TYPE, messagingType);
+        parameters.put(MessageQueue.ATTR_HELPER, helper);
+        return dataSource().find(null, "FROM " + MessageQueue.class.getSimpleName() + " mq WHERE mq.messagingType = :messagingType AND mq.helper = :helper", parameters);
     }
 }

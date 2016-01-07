@@ -15,12 +15,13 @@ public class TestUtil
         clearTable("position_aggregation");        
         clearTable("event_position");
         clearTable("helper_assignment");
+        clearTable("missed_assignment");
         clearTable("position");
         clearTable("domain");
+        clearTable("message_queue");
         clearTable("helper");
         clearTable("event");
-        clearTable("event_template");
-        clearTable("message_queue");
+        clearTable("event_template");        
     }
 
     private static void clearTable(String tableName)

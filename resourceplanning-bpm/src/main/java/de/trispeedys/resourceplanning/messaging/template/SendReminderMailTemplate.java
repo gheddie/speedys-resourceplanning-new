@@ -10,7 +10,6 @@ import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
-import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 import de.trispeedys.resourceplanning.rule.CallbackChoiceGenerator;
@@ -80,11 +79,6 @@ public class SendReminderMailTemplate extends AbstractMailTemplate
                 break;
         }
         return subject;
-    }
-
-    public MessagingFormat getMessagingFormat()
-    {
-        return MessagingFormat.HTML;
     }
 
     public MessagingType getMessagingType()

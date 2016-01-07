@@ -57,6 +57,12 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
                 helperId);
     }
 
+    public HelperAssignment findByHelperAndEvent(Long helperId, Long eventId)
+    {
+        return findByHelperAndEvent(RepositoryProvider.getRepository(HelperRepository.class).findById(helperId),
+                RepositoryProvider.getRepository(EventRepository.class).findById(eventId));
+    }
+
     public HelperAssignment findByHelperAndEvent(Helper helper, Event event)
     {
         List<HelperAssignment> result =
@@ -114,7 +120,7 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
     {
         HelperAssignmentRepository repository = RepositoryProvider.getRepository(HelperAssignmentRepository.class);
         repository.updateSingleValue(repository.findByHelperAndEvent(helper, event),
-                HelperAssignment.ATTR_ASSIGNMENT_STATE, HelperAssignmentState.CANCELLED);
+                HelperAssignment.ATTR_ASSIGNMENT_STATE, HelperAssignmentState.CANCELLED);          
     }
 
     /**

@@ -8,7 +8,6 @@ import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
-import de.trispeedys.resourceplanning.entity.misc.MessagingFormat;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.messaging.template.SendReminderMailTemplate;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
@@ -32,7 +31,7 @@ public class SendReminderMailDelegate extends RequestHelpNotificationDelegate
         // send instantly for repeated attempts, do not for first mail...
         boolean doSend = (attemptCount == 0) ? false : true;
         RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de", helper.getEmail(), template.constructSubject(),
-                template.constructBody(), getMessagingType(attemptCount), MessagingFormat.HTML, doSend);
+                template.constructBody(), getMessagingType(attemptCount), doSend, helper);
         // increase attempts
         execution.setVariable(BpmVariables.RequestHelpHelper.VAR_MAIL_ATTEMPTS, (attemptCount + 1));
     }

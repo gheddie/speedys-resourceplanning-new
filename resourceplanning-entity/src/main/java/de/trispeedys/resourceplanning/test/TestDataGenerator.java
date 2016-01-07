@@ -76,11 +76,11 @@ public class TestDataGenerator
         // build event
         Event myLittleEvent = EntityFactory.buildEvent(description, eventKey, day, month, year, EventState.FINISHED, template, null).saveOrUpdate();
         // create helpers
-        Helper helper1 = EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980).saveOrUpdate();
-        Helper helper2 = EntityFactory.buildHelper("H2_First", "H2_Last", "a2@b.de", HelperState.ACTIVE, 2, 2, 1980).saveOrUpdate();
-        Helper helper3 = EntityFactory.buildHelper("H3_First", "H3_Last", "a3@b.de", HelperState.ACTIVE, 3, 2, 1980).saveOrUpdate();
-        Helper helper4 = EntityFactory.buildHelper("H4_First", "H4_Last", "a4@b.de", HelperState.ACTIVE, 4, 2, 1980).saveOrUpdate();
-        Helper helper5 = EntityFactory.buildHelper("H5_First", "H5_Last", "a5@b.de", HelperState.ACTIVE, 5, 2, 1980).saveOrUpdate();
+        Helper helper1 = EntityFactory.buildHelper("H1_First", "H1_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 1, 2, 1980).saveOrUpdate();
+        Helper helper2 = EntityFactory.buildHelper("H2_First", "H2_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 2, 2, 1980).saveOrUpdate();
+        Helper helper3 = EntityFactory.buildHelper("H3_First", "H3_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 3, 2, 1980).saveOrUpdate();
+        Helper helper4 = EntityFactory.buildHelper("H4_First", "H4_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 4, 2, 1980).saveOrUpdate();
+        Helper helper5 = EntityFactory.buildHelper("H5_First", "H5_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 5, 2, 1980).saveOrUpdate();
         // build domains
         Domain domain1 = EntityFactory.buildDomain("D1", 1).saveOrUpdate();
         Domain domain2 = EntityFactory.buildDomain("D2", 2).saveOrUpdate();
@@ -143,13 +143,6 @@ public class TestDataGenerator
         Position pos13 = EntityFactory.buildPosition("P13", 12, domain1, 12, true, doPriorize
                 ? PRIO2
                 : null).saveOrUpdate();
-
-        // create helpers
-        Helper helper1 = EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980).saveOrUpdate();
-        Helper helper2 = EntityFactory.buildHelper("H2_First", "H2_Last", "a2@b.de", HelperState.ACTIVE, 2, 2, 1980).saveOrUpdate();
-        Helper helper3 = EntityFactory.buildHelper("H3_First", "H3_Last", "a3@b.de", HelperState.ACTIVE, 3, 2, 1980).saveOrUpdate();
-        Helper helper4 = EntityFactory.buildHelper("H4_First", "H4_Last", "a4@b.de", HelperState.ACTIVE, 4, 2, 1980).saveOrUpdate();
-        Helper helper5 = EntityFactory.buildHelper("H5_First", "H5_Last", "a5@b.de", HelperState.ACTIVE, 5, 2, 1980).saveOrUpdate();
 
         // assign positions to event
         SpeedyRoutines.relatePositionsToEvent(event, pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9, pos10, pos11, pos12, pos13);

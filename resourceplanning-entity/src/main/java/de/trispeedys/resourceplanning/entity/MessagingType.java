@@ -32,6 +32,9 @@ public enum MessagingType
     
     // tell helper that his process is finished
     PREPLAN_INFO,
+    
+    // offer a formerly blocked and then cancelled position to the initial requester
+    POS_RECOVERY_ON_CANCELLATION,
 
     // fallback
     NONE

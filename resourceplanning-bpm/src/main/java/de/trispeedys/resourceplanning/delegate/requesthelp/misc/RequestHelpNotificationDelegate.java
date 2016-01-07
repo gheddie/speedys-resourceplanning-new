@@ -29,8 +29,10 @@ public abstract class RequestHelpNotificationDelegate extends RequestHelpDelegat
             String toAddress)
     {
         AbstractMailTemplate template = getMessageTemplate(execution, helper, position, event);
-        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de", toAddress, template.constructSubject(),
-                template.constructBody(), template.getMessagingType(), template.getMessagingFormat(), true);
+        // TODO pass 'null' as parameter 'helper' (--> how can we decide for whom [helper/admin] this mail is?)
+        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
+                toAddress, template.constructSubject(), template.constructBody(), template.getMessagingType(), true,
+                null);
     }
 
     @SuppressWarnings("rawtypes")
