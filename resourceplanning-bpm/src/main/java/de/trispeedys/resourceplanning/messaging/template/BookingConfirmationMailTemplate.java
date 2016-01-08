@@ -6,9 +6,9 @@ import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
-import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
+import de.trispeedys.resourceplanning.messaging.HelperInteractionMailTemplate;
 
-public class BookingConfirmationMailTemplate extends AbstractMailTemplate
+public class BookingConfirmationMailTemplate extends HelperInteractionMailTemplate
 {
     public BookingConfirmationMailTemplate()
     {
@@ -24,7 +24,7 @@ public class BookingConfirmationMailTemplate extends AbstractMailTemplate
     {
         String link =
                 getBaseLink() +
-                        "/AssignmentCancellationReceiver.jsp?helperId=" + getHelper().getId() + "&eventId=" +
+                        "/"+getJspReceiverName()+".jsp?helperId=" + getHelper().getId() + "&eventId=" +
                         getEvent().getId();
         AppConfiguration configuration = AppConfiguration.getInstance();
         return new HtmlGenerator(true).withParagraph(helperGreeting())
@@ -44,5 +44,10 @@ public class BookingConfirmationMailTemplate extends AbstractMailTemplate
     public MessagingType getMessagingType()
     {
         return MessagingType.BOOKING_CONFIRMATION;
+    }
+
+    protected String getJspReceiverName()
+    {
+        return "AssignmentCancellationReceiver";
     }
 }

@@ -11,10 +11,10 @@ import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
-import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
+import de.trispeedys.resourceplanning.messaging.HelperInteractionMailTemplate;
 import de.trispeedys.resourceplanning.rule.CallbackChoiceGenerator;
 
-public class SendReminderMailTemplate extends AbstractMailTemplate
+public class SendReminderMailTemplate extends HelperInteractionMailTemplate
 {
     private static final DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -56,7 +56,7 @@ public class SendReminderMailTemplate extends AbstractMailTemplate
                 generator =
                         generator.withLink(
                                 getBaseLink() +
-                                        "/HelperCallbackReceiver.jsp?callbackResult=" + callback + "&helperId=" +
+                                        "/"+getJspReceiverName()+".jsp?callbackResult=" + callback + "&helperId=" +
                                         getHelper().getId() + "&eventId=" + getEvent().getId(),
                                 callback.getDescription()).withLinebreak(2);
             }
@@ -84,5 +84,10 @@ public class SendReminderMailTemplate extends AbstractMailTemplate
     public MessagingType getMessagingType()
     {
         return MessagingType.REMINDER_STEP_0;
+    }
+    
+    protected String getJspReceiverName()
+    {
+        return "HelperCallbackReceiver";
     }
 }

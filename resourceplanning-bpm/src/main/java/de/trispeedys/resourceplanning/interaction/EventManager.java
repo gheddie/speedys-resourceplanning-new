@@ -1,8 +1,5 @@
 package de.trispeedys.resourceplanning.interaction;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +11,8 @@ import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
-import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.MissedAssignment;
+import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
@@ -23,13 +20,11 @@ import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.messaging.PositionRecoveryOnCancellationMailTemplate;
 import de.trispeedys.resourceplanning.messaging.template.PlanningSuccessMailTemplate;
 import de.trispeedys.resourceplanning.repository.EventRepository;
-import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
-import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.MissedAssignmentRepository;
+import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.StringUtil;
-import de.trispeedys.resourceplanning.util.comparator.MissedAssignmentComparator;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class EventManager
@@ -147,12 +142,7 @@ public class EventManager
             return;
         }
 
-        // (1) get the assignment
-        HelperAssignment assigment =
-                RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByHelperAndEvent(positionId,
-                        eventId);
-
-        // (2) get last missed assignment for the helper and the event
+        // (1) get last missed assignment for the helper and the event
         List<MissedAssignment> missedAssignments =
                 RepositoryProvider.getRepository(MissedAssignmentRepository.class).findByPositionAndEvent(positionId,
                         eventId);
@@ -162,29 +152,12 @@ public class EventManager
             return;
         }
 
-        // (3) group missed assignments (key: ID of helper) by helper and get the latest one per helper
-        // (there should by only one by helper, but who knows...)
-        HashMap<Long, List<MissedAssignment>> missedAssignmentGroupingByHelper = new HashMap<>();
-        for (MissedAssignment missed : missedAssignments)
-        {
-            if (missedAssignmentGroupingByHelper.get(missed.getHelperId()) == null)
-            {
-                missedAssignmentGroupingByHelper.put(missed.getHelperId(), new ArrayList<MissedAssignment>());
-            }
-            missedAssignmentGroupingByHelper.get(missed.getHelperId()).add(missed);
+        // (2) process every missed assignment
+        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        Position position = RepositoryProvider.getRepository(PositionRepository.class).findById(positionId);
+        for (MissedAssignment missedAssignment : missedAssignments)
+        {                        
+            new PositionRecoveryOnCancellationMailTemplate(missedAssignment.getHelper(), event, position).send(false);
         }
-        List<MissedAssignment> missedAssignmentsByHelper = null;
-        Comparator<? super MissedAssignment> comparator = new MissedAssignmentComparator();
-        for (Long helperId : missedAssignmentGroupingByHelper.keySet())
-        {
-            missedAssignmentsByHelper = missedAssignmentGroupingByHelper.get(helperId);
-            if ((missedAssignmentsByHelper != null) && (missedAssignmentsByHelper.size() > 0))
-            {
-                Collections.sort(missedAssignmentsByHelper, comparator);
-                new PositionRecoveryOnCancellationMailTemplate(RepositoryProvider.getRepository(HelperRepository.class)
-                        .findById(helperId), RepositoryProvider.getRepository(EventRepository.class).findById(eventId),
-                        missedAssignmentsByHelper.get(0).getPosition()).send(false);
-            }
-        }
-    }
+   }
 }

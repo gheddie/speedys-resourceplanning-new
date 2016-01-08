@@ -18,6 +18,11 @@ public abstract class AbstractDatabaseRepository<T>
     }
 
     protected abstract DefaultDatasource<T> createDataSource();
+    
+    public List<T> findAll()
+    {
+        return findAll(null);
+    }
 
     public List<T> findAll(SessionToken sessionToken)
     {

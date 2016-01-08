@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.trispeedys.resourceplanning.entity.AbstractDbObject;
 import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
@@ -20,6 +21,7 @@ import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.repository.DomainRepository;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
+import de.trispeedys.resourceplanning.repository.MissedAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
@@ -266,5 +268,35 @@ public class PositionTest
         repository.createPosition("POS2", 222, domain, 12, true).saveOrUpdate();
         
         assertEquals(2, repository.findEventPositions(event2016, false).size());
+    }
+    
+    @Test
+    public void testMissedAssignmentExclusive()
+    {
+        TestUtil.clearAll();
+
+        Event event2016 =
+                SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
+                        2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016", "TRI-2016", 21, 6,
+                        2016, null, null);
+        
+        Position position1 = RepositoryProvider.getRepository(PositionRepository.class).findAll(null).get(0);
+        Position position2 = RepositoryProvider.getRepository(PositionRepository.class).findAll(null).get(1);
+        
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findAll(null).get(0);
+        
+        MissedAssignmentRepository repository = RepositoryProvider.getRepository(MissedAssignmentRepository.class);
+        
+        // create miss
+        repository.createMissedAssignmentExclusive(event2016.getId(), helper.getId(), position1.getId());
+        
+        // now, there is one missed assignment...
+        assertEquals(1, repository.findAll().size());
+        
+        // create another miss for the same helper and the same event
+        repository.createMissedAssignmentExclusive(event2016.getId(), helper.getId(), position2.getId());
+        
+        // now, there is also only one missed assignment as the prior must have been deleted...
+        assertEquals(1, repository.findAll().size());
     }
 }

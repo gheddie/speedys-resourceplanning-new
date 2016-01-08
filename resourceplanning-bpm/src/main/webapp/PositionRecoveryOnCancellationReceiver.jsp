@@ -7,14 +7,15 @@
 <head>
   <link rel="stylesheet" href="resources/css/main.css" type="text/css"/>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <title><%out.println(AppConfiguration.getInstance().getText("helperCallback"));%>/title>
+  <title><%out.println(AppConfiguration.getInstance().getText("helperCallback"));%></title>
 </head>
 <body>
 	<%
       Long eventId = Long.parseLong(request.getParameter("eventId"));
 	  Long helperId = Long.parseLong(request.getParameter("helperId"));
+	  Long chosenPositionId = Long.parseLong(request.getParameter("chosenPosition"));	  
 	  // render action result
-	  out.println(HelperInteraction.processPositionRecoveryOnCancellation(eventId, helperId, null));
+	  out.println(HelperInteraction.processPositionRecoveryOnCancellation(eventId, helperId, chosenPositionId, null));
 	%>
 </body>
 </html>

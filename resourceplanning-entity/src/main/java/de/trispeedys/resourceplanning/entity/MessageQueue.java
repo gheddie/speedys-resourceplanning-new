@@ -56,7 +56,7 @@ public class MessageQueue extends AbstractDbObject
     @Column(name = "creation_time")
     private Date creationTime;
     
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "helper_id")
     private Helper helper;
     

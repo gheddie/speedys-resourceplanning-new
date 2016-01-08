@@ -26,6 +26,7 @@ public class AppStarter extends JFrame implements SpeedyView
     public AppStarter()
     {
         setTitle("Speedy Event-Admin");
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(1200, 900);
         deskPane = new JDesktopPane();
         deskPane.setBackground(Color.LIGHT_GRAY);

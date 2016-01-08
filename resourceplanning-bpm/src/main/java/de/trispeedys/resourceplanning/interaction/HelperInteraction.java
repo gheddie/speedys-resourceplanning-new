@@ -91,9 +91,11 @@ public class HelperInteraction
     public static String processPositionChosenCallback(Long eventId, Long helperId, Long chosenPositionId,
             ProcessEngine testEngine) throws MismatchingMessageCorrelationException
     {
+        // find out if the chosen position is available and feed that information to the process...
         boolean positionAvailable =
                 RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(eventId,
                         chosenPositionId);
+        
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION, chosenPositionId);
         variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POS_AVAILABLE, positionAvailable);
@@ -168,14 +170,24 @@ public class HelperInteraction
         }
     }
 
-    public static String processPositionRecoveryOnCancellation(Long eventId, Long helperId, ProcessEngine testEngine)
+    public static String processPositionRecoveryOnCancellation(Long eventId, Long helperId, Long chosenPositionId, ProcessEngine testEngine)
     {
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
+        
+        // find out if the chosen position is available and feed that information to the process...
+        boolean positionAvailable =
+                RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(eventId,
+                        chosenPositionId);
+        
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION, chosenPositionId);
+        variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POS_AVAILABLE, positionAvailable);        
+        
         try
         {
             getProcessEngine(testEngine).getRuntimeService().correlateMessage(
-                    BpmMessages.RequestHelpHelper.MSG_ASSIG_RECOVERY, businessKey);
-            return HtmlRenderer.renderPositionRecoveryOnCancellation(helperId);
+                    BpmMessages.RequestHelpHelper.MSG_ASSIG_RECOVERY, businessKey, variables);
+            return HtmlRenderer.renderPositionRecoveryOnCancellation(helperId, chosenPositionId);
         }
         catch (MismatchingMessageCorrelationException e)
         {

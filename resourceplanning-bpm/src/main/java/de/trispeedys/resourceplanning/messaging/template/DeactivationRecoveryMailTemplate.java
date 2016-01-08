@@ -5,9 +5,9 @@ import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
-import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
+import de.trispeedys.resourceplanning.messaging.HelperInteractionMailTemplate;
 
-public class DeactivationRecoveryMailTemplate extends AbstractMailTemplate
+public class DeactivationRecoveryMailTemplate extends HelperInteractionMailTemplate
 {
     public DeactivationRecoveryMailTemplate(Helper aHelper, Event aEvent)
     {
@@ -18,7 +18,7 @@ public class DeactivationRecoveryMailTemplate extends AbstractMailTemplate
     {
         String link =
                 getBaseLink() +
-                        "/DeactivationRecoveryReceiver.jsp?helperId=" + getHelper().getId() + "&eventId=" + getEvent().getId();
+                        "/"+getJspReceiverName()+".jsp?helperId=" + getHelper().getId() + "&eventId=" + getEvent().getId();
         AppConfiguration configuration = AppConfiguration.getInstance();
         return new HtmlGenerator(true).withParagraph(helperGreeting())
                 .withParagraph(configuration.getText(this, "body", getEvent().getDescription()))
@@ -29,12 +29,17 @@ public class DeactivationRecoveryMailTemplate extends AbstractMailTemplate
     }
 
     public String constructSubject()
-    {
-        return "Nachfrage vor Deaktivierung";
+    {        
+        return AppConfiguration.getInstance().getText(this, "subject");
     }
 
     public MessagingType getMessagingType()
     {
         return MessagingType.DEACTIVATION_REQUEST;
+    }
+    
+    protected String getJspReceiverName()
+    {
+        return "DeactivationRecoveryReceiver";
     }
 }

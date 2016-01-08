@@ -11,9 +11,9 @@ import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
-import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
+import de.trispeedys.resourceplanning.messaging.HelperInteractionMailTemplate;
 
-public class ProposePositionsMailTemplate extends AbstractMailTemplate
+public class ProposePositionsMailTemplate extends HelperInteractionMailTemplate
 {
     private List<Position> positions;
 
@@ -77,7 +77,7 @@ public class ProposePositionsMailTemplate extends AbstractMailTemplate
             {
                 link =
                         getBaseLink() +
-                                "/ChosenPositionReceiver.jsp?chosenPosition=" + pos.getId() + "&helperId=" +
+                                "/"+getJspReceiverName()+".jsp?chosenPosition=" + pos.getId() + "&helperId=" +
                                 getHelper().getId() + "&eventId=" + getEvent().getId();
                 generator.withUnorderedListEntry(link, pos.getDescription(), true);
             }
@@ -94,5 +94,10 @@ public class ProposePositionsMailTemplate extends AbstractMailTemplate
     public MessagingType getMessagingType()
     {
         return MessagingType.PROPOSE_POSITIONS;
+    }
+    
+    protected String getJspReceiverName()
+    {
+        return "ChosenPositionReceiver";
     }
 }

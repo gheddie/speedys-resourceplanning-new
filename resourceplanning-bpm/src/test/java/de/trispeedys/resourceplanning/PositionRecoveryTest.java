@@ -1,6 +1,7 @@
 package de.trispeedys.resourceplanning;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,12 @@ import org.junit.Test;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
+import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.MessageQueue;
 import de.trispeedys.resourceplanning.entity.MessagingType;
+import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
+import de.trispeedys.resourceplanning.entity.misc.HelperAssignmentState;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.interaction.EventManager;
 import de.trispeedys.resourceplanning.interaction.HelperInteraction;
@@ -71,11 +75,12 @@ public class PositionRecoveryTest
         // helper '2' wants another position and chooses prior position of '1'...
         HelperInteraction.processReminderCallback(event2016.getId(), helper2.getId(), HelperCallback.CHANGE_POS,
                 processEngine.getProcessEngine());
+        Position priorPositionHelper1 = RepositoryProvider.getRepository(HelperAssignmentRepository.class).getPriorAssignment(helper1,
+                event2016.getEventTemplate()).getPosition();
         HelperInteraction.processPositionChosenCallback(
                 event2016.getId(),
                 helper2.getId(),
-                RepositoryProvider.getRepository(HelperAssignmentRepository.class).getPriorAssignment(helper1,
-                        event2016.getEventTemplate()).getPosition().getId(), processEngine.getProcessEngine());
+                priorPositionHelper1.getId(), processEngine.getProcessEngine());
 
         // helper '1' wants his prior positions, but does not get it (as it is blocked)...
         HelperInteraction.processReminderCallback(event2016.getId(), helper1.getId(),
@@ -88,9 +93,21 @@ public class PositionRecoveryTest
         HelperInteraction.processAssignmentCancellation(event2016.getId(), helper2.getId(), processEngine.getProcessEngine());
 
         // old helper must have gotten the recovery mail...
-        // assertTrue(RequestHelpTestUtil.checkSingleMessageType(MessagingType.POS_RECOVERY_ON_CANCELLATION));
         List<MessageQueue> messages = RepositoryProvider.getRepository(MessageQueueRepository.class).findByHelperAndMessagingType(helper1, MessagingType.POS_RECOVERY_ON_CANCELLATION);
         
-        int werner = 5;
+        // there must be one recovery mail...
+        assertEquals(1, messages.size());
+        
+        // ...to helper 1 !!
+        assertTrue(messages.get(0).getHelper().getId().equals(helper1.getId()));
+        
+        // now that the helper ('1') has got the mail, he can use it to claim to proposed and recovered position via 'HelperInteraction'...
+        HelperInteraction.processPositionRecoveryOnCancellation(event2016.getId(), helper1.getId(), priorPositionHelper1.getId(), processEngine.getProcessEngine());   
+        
+        // finally, helper '1' should be assigned to his prior position...
+        HelperAssignment assignment = RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByHelperAndEvent(helper1, event2016);
+        
+        assertTrue(assignment != null);
+        assertEquals(HelperAssignmentState.PLANNED, assignment.getHelperAssignmentState());
     }
 }

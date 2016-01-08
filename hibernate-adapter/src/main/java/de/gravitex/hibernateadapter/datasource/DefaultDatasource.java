@@ -23,10 +23,7 @@ public class DefaultDatasource<T> implements IDatasource
         Query q = session.createQuery(qryString);
         if (parameters != null)
         {
-            for (String key : parameters.keySet())
-            {
-                q.setParameter(key, parameters.get(key));
-            }
+            setQueryParameters(q, parameters);
         }
         List result = q.list();
         if (sessionToken == null)
@@ -81,6 +78,33 @@ public class DefaultDatasource<T> implements IDatasource
             // 'single use' session, so close it...
             unregisterSession(session);            
         }     
+    }
+
+    public int executeQuery(SessionToken sessionToken, String command, HashMap<String, Object> parameters)
+    {
+        if (sessionToken != null)
+        {
+            // session token set --> use registered session to execute...
+            Query query = SessionManager.getInstance().getSession(sessionToken).createQuery(command);
+            setQueryParameters(query, parameters);
+            return query.executeUpdate();
+        }
+        else
+        {
+            // no session token --> execute command in an isolated transaction
+            Transaction tx = null;
+            Session session = SessionManager.getInstance().getSession(null);
+            tx = session.beginTransaction();
+            Query query = session.createQuery(command);   
+            setQueryParameters(query, parameters);
+            int count = query.executeUpdate();
+            tx.commit();
+            
+            // 'single use' session, so close it...
+            unregisterSession(session);
+            
+            return count;
+        }
     }
     
     @SuppressWarnings("hiding")
@@ -231,6 +255,18 @@ public class DefaultDatasource<T> implements IDatasource
         }
         List<T> list = (List<T>) find(sessionToken, "FROM " + getGenericType().getSimpleName() + " WHERE id = " + primaryKeyValue);
         return (list != null && list.size() == 1 ? (T) list.get(0) : null);
+    }
+
+    private void setQueryParameters(Query query, HashMap<String, Object> parameters)
+    {
+        if ((parameters == null) || (parameters.size() == 0))
+        {
+            return;
+        }
+        for (String key : parameters.keySet())
+        {
+            query.setParameter(key, parameters.get(key));
+        }
     }
 
     /**

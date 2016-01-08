@@ -61,7 +61,7 @@ public class HtmlRenderer
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
-    
+
     public static String renderPlanningException(Long helperId, String errorMessage)
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
@@ -88,7 +88,9 @@ public class HtmlRenderer
         AppConfiguration configuration = AppConfiguration.getInstance();
         return new HtmlGenerator().withHeader(configuration.getText(HtmlRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(HtmlRenderer.class, "messageReceived"))
-                .withParagraph(configuration.getText(HtmlRenderer.class, "positionUnavailable", chosenPosition.getDescription()))
+                .withParagraph(
+                        configuration.getText(HtmlRenderer.class, "positionUnavailable",
+                                chosenPosition.getDescription()))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
@@ -107,7 +109,8 @@ public class HtmlRenderer
         AppConfiguration configuration = AppConfiguration.getInstance();
         return new HtmlGenerator().withHeader(configuration.getText(HtmlRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(HtmlRenderer.class, "messageReceived"))
-                .withParagraph(configuration.getText(HtmlRenderer.class, "positionAvailable", chosenPosition.getDescription()))
+                .withParagraph(
+                        configuration.getText(HtmlRenderer.class, "positionAvailable", chosenPosition.getDescription()))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
@@ -134,9 +137,16 @@ public class HtmlRenderer
                 .render();
     }
 
-    public static String renderPositionRecoveryOnCancellation(Long helperId)
+    public static String renderPositionRecoveryOnCancellation(Long helperId, Long chosenPositionId)
     {
-        // TODO
-        return "123";
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        Position chosenPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(chosenPositionId);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withHeader(configuration.getText(HtmlRenderer.class, "hello", helper.getFirstName()))
+                .withParagraph(
+                        configuration.getText(HtmlRenderer.class, "positionRecoveredOnCancellation",
+                                chosenPosition.getDescription(), chosenPosition.getDomain().getName()))
+                .withParagraph(AbstractMailTemplate.sincerely())
+                .render();
     }
 }

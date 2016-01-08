@@ -7,7 +7,7 @@ import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
 
-public class PositionRecoveryOnCancellationMailTemplate extends AbstractMailTemplate
+public class PositionRecoveryOnCancellationMailTemplate extends HelperInteractionMailTemplate
 {
     public PositionRecoveryOnCancellationMailTemplate(Helper aHelper, Event aEvent, Position aPosition)
     {
@@ -16,11 +16,17 @@ public class PositionRecoveryOnCancellationMailTemplate extends AbstractMailTemp
 
     public String constructBody()
     {
+        String link =
+                getBaseLink() +
+                        "/"+getJspReceiverName()+".jsp?helperId=" + getHelper().getId() + "&eventId=" +
+                        getEvent().getId() + "&chosenPosition=" + getPosition().getId();
+        AppConfiguration configuration = AppConfiguration.getInstance();
         return new HtmlGenerator(true).withParagraph(helperGreeting())
                 .withParagraph(
-                        AppConfiguration.getInstance().getText(this, "body", getPosition().getDescription(),
-                                getPosition().getDomain().getName()))
-                .withLink("http://www.nicht-lustig.de/", "...nicht lustig...")
+                        configuration.getText(this, "body", getPosition().getDescription(), getPosition().getDomain()
+                                .getName()))
+                .withLink(link, configuration.getText(this, "recoveryLink"))
+                .withLinebreak()
                 .withParagraph(sincerely())
                 .render();
     }
@@ -33,5 +39,10 @@ public class PositionRecoveryOnCancellationMailTemplate extends AbstractMailTemp
     public MessagingType getMessagingType()
     {
         return MessagingType.POS_RECOVERY_ON_CANCELLATION;
+    }
+    
+    protected String getJspReceiverName()
+    {
+        return "PositionRecoveryOnCancellationReceiver";
     }
 }

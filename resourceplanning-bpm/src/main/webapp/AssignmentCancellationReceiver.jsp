@@ -7,7 +7,7 @@
 <head>
   <link rel="stylesheet" href="resources/css/main.css" type="text/css"/>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <title><%out.println(AppConfiguration.getInstance().getText("helperCallback"));%>/title>
+  <title><%out.println(AppConfiguration.getInstance().getText("helperCallback"));%></title>
 </head>
 <body>
 	<%
