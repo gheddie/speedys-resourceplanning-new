@@ -36,7 +36,7 @@ public class HtmlGenerator
      */
     public HtmlGenerator withImage(String filename, String suffix, int width, int height)
     {
-        MessageFormat mf = new MessageFormat("<img src=\"img/{0}.{1}\" width=\"{2}\" height=\"{3}\" align=\"middle\">");
+        MessageFormat mf = new MessageFormat("<img src=\"img/{0}.{1}\" width=\"{2}\" height=\"{3}\" align=\"middle\" class=\"centeredImageContainer\">");
         buffer.append(mf.format(new Object[]
         {
                 filename, suffix, width, height
@@ -95,6 +95,13 @@ public class HtmlGenerator
         newLine();
         return this;
     }
+    
+    public HtmlGenerator withDiv(String text)
+    {
+        buffer.append("<div>" + text + "</div>");
+        newLine();
+        return this;
+    }    
     
     public HtmlGenerator withClosingLink()
     {

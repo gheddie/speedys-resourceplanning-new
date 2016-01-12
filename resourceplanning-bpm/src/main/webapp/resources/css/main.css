@@ -1,7 +1,6 @@
 h1 {
-	color: #424242;
-	font-family: "Adobe Caslon Pro", "Hoefler Text", Georgia, Garamond,
-		Times, serif;
+  color: #ffffff;
+	font-family: Verdana, Geneva, sans-serif;
 	letter-spacing: 0.1em;
 	text-align: center;
 	margin: 40px auto;
@@ -12,9 +11,8 @@ h1 {
 }
 
 h2 {
-	color: #424242;
-	font-family: "Adobe Caslon Pro", "Hoefler Text", Georgia, Garamond,
-		Times, serif;
+	color: #ffffff;
+	font-family: Verdana, Geneva, sans-serif;
 	letter-spacing: 0.1em;
 	text-align: center;
 	margin: 40px auto;
@@ -25,9 +23,8 @@ h2 {
 }
 
 p {
-	color: #424242;
-	font-family: "Adobe Caslon Pro", "Hoefler Text", Georgia, Garamond,
-		Times, serif;
+	color: #ffffff;
+	font-family: Verdana, Geneva, sans-serif;
 	letter-spacing: 0.1em;
 	text-align: center;
 	margin: 40px auto;
@@ -35,13 +32,12 @@ p {
 	line-height: 145%;
 	font-size: 14pt;
 	font-variant: small-caps;
-	background-color: lightblue;
+	background-color: red;
 }
 
 a {
-	color: #424242;
-	font-family: "Adobe Caslon Pro", "Hoefler Text", Georgia, Garamond,
-		Times, serif;
+	color: #ffffff;
+	font-family: Verdana, Geneva, sans-serif;
 	letter-spacing: 0.1em;
 	text-align: center;
 	margin: 40px auto;
@@ -49,5 +45,11 @@ a {
 	line-height: 145%;
 	font-size: 14pt;
 	font-variant: small-caps;
-	background-color: lightblue;
+	background-color: red;
+}
+
+img.centeredImageContainer {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

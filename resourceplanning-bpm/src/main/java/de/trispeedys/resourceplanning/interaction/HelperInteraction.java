@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.camunda.bpm.BpmPlatform;
 import org.camunda.bpm.engine.MismatchingMessageCorrelationException;
 import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.ProcessEngineException;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
@@ -63,17 +64,21 @@ public class HelperInteraction
         {
             getProcessEngine(testEngine).getRuntimeService().correlateMessage(
                     BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
-            return HtmlRenderer.renderCallbackSuccess(eventId, helperId, callback);
+            return JspRenderer.renderCallbackSuccess(eventId, helperId, callback);
         }
         catch (MismatchingMessageCorrelationException e)
         {
-            return HtmlRenderer.renderCorrelationFault(helperId);
+            return JspRenderer.renderCorrelationFault(helperId);
         }
+        catch (ProcessEngineException e)
+        {
+            return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
+        }        
         catch (ResourcePlanningException e)
         {
             // this is an exception raised from the business logic...
             alertPlanningException(helperId, eventId, e.getMessage());
-            return HtmlRenderer.renderPlanningException(helperId, e.getMessage());
+            return JspRenderer.renderPlanningException(helperId, e.getMessage());
         }
     }
 
@@ -107,24 +112,28 @@ public class HelperInteraction
             if (positionAvailable)
             {
                 // inform the user about position assignment success
-                return HtmlRenderer.renderChosenPositionAvailableCallback(helperId, chosenPositionId);
+                return JspRenderer.renderChosenPositionAvailableCallback(helperId, chosenPositionId);
             }
             else
             {
                 // inform user about the generation of additional mail ('PROPOSE_POSITIONS')
                 // as the chosen position is already assigned to another helper
-                return HtmlRenderer.renderChosenPositionUnavailableCallback(helperId, chosenPositionId);
+                return JspRenderer.renderChosenPositionUnavailableCallback(helperId, chosenPositionId);
             }
         }
         catch (MismatchingMessageCorrelationException e)
         {
-            return HtmlRenderer.renderCorrelationFault(helperId);
+            return JspRenderer.renderCorrelationFault(helperId);
+        }
+        catch (ProcessEngineException e)
+        {
+            return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
         }
         catch (ResourcePlanningException e)
         {
             // this is an exception raised from the business logic...
             alertPlanningException(helperId, eventId, e.getMessage());
-            return HtmlRenderer.renderPlanningException(helperId, e.getMessage());
+            return JspRenderer.renderPlanningException(helperId, e.getMessage());
         }
     }
 
@@ -135,17 +144,21 @@ public class HelperInteraction
         {
             getProcessEngine(testEngine).getRuntimeService().correlateMessage(
                     BpmMessages.RequestHelpHelper.MSG_ASSIG_CANCELLED, businessKey);
-            return HtmlRenderer.renderCancellationCallback(helperId);
+            return JspRenderer.renderCancellationCallback(helperId);
         }
         catch (MismatchingMessageCorrelationException e)
         {
-            return HtmlRenderer.renderCorrelationFault(helperId);
+            return JspRenderer.renderCorrelationFault(helperId);
         }
+        catch (ProcessEngineException e)
+        {
+            return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
+        }        
         catch (ResourcePlanningException e)
         {
             // this is an exception raised from the business logic...
             alertPlanningException(helperId, eventId, e.getMessage());
-            return HtmlRenderer.renderPlanningException(helperId, e.getMessage());
+            return JspRenderer.renderPlanningException(helperId, e.getMessage());
         }
     }
 
@@ -156,17 +169,21 @@ public class HelperInteraction
         {
             getProcessEngine(testEngine).getRuntimeService().correlateMessage(
                     BpmMessages.RequestHelpHelper.MSG_DEACT_RESP, businessKey);
-            return HtmlRenderer.renderDeactivationRecoveryCallback(helperId);
+            return JspRenderer.renderDeactivationRecoveryCallback(helperId);
         }
         catch (MismatchingMessageCorrelationException e)
         {
-            return HtmlRenderer.renderCorrelationFault(helperId);
+            return JspRenderer.renderCorrelationFault(helperId);
+        }
+        catch (ProcessEngineException e)
+        {
+            return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
         }
         catch (ResourcePlanningException e)
         {
             // this is an exception raised from the business logic...
             alertPlanningException(helperId, eventId, e.getMessage());
-            return HtmlRenderer.renderPlanningException(helperId, e.getMessage());
+            return JspRenderer.renderPlanningException(helperId, e.getMessage());
         }
     }
 
@@ -187,17 +204,21 @@ public class HelperInteraction
         {
             getProcessEngine(testEngine).getRuntimeService().correlateMessage(
                     BpmMessages.RequestHelpHelper.MSG_ASSIG_RECOVERY, businessKey, variables);
-            return HtmlRenderer.renderPositionRecoveryOnCancellation(helperId, chosenPositionId);
+            return JspRenderer.renderPositionRecoveryOnCancellation(helperId, chosenPositionId);
         }
         catch (MismatchingMessageCorrelationException e)
         {
-            return HtmlRenderer.renderCorrelationFault(helperId);
+            return JspRenderer.renderCorrelationFault(helperId);
+        }
+        catch (ProcessEngineException e)
+        {
+            return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
         }
         catch (ResourcePlanningException e)
         {
             // this is an exception raised from the business logic...
             alertPlanningException(helperId, eventId, e.getMessage());
-            return HtmlRenderer.renderPlanningException(helperId, e.getMessage());
+            return JspRenderer.renderPlanningException(helperId, e.getMessage());
         }
     }
 

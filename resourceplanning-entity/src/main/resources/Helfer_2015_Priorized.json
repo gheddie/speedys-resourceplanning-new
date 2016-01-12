@@ -16,7 +16,7 @@
                     "positionNumber":"1",
                     "positionName":"SUSA-Aufgabeneinweisung vor Ort 01",
                     "minimalAge":"8",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -28,7 +28,7 @@
                     "positionNumber":"2",
                     "positionName":"SUSA-Aufgabeneinweisung vor Ort 02",
                     "minimalAge":"8",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -40,7 +40,7 @@
                     "positionNumber":"3",
                     "positionName":"SUSA-Aufgabeneinweisung vor Ort 03",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -52,7 +52,7 @@
                     "positionNumber":"4",
                     "positionName":"SUSA-Aufgabeneinweisung vor Ort 04",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -64,7 +64,7 @@
                     "positionNumber":"5",
                     "positionName":"SUSA-Aufgabeneinweisung vor Ort 05",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -76,7 +76,7 @@
                     "positionNumber":"6",
                     "positionName":"SUSA-Aufgabeneinweisung vor Ort 06 ",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -88,7 +88,7 @@
                     "positionNumber":"7",
                     "positionName":"SUSA-Aufgabeneinweisung vor Ort 07",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -106,7 +106,7 @@
                     "positionNumber":"8",
                     "positionName":"SUSO-Aufgabeneinweisung vor Ort 01",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -118,7 +118,7 @@
                     "positionNumber":"9",
                     "positionName":"SUSO-Aufgabeneinweisung vor Ort 02",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -130,7 +130,7 @@
                     "positionNumber":"10",
                     "positionName":"SUSO-Aufgabeneinweisung vor Ort 03",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -142,7 +142,7 @@
                     "positionNumber":"11",
                     "positionName":"SUSO-Aufgabeneinweisung vor Ort 04",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -154,7 +154,7 @@
                     "positionNumber":"12",
                     "positionName":"SUSO-Aufgabeneinweisung vor Ort 05",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -166,7 +166,7 @@
                     "positionNumber":"13",
                     "positionName":"SUSO-Aufgabeneinweisung vor Ort 06",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -178,7 +178,7 @@
                     "positionNumber":"14",
                     "positionName":"SUSO-Aufgabeneinweisung vor Ort 07",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -190,7 +190,7 @@
                     "positionNumber":"15",
                     "positionName":"SUSO-Aufgabeneinweisung vor Ort 08",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -202,7 +202,7 @@
                     "positionNumber":"16",
                     "positionName":"Hand- bzw. Wadenbeschriftung 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"2",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -214,7 +214,7 @@
                     "positionNumber":"17",
                     "positionName":"Hand- bzw. Wadenbeschriftung 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -226,7 +226,7 @@
                     "positionNumber":"18",
                     "positionName":"Hand- bzw. Wadenbeschriftung 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -238,7 +238,7 @@
                     "positionNumber":"19",
                     "positionName":"Hand- bzw. Wadenbeschriftung 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"3",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -256,7 +256,7 @@
                     "positionNumber":"20",
                     "positionName":"Parkplatz-Pelikan morgens absperren bis BBZ voll",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -268,7 +268,7 @@
                     "positionNumber":"21",
                     "positionName":"Parkplatz-BBZ einweisen 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -280,7 +280,7 @@
                     "positionNumber":"22",
                     "positionName":"Parkplatz-BBZ einweisen 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -292,7 +292,7 @@
                     "positionNumber":"23",
                     "positionName":"Parkplatz-BBZ einweisen 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -310,7 +310,7 @@
                     "positionNumber":"24",
                     "positionName":"Startschuss/Koordinator",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -322,7 +322,7 @@
                     "positionNumber":"25",
                     "positionName":"Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"2",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -334,7 +334,7 @@
                     "positionNumber":"26",
                     "positionName":"Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -346,7 +346,7 @@
                     "positionNumber":"27",
                     "positionName":"Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -358,7 +358,7 @@
                     "positionNumber":"28",
                     "positionName":"Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -370,7 +370,7 @@
                     "positionNumber":"29",
                     "positionName":"Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -382,7 +382,7 @@
                     "positionNumber":"30",
                     "positionName":"Aufgabeneinweisung vor Ort 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -394,7 +394,7 @@
                     "positionNumber":"31",
                     "positionName":"Aufgabeneinweisung vor Ort 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -406,7 +406,7 @@
                     "positionNumber":"32",
                     "positionName":"Paddeln-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"3",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -418,7 +418,7 @@
                     "positionNumber":"33",
                     "positionName":"Paddeln-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"3",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -430,7 +430,7 @@
                     "positionNumber":"34",
                     "positionName":"Paddeln-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -442,7 +442,7 @@
                     "positionNumber":"35",
                     "positionName":"Paddeln-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -454,7 +454,7 @@
                     "positionNumber":"36",
                     "positionName":"Paddeln-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -466,7 +466,7 @@
                     "positionNumber":"37",
                     "positionName":"Sprecher 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -478,7 +478,7 @@
                     "positionNumber":"38",
                     "positionName":"Sprecher 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -496,7 +496,7 @@
                     "positionNumber":"39",
                     "positionName":"VKS-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -508,7 +508,7 @@
                     "positionNumber":"40",
                     "positionName":"VKS-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -520,7 +520,7 @@
                     "positionNumber":"41",
                     "positionName":"VKS-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -532,7 +532,7 @@
                     "positionNumber":"42",
                     "positionName":"VKS-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -544,7 +544,7 @@
                     "positionNumber":"43",
                     "positionName":"VKS-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -556,7 +556,7 @@
                     "positionNumber":"44",
                     "positionName":"VKS-Aufgabeneinweisung vor Ort 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"3",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -574,7 +574,7 @@
                     "positionNumber":"45",
                     "positionName":"Koordinator",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -586,7 +586,7 @@
                     "positionNumber":"46",
                     "positionName":"Aufgabeneinweisung vor Ort",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -598,7 +598,7 @@
                     "positionNumber":"47",
                     "positionName":"LKW Fahrer Härke-LKW",
                     "minimalAge":"18",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -610,7 +610,7 @@
                     "positionNumber":"48",
                     "positionName":"LKW Fahrer Küchenhaus B1-LKW",
                     "minimalAge":"18",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -622,7 +622,7 @@
                     "positionNumber":"49",
                     "positionName":"WZS-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -634,7 +634,7 @@
                     "positionNumber":"50",
                     "positionName":"Aufsteigen 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -646,7 +646,7 @@
                     "positionNumber":"51",
                     "positionName":"Aufsteigen 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -658,7 +658,7 @@
                     "positionNumber":"52",
                     "positionName":"Aufsteigen 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -670,7 +670,7 @@
                     "positionNumber":"53",
                     "positionName":"WZS-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -682,7 +682,7 @@
                     "positionNumber":"54",
                     "positionName":"WZS-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -694,7 +694,7 @@
                     "positionNumber":"55",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -706,7 +706,7 @@
                     "positionNumber":"56",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -718,7 +718,7 @@
                     "positionNumber":"57",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -730,7 +730,7 @@
                     "positionNumber":"58",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -742,7 +742,7 @@
                     "positionNumber":"59",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -754,7 +754,7 @@
                     "positionNumber":"60",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -766,7 +766,7 @@
                     "positionNumber":"61",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -778,7 +778,7 @@
                     "positionNumber":"62",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 8",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -790,7 +790,7 @@
                     "positionNumber":"63",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 9",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -802,7 +802,7 @@
                     "positionNumber":"64",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 10",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -814,7 +814,7 @@
                     "positionNumber":"65",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 11",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -826,7 +826,7 @@
                     "positionNumber":"66",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 12",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -838,7 +838,7 @@
                     "positionNumber":"67",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 13",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -850,7 +850,7 @@
                     "positionNumber":"68",
                     "positionName":"Kistentransport-Aufgabeneinweisung vor Ort 14",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -862,7 +862,7 @@
                     "positionNumber":"69",
                     "positionName":"Hand- u. Wadenbeschriftung/anschließend Kistentransport",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -880,7 +880,7 @@
                     "positionNumber":"70",
                     "positionName":"Kampfrichter fahren 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -892,7 +892,7 @@
                     "positionNumber":"71",
                     "positionName":"Kampfrichter fahren 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -904,7 +904,7 @@
                     "positionNumber":"72",
                     "positionName":"Kampfrichter fahren 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -916,7 +916,7 @@
                     "positionNumber":"73",
                     "positionName":"Kampfrichter fahren ",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -928,7 +928,7 @@
                     "positionNumber":"74",
                     "positionName":"Führungsmotorrad 1. Volks und 1. Kurz",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -940,7 +940,7 @@
                     "positionNumber":"75",
                     "positionName":"Besenmotorrad letzter Volks u.  Kurz auf 2. Runde (Streckenposten informieren)",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -958,7 +958,7 @@
                     "positionNumber":"76",
                     "positionName":"1. Kurve nach 1. Wz. Signal geben Weg freihalten ",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -970,7 +970,7 @@
                     "positionNumber":"77",
                     "positionName":"Beginn Radfahren 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -982,7 +982,7 @@
                     "positionNumber":"78",
                     "positionName":"Beginn Radfahren 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -994,7 +994,7 @@
                     "positionNumber":"79",
                     "positionName":"DLRG-Haus/Einbahnstraßenregelung durchsetzen",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1006,7 +1006,7 @@
                     "positionNumber":"80",
                     "positionName":"Zuschauerleitung 'Am Mühlenberg' in Eixe  oben 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1018,7 +1018,7 @@
                     "positionNumber":"81",
                     "positionName":"Zuschauerleitung 'Am Mühlenberg' in Eixe  oben 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1030,7 +1030,7 @@
                     "positionNumber":"82",
                     "positionName":"Straßenteilung vor Im Neuen Lande",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1042,7 +1042,7 @@
                     "positionNumber":"83",
                     "positionName":"Teerplatz 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1054,7 +1054,7 @@
                     "positionNumber":"84",
                     "positionName":"Teerplatz 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1066,7 +1066,7 @@
                     "positionNumber":"85",
                     "positionName":"Teerplatz 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1078,7 +1078,7 @@
                     "positionNumber":"86",
                     "positionName":"Teerplatz 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1090,7 +1090,7 @@
                     "positionNumber":"87",
                     "positionName":"Teerplatz 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1102,7 +1102,7 @@
                     "positionNumber":"88",
                     "positionName":"rechts Abbiegen auf die Hauptstaße sichern - Abbensen T-Kreuzung",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1114,7 +1114,7 @@
                     "positionNumber":"89",
                     "positionName":"Fußgängerüberweg sichern -Abbensen",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1126,7 +1126,7 @@
                     "positionNumber":"90",
                     "positionName":"Durchfahrt Kreisel sichern -Abbensen",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1138,7 +1138,7 @@
                     "positionNumber":"91",
                     "positionName":"Abzweig Groß Oedesse Videokontrolle 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1150,7 +1150,7 @@
                     "positionNumber":"92",
                     "positionName":"Abzweig Groß Oedesse Videokontrolle 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1162,7 +1162,7 @@
                     "positionNumber":"93",
                     "positionName":"Durchfahrt Kreisel sichern - Edemissen Ortseingang",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1174,7 +1174,7 @@
                     "positionNumber":"94",
                     "positionName":"rechts Abbiegen auf die B 444 sichern - Ampelkreuzung Edemissen ",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1186,7 +1186,7 @@
                     "positionNumber":"95",
                     "positionName":"Durchfahrt Kreisel sichern - Stederdorf",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1198,7 +1198,7 @@
                     "positionNumber":"96",
                     "positionName":"rechts Abbiegen in 'Zum Luhberg' einweisen - Festplatz Stederdorf",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1210,7 +1210,7 @@
                     "positionNumber":"97",
                     "positionName":"Verkehr regeln/Straßen evtl. absperren - 'Ernst-Barlach-.Str.'",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1222,7 +1222,7 @@
                     "positionNumber":"98",
                     "positionName":"Verkehr regeln/Straßen evtl. absperren - 'Im Lah'",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1234,7 +1234,7 @@
                     "positionNumber":"99",
                     "positionName":"Verkehr regeln/Straßen evtl. absperren - 'Emil-Nolde-Str.'",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1246,7 +1246,7 @@
                     "positionNumber":"100",
                     "positionName":"Verkehr regeln/Straßen evtl. absperren - 'Zum Westerholz'",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1258,7 +1258,7 @@
                     "positionNumber":"101",
                     "positionName":"Verkehr regeln/Straßen evtl. absperren -Käthe-Kollwitz-Str. ",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1270,7 +1270,7 @@
                     "positionNumber":"102",
                     "positionName":"rechts Abbiegen sichern u. einweisen - Sundern/Luhberg 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1282,7 +1282,7 @@
                     "positionNumber":"103",
                     "positionName":"rechts Abbiegen sichern u. einweisen - Sundern/Luhberg 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1294,7 +1294,7 @@
                     "positionNumber":"104",
                     "positionName":"Ostparkplatz Eixer See auf Einbahnstraße hinweisen, Autos anhalten",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1306,7 +1306,7 @@
                     "positionNumber":"105",
                     "positionName":"Gänse-Übergang 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1318,7 +1318,7 @@
                     "positionNumber":"106",
                     "positionName":"Gänse-Übergang 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1330,7 +1330,7 @@
                     "positionNumber":"107",
                     "positionName":"Zuschauerleitung 'Am Mühlenberg' unten Zuschauer und Athleten lenken 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1342,7 +1342,7 @@
                     "positionNumber":"108",
                     "positionName":"Zuschauerleitung 'Am Mühlenberg' unten Zuschauer und Athleten lenken 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1354,7 +1354,7 @@
                     "positionNumber":"109",
                     "positionName":"Kreuzung (ehemals NP-Markt) 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1366,7 +1366,7 @@
                     "positionNumber":"110",
                     "positionName":"Kreuzung (ehemals NP-Markt) 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1378,7 +1378,7 @@
                     "positionNumber":"111",
                     "positionName":"Kreuzung (ehemals NP-Markt) 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1390,7 +1390,7 @@
                     "positionNumber":"112",
                     "positionName":"Kreuzung Buschweg/Schwicheldter Str. 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1402,7 +1402,7 @@
                     "positionNumber":"113",
                     "positionName":"Kreuzung Buschweg/Schwicheldter Str. 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1414,7 +1414,7 @@
                     "positionNumber":"114",
                     "positionName":"Kreuzung Buschweg/Schwicheldter Str. 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1426,7 +1426,7 @@
                     "positionNumber":"115",
                     "positionName":"rechts Abbiegen zum BBZ Zuschauer einweisen",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1438,7 +1438,7 @@
                     "positionNumber":"116",
                     "positionName":"rechts Abbiegen zum BBZ Teilnehmer einweisen 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1450,7 +1450,7 @@
                     "positionNumber":"117",
                     "positionName":"rechts Abbiegen zum BBZ Teilnehmer einweisen 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1462,7 +1462,7 @@
                     "positionNumber":"118",
                     "positionName":"Einweisen - Radkanal freihalten 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1474,7 +1474,7 @@
                     "positionNumber":"119",
                     "positionName":"Einweisen - Radkanal freihalten 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1486,7 +1486,7 @@
                     "positionNumber":"120",
                     "positionName":"Zuschauerübergang/Radeinfahrt BBZ 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1498,7 +1498,7 @@
                     "positionNumber":"121",
                     "positionName":"Zuschauerübergang/Radeinfahrt BBZ 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1510,7 +1510,7 @@
                     "positionNumber":"122",
                     "positionName":"Vor 1. Volks und 1. Kurz Helfer wecken",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -1528,7 +1528,7 @@
                     "positionNumber":"123",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1540,7 +1540,7 @@
                     "positionNumber":"124",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1552,7 +1552,7 @@
                     "positionNumber":"125",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1564,7 +1564,7 @@
                     "positionNumber":"126",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1576,7 +1576,7 @@
                     "positionNumber":"127",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1588,7 +1588,7 @@
                     "positionNumber":"128",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1600,7 +1600,7 @@
                     "positionNumber":"129",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1612,7 +1612,7 @@
                     "positionNumber":"130",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 8",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1624,7 +1624,7 @@
                     "positionNumber":"131",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 9",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1636,7 +1636,7 @@
                     "positionNumber":"132",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 10",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1648,7 +1648,7 @@
                     "positionNumber":"133",
                     "positionName":"WZST-Aufgabeneinweisung vor Ort 11",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -1666,7 +1666,7 @@
                     "positionNumber":"134",
                     "positionName":"Führungsradfahrer",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1678,7 +1678,7 @@
                     "positionNumber":"135",
                     "positionName":"Absperrung/Laufübergang Herrenfeldstr. 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1690,7 +1690,7 @@
                     "positionNumber":"136",
                     "positionName":"Absperrung/Laufübergang Herrenfeldstr. 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1702,7 +1702,7 @@
                     "positionNumber":"137",
                     "positionName":"Absperrung/Laufübergang Herrenfeldstr. 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1714,7 +1714,7 @@
                     "positionNumber":"138",
                     "positionName":"Abzweig zum Ziel",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -1732,7 +1732,7 @@
                     "positionNumber":"139",
                     "positionName":"Wendepunkt Bandausgabe/Bänder vom Ziel holen",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1744,7 +1744,7 @@
                     "positionNumber":"140",
                     "positionName":"Wendepunkt Bandausgabe 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1756,7 +1756,7 @@
                     "positionNumber":"141",
                     "positionName":"Wendepunkt Bandausgabe 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1768,7 +1768,7 @@
                     "positionNumber":"142",
                     "positionName":"Wendepunkt Bandausgabe 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1780,7 +1780,7 @@
                     "positionNumber":"143",
                     "positionName":"Wendepunkt Bandausgabe 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1792,7 +1792,7 @@
                     "positionNumber":"144",
                     "positionName":"Wendepunkt Bandausgabe 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1804,7 +1804,7 @@
                     "positionNumber":"145",
                     "positionName":"Wendepunkt Bandausgabe 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1816,7 +1816,7 @@
                     "positionNumber":"146",
                     "positionName":"Wendepunkt Bandausgabe 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1828,7 +1828,7 @@
                     "positionNumber":"147",
                     "positionName":"Wendepunkt Bandausgabe 8",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1840,7 +1840,7 @@
                     "positionNumber":"148",
                     "positionName":"Wendepunkt Bandausgabe 9",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1852,7 +1852,7 @@
                     "positionNumber":"149",
                     "positionName":"Wendepunkt Bandausgabe 10",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -1870,7 +1870,7 @@
                     "positionNumber":"150",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1882,7 +1882,7 @@
                     "positionNumber":"151",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1894,7 +1894,7 @@
                     "positionNumber":"152",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1906,7 +1906,7 @@
                     "positionNumber":"153",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1918,7 +1918,7 @@
                     "positionNumber":"154",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"8",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1930,7 +1930,7 @@
                     "positionNumber":"155",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1942,7 +1942,7 @@
                     "positionNumber":"156",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 7",
                     "minimalAge":"8",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1954,7 +1954,7 @@
                     "positionNumber":"157",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 8",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1966,7 +1966,7 @@
                     "positionNumber":"158",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 9",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1978,7 +1978,7 @@
                     "positionNumber":"159",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 10",
                     "minimalAge":"8",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -1990,7 +1990,7 @@
                     "positionNumber":"160",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 11",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2002,7 +2002,7 @@
                     "positionNumber":"161",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 12",
                     "minimalAge":"8",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2014,7 +2014,7 @@
                     "positionNumber":"162",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 13",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2026,7 +2026,7 @@
                     "positionNumber":"163",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 14",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2038,7 +2038,7 @@
                     "positionNumber":"164",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 15",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2050,7 +2050,7 @@
                     "positionNumber":"165",
                     "positionName":"LVP-Aufgabeneinweisung vor Ort 16",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -2068,7 +2068,7 @@
                     "positionNumber":"166",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2080,7 +2080,7 @@
                     "positionNumber":"167",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2092,7 +2092,7 @@
                     "positionNumber":"168",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2104,7 +2104,7 @@
                     "positionNumber":"169",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2116,7 +2116,7 @@
                     "positionNumber":"170",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2128,7 +2128,7 @@
                     "positionNumber":"171",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2140,7 +2140,7 @@
                     "positionNumber":"172",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2152,7 +2152,7 @@
                     "positionNumber":"173",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 8",
                     "minimalAge":"8",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2164,7 +2164,7 @@
                     "positionNumber":"174",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 9",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2176,7 +2176,7 @@
                     "positionNumber":"175",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 10",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2188,7 +2188,7 @@
                     "positionNumber":"176",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 11",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2200,7 +2200,7 @@
                     "positionNumber":"177",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 12",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2212,7 +2212,7 @@
                     "positionNumber":"178",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 13",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2224,7 +2224,7 @@
                     "positionNumber":"179",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 14",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2236,7 +2236,7 @@
                     "positionNumber":"180",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 15",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2248,7 +2248,7 @@
                     "positionNumber":"181",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 16",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2260,7 +2260,7 @@
                     "positionNumber":"182",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 17",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2272,7 +2272,7 @@
                     "positionNumber":"183",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 18",
                     "minimalAge":"8",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2284,7 +2284,7 @@
                     "positionNumber":"184",
                     "positionName":"LVS-Aufgabeneinweisung vor Ort 19",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -2302,7 +2302,7 @@
                     "positionNumber":"185",
                     "positionName":"Koordinator-Stadion",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2314,7 +2314,7 @@
                     "positionNumber":"186",
                     "positionName":"ZB-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2326,7 +2326,7 @@
                     "positionNumber":"187",
                     "positionName":"Sprecher",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2338,7 +2338,7 @@
                     "positionNumber":"188",
                     "positionName":"Haargummi abnehmen/DM Hawaii-Kränze umhängen",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2350,7 +2350,7 @@
                     "positionNumber":"189",
                     "positionName":"Haargummi abnehmen/DM Hawaii-Kränze umhängen 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2362,7 +2362,7 @@
                     "positionNumber":"190",
                     "positionName":"Haargummi abnehmen/DM Hawaii-Kränze umhängen 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2374,7 +2374,7 @@
                     "positionNumber":"191",
                     "positionName":"Haargummi abnehmen/DM Hawaii-Kränze umhängen 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2386,7 +2386,7 @@
                     "positionNumber":"192",
                     "positionName":"T-Shirt-Ausgabe 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2398,7 +2398,7 @@
                     "positionNumber":"193",
                     "positionName":"T-Shirt-Ausgabe 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2410,7 +2410,7 @@
                     "positionNumber":"194",
                     "positionName":"T-Shirt-Ausgabe 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2422,7 +2422,7 @@
                     "positionNumber":"195",
                     "positionName":"Ziel Zeitnahmebox",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -2440,7 +2440,7 @@
                     "positionNumber":"196",
                     "positionName":"Auswertung",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"n",
                     "aggregation":""
                 }
@@ -2458,7 +2458,7 @@
                     "positionNumber":"197",
                     "positionName":"Getränke/Verpflegung (Verpflegung einteilen!)",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2470,7 +2470,7 @@
                     "positionNumber":"198",
                     "positionName":"ZV-Getränke/Verpflegung 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2482,7 +2482,7 @@
                     "positionNumber":"199",
                     "positionName":"ZV-Getränke/Verpflegung 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2494,7 +2494,7 @@
                     "positionNumber":"200",
                     "positionName":"ZV-Getränke/Verpflegung 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2506,7 +2506,7 @@
                     "positionNumber":"201",
                     "positionName":"ZV-Getränke/Verpflegung 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2518,7 +2518,7 @@
                     "positionNumber":"202",
                     "positionName":"ZV-Getränke/Verpflegung 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2530,7 +2530,7 @@
                     "positionNumber":"203",
                     "positionName":"ZV-Getränke/Verpflegung 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2542,7 +2542,7 @@
                     "positionNumber":"204",
                     "positionName":"ZV-Getränke/Verpflegung 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2554,7 +2554,7 @@
                     "positionNumber":"205",
                     "positionName":"ZV-Getränke/Verpflegung 8",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2566,7 +2566,7 @@
                     "positionNumber":"206",
                     "positionName":"ZV-Getränke/Verpflegung 9",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2578,7 +2578,7 @@
                     "positionNumber":"207",
                     "positionName":"ZV-Getränke/Verpflegung 10",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2590,7 +2590,7 @@
                     "positionNumber":"208",
                     "positionName":"ZV-Getränke/Verpflegung 11",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2602,7 +2602,7 @@
                     "positionNumber":"209",
                     "positionName":"ZV-Getränke/Verpflegung 12",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2614,7 +2614,7 @@
                     "positionNumber":"210",
                     "positionName":"ZV-Getränke/Verpflegung 13",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2626,7 +2626,7 @@
                     "positionNumber":"211",
                     "positionName":"ZV-Getränke/Verpflegung 14",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -2644,7 +2644,7 @@
                     "positionNumber":"212",
                     "positionName":"Massieren",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -2662,7 +2662,7 @@
                     "positionNumber":"213",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2674,7 +2674,7 @@
                     "positionNumber":"214",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2686,7 +2686,7 @@
                     "positionNumber":"215",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2698,7 +2698,7 @@
                     "positionNumber":"216",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2710,7 +2710,7 @@
                     "positionNumber":"217",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2722,7 +2722,7 @@
                     "positionNumber":"218",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2734,7 +2734,7 @@
                     "positionNumber":"219",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2746,7 +2746,7 @@
                     "positionNumber":"220",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 8",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2758,7 +2758,7 @@
                     "positionNumber":"221",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 9",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2770,7 +2770,7 @@
                     "positionNumber":"222",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 10",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2782,7 +2782,7 @@
                     "positionNumber":"223",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 11",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2794,7 +2794,7 @@
                     "positionNumber":"224",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 12",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2806,7 +2806,7 @@
                     "positionNumber":"225",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 13",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2818,7 +2818,7 @@
                     "positionNumber":"226",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 14",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2830,7 +2830,7 @@
                     "positionNumber":"227",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 15",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2842,7 +2842,7 @@
                     "positionNumber":"228",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 16",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2854,7 +2854,7 @@
                     "positionNumber":"229",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 17",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2866,7 +2866,7 @@
                     "positionNumber":"230",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 18",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2878,7 +2878,7 @@
                     "positionNumber":"231",
                     "positionName":"KA-Aufgabeneinweisung vor Ort 19",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -2896,7 +2896,7 @@
                     "positionNumber":"232",
                     "positionName":"Sprecher Volks und Staffel",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2908,7 +2908,7 @@
                     "positionNumber":"233",
                     "positionName":"Ehren Volks Kurz",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2920,7 +2920,7 @@
                     "positionNumber":"234",
                     "positionName":"Ehren Kurz",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2932,7 +2932,7 @@
                     "positionNumber":"235",
                     "positionName":"Sprecher Kurz",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2944,7 +2944,7 @@
                     "positionNumber":"236",
                     "positionName":"Fotografieren Volks ",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2956,7 +2956,7 @@
                     "positionNumber":"237",
                     "positionName":"Fotografieren Kurz",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -2974,7 +2974,7 @@
                     "positionNumber":"238",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2986,7 +2986,7 @@
                     "positionNumber":"239",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -2998,7 +2998,7 @@
                     "positionNumber":"240",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3010,7 +3010,7 @@
                     "positionNumber":"241",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3022,7 +3022,7 @@
                     "positionNumber":"242",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3034,7 +3034,7 @@
                     "positionNumber":"243",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 6",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3046,7 +3046,7 @@
                     "positionNumber":"244",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 7",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3058,7 +3058,7 @@
                     "positionNumber":"245",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 8",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3070,7 +3070,7 @@
                     "positionNumber":"246",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 9",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3082,7 +3082,7 @@
                     "positionNumber":"247",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 10",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3094,7 +3094,7 @@
                     "positionNumber":"248",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 11",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3106,7 +3106,7 @@
                     "positionNumber":"249",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 12",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3118,7 +3118,7 @@
                     "positionNumber":"250",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 13",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3130,7 +3130,7 @@
                     "positionNumber":"251",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 14",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3142,7 +3142,7 @@
                     "positionNumber":"252",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 15",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3154,7 +3154,7 @@
                     "positionNumber":"253",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 16",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3166,7 +3166,7 @@
                     "positionNumber":"254",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 17",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3178,7 +3178,7 @@
                     "positionNumber":"255",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 18",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3190,7 +3190,7 @@
                     "positionNumber":"256",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 19",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3202,7 +3202,7 @@
                     "positionNumber":"257",
                     "positionName":"KV-Aufgabeneinweisung vor Ort 20",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -3220,7 +3220,7 @@
                     "positionNumber":"258",
                     "positionName":"GS-Aufgabeneinweisung vor Ort 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3232,7 +3232,7 @@
                     "positionNumber":"259",
                     "positionName":"GS-Aufgabeneinweisung vor Ort 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3244,7 +3244,7 @@
                     "positionNumber":"260",
                     "positionName":"GS-Aufgabeneinweisung vor Ort 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3256,7 +3256,7 @@
                     "positionNumber":"261",
                     "positionName":"GS-Aufgabeneinweisung vor Ort 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3268,7 +3268,7 @@
                     "positionNumber":"262",
                     "positionName":"GS-Aufgabeneinweisung vor Ort 5",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -3286,7 +3286,7 @@
                     "positionNumber":"263",
                     "positionName":"Getränke verkaufen 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3298,7 +3298,7 @@
                     "positionNumber":"264",
                     "positionName":"Getränke verkaufen 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3310,7 +3310,7 @@
                     "positionNumber":"265",
                     "positionName":"Getränke verkaufen 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3322,7 +3322,7 @@
                     "positionNumber":"266",
                     "positionName":"Getränke verkaufen 4",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -3340,7 +3340,7 @@
                     "positionNumber":"267",
                     "positionName":"Starter mit Radpanne abholen",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -3358,7 +3358,7 @@
                     "positionNumber":"268",
                     "positionName":"Zuschauertransport",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -3376,7 +3376,7 @@
                     "positionNumber":"269",
                     "positionName":"Ärztliche Versorgung",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -3394,7 +3394,7 @@
                     "positionNumber":"270",
                     "positionName":"Ansprechpartner für die Kampfrichter",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -3412,7 +3412,7 @@
                     "positionNumber":"271",
                     "positionName":"Messe betreuen",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -3430,7 +3430,7 @@
                     "positionNumber":"272",
                     "positionName":"Filmen",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3442,7 +3442,7 @@
                     "positionNumber":"273",
                     "positionName":"Fotografieren 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3454,7 +3454,7 @@
                     "positionNumber":"274",
                     "positionName":"Fotografieren 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3466,7 +3466,7 @@
                     "positionNumber":"275",
                     "positionName":"Fotografieren 3",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -3484,7 +3484,7 @@
                     "positionNumber":"276",
                     "positionName":"Technik",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"n",
                     "aggregation":""
                 }
@@ -3502,7 +3502,7 @@
                     "positionNumber":"277",
                     "positionName":"Aufsicht 1",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 },
@@ -3514,7 +3514,7 @@
                     "positionNumber":"278",
                     "positionName":"Aufsicht 2",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"y",
                     "aggregation":""
                 }
@@ -3532,7 +3532,7 @@
                     "positionNumber":"279",
                     "positionName":"Hauptansprechpartner",
                     "minimalAge":"12",
-                    "positionPriority":"-1",
+                    "positionPriority":"1",
                     "choosable":"f",
                     "aggregation":""
                 }
