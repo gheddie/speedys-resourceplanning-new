@@ -67,7 +67,8 @@ public class JspRenderer
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         AppConfiguration configuration = AppConfiguration.getInstance();
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170).withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
-                .withParagraph(configuration.getText(JspRenderer.class, "genericEngineFailure", errorMessage))
+                .withParagraph(configuration.getText(JspRenderer.class, "genericEngineFailure"))
+                .withParagraph(errorMessage)
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }    

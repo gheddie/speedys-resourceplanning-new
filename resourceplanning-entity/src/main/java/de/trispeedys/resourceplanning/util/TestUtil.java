@@ -21,7 +21,8 @@ public class TestUtil
         clearTable("message_queue");
         clearTable("helper");
         clearTable("event");
-        clearTable("event_template");        
+        clearTable("event_template");
+        clearTable("event_location");
     }
 
     private static void clearTable(String tableName)

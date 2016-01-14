@@ -1,0 +1,14 @@
+TODO
+------------------------------------------------------------------------------------------------------------
+
+ + Wunsch nach manueller Zuweisung kommentieren können, in Client beim manuellen Zuweisen dann sichtbar !!!
+ 
+ + Bestätigungsmail Buchung : Mitglied --> komm um 6 !!, nicht Mitglied --> Link auf PDF auf speedys.de ODER Info aus der Anwendung
+   (Datenmodell schick anpassen ?!?, Info an Position überschreibt Info an Domain/Event)
+   
+ + (ggf) erste statt letzter verpasster Zuweisung neu anbieten bei Kündigung?
+ 
+ + konfigurierbar machen, ob ein Ersthelfer automatisch manuell betreut wird
+
+DONE
+------------------------------------------------------------------------------------------------------------

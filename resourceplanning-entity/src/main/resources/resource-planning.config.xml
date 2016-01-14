@@ -2,7 +2,7 @@
 <configuration>
 	<!-- app specific -->
 	<property name="version">0.0.1-SNAPSHOT</property>
-	<!-- <property name="host">http://www.triathlon-helfer.de:8080</property> -->
+	<!-- <property name="host">http://192.168.0.8:8080</property> -->
 	<property name="host">http://localhost:8080</property>
 	<!-- smtp configuration -->
 	<property name="smtp_user">helferplanung@peiner-triathlon.de</property>

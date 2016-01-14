@@ -3533,7 +3533,7 @@
                     "positionName":"Hauptansprechpartner",
                     "minimalAge":"12",
                     "positionPriority":"-1",
-                    "choosable":"f",
+                    "choosable":"n",
                     "aggregation":""
                 }
             ]
