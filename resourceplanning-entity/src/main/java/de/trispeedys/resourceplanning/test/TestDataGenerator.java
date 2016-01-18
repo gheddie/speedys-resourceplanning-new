@@ -36,8 +36,8 @@ public class TestDataGenerator
         Event myLittleEvent = EntityFactory.buildEvent(description, eventKey, day, month, year, EventState.PLANNED, template, null).saveOrUpdate();
 
         // create helpers
-        EntityFactory.buildHelper("H1_First", "H1_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
-        EntityFactory.buildHelper("H3_First", "H3_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 3, 1, 1980).saveOrUpdate();
+        EntityFactory.buildHelper("H1_First", "H1_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
+        EntityFactory.buildHelper("H3_First", "H3_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 3, 1, 1980, true).saveOrUpdate();
 
         // build domains
         Domain domain1 = EntityFactory.buildDomain("D1", 1).saveOrUpdate();
@@ -76,11 +76,11 @@ public class TestDataGenerator
         // build event
         Event myLittleEvent = EntityFactory.buildEvent(description, eventKey, day, month, year, EventState.FINISHED, template, null).saveOrUpdate();
         // create helpers
-        Helper helper1 = EntityFactory.buildHelper("H1_First", "H1_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 1, 2, 1980).saveOrUpdate();
-        Helper helper2 = EntityFactory.buildHelper("H2_First", "H2_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 2, 2, 1980).saveOrUpdate();
-        Helper helper3 = EntityFactory.buildHelper("H3_First", "H3_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 3, 2, 1980).saveOrUpdate();
-        Helper helper4 = EntityFactory.buildHelper("H4_First", "H4_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 4, 2, 1980).saveOrUpdate();
-        Helper helper5 = EntityFactory.buildHelper("H5_First", "H5_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 5, 2, 1980).saveOrUpdate();
+        Helper helper1 = EntityFactory.buildHelper("H1_First", "H1_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 1, 2, 1980, true).saveOrUpdate();
+        Helper helper2 = EntityFactory.buildHelper("H2_First", "H2_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 2, 2, 1980, true).saveOrUpdate();
+        Helper helper3 = EntityFactory.buildHelper("H3_First", "H3_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 3, 2, 1980, true).saveOrUpdate();
+        Helper helper4 = EntityFactory.buildHelper("H4_First", "H4_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 4, 2, 1980, true).saveOrUpdate();
+        Helper helper5 = EntityFactory.buildHelper("H5_First", "H5_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 5, 2, 1980, true).saveOrUpdate();
         // build domains
         Domain domain1 = EntityFactory.buildDomain("D1", 1).saveOrUpdate();
         Domain domain2 = EntityFactory.buildDomain("D2", 2).saveOrUpdate();
@@ -169,7 +169,7 @@ public class TestDataGenerator
         // build event
         Event myMinimalEvent = EntityFactory.buildEvent(description, eventKey, day, month, year, EventState.PLANNED, template, null).saveOrUpdate();
         // create helper
-        Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
+        Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
         // build domain
         Domain domain = EntityFactory.buildDomain("D1", 787).saveOrUpdate();
         // build position
@@ -190,16 +190,16 @@ public class TestDataGenerator
         Event event = EntityFactory.buildEvent(description, eventKey, day, month, year, eventState, template, null).saveOrUpdate();
 
         // ------------------------ create helpers ('old')
-        EntityFactory.buildHelper("Schulz", "Stefan", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 13, 2, 2011).saveOrUpdate();
-        EntityFactory.buildHelper("Beyer", "Lars", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 4, 4, 1971).saveOrUpdate();
-        EntityFactory.buildHelper("Elsner", "Conny", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 25, 7, 1973).saveOrUpdate();
-        EntityFactory.buildHelper("Deyhle", "Ingo", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 1, 8, 1968).saveOrUpdate();
-        EntityFactory.buildHelper("Meitzner", "Daniela", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 16, 12, 1961).saveOrUpdate();
-        EntityFactory.buildHelper("Grabbe", "Jimi", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 7, 5, 1991).saveOrUpdate();
-        EntityFactory.buildHelper("Päge", "Denny", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 29, 5, 1964).saveOrUpdate();
-        EntityFactory.buildHelper("Thierse", "Ulrich", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 16, 5, 1983).saveOrUpdate();
-        EntityFactory.buildHelper("Müller", "Werner", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 22, 11, 1984).saveOrUpdate();
-        EntityFactory.buildHelper("Unterberg", "Dorothea", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 23, 3, 1992).saveOrUpdate();
+        EntityFactory.buildHelper("Schulz", "Stefan", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 13, 2, 2011, true).saveOrUpdate();
+        EntityFactory.buildHelper("Beyer", "Lars", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 4, 4, 1971, true).saveOrUpdate();
+        EntityFactory.buildHelper("Elsner", "Conny", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 25, 7, 1973, true).saveOrUpdate();
+        EntityFactory.buildHelper("Deyhle", "Ingo", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 1, 8, 1968, true).saveOrUpdate();
+        EntityFactory.buildHelper("Meitzner", "Daniela", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 16, 12, 1961, true).saveOrUpdate();
+        EntityFactory.buildHelper("Grabbe", "Jimi", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 7, 5, 1991, true).saveOrUpdate();
+        EntityFactory.buildHelper("Päge", "Denny", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 29, 5, 1964, true).saveOrUpdate();
+        EntityFactory.buildHelper("Thierse", "Ulrich", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 16, 5, 1983, true).saveOrUpdate();
+        EntityFactory.buildHelper("Müller", "Werner", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 22, 11, 1984, true).saveOrUpdate();
+        EntityFactory.buildHelper("Unterberg", "Dorothea", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 23, 3, 1992, true).saveOrUpdate();
 
         // ------------------------ create event templates
         EntityFactory.buildEventTemplate("TriathlonTemplate").saveOrUpdate();

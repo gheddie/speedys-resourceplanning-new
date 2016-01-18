@@ -30,6 +30,7 @@ import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.util.StringUtil;
 import de.trispeedys.resourceplanning.util.TestUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
+import de.trispeedys.resourceplanning.util.parser.ParserUtil;
 
 public class JsonEventReader
 {
@@ -43,15 +44,13 @@ public class JsonEventReader
 
     private HashMap<String, List<Position>> aggregationCache;
 
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
-
     // parameter names for header
     private static final String JSON_PARAM_HEADER_DESCRIPTION = "description";
 
     private static final String JSON_PARAM_HEADER_KEY = "key";
 
     private static final String JSON_PARAM_HEADER_TEMPLATE = "template";
-    
+
     private static final String JSON_PARAM_HEADER_EVT_DATE = "eventDate";
 
     // parameter names list types
@@ -77,6 +76,8 @@ public class JsonEventReader
 
     private static final String JSON_PARAM_HELPER_MAIL = "helperMail";
 
+    private static final String JSON_PARAM_HELPER_INTERNAL = "helperInternal";
+
     private static final String JSON_PARAM_HELPER_FIRST_NAME = "firstName";
 
     private static final String JSON_PARAM_HELPER_LAST_NAME = "lastName";
@@ -85,7 +86,7 @@ public class JsonEventReader
 
     private static final String JSON_PARAM_POSITION_AGG_GROUP = "aggregation";
 
-    private static final int MANDATORY_PROP_SIZE_ASSIGNMENT = 10;
+    private static final int MANDATORY_PROP_SIZE_ASSIGNMENT = 11;
 
     public void doImport(String aResourceName)
     {
@@ -107,7 +108,9 @@ public class JsonEventReader
             sessionHolder.saveOrUpdate(template);
             event =
                     EntityFactory.buildEvent((String) root.get(JSON_PARAM_HEADER_DESCRIPTION),
-                            (String) root.get(JSON_PARAM_HEADER_KEY), parseDate((String) root.get(JSON_PARAM_HEADER_EVT_DATE)), EventState.FINISHED, template, null);
+                            (String) root.get(JSON_PARAM_HEADER_KEY),
+                            ParserUtil.parseDate((String) root.get(JSON_PARAM_HEADER_EVT_DATE)), EventState.FINISHED,
+                            template, null);
             sessionHolder.saveOrUpdate(event);
             JSONArray domains = (JSONArray) root.get(JSON_PARAM_LIST_DOMAINS);
             logger.info(domains.size() + " domains.");
@@ -122,10 +125,10 @@ public class JsonEventReader
                         EntityFactory.buildDomain((String) jsonDomain.get(JSON_PARAM_DOMAIN_NAME),
                                 Integer.parseInt((String) jsonDomain.get(JSON_PARAM_DOMAIN_NUMBER)));
                 sessionHolder.saveOrUpdate(domain);
-                
+
                 // create link between domain and template
                 sessionHolder.saveOrUpdate(EntityFactory.buildTemplateDomain(template, domain));
-                
+
                 JSONArray assignments = (JSONArray) jsonDomain.get(JSON_PARAM_LIST_ASSIGNMENTS);
                 JSONObject jsonAssignment = null;
                 Helper helper = null;
@@ -146,10 +149,12 @@ public class JsonEventReader
                     logger.info((String) jsonAssignment.get(JSON_PARAM_HELPER_MINIMAL_AGE));
                     logger.info((String) jsonAssignment.get(JSON_PARAM_POSITION_PRIORITY));
                     position =
-                            EntityFactory.buildPosition((String) jsonAssignment.get(JSON_PARAM_POSITION_NAME),
+                            EntityFactory.buildPosition(
+                                    (String) jsonAssignment.get(JSON_PARAM_POSITION_NAME),
                                     Integer.parseInt((String) jsonAssignment.get(JSON_PARAM_HELPER_MINIMAL_AGE)),
-                                    domain, Integer.parseInt((String) jsonAssignment.get(JSON_PARAM_POSITION_NUMBER)),
-                                    parseBoolean((String) jsonAssignment.get(JSON_PARAM_POSITION_CHOOSABLE)),
+                                    domain,
+                                    Integer.parseInt((String) jsonAssignment.get(JSON_PARAM_POSITION_NUMBER)),
+                                    ParserUtil.parseBoolean((String) jsonAssignment.get(JSON_PARAM_POSITION_CHOOSABLE)),
                                     Integer.parseInt((String) jsonAssignment.get(JSON_PARAM_POSITION_PRIORITY)));
                     sessionHolder.saveOrUpdate(position);
                     sessionHolder.saveOrUpdate(EntityFactory.buildEventPosition(event, position));
@@ -162,9 +167,13 @@ public class JsonEventReader
                     else
                     {
                         helper =
-                                EntityFactory.buildHelper(lastName, firstName,
-                                        (String) jsonAssignment.get(JSON_PARAM_HELPER_MAIL), HelperState.ACTIVE,
-                                        parseDate((String) jsonAssignment.get(JSON_PARAM_HELPER_BIRTHDAY)));
+                                EntityFactory.buildHelper(
+                                        lastName,
+                                        firstName,
+                                        (String) jsonAssignment.get(JSON_PARAM_HELPER_MAIL),
+                                        HelperState.ACTIVE,
+                                        ParserUtil.parseDate((String) jsonAssignment.get(JSON_PARAM_HELPER_BIRTHDAY)),
+                                        ParserUtil.parseBoolean((String) jsonAssignment.get(JSON_PARAM_HELPER_INTERNAL)));
                         if (helper.isValid())
                         {
                             if (!(helper.isAssignableTo(position, now)))
@@ -172,7 +181,8 @@ public class JsonEventReader
                                 throw new ResourcePlanningException("Der Helfer " +
                                         helper.getLastName() + ", " + helper.getFirstName() + " (geboren : " +
                                         helper.getDateOfBirth() + ") ist zu jung f\u00fcr die Position " +
-                                        position.getDescription() + " (Mindestalter : " + position.getMinimalAge() + ")!");
+                                        position.getDescription() + " (Mindestalter : " + position.getMinimalAge() +
+                                        ")!");
                             }
                             sessionHolder.saveOrUpdate(helper);
                             sessionHolder.saveOrUpdate(EntityFactory.buildHelperAssignment(helper, event, position));
@@ -233,20 +243,6 @@ public class JsonEventReader
             aggregationCache.put(groupName, new ArrayList<Position>());
         }
         aggregationCache.get(groupName).add(position);
-    }
-
-    private boolean parseBoolean(String b)
-    {
-        if (StringUtil.isBlank(b))
-        {
-            return false;
-        }
-        return (b.equals("y"));
-    }
-
-    private Date parseDate(String dateOfBirth) throws ParseException
-    {
-        return DATE_FORMAT.parse(dateOfBirth);
     }
 
     // ---

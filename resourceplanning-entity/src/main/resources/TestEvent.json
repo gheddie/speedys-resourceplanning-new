@@ -11,6 +11,7 @@
             {
                "lastName":"Wackerhage",
                "firstName":"Tanja",
+               "helperInternal":"y",
                "helperMail":"tanja.wackerhage@gmx.de",
                "birthDay":"23.03.1971",
                "positionNumber":"5",
@@ -23,6 +24,7 @@
             {
                "lastName":"Stephan",
                "firstName":"Kerstin",
+               "helperInternal":"y",
                "helperMail":"ke.stephan@arcor.de",
                "birthDay":"17.04.1966",
                "positionNumber":"6",
@@ -35,6 +37,7 @@
             {
                "lastName":"Zogbaum",
                "firstName":"Dirk",
+               "helperInternal":"y",
                "helperMail":"dirk.zogbaum@gmx.de",
                "birthDay":"02.05.1973",
                "positionNumber":"7",
@@ -47,6 +50,7 @@
             {
                "lastName":"Stucke",
                "firstName":"Marcus",
+               "helperInternal":"y",
                "helperMail":"marcus.stucke@gmx.de",
                "birthDay":"15.06.1981",
                "positionNumber":"8",
@@ -65,6 +69,7 @@
             {
                "lastName":"Möller",
                "firstName":"Melanie",
+               "helperInternal":"y",
                "helperMail":"moelli86@gmx.net",
                "birthDay":"07.02.1986",
                "positionNumber":"22",
@@ -77,6 +82,7 @@
             {
                "lastName":"Gilsdorf",
                "firstName":"Michael",
+               "helperInternal":"y",
                "helperMail":"Michael.Gilsdorf@t-online.de",
                "birthDay":"13.09.1959",
                "positionNumber":"23",
@@ -89,6 +95,7 @@
             {
                "lastName":"Haase",
                "firstName":"Mario",
+               "helperInternal":"y",
                "helperMail":"mariohaase1@gmx.de",
                "birthDay":"15.02.1983",
                "positionNumber":"24",
@@ -101,6 +108,7 @@
             {
                "lastName":"Krohne",
                "firstName":"Jarne",
+               "helperInternal":"y",
                "helperMail":"jarne.krohne@gmx.de",
                "birthDay":"28.07.2005",
                "positionNumber":"99",
@@ -119,6 +127,7 @@
             {
                "lastName":"Jansen",
                "firstName":"Lena",
+               "helperInternal":"y",
                "helperMail":"Jansen-Lena@gmx.de",
                "birthDay":"21.05.1984",
                "positionNumber":"26",
@@ -131,6 +140,7 @@
             {
                "lastName":"Schultz",
                "firstName":"Uwe",
+               "helperInternal":"y",
                "helperMail":"Uweschlt@t-online.de",
                "birthDay":"08.09.1966",
                "positionNumber":"27",
@@ -143,6 +153,7 @@
             {
                "lastName":"Althans",
                "firstName":"Mark",
+               "helperInternal":"y",
                "helperMail":"eileen@althans-online.de",
                "birthDay":"28.09.1971",
                "positionNumber":"30",
@@ -161,6 +172,7 @@
             {
                "lastName":"Momberg",
                "firstName":"Michael",
+               "helperInternal":"y",
                "helperMail":"mimomberg@gmx.de",
                "birthDay":"21.10.1949",
                "positionNumber":"18",
@@ -173,6 +185,7 @@
             {
                "lastName":"Beyer",
                "firstName":"Lars",
+               "helperInternal":"y",
                "helperMail":"lars@beyers-online.net",
                "birthDay":"20.11.1972",
                "positionNumber":"19",
@@ -185,6 +198,7 @@
             {
                "lastName":"Deyhle",
                "firstName":"Ingo",
+               "helperInternal":"y",
                "helperMail":"insawense@gmail.com",
                "birthDay":"21.06.1971",
                "positionNumber":"20",
@@ -197,6 +211,7 @@
             {
                "lastName":"Deyhle",
                "firstName":"Susanne",
+               "helperInternal":"y",
                "helperMail":"insawense@gmail.com",
                "birthDay":"28.03.1969",
                "positionNumber":"21",
@@ -215,6 +230,7 @@
             {
                "lastName":"Szelag",
                "firstName":"Mirja",
+               "helperInternal":"y",
                "helperMail":"mirja.szelag@gmx.de",
                "birthDay":"13.09.1974",
                "positionNumber":"1",
@@ -223,9 +239,9 @@
                "positionPriority":"-1",
                "choosable":"n",
                "aggregation":""
-            }         
+            }
          ]
-      },      
+      },
       {
          "domainNumber":"6",
          "domainName":"Zielverpflegung",
@@ -233,6 +249,7 @@
             {
                "lastName":"Hoff",
                "firstName":"Hanjo",
+               "helperInternal":"y",
                "helperMail":"Hanjo.Hoff@gmx.de",
                "birthDay":"15.09.1971",
                "positionNumber":"28",
@@ -245,6 +262,7 @@
             {
                "lastName":"Althans",
                "firstName":"Eileen",
+               "helperInternal":"y",
                "helperMail":"eileen@althans-online.de",
                "birthDay":"29.01.1971",
                "positionNumber":"29",
@@ -263,6 +281,7 @@
             {
                "lastName":"Harms",
                "firstName":"Patrick",
+               "helperInternal":"y",
                "helperMail":"info@patrick-harms.de",
                "birthDay":"13.09.1985",
                "positionNumber":"2",
@@ -275,6 +294,7 @@
             {
                "lastName":"Schareina",
                "firstName":"Ralf",
+               "helperInternal":"y",
                "helperMail":"rascha65@arcor.de",
                "birthDay":"27.08.1965",
                "positionNumber":"3",
@@ -287,6 +307,7 @@
             {
                "lastName":"Janecke",
                "firstName":"Carsten",
+               "helperInternal":"y",
                "helperMail":"c.janecke@web.de",
                "birthDay":"13.08.1967",
                "positionNumber":"4",
@@ -299,6 +320,7 @@
             {
                "lastName":"Lack",
                "firstName":"Diane",
+               "helperInternal":"y",
                "helperMail":"diane.lack@web.de",
                "birthDay":"11.02.1980",
                "positionNumber":"9",
@@ -311,6 +333,7 @@
             {
                "lastName":"Schmidt",
                "firstName":"Harald",
+               "helperInternal":"y",
                "helperMail":"Harald.Schmidt@pelikan.com",
                "birthDay":"21.03.1966",
                "positionNumber":"10",
@@ -323,6 +346,7 @@
             {
                "lastName":"Wackerhage",
                "firstName":"Holger",
+               "helperInternal":"y",
                "helperMail":"wackerhage@gmx.de",
                "birthDay":"05.04.1968",
                "positionNumber":"11",
@@ -335,6 +359,7 @@
             {
                "lastName":"Schulz",
                "firstName":"Diana",
+               "helperInternal":"y",
                "helperMail":"schulzdb@googlemail.com",
                "birthDay":"04.03.1973",
                "positionNumber":"12",
@@ -347,6 +372,7 @@
             {
                "lastName":"Kretschmer",
                "firstName":"Michael",
+               "helperInternal":"y",
                "helperMail":"anmemi@kabelmail.de",
                "birthDay":"30.03.1961",
                "positionNumber":"13",
@@ -359,6 +385,7 @@
             {
                "lastName":"Bielefeld",
                "firstName":"Ina",
+               "helperInternal":"y",
                "helperMail":"h.i.bielefeld@t-online.de",
                "birthDay":"10.03.1969",
                "positionNumber":"14",
@@ -371,6 +398,7 @@
             {
                "lastName":"Bräuer",
                "firstName":"Michael",
+               "helperInternal":"y",
                "helperMail":"micha.braeuer@t-online.de",
                "birthDay":"09.08.1963",
                "positionNumber":"15",
@@ -383,6 +411,7 @@
             {
                "lastName":"Arndt",
                "firstName":"Niklas",
+               "helperInternal":"y",
                "helperMail":"NiklasArndt@icloud.com",
                "birthDay":"01.06.1976",
                "positionNumber":"16",
@@ -395,6 +424,7 @@
             {
                "lastName":"Busche",
                "firstName":"Cord",
+               "helperInternal":"y",
                "helperMail":"cord.busche@gmx.de",
                "birthDay":"03.12.1968",
                "positionNumber":"17",
@@ -407,6 +437,7 @@
             {
                "lastName":"Plümecke",
                "firstName":"Maren",
+               "helperInternal":"y",
                "helperMail":"mpluemecke@t-online.de",
                "birthDay":"04.03.1977",
                "positionNumber":"25",
@@ -419,6 +450,7 @@
             {
                "lastName":"Hoff",
                "firstName":"Hinnerk",
+               "helperInternal":"y",
                "helperMail":"hinnerk-hoff@t-online.de",
                "birthDay":"01.04.1973",
                "positionNumber":"31",

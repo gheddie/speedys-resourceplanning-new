@@ -27,6 +27,8 @@ public class BpmVariables
         public static final String VAR_POSITIONS_PROPOSABLE = "positionsProposable";
 
         public static final String VAR_POS_CHOOSING_REENTRANT = "posChoosingReentrant";
+
+        public static final String VAR_HELPER_MANUAL_ASSIGNMENT_WISH = "manualAssignmentWish";
     }
     
     public class RequestHelpMaster

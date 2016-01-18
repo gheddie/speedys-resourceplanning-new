@@ -11,6 +11,7 @@ import de.trispeedys.resourceplanning.entity.EventPosition;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
+import de.trispeedys.resourceplanning.entity.ManualAssignmentComment;
 import de.trispeedys.resourceplanning.entity.MessageQueue;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -24,6 +25,7 @@ import de.trispeedys.resourceplanning.entity.builder.EventPositionBuilder;
 import de.trispeedys.resourceplanning.entity.builder.EventTemplateBuilder;
 import de.trispeedys.resourceplanning.entity.builder.HelperAssignmentBuilder;
 import de.trispeedys.resourceplanning.entity.builder.HelperBuilder;
+import de.trispeedys.resourceplanning.entity.builder.ManualAssignmentCommentBuilder;
 import de.trispeedys.resourceplanning.entity.builder.MessageQueueBuilder;
 import de.trispeedys.resourceplanning.entity.builder.PositionAggregationBuilder;
 import de.trispeedys.resourceplanning.entity.builder.PositionBuilder;
@@ -36,7 +38,7 @@ import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 public class EntityFactory
 {
     public static Helper buildHelper(String lastName, String firstName, String email, HelperState helperState,
-            Date dateOfBirth)
+            Date dateOfBirth, boolean internal)
     {
         Helper result =
                 new HelperBuilder().withFirstName(firstName)
@@ -44,13 +46,14 @@ public class EntityFactory
                         .withDateOfBirth(dateOfBirth)
                         .withEmail(email)
                         .withHelperState(helperState)
+                        .withInternal(internal)
                         .build();
         result.setCode(SpeedyRoutines.createHelperCode(result));
         return result;
     }
 
     public static Helper buildHelper(String lastName, String firstName, String email, HelperState helperState,
-            int dayOfBirth, int monthOfBirth, int yearOfBirth)
+            int dayOfBirth, int monthOfBirth, int yearOfBirth, boolean internal)
     {
         Calendar dateOfBirth = Calendar.getInstance();
         dateOfBirth.set(Calendar.DAY_OF_MONTH, dayOfBirth);
@@ -62,6 +65,7 @@ public class EntityFactory
                         .withDateOfBirth(dateOfBirth.getTime())
                         .withEmail(email)
                         .withHelperState(helperState)
+                        .withInternal(internal)
                         .build();
         result.setCode(SpeedyRoutines.createHelperCode(result));
         return result;
@@ -175,5 +179,10 @@ public class EntityFactory
     public static TemplateDomain buildTemplateDomain(EventTemplate template, Domain domain)
     {
         return new TemplateDomainBuilder().withEventTemplate(template).withDomain(domain).build();
+    }
+
+    public static ManualAssignmentComment buildManualAssignmentComment(Event event, Helper helper, String comment)
+    {
+        return new ManualAssignmentCommentBuilder().withComment(comment).withEvent(event).withHelper(helper).build();
     }
 }

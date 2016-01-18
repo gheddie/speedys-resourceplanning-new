@@ -32,7 +32,7 @@ public class HelperTest
         TestUtil.clearAll();
         Helper helper =
                 EntityFactory.buildHelper("Stefan", "Schulz", Helper.TEST_MAIL_ADDRESS,
-                        HelperState.ACTIVE, 13, 2, 1976).saveOrUpdate();
+                        HelperState.ACTIVE, 13, 2, 1976, true).saveOrUpdate();
         assertEquals(true, RepositoryProvider.getRepository(HelperAssignmentRepository.class).isFirstAssignment(helper.getId()));
     }
 
@@ -46,7 +46,7 @@ public class HelperTest
         TestUtil.clearAll();
         // create helper
         Helper helper =
-                EntityFactory.buildHelper("Diana", "Schulz", "a@b.de", HelperState.ACTIVE, 4, 3, 1973)
+                EntityFactory.buildHelper("Diana", "Schulz", "a@b.de", HelperState.ACTIVE, 4, 3, 1973, true)
                         .saveOrUpdate();
         // create domain
         Domain domain = EntityFactory.buildDomain("someDomain", 1).saveOrUpdate();
@@ -78,15 +78,15 @@ public class HelperTest
     public void testCreateHelperId()
     {
         assertEquals("PADE29051964", SpeedyRoutines.createHelperCode(EntityFactory.buildHelper("Päge", "Denny", "a@b.de",
-                HelperState.ACTIVE, 29, 5, 1964)));
+                HelperState.ACTIVE, 29, 5, 1964, true)));
         assertEquals("KLWI13111964", SpeedyRoutines.createHelperCode(EntityFactory.buildHelper("Klopp", "Willi", "a@b.de",
-                HelperState.ACTIVE, 13, 11, 1964)));
+                HelperState.ACTIVE, 13, 11, 1964, true)));
         assertEquals("BELA04041971", SpeedyRoutines.createHelperCode(EntityFactory.buildHelper("Beyer", "Lars", "a@b.de",
-                HelperState.ACTIVE, 4, 4, 1971)));
+                HelperState.ACTIVE, 4, 4, 1971, true)));
         assertEquals("LULO04041971", SpeedyRoutines.createHelperCode(EntityFactory.buildHelper("Lüge", "Lothar", "a@b.de",
-                HelperState.ACTIVE, 4, 4, 1971)));
+                HelperState.ACTIVE, 4, 4, 1971, true)));
         assertEquals("LOLE04041971", SpeedyRoutines.createHelperCode(EntityFactory.buildHelper("Löge", "Lennart", "a@b.de",
-                HelperState.ACTIVE, 4, 4, 1971)));
+                HelperState.ACTIVE, 4, 4, 1971, true)));
     }
     
     @Test
@@ -95,7 +95,7 @@ public class HelperTest
         TestUtil.clearAll();
         
         // helper turns 16 on 15.06.2016
-        EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 15, 6, 2000).saveOrUpdate();
+        EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 15, 6, 2000, true).saveOrUpdate();
         
         Domain domain = EntityFactory.buildDomain("D1", 787).saveOrUpdate();
         Position pos = EntityFactory.buildPosition("P1", 16, domain, 53, true).saveOrUpdate();

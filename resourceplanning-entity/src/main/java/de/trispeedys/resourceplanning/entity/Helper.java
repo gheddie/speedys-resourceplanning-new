@@ -56,6 +56,8 @@ public class Helper extends AbstractDbObject
     @NotNull
     private String code;
 
+    private boolean internal;
+
     public String getFirstName()
     {
         return firstName;
@@ -138,5 +140,15 @@ public class Helper extends AbstractDbObject
     public boolean isValid()
     {
         return ((!(StringUtil.isBlank(firstName))) && (!(StringUtil.isBlank(lastName))));
+    }
+
+    public boolean isInternal()
+    {
+        return this.internal;
+    }
+
+    public void setInternal(boolean internal)
+    {
+        this.internal = internal;
     }
 }

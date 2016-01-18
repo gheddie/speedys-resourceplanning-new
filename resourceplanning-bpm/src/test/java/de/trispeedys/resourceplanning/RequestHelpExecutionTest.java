@@ -38,6 +38,7 @@ import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.interaction.HelperInteraction;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
+import de.trispeedys.resourceplanning.repository.ManualAssignmentCommentRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.rule.CallbackChoiceGenerator;
@@ -447,7 +448,7 @@ public class RequestHelpExecutionTest
 
         // new helper
         Helper helper =
-                EntityFactory.buildHelper("Mee", "Moo", "a@b.de", HelperState.ACTIVE, 23, 6, 2000).saveOrUpdate();
+                EntityFactory.buildHelper("Mee", "Moo", "a@b.de", HelperState.ACTIVE, 23, 6, 2000, true).saveOrUpdate();
 
         // start process
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
@@ -540,23 +541,23 @@ public class RequestHelpExecutionTest
 
         // block all of them with fresh helpers...
         Helper new1 =
-                EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 2, 1976).saveOrUpdate();
+                EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 2, 1976, true).saveOrUpdate();
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(new1, event2016,
                 unassignedPositions.get(0));
         Helper new2 =
-                EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 3, 1976).saveOrUpdate();
+                EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 3, 1976, true).saveOrUpdate();
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(new2, event2016,
                 unassignedPositions.get(1));
         Helper new3 =
-                EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 4, 1976).saveOrUpdate();
+                EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 4, 1976, true).saveOrUpdate();
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(new3, event2016,
                 unassignedPositions.get(2));
         Helper new4 =
-                EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 5, 1976).saveOrUpdate();
+                EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 5, 1976, true).saveOrUpdate();
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(new4, event2016,
                 unassignedPositions.get(3));
         Helper new5 =
-                EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 6, 1976).saveOrUpdate();
+                EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 6, 1976, true).saveOrUpdate();
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(new5, event2016,
                 unassignedPositions.get(4));
 
@@ -633,6 +634,13 @@ public class RequestHelpExecutionTest
         // choose manual assignment
         HelperInteraction.processReminderCallback(event2016.getId(), helper.getId(), HelperCallback.ASSIGN_ME_MANUALLY,
                 processEngine.getProcessEngine());
+
+        // process confirmation for manual assignment
+        HelperInteraction.processManualAssignmentConfirmation(event2016.getId(), helper.getId(), "123",
+                processEngine.getProcessEngine());
+        
+        // make sure there is an assignment wish...
+        assertEquals(1, RepositoryProvider.getRepository(ManualAssignmentCommentRepository.class).findAll().size());
 
         // manual assignment task must be there...
         assertTrue(RequestHelpTestUtil.wasTaskGenerated(
@@ -822,7 +830,7 @@ public class RequestHelpExecutionTest
         for (Position posUnassigned : unassigned)
         {
             newHelper =
-                    EntityFactory.buildHelper("AAA", "BBB", "a@b.de", HelperState.ACTIVE, 1, 1, 1970 + i)
+                    EntityFactory.buildHelper("AAA", "BBB", "a@b.de", HelperState.ACTIVE, 1, 1, 1970 + i, true)
                             .saveOrUpdate();
             i++;
             RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(newHelper, event2016,

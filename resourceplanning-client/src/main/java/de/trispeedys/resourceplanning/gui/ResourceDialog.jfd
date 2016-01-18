@@ -5,7 +5,7 @@ new FormModel {
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JInternalFrame", new FormLayoutManager( class java.awt.GridBagLayout ) {
 			"$columnSpecs": "0, 44, 0:1.0"
-			"$rowSpecs": "0, 0:1.0, 0:1.0, 0"
+			"$rowSpecs": "0, 0:1.0, 0, 0:1.0, 0"
 			"$hGap": 5
 			"$vGap": 5
 			"$alignLeft": true
@@ -220,7 +220,7 @@ new FormModel {
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 					"$columnSpecs": "0:1.0, 0"
-					"$rowSpecs": "0:1.0, 0:1.0"
+					"$rowSpecs": "0:1.0, 62, 0:1.0"
 					"$hGap": 5
 					"$vGap": 5
 					"$alignLeft": true
@@ -266,6 +266,26 @@ new FormModel {
 						"gridwidth": 2
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0:1.0"
+						"$rowSpecs": "0:1.0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignLeft": true
+						"$alignTop": true
+					} ) {
+						name: "borderWish"
+						"border": new javax.swing.border.TitledBorder( "Helferwunsch" )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scWish"
+							add( new FormComponent( "javax.swing.JTextArea" ) {
+								name: "taWish"
+								"lineWrap": true
+							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 1
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 						"$columnSpecs": "0:1.0, 0"
 						"$rowSpecs": "0, 0:1.0"
 						"$hGap": 5
@@ -292,7 +312,7 @@ new FormModel {
 							"gridx": 1
 						} )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridy": 1
+						"gridy": 2
 						"gridwidth": 2
 					} )
 				}, new FormLayoutConstraints( null ) {
@@ -553,7 +573,7 @@ new FormModel {
 					"title": "Nachbearbeitung"
 				} )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-				"gridheight": 2
+				"gridheight": 3
 				"gridwidth": 3
 				"gridy": 1
 			} )
@@ -561,7 +581,7 @@ new FormModel {
 				name: "pgMain"
 				"stringPainted": true
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-				"gridy": 3
+				"gridy": 4
 				"gridwidth": 3
 			} )
 		}, new FormLayoutConstraints( null ) {

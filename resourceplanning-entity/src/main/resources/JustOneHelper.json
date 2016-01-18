@@ -1,0 +1,26 @@
+{
+   "description":"Test-Triathlon 2015",
+   "key":"TEST-TRI-2015",
+   "template":"TRI-GENERAL",
+   "eventDate":"21.06.2015",
+   "domains":[
+      {
+         "domainNumber":"1",
+         "domainName":"Laufstrecke",
+         "assignments":[
+            {
+               "lastName":"Schroeder",
+               "firstName":"Helmut",
+               "helperMail":"stefan.schulz.1976@googlemail.com",
+               "birthDay":"23.03.1971",
+               "positionNumber":"5",
+               "positionName":"Führungsradfahrer",
+               "minimalAge":"16",
+               "positionPriority":"-1",
+               "choosable":"y",
+               "aggregation":""
+            }
+         ]
+      }
+   ]
+}

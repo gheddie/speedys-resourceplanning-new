@@ -8,6 +8,8 @@ import org.apache.log4j.Logger;
 import de.gravitex.hibernateadapter.core.repository.AbstractDatabaseRepository;
 import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
 import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
+import de.trispeedys.resourceplanning.configuration.AppConfiguration;
+import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.datasource.MessageQueueDatasource;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessageQueue;
@@ -22,7 +24,7 @@ public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQu
 {
     private static final Logger logger = Logger.getLogger(MessageQueueRepository.class);
 
-    private static final boolean INSTANT_SEND = false;
+    private static final boolean INSTANT_SEND = true;
 
     public List<MessageQueue> findAllUnprocessedMessages()
     {
@@ -59,9 +61,17 @@ public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQu
 
     public void sendUnprocessedMessage(MessageQueue message)
     {
+        String username = null;
+        String password = null;
+        String host = null;
+        String port = null;
         try
         {
-            MailSender.sendHtmlMail(message.getToAddress(), message.getBody(), message.getSubject());
+            username = AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.SMTP_USER);
+            password = AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.SMTP_PASSWD);
+            host = AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.SMTP_HOST);
+            port = AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.SMTP_PORT);
+            MailSender.sendHtmlMail(message.getToAddress(), message.getBody(), message.getSubject(), username, password, host, port);
             message.setMessagingState(MessagingState.PROCESSED);
             logger.info("message [" +
                     message.getMessagingType() + "] succesfully sent to '" + message.getToAddress() + "'...");

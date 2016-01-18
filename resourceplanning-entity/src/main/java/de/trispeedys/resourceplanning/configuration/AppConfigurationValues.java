@@ -9,7 +9,7 @@ public class AppConfigurationValues
     public static final String HOST = "host";
 
     public static final String VERSION = "version";
-
+    
     public static final String SMTP_USER = "smtp_user";
 
     public static final String SMTP_PASSWD = "smtp_passwd";
@@ -17,6 +17,8 @@ public class AppConfigurationValues
     public static final String SMTP_HOST = "smtp_host";
 
     public static final String SMTP_PORT = "smtp_port";
+    
+    public static final String HELPER_CONFIRM_INFO = "helper_confirm_info";
     
     public static final String ADMIN_MAIL = "admin_mail";
 

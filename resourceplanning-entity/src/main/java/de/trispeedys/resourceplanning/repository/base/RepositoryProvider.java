@@ -10,6 +10,7 @@ import de.trispeedys.resourceplanning.repository.EventPositionRepository;
 import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
+import de.trispeedys.resourceplanning.repository.ManualAssignmentCommentRepository;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.MissedAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
@@ -40,6 +41,7 @@ public class RepositoryProvider
         registerRepository(PositionAggregationRepository.class);
         registerRepository(AggregationRelationRepository.class);
         registerRepository(MissedAssignmentRepository.class);
+        registerRepository(ManualAssignmentCommentRepository.class);
     }
 
     @SuppressWarnings("rawtypes")

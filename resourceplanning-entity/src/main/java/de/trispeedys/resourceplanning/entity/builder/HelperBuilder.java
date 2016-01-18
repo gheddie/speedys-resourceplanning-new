@@ -17,6 +17,8 @@ public class HelperBuilder extends AbstractEntityBuilder<Helper>
 
     private HelperState helperState;
 
+    private boolean internal;
+
     public HelperBuilder withFirstName(String aFirstName)
     {
         firstName = aFirstName;
@@ -46,6 +48,12 @@ public class HelperBuilder extends AbstractEntityBuilder<Helper>
         email = aEmail;
         return this;
     }
+    
+    public HelperBuilder withInternal(boolean anInternal)
+    {
+        internal = anInternal;
+        return this;
+    }
 
     public Helper build()
     {
@@ -55,6 +63,7 @@ public class HelperBuilder extends AbstractEntityBuilder<Helper>
         helper.setDateOfBirth(dateOfBirth);
         helper.setEmail(email);
         helper.setHelperState(helperState);
+        helper.setInternal(internal);
         return helper;
     }
 }

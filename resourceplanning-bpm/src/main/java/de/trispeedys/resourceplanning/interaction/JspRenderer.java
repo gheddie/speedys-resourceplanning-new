@@ -29,9 +29,9 @@ public class JspRenderer
         Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
         AppConfiguration configuration = AppConfiguration.getInstance();
         HtmlGenerator generator =
-                new HtmlGenerator().withImage("speedys", "gif", 600, 170).withHeader(
-                        configuration.getText(JspRenderer.class, "hello", helper.getFirstName())).withParagraph(
-                        configuration.getText(JspRenderer.class, "thanks", callback.getSummary()));
+                new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                        .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                        .withParagraph(configuration.getText(JspRenderer.class, "thanks", callback.getSummary()));
         if (callback.equals(HelperCallback.ASSIGNMENT_AS_BEFORE))
         {
             if (RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByHelperAndEvent(helper, event) != null)
@@ -56,28 +56,31 @@ public class JspRenderer
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator().withImage("speedys", "gif", 600, 170).withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "renderCorrelationFault"))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
-    
+
     public static String renderGenericEngineFault(Long helperId, String errorMessage)
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator().withImage("speedys", "gif", 600, 170).withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "genericEngineFailure"))
                 .withParagraph(errorMessage)
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
-    }    
+    }
 
     public static String renderPlanningException(Long helperId, String errorMessage)
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator().withImage("speedys", "gif", 600, 170).withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "planningExceptionCaught", errorMessage))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
@@ -97,11 +100,11 @@ public class JspRenderer
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         Position chosenPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(chosenPositionId);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator().withImage("speedys", "gif", 600, 170).withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "messageReceived"))
                 .withParagraph(
-                        configuration.getText(JspRenderer.class, "positionUnavailable",
-                                chosenPosition.getDescription()))
+                        configuration.getText(JspRenderer.class, "positionUnavailable", chosenPosition.getDescription()))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
@@ -118,7 +121,8 @@ public class JspRenderer
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         Position chosenPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(chosenPositionId);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator().withImage("speedys", "gif", 600, 170).withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "messageReceived"))
                 .withParagraph(
                         configuration.getText(JspRenderer.class, "positionAvailable", chosenPosition.getDescription()))
@@ -130,7 +134,8 @@ public class JspRenderer
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator().withImage("speedys", "gif", 600, 170).withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "messageReceived"))
                 .withParagraph(configuration.getText(JspRenderer.class, "announceConfirmation"))
                 .withParagraph(AbstractMailTemplate.sincerely())
@@ -141,7 +146,8 @@ public class JspRenderer
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator().withImage("speedys", "gif", 600, 170).withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "messageReceived"))
                 .withParagraph(configuration.getText(JspRenderer.class, "furtherRegarding"))
                 .withParagraph(AbstractMailTemplate.sincerely())
@@ -153,10 +159,34 @@ public class JspRenderer
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         Position chosenPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(chosenPositionId);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator().withImage("speedys", "gif", 600, 170).withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(
                         configuration.getText(JspRenderer.class, "positionRecoveredOnCancellation",
                                 chosenPosition.getDescription(), chosenPosition.getDomain().getName()))
+                .withParagraph(AbstractMailTemplate.sincerely())
+                .render();
+    }
+
+    public static String renderManualAssignmentForm(Long eventId, Long helperId)
+    {
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                .withParagraph(configuration.getText(JspRenderer.class, "manualAssignmentTeaser"))
+                .withTextAreaInput("ManualAssignmentConfirm.jsp",
+                        6, 120, configuration.getText(JspRenderer.class, "sendManualAssignment"), eventId, helperId)
+                .render();
+    }
+
+    public static String renderManualAssignmentConfirmation(Long helperId)
+    {
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                .withParagraph(configuration.getText(JspRenderer.class, "manualAssignmentConfirmed"))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }

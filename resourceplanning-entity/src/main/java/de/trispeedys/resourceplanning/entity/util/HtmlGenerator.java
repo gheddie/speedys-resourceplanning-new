@@ -7,7 +7,7 @@ import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 public class HtmlGenerator
 {
     public static final String MACHINE_MESSAGE = "machineMessage";
-    
+
     private StringBuffer buffer;
 
     private boolean renderNoReply;
@@ -29,14 +29,16 @@ public class HtmlGenerator
      * 
      * @param filename
      * @param suffix
-     * @param width 
-     * @param height 
+     * @param width
+     * @param height
      * 
      * @return
      */
     public HtmlGenerator withImage(String filename, String suffix, int width, int height)
     {
-        MessageFormat mf = new MessageFormat("<img src=\"img/{0}.{1}\" width=\"{2}\" height=\"{3}\" align=\"middle\" class=\"centeredImageContainer\">");
+        MessageFormat mf =
+                new MessageFormat(
+                        "<img src=\"img/{0}.{1}\" width=\"{2}\" height=\"{3}\" align=\"middle\" class=\"centeredImageContainer\">");
         buffer.append(mf.format(new Object[]
         {
                 filename, suffix, width, height
@@ -66,27 +68,27 @@ public class HtmlGenerator
         }
         return this;
     }
-    
+
     public HtmlGenerator withListItem(String key)
     {
         buffer.append("<li>" + key + "</li>");
         newLine();
         return this;
     }
-    
+
     public HtmlGenerator withUnorderedListEntry(String link, String text, boolean renderAsLink)
     {
         if (renderAsLink)
         {
-            buffer.append("<ul><a href=\"" + link + "\">" + text + "</a></ul>");   
-        }        
+            buffer.append("<ul><a href=\"" + link + "\">" + text + "</a></ul>");
+        }
         else
         {
             // no link, just the entry...
             buffer.append("<ul>" + text + "</ul>");
         }
         newLine();
-        return this;        
+        return this;
     }
 
     public HtmlGenerator withParagraph(String text)
@@ -95,21 +97,22 @@ public class HtmlGenerator
         newLine();
         return this;
     }
-    
+
     public HtmlGenerator withDiv(String text)
     {
         buffer.append("<div>" + text + "</div>");
         newLine();
         return this;
-    }    
-    
+    }
+
     public HtmlGenerator withClosingLink()
     {
-        buffer.append("<a href=\"javascript:close_window();\">"+AppConfiguration.getInstance().getText(this, "close")+"</a>");
+        buffer.append("<a href=\"javascript:close_window();\">" +
+                AppConfiguration.getInstance().getText(this, "close") + "</a>");
         newLine();
         return this;
     }
-    
+
     public HtmlGenerator withLink(String link, String displayText)
     {
         MessageFormat mf = new MessageFormat("<a href=\"{0}\">{1}</a>");
@@ -120,7 +123,24 @@ public class HtmlGenerator
         newLine();
         return this;
     }
-    
+
+    public HtmlGenerator withTextAreaInput(String target, int rows, int columns, String buttonText, Long eventId,
+            Long helperId)
+    {
+        // TODO improve css to render commit button centered, too...
+        MessageFormat mf =
+                new MessageFormat("<form action =\"{0}\"><textarea name=\"helperMessage\" rows=\"{1}\" cols=\"{2}\">"
+                        + "</textarea>"
+                        + "<input type=\"submit\" value=\"{3}\"><input type=\"hidden\" name=\"eventId\" value=\"{4}\">"
+                        + "<input type=\"hidden\" name=\"helperId\" value=\"{5}\">" + "</form>");
+        buffer.append(mf.format(new Object[]
+        {
+                target, rows, columns, buttonText, eventId, helperId
+        }));
+        newLine();
+        return this;
+    }
+
     private void withMachineMessage()
     {
         withParagraph(AppConfiguration.getInstance().getText(HtmlGenerator.MACHINE_MESSAGE));
@@ -132,11 +152,11 @@ public class HtmlGenerator
     }
 
     public String render()
-    {   
+    {
         if (renderNoReply)
         {
-            withMachineMessage();   
-        }        
+            withMachineMessage();
+        }
         return buffer.toString();
     }
 }

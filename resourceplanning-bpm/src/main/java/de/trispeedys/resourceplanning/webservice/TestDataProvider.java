@@ -92,7 +92,7 @@ public class TestDataProvider
 
         // block one of the positions with a new helper
         Helper blockingHelper =
-                EntityFactory.buildHelper("New123", "New123", "a@b.de", HelperState.ACTIVE, 5, 5, 1980).saveOrUpdate();
+                EntityFactory.buildHelper("New123", "New123", "a@b.de", HelperState.ACTIVE, 5, 5, 1980, true).saveOrUpdate();
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(blockingHelper, event2016, (Position) Datasources.getDatasource(Position.class)
                 .findAll(null)
                 .get(0));
@@ -122,8 +122,8 @@ public class TestDataProvider
         startHelperRequestProcess(((Helper) Datasources.getDatasource(Helper.class).findAll(null).get(0)).getId(),
                 event2016.getId());
 
-        EntityFactory.buildHelper("New1", "New1", "a@b.de", HelperState.ACTIVE, 5, 5, 1980).saveOrUpdate();
-        EntityFactory.buildHelper("New2", "New2", "a@b.de", HelperState.ACTIVE, 5, 5, 1980).saveOrUpdate();
+        EntityFactory.buildHelper("New1", "New1", "a@b.de", HelperState.ACTIVE, 5, 5, 1980, true).saveOrUpdate();
+        EntityFactory.buildHelper("New2", "New2", "a@b.de", HelperState.ACTIVE, 5, 5, 1980, true).saveOrUpdate();
     }
 
     /**
@@ -143,11 +143,11 @@ public class TestDataProvider
         List<Position> positions = Datasources.getDatasource(Position.class).findAll(null);
         // new helper 1 with assignment
         Helper newHelper1 =
-                EntityFactory.buildHelper("New1", "New1", "a@b.de", HelperState.ACTIVE, 5, 5, 1980).saveOrUpdate();
+                EntityFactory.buildHelper("New1", "New1", "a@b.de", HelperState.ACTIVE, 5, 5, 1980, true).saveOrUpdate();
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(newHelper1, event2016, positions.get(1));
         // new helper 2 with assignment
         Helper newHelper2 =
-                EntityFactory.buildHelper("New2", "New2", "a@b.de", HelperState.ACTIVE, 5, 5, 1980).saveOrUpdate();
+                EntityFactory.buildHelper("New2", "New2", "a@b.de", HelperState.ACTIVE, 5, 5, 1980, true).saveOrUpdate();
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(newHelper2, event2016, positions.get(3));
         for (Helper helper : activeHelpers)
         {

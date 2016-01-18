@@ -5,6 +5,8 @@ public class ManualAssignmentDTO
     private String taskId;
     
     private String helperName;
+
+    private String wish;
     
     public String getTaskId()
     {
@@ -24,5 +26,15 @@ public class ManualAssignmentDTO
     public void setHelperName(String helperName)
     {
         this.helperName = helperName;        
+    }
+    
+    public String getWish()
+    {
+        return wish;
+    }
+
+    public void setWish(String wish)
+    {
+        this.wish = wish;
     }
 }

@@ -1,6 +1,7 @@
 package de.trispeedys.resourceplanning.webservice;
 
 import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,10 +17,12 @@ import org.camunda.bpm.BpmPlatform;
 import org.camunda.bpm.engine.MismatchingMessageCorrelationException;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.Execution;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.runtime.VariableInstance;
 import org.camunda.bpm.engine.runtime.VariableInstanceQuery;
 import org.camunda.bpm.engine.task.Task;
 import org.hibernate.Transaction;
+import org.hibernate.event.spi.EventType;
 
 import de.gravitex.hibernateadapter.core.SessionHolder;
 import de.gravitex.hibernateadapter.core.SessionManager;
@@ -38,6 +41,7 @@ import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventPosition;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
+import de.trispeedys.resourceplanning.entity.ManualAssignmentComment;
 import de.trispeedys.resourceplanning.entity.MessageQueue;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
@@ -54,6 +58,7 @@ import de.trispeedys.resourceplanning.repository.EventPositionRepository;
 import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
+import de.trispeedys.resourceplanning.repository.ManualAssignmentCommentRepository;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
@@ -318,22 +323,34 @@ public class ResourceInfo
         return dtos.toArray(new MessageDTO[dtos.size()]);
     }
 
-    public ManualAssignmentDTO[] queryManualAssignments()
+    public ManualAssignmentDTO[] queryManualAssignments(Long eventId)
     {
         List<ManualAssignmentDTO> dtos = new ArrayList<ManualAssignmentDTO>();
         ManualAssignmentDTO dto = null;
         Helper helper = null;
+        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        ManualAssignmentComment wishFound = null;
         for (Task manualAssignmentTask : BpmPlatform.getDefaultProcessEngine()
                 .getTaskService()
                 .createTaskQuery()
                 .taskDefinitionKey(BpmTaskDefinitionKeys.RequestHelpHelper.TASK_DEFINITION_KEY_MANUAL_ASSIGNMENT)
                 .list())
         {
-            dto = new ManualAssignmentDTO();
-            dto.setTaskId(manualAssignmentTask.getId());
-            helper = getHelper(manualAssignmentTask);
-            dto.setHelperName(helper.getLastName() + ", " + helper.getFirstName());
-            dtos.add(dto);
+            ProcessInstance execution = (ProcessInstance) BpmPlatform.getDefaultProcessEngine().getRuntimeService().createExecutionQuery().executionId(manualAssignmentTask.getExecutionId()).list().get(0);
+            String businessKey = execution.getBusinessKey();
+            
+            String bkPartial = new MessageFormat("event:{0}").format(new Object[]{String.valueOf(eventId)});
+            if (businessKey.contains(bkPartial))
+            {
+                // TODO is there a better to determine whether this task is a task from a process belonging to the given event ID?
+                dto = new ManualAssignmentDTO();
+                dto.setTaskId(manualAssignmentTask.getId());
+                helper = getHelper(manualAssignmentTask);
+                dto.setHelperName(helper.getLastName() + ", " + helper.getFirstName());                
+                wishFound = RepositoryProvider.getRepository(ManualAssignmentCommentRepository.class).findByEventAndHelper(event, helper);
+                dto.setWish(wishFound != null ? wishFound.getComment() : "");
+                dtos.add(dto);
+            }            
         }
         return dtos.toArray(new ManualAssignmentDTO[dtos.size()]);
     }
@@ -448,9 +465,10 @@ public class ResourceInfo
     public void createHelper(String lastName, String firstName, String email, int dayOfBirth, int monthOfBirth,
             int yearOfBirth)
     {
+        // TODO add parameter 'internal' here, or webservice can only create internal helpers...
         Helper helper =
                 EntityFactory.buildHelper(lastName, firstName, email, HelperState.ACTIVE, dayOfBirth, monthOfBirth,
-                        yearOfBirth).saveOrUpdate();
+                        yearOfBirth, true).saveOrUpdate();
         // start a request help process for every event which is initiated in this moment...
         for (Event event : RepositoryProvider.getRepository(EventRepository.class).findInitiatedEvents())
         {

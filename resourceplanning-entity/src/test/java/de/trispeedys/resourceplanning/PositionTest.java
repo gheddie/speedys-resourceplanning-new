@@ -197,7 +197,7 @@ public class PositionTest
     {
         TestUtil.clearAll();
 
-        Helper helper = EntityFactory.buildHelper("Müller", "Peter", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
+        Helper helper = EntityFactory.buildHelper("Müller", "Peter", "", HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
 
         EventTemplate template = EntityFactory.buildEventTemplate("999").saveOrUpdate();
 

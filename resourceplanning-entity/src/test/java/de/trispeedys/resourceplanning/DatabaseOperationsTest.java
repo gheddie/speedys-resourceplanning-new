@@ -50,8 +50,8 @@ public class DatabaseOperationsTest
         // clear db
         TestUtil.clearAll();
 
-        EntityFactory.buildHelper("Helfer", "Eins", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
-        EntityFactory.buildHelper("Helfer", "Zwei", "", HelperState.INACTIVE, 1, 1, 1980).saveOrUpdate();
+        EntityFactory.buildHelper("Helfer", "Eins", "", HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
+        EntityFactory.buildHelper("Helfer", "Zwei", "", HelperState.INACTIVE, 1, 1, 1980, true).saveOrUpdate();
 
         String qry =
                 "FROM " +
@@ -69,7 +69,7 @@ public class DatabaseOperationsTest
         TestUtil.clearAll();
 
         Helper helper =
-                EntityFactory.buildHelper("Helfer", "Eins", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
+                EntityFactory.buildHelper("Helfer", "Eins", "", HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
 
         DefaultDatasource<Helper> datasource = Datasources.getDatasource(Helper.class);
         datasource.findById(null, helper.getId());
@@ -81,8 +81,8 @@ public class DatabaseOperationsTest
         // clear db
         TestUtil.clearAll();
 
-        EntityFactory.buildHelper("Helfer", "Eins", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
-        EntityFactory.buildHelper("Helfer", "Zwei", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
+        EntityFactory.buildHelper("Helfer", "Eins", "", HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
+        EntityFactory.buildHelper("Helfer", "Zwei", "", HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
 
         List<Helper> found =
                 Datasources.getDatasource(Helper.class).find(null, Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
@@ -160,8 +160,8 @@ public class DatabaseOperationsTest
         TestUtil.clearAll();
 
         // create helpers
-        EntityFactory.buildHelper("Helfer", "Eins", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
-        EntityFactory.buildHelper("Helfer", "Zwei", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
+        EntityFactory.buildHelper("Helfer", "Eins", "", HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
+        EntityFactory.buildHelper("Helfer", "Zwei", "", HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
 
         Datasources.getDatasource(Helper.class).findSingle(null, Helper.ATTR_LAST_NAME, "Helfer");
     }
@@ -173,8 +173,8 @@ public class DatabaseOperationsTest
         TestUtil.clearAll();
 
         // create helpers
-        EntityFactory.buildHelper("Hansen", "Klaus", "", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
-        EntityFactory.buildHelper("Meier", "Peter", "", HelperState.INACTIVE, 1, 1, 1980).saveOrUpdate();
+        EntityFactory.buildHelper("Hansen", "Klaus", "", HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
+        EntityFactory.buildHelper("Meier", "Peter", "", HelperState.INACTIVE, 1, 1, 1980, true).saveOrUpdate();
 
         Helper activeHelper =
                 Datasources.getDatasource(Helper.class).findSingle(null, Helper.ATTR_HELPER_STATE,
@@ -198,7 +198,7 @@ public class DatabaseOperationsTest
         assertEquals(0, RepositoryProvider.getRepository(HelperRepository.class).findAll(null).size());
         
         // create a helper
-        Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "moo@foo.fi", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
+        Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "moo@foo.fi", HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
         
         assertEquals(1, RepositoryProvider.getRepository(HelperRepository.class).findAll(null).size());
         

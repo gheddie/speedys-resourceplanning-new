@@ -12,7 +12,6 @@ import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.junit.Rule;
 import org.junit.Test;
 
-import de.gravitex.hibernateadapter.core.util.HibernateUtil;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
@@ -39,7 +38,7 @@ import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 public class RequestHelpTest
 {
     private static final Helper DEFAULT_HELPER = EntityFactory.buildHelper("Stefan", "Schulz", "",
-            HelperState.ACTIVE, 13, 2, 1976).saveOrUpdate();
+            HelperState.ACTIVE, 13, 2, 1976, true).saveOrUpdate();
 
     @Rule
     public ProcessEngineRule rule = new ProcessEngineRule();
@@ -96,7 +95,7 @@ public class RequestHelpTest
                         template, null).saveOrUpdate();
         // create helper
         Helper helper =
-                EntityFactory.buildHelper("Stefan", "Schulz", "", HelperState.ACTIVE, 1, 1, 1990).saveOrUpdate();
+                EntityFactory.buildHelper("Stefan", "Schulz", "", HelperState.ACTIVE, 1, 1, 1990, true).saveOrUpdate();
         // start process
         RequestHelpTestUtil.startHelperRequestProcess(helper, evt2016,
                 ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), evt2016.getId()), rule);
@@ -131,9 +130,9 @@ public class RequestHelpTest
                         .saveOrUpdate();
         // create helper
         Helper createdHelper =
-                EntityFactory.buildHelper("Stefan", "Schulz", "", HelperState.ACTIVE, 1, 1, 1990).saveOrUpdate();
+                EntityFactory.buildHelper("Stefan", "Schulz", "", HelperState.ACTIVE, 1, 1, 1990, true).saveOrUpdate();
         Helper blockingHelper =
-                EntityFactory.buildHelper("Blocking", "Helper", "", HelperState.ACTIVE, 1, 1, 1990).saveOrUpdate();
+                EntityFactory.buildHelper("Blocking", "Helper", "", HelperState.ACTIVE, 1, 1, 1990, true).saveOrUpdate();
         // assign position to event
         SpeedyRoutines.relateEventsToPosition(positionBikeEntry, evt2014, evt2015);
         // assign helper to position in 2014
@@ -223,9 +222,9 @@ public class RequestHelpTest
         TestUtil.clearAll();
         
         // create 3 new helpers
-        EntityFactory.buildHelper("Helper1", "Helper1", "a@b.de", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
-        EntityFactory.buildHelper("Helper2", "Helper2", "a@b.de", HelperState.ACTIVE, 1, 2, 1980).saveOrUpdate();
-        EntityFactory.buildHelper("Helper3", "Helper3", "a@b.de", HelperState.ACTIVE, 1, 3, 1980).saveOrUpdate();
+        EntityFactory.buildHelper("Helper1", "Helper1", "a@b.de", HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
+        EntityFactory.buildHelper("Helper2", "Helper2", "a@b.de", HelperState.ACTIVE, 1, 2, 1980, true).saveOrUpdate();
+        EntityFactory.buildHelper("Helper3", "Helper3", "a@b.de", HelperState.ACTIVE, 1, 3, 1980, true).saveOrUpdate();
         // create 'little' event for 2015
         Event event2015 =
                 TestDataGenerator.createSimpleEvent("TRI-2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED,

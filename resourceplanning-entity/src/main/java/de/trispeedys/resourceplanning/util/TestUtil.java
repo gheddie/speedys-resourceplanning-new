@@ -9,6 +9,7 @@ public class TestUtil
 {
     public static void clearAll()
     {
+        clearTable("manual_assignment_comment");
         clearTable("template_domain");
         clearTable("domain_responsibility");
         clearTable("aggregation_relation");

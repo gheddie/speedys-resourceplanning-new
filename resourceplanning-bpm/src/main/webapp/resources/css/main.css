@@ -8,6 +8,7 @@ h1 {
 	line-height: 145%;
 	font-size: 20pt;
 	font-variant: small-caps;
+	background-color: red;
 }
 
 h2 {
@@ -20,6 +21,7 @@ h2 {
 	line-height: 145%;
 	font-size: 18pt;
 	font-variant: small-caps;
+	background-color: red;
 }
 
 p {
@@ -52,4 +54,10 @@ img.centeredImageContainer {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+textarea {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

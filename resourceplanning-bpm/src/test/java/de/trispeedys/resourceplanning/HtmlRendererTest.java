@@ -13,7 +13,7 @@ public class HtmlRendererTest
     {
         TestUtil.clearAll();
         System.out.println(" --------- testRenderPositionUnavailableCallback --------- ");
-        Helper helper = EntityFactory.buildHelper("Meier", "Klaus", "a@b.de", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
+        Helper helper = EntityFactory.buildHelper("Meier", "Klaus", "a@b.de", HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
         System.out.println(JspRenderer.renderChosenPositionAvailableCallback(helper.getId(), null));
     }
 
@@ -22,7 +22,7 @@ public class HtmlRendererTest
     {
         TestUtil.clearAll();
         System.out.println(" --------- testRenderChosenPositionUnavailableCallback --------- ");
-        Helper helper = EntityFactory.buildHelper("Meier", "Klaus", "a@b.de", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
+        Helper helper = EntityFactory.buildHelper("Meier", "Klaus", "a@b.de", HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
         System.out.println(JspRenderer.renderChosenPositionUnavailableCallback(helper.getId(), null));
     }
 }

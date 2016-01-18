@@ -43,7 +43,7 @@ public class MailTemplateTest
         // create helper and event
         Helper helper =
                 EntityFactory.buildHelper("H1_First", "H1_Last", "testhelper1.trispeedys@gmail.com ",
-                        HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
+                        HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
         
         EventTemplate evTemplate = EntityFactory.buildEventTemplate("123").saveOrUpdate();
         
@@ -77,7 +77,7 @@ public class MailTemplateTest
         EventTemplate template = EntityFactory.buildEventTemplate("123ggg").saveOrUpdate();
         Event event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
         
-        Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980).saveOrUpdate();
+        Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980, true).saveOrUpdate();
         
         Domain domain = EntityFactory.buildDomain("Schwimmen", 2).saveOrUpdate();
         Position pos = EntityFactory.buildPosition("Alles wegräumen", 12, domain, 0, true).saveOrUpdate();
@@ -96,7 +96,7 @@ public class MailTemplateTest
         // clear db
         TestUtil.clearAll();
         
-        Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980).saveOrUpdate();
+        Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980, true).saveOrUpdate();
         
         System.out.println(new AlertDeactivationMailTemplate(helper, null, null).constructBody());
         
@@ -112,7 +112,7 @@ public class MailTemplateTest
         // clear db
         TestUtil.clearAll();
         
-        Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980).saveOrUpdate();
+        Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980, true).saveOrUpdate();
         EventTemplate template = EntityFactory.buildEventTemplate("123ggg").saveOrUpdate();
         Event event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
         Domain domain = EntityFactory.buildDomain("Schwimmen", 2).saveOrUpdate();

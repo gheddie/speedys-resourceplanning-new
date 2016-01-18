@@ -45,8 +45,8 @@ public class ManualAssignmentTest
                         null);
 
         // additional helpers
-        EntityFactory.buildHelper("AAA", "BBB", "CCC", HelperState.ACTIVE, 1, 1, 1980).saveOrUpdate();
-        EntityFactory.buildHelper("AAA", "FFF", "CCC", HelperState.INACTIVE, 1, 1, 1980).saveOrUpdate();
+        EntityFactory.buildHelper("AAA", "BBB", "CCC", HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
+        EntityFactory.buildHelper("AAA", "FFF", "CCC", HelperState.INACTIVE, 1, 1, 1980, true).saveOrUpdate();
 
         String businessKey = null;
         List<Helper> activeHelpers =

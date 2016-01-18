@@ -14,6 +14,7 @@ create table helper
 	email varchar(255),
 	helper_state varchar(64),
 	code varchar(16),
+	internal boolean,
 	primary key (id),
 	constraint hlp_unique_code unique (code)
 );
@@ -221,3 +222,19 @@ create table event_location
 	description varchar(255),
 	primary key (id)	
 );
+
+------------------------------------------------ ManualAssignmentComment
+create sequence manual_assignment_comment_id_seq;
+
+create table manual_assignment_comment
+(
+	id bigint not null default nextval('manual_assignment_comment_id_seq'),
+	comment varchar(1024),
+	helper_id bigint not null,	
+	event_id bigint not null,	
+	primary key (id)	
+);
+
+alter table manual_assignment_comment add constraint fk_m_assig_comm_helper foreign key (helper_id) references helper (id);
+
+alter table manual_assignment_comment add constraint fk_m_assig_comm_event foreign key (event_id) references event (id);

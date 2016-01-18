@@ -34,11 +34,11 @@ public class SessionManagerTest
             holder.beginTransaction();
             
             // create some stuff
-            holder.saveOrUpdate(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980));
-            holder.saveOrUpdate(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1981));
-            holder.saveOrUpdate(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1982));
-            holder.saveOrUpdate(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1983));
-            holder.saveOrUpdate(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1984));
+            holder.saveOrUpdate(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980, true));
+            holder.saveOrUpdate(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1981, true));
+            holder.saveOrUpdate(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1982, true));
+            holder.saveOrUpdate(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1983, true));
+            holder.saveOrUpdate(EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1984, true));
             if (true)
             {
                 throw new ResourcePlanningException("123");   
@@ -68,8 +68,8 @@ public class SessionManagerTest
         HelperRepository repository = RepositoryProvider.getRepository(HelperRepository.class);
         
         // create some helpers and then delete one of them (single use session/transaction)
-        Helper helper1 = EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 2, 1976).saveOrUpdate();
-        Helper helper2 = EntityFactory.buildHelper("Schulz", "Diana", "a@b.de", HelperState.ACTIVE, 4, 3, 1973).saveOrUpdate();
+        Helper helper1 = EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 2, 1976, true).saveOrUpdate();
+        Helper helper2 = EntityFactory.buildHelper("Schulz", "Diana", "a@b.de", HelperState.ACTIVE, 4, 3, 1973, true).saveOrUpdate();
         
         // there must be 2 helpers...
         assertEquals(2,  repository.findAll(null).size());
@@ -89,8 +89,8 @@ public class SessionManagerTest
         {
             sessionHolder.beginTransaction();
             
-            Helper helper3 = EntityFactory.buildHelper("Schulz", "Tim", "a@b.de", HelperState.ACTIVE, 11, 11, 2005);
-            Helper helper4 = EntityFactory.buildHelper("Schulz", "Fabian", "a@b.de", HelperState.ACTIVE, 21, 5, 2011);
+            Helper helper3 = EntityFactory.buildHelper("Schulz", "Tim", "a@b.de", HelperState.ACTIVE, 11, 11, 2005, true);
+            Helper helper4 = EntityFactory.buildHelper("Schulz", "Fabian", "a@b.de", HelperState.ACTIVE, 21, 5, 2011, true);
             
             sessionHolder.saveOrUpdate(helper3);
             sessionHolder.saveOrUpdate(helper4);

@@ -36,7 +36,7 @@ public class HelperInteraction
      * @param businessKey
      * @return
      */
-    public static String processReminderCallback(Long eventId, Long helperId, HelperCallback callback,
+    public static synchronized String processReminderCallback(Long eventId, Long helperId, HelperCallback callback,
             ProcessEngine testEngine)
     {
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
@@ -60,11 +60,51 @@ public class HelperInteraction
                 variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, HelperCallback.ASSIGN_ME_MANUALLY);
                 break;
         }
+        if (callback.equals(HelperCallback.ASSIGN_ME_MANUALLY))
+        {
+            // manual assignment must be treated seperately as the helper
+            // gets a chance to enter a comment --> no direct message correlation
+            return JspRenderer.renderManualAssignmentForm(eventId, helperId);
+        }
+        else
+        {
+            try
+            {
+                getProcessEngine(testEngine).getRuntimeService().correlateMessage(
+                        BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
+                return JspRenderer.renderCallbackSuccess(eventId, helperId, callback);
+            }
+            catch (MismatchingMessageCorrelationException e)
+            {
+                return JspRenderer.renderCorrelationFault(helperId);
+            }
+            catch (ProcessEngineException e)
+            {
+                return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
+            }        
+            catch (ResourcePlanningException e)
+            {
+                // this is an exception raised from the business logic...
+                alertPlanningException(helperId, eventId, e.getMessage());
+                return JspRenderer.renderPlanningException(helperId, e.getMessage());
+            }   
+        }
+    }
+    
+    public static synchronized String processManualAssignmentConfirmation(Long eventId, Long helperId, String helperMessage, ProcessEngine testEngine)
+    {
+        // TODO this can be called several timer if the helper clicks the button sending the wish text box more than one time --> synchronized helps --> do it for the other methods, too...
+        
+        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, HelperCallback.ASSIGN_ME_MANUALLY);
+        variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_MANUAL_ASSIGNMENT_WISH, helperMessage);
         try
         {
+            // correlate message 'MSG_HELP_CALLBACK' with peculiarity 'ASSIGN_ME_MANUALLY'...
             getProcessEngine(testEngine).getRuntimeService().correlateMessage(
                     BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
-            return JspRenderer.renderCallbackSuccess(eventId, helperId, callback);
+            return JspRenderer.renderManualAssignmentConfirmation(helperId);
         }
         catch (MismatchingMessageCorrelationException e)
         {
@@ -79,7 +119,7 @@ public class HelperInteraction
             // this is an exception raised from the business logic...
             alertPlanningException(helperId, eventId, e.getMessage());
             return JspRenderer.renderPlanningException(helperId, e.getMessage());
-        }
+        } 
     }
 
     /**
@@ -93,7 +133,7 @@ public class HelperInteraction
      * 
      * @throws MismatchingMessageCorrelationException
      */
-    public static String processPositionChosenCallback(Long eventId, Long helperId, Long chosenPositionId,
+    public static synchronized String processPositionChosenCallback(Long eventId, Long helperId, Long chosenPositionId,
             ProcessEngine testEngine) throws MismatchingMessageCorrelationException
     {
         // find out if the chosen position is available and feed that information to the process...
@@ -137,7 +177,7 @@ public class HelperInteraction
         }
     }
 
-    public static String processAssignmentCancellation(Long eventId, Long helperId, ProcessEngine testEngine)
+    public static synchronized String processAssignmentCancellation(Long eventId, Long helperId, ProcessEngine testEngine)
     {
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         try
@@ -162,7 +202,7 @@ public class HelperInteraction
         }
     }
 
-    public static String processDeactivationRecovery(Long eventId, Long helperId, ProcessEngine testEngine)
+    public static synchronized String processDeactivationRecovery(Long eventId, Long helperId, ProcessEngine testEngine)
     {
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         try
@@ -187,7 +227,7 @@ public class HelperInteraction
         }
     }
 
-    public static String processPositionRecoveryOnCancellation(Long eventId, Long helperId, Long chosenPositionId, ProcessEngine testEngine)
+    public static synchronized String processPositionRecoveryOnCancellation(Long eventId, Long helperId, Long chosenPositionId, ProcessEngine testEngine)
     {
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         

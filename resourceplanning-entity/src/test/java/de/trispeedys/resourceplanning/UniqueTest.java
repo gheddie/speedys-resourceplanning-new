@@ -41,9 +41,9 @@ public class UniqueTest
         Position position = EntityFactory.buildPosition("Some position", 12, domain1, 0, true).saveOrUpdate();
         Event event = EntityFactory.buildEvent("Triathlon 2016", "TRI-2016", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
         Helper helper1 =
-                EntityFactory.buildHelper("Stefan", "Schulz", "a@b.de", HelperState.ACTIVE, 13, 2, 1976).saveOrUpdate();
+                EntityFactory.buildHelper("Stefan", "Schulz", "a@b.de", HelperState.ACTIVE, 13, 2, 1976, true).saveOrUpdate();
         Helper helper2 =
-                EntityFactory.buildHelper("Diana", "Schulz", "a@b.de", HelperState.ACTIVE, 4, 3, 1973).saveOrUpdate();
+                EntityFactory.buildHelper("Diana", "Schulz", "a@b.de", HelperState.ACTIVE, 4, 3, 1973, true).saveOrUpdate();
         
         //assign position to event to avoid resource planning exception
         SpeedyRoutines.relatePositionsToEvent(event, position);

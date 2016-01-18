@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="helperName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="taskId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="wish" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,12 +30,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "manualAssignmentDTO", propOrder = {
     "helperName",
-    "taskId"
+    "taskId",
+    "wish"
 })
 public class ManualAssignmentDTO {
 
     protected String helperName;
     protected String taskId;
+    protected String wish;
 
     /**
      * Gets the value of the helperName property.
@@ -82,6 +85,30 @@ public class ManualAssignmentDTO {
      */
     public void setTaskId(String value) {
         this.taskId = value;
+    }
+
+    /**
+     * Gets the value of the wish property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getWish() {
+        return wish;
+    }
+
+    /**
+     * Sets the value of the wish property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setWish(String value) {
+        this.wish = value;
     }
 
 }
