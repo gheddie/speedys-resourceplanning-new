@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "ResourceInfoService", targetNamespace = "http://webservice.resourceplanning.trispeedys.de/", wsdlLocation = "http://localhost:8080/resourceplanning-bpm-0.0.1-SNAPSHOT/ResourceInfoWs?wsdl")
+@WebServiceClient(name = "ResourceInfoService", targetNamespace = "http://webservice.resourceplanning.trispeedys.de/", wsdlLocation = "http://localhost:8080/resourceplanning-bpm-1.0-RC-1/ResourceInfoWs?wsdl")
 public class ResourceInfoService
     extends Service
 {
@@ -30,7 +30,7 @@ public class ResourceInfoService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://localhost:8080/resourceplanning-bpm-0.0.1-SNAPSHOT/ResourceInfoWs?wsdl");
+            url = new URL("http://localhost:8080/resourceplanning-bpm-1.0-RC-1/ResourceInfoWs?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

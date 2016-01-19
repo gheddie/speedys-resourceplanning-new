@@ -21,18 +21,6 @@ public interface TestDataProvider {
 
     /**
      * 
-     */
-    @WebMethod
-    public void prepareSimpleEventWithFloatingHelpers();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void startSomeProcessesWithNewHelpers();
-
-    /**
-     * 
      * @param arg1
      * @param arg0
      */
@@ -42,6 +30,12 @@ public interface TestDataProvider {
         long arg0,
         @WebParam(name = "arg1", partName = "arg1")
         long arg1);
+
+    /**
+     * 
+     */
+    @WebMethod
+    public void duplicateUnchanged();
 
     /**
      * 
@@ -71,12 +65,6 @@ public interface TestDataProvider {
      * 
      */
     @WebMethod
-    public void duplicateUnchanged();
-
-    /**
-     * 
-     */
-    @WebMethod
     public void killAllExecutions();
 
     /**
@@ -96,6 +84,18 @@ public interface TestDataProvider {
     public void setupForTesting(
         @WebParam(name = "arg0", partName = "arg0")
         String arg0);
+
+    /**
+     * 
+     */
+    @WebMethod
+    public void prepareSimpleEventWithFloatingHelpers();
+
+    /**
+     * 
+     */
+    @WebMethod
+    public void startSomeProcessesWithNewHelpers();
 
     /**
      * 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <configuration>
 	<!-- app specific -->
-	<property name="version">0.0.1-SNAPSHOT</property>
+	<property name="version">1.0-RC-1</property>
 	<!-- <property name="host">http://192.168.0.8:8080</property> -->
 	<property name="host">http://localhost:8080</property>
 	<!-- <property name="host">http://www.triathlon-helfer.de:8080</property> -->

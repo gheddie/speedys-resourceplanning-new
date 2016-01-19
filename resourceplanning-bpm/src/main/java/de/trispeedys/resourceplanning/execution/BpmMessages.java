@@ -4,7 +4,11 @@ public class BpmMessages
 {
     public class RequestHelpHelper
     {
+        // Startet einen Slave-Prozess
         public static final String MSG_HELP_TRIG = "MSG_HELP_TRIG";
+        
+        // Meldet den Abschluss eines Slave-Prozesses zurück an den Master
+        public static final String MSG_HELP_FINISHED = "MSG_HELP_FINISHED";        
         
         public static final String MSG_START_REMINDERS = "MSG_START_REMINDERS";
         

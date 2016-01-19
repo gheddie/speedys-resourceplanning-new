@@ -33,6 +33,12 @@ public class BpmVariables
     
     public class RequestHelpMaster
     {
+        /**
+         * business of the master process given to the slave in order to call back finishing.
+         * slave must not start with out this given on startup... 
+         */
+        public static final String VAR_MASTER_BK_REF = "masterBkRef";
+        
         // Event-ID, user by master process
         public static final String VAR_MASTER_EVENT_ID = "masterEventId";
         

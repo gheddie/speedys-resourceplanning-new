@@ -35,13 +35,7 @@ public interface TestDataProvider {
      * 
      */
     @WebMethod
-    public void prepareSimpleEventWithFloatingHelpers();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void startSomeProcessesWithNewHelpers();
+    public void duplicateUnchanged();
 
     /**
      * 
@@ -53,19 +47,13 @@ public interface TestDataProvider {
      * 
      */
     @WebMethod
-    public void prepareRealLife();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void duplicateUnchanged();
-
-    /**
-     * 
-     */
-    @WebMethod
     public void startOneProcesses();
+
+    /**
+     * 
+     */
+    @WebMethod
+    public void prepareRealLife();
 
     /**
      * 
@@ -101,7 +89,13 @@ public interface TestDataProvider {
      * 
      */
     @WebMethod
-    public void finish2015();
+    public void prepareSimpleEventWithFloatingHelpers();
+
+    /**
+     * 
+     */
+    @WebMethod
+    public void startSomeProcessesWithNewHelpers();
 
     /**
      * 
@@ -120,5 +114,11 @@ public interface TestDataProvider {
      */
     @WebMethod
     public void duplicate2015();
+
+    /**
+     * 
+     */
+    @WebMethod
+    public void finish2015();
 
 }

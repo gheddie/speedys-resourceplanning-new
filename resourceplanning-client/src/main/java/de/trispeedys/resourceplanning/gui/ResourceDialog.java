@@ -50,15 +50,15 @@ import de.trispeedys.resourceplanning.webservice.MessageDTO;
 import de.trispeedys.resourceplanning.webservice.PositionDTO;
 
 /**
- * wsimport -keep -verbose http://localhost:8080/resourceplanning-bpm-0.0.1-SNAPSHOT/ResourceInfoWs?wsdl
- * wsimport -keep -verbose http://www.triathlon-helfer.de:8080/resourceplanning-bpm-0.0.1-SNAPSHOT/ResourceInfoWs?wsdl
+ * wsimport -keep -verbose http://localhost:8080/resourceplanning-bpm-1.0-RC-1/ResourceInfoWs?wsdl
+ * wsimport -keep -verbose http://www.triathlon-helfer.de:8080/resourceplanning-bpm-1.0-RC-1/ResourceInfoWs?wsdl
  * 
- * wsimport -keep -verbose http://localhost:8080/resourceplanning-bpm-0.0.1-SNAPSHOT/TestDataProviderWs?wsdl
- * wsimport -keep -verbose http://www.triathlon-helfer.de:8080/resourceplanning-bpm-0.0.1-SNAPSHOT/TestDataProviderWs?wsdl
+ * wsimport -keep -verbose http://localhost:8080/resourceplanning-bpm-1.0-RC-1/TestDataProviderWs?wsdl
+ * wsimport -keep -verbose http://www.triathlon-helfer.de:8080/resourceplanning-bpm-1.0-RC-1/TestDataProviderWs?wsdl
  * 
  * @author Stefan.Schulz
  *
- *         http://localhost:8080/resourceplanning-bpm-0.0.1-SNAPSHOT/HelperCallbackReceiver.jsp?callbackResult=
+ *         http://localhost:8080/resourceplanning-bpm-1.0-RC-1/HelperCallbackReceiver.jsp?callbackResult=
  *         ASSIGNMENT_AS_BEFORE
  * 
  *         DEBUG Tomcat:
