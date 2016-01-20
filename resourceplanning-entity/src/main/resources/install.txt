@@ -11,3 +11,21 @@ log4j.appender.R.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss.SSS 'GMT'Z}(%F:
 + build the client
 
 http://stackoverflow.com/questions/574594/how-can-i-create-an-executable-jar-with-dependencies-using-maven
+
+	Tomcat Process Engine DB:
+
+Tomcat Process Engine DB PostGres
+------------------------------------------------------------------------------------------
+<Resource name="jdbc/ProcessEngine"
+		  auth="Container"
+		  type="javax.sql.DataSource" 
+		  factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+		  uniqueResourceName="process-engine"
+		  driverClassName="org.postgresql.Driver" 
+		  url="jdbc:postgresql://localhost/speedys-resource-planning-bpm"
+		  username="postgres"  
+		  password="pgvedder"
+		  maxActive="20"
+		  minIdle="5" />
+		  
+ + postgresql-9.1-901-1.jdbc4.jar in [TOMCAT_HOME]/lib kopieren

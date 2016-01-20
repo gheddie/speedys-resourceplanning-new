@@ -483,6 +483,14 @@ new FormModel {
 							"gridx": 1
 							"gridy": 1
 						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnClipboard"
+							"text": "Zwischenablage"
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnClipboardPressed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 2
+							"gridy": 1
+						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "lblBody"
 							"text": "Text:"

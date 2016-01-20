@@ -8,6 +8,8 @@ import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -248,6 +250,10 @@ public class ResourceDialog extends SpeedyFrame
             }
         });
         tbPosRemoving.enableMultiSelection();
+    }
+    
+    private void btnClipboardPressed(ActionEvent e) {
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(taBody.getText()), null);
     }
 
     private void btnFinishProcessesPressed(ActionEvent e)
@@ -776,6 +782,7 @@ public class ResourceDialog extends SpeedyFrame
         btnMessageFormat = new JToggleButton();
         lblSubject = new JLabel();
         tfSubject = new JTextField();
+        btnClipboard = new JButton();
         lblBody = new JLabel();
         scBody = new JScrollPane();
         taBody = new JTextPane();
@@ -1372,6 +1379,18 @@ public class ResourceDialog extends SpeedyFrame
                         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                         new Insets(0, 0, 5, 5), 0, 0));
 
+                    //---- btnClipboard ----
+                    btnClipboard.setText("Zwischenablage");
+                    btnClipboard.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            btnClipboardPressed(e);
+                        }
+                    });
+                    borderSingleMessage.add(btnClipboard, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+
                     //---- lblBody ----
                     lblBody.setText("Text:");
                     borderSingleMessage.add(lblBody, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
@@ -1555,6 +1574,7 @@ public class ResourceDialog extends SpeedyFrame
     private JToggleButton btnMessageFormat;
     private JLabel lblSubject;
     private JTextField tfSubject;
+    private JButton btnClipboard;
     private JLabel lblBody;
     private JScrollPane scBody;
     private JTextPane taBody;

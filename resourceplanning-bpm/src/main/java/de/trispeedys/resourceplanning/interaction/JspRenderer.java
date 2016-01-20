@@ -58,6 +58,7 @@ public class JspRenderer
         AppConfiguration configuration = AppConfiguration.getInstance();
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                .withImage("doh", "png", 492, 578)
                 .withParagraph(configuration.getText(JspRenderer.class, "renderCorrelationFault"))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
@@ -154,16 +155,23 @@ public class JspRenderer
                 .render();
     }
 
-    public static String renderPositionRecoveryOnCancellation(Long helperId, Long chosenPositionId)
+    public static String renderPositionRecoveryOnCancellation(Long eventId, Long helperId, Long chosenPositionId)
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         Position chosenPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(chosenPositionId);
         AppConfiguration configuration = AppConfiguration.getInstance();
+        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        // decide if the recovery was succesful -> position could be already taken again...
+        String confirmationKey =
+                RepositoryProvider.getRepository(HelperRepository.class).isHelperAssignedForPosition(helper, event,
+                        chosenPosition)
+                        ? "positionRecoveryOnCancellationSuccess"
+                        : "positionRecoveryOnCancellationFault";
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(
-                        configuration.getText(JspRenderer.class, "positionRecoveredOnCancellation",
-                                chosenPosition.getDescription(), chosenPosition.getDomain().getName()))
+                        configuration.getText(JspRenderer.class, confirmationKey, chosenPosition.getDescription(),
+                                chosenPosition.getDomain().getName()))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
@@ -175,8 +183,8 @@ public class JspRenderer
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "manualAssignmentTeaser"))
-                .withTextAreaInput("ManualAssignmentConfirm.jsp",
-                        6, 120, configuration.getText(JspRenderer.class, "sendManualAssignment"), eventId, helperId)
+                .withTextAreaInput("ManualAssignmentConfirm.jsp", 6, 120,
+                        configuration.getText(JspRenderer.class, "sendManualAssignment"), eventId, helperId)
                 .render();
     }
 

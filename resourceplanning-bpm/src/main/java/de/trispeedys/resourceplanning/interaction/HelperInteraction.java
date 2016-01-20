@@ -23,11 +23,16 @@ import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
+import de.trispeedys.resourceplanning.util.StringUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class HelperInteraction
 {
     private static final Logger logger = Logger.getLogger(HelperInteraction.class);
+
+    private static final int MAX_MESSAGE_LENGTH = 250;
+
+    private static final String ERROR_MESSAGE_TOO_LONG = "ERROR_MESSAGE_TOO_LONG";
 
     /**
      * called from 'HelperCallbackReceiver.jsp'
@@ -81,20 +86,25 @@ public class HelperInteraction
             catch (ProcessEngineException e)
             {
                 return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
-            }        
+            }
             catch (ResourcePlanningException e)
             {
                 // this is an exception raised from the business logic...
                 alertPlanningException(helperId, eventId, e.getMessage());
                 return JspRenderer.renderPlanningException(helperId, e.getMessage());
-            }   
+            }
         }
     }
-    
-    public static synchronized String processManualAssignmentConfirmation(Long eventId, Long helperId, String helperMessage, ProcessEngine testEngine)
+
+    public static synchronized String processManualAssignmentConfirmation(Long eventId, Long helperId,
+            String helperMessage, ProcessEngine testEngine)
     {
-        // TODO this can be called several timer if the helper clicks the button sending the wish text box more than one time --> synchronized helps --> do it for the other methods, too...
-        
+        if ((!(StringUtil.isBlank(helperMessage))) && (helperMessage.length() > MAX_MESSAGE_LENGTH))
+        {
+            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(HelperInteraction.class,
+                    ERROR_MESSAGE_TOO_LONG, helperMessage.length(), MAX_MESSAGE_LENGTH));
+        }
+
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, HelperCallback.ASSIGN_ME_MANUALLY);
@@ -113,13 +123,13 @@ public class HelperInteraction
         catch (ProcessEngineException e)
         {
             return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
-        }        
+        }
         catch (ResourcePlanningException e)
         {
             // this is an exception raised from the business logic...
             alertPlanningException(helperId, eventId, e.getMessage());
             return JspRenderer.renderPlanningException(helperId, e.getMessage());
-        } 
+        }
     }
 
     /**
@@ -140,7 +150,7 @@ public class HelperInteraction
         boolean positionAvailable =
                 RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(eventId,
                         chosenPositionId);
-        
+
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION, chosenPositionId);
         variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POS_AVAILABLE, positionAvailable);
@@ -177,7 +187,8 @@ public class HelperInteraction
         }
     }
 
-    public static synchronized String processAssignmentCancellation(Long eventId, Long helperId, ProcessEngine testEngine)
+    public static synchronized String processAssignmentCancellation(Long eventId, Long helperId,
+            ProcessEngine testEngine)
     {
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         try
@@ -193,7 +204,7 @@ public class HelperInteraction
         catch (ProcessEngineException e)
         {
             return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
-        }        
+        }
         catch (ResourcePlanningException e)
         {
             // this is an exception raised from the business logic...
@@ -227,24 +238,27 @@ public class HelperInteraction
         }
     }
 
-    public static synchronized String processPositionRecoveryOnCancellation(Long eventId, Long helperId, Long chosenPositionId, ProcessEngine testEngine)
+    public static synchronized String processPositionRecoveryOnCancellation(Long eventId, Long helperId,
+            Long chosenPositionId, ProcessEngine testEngine)
     {
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
-        
+
         // find out if the chosen position is available and feed that information to the process...
         boolean positionAvailable =
                 RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(eventId,
                         chosenPositionId);
-        
+
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION, chosenPositionId);
-        variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POS_AVAILABLE, positionAvailable);        
-        
+        variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POS_AVAILABLE, positionAvailable);
+
         try
         {
             getProcessEngine(testEngine).getRuntimeService().correlateMessage(
                     BpmMessages.RequestHelpHelper.MSG_ASSIG_RECOVERY, businessKey, variables);
-            return JspRenderer.renderPositionRecoveryOnCancellation(helperId, chosenPositionId);
+            // TODO Auf jeden Fall Erfolgs-Meldung, nur wenn Nachricht korrekt zugestellt ?!?
+            // Was, wenn Position bereits anderweitig besetzt?
+            return JspRenderer.renderPositionRecoveryOnCancellation(eventId, helperId, chosenPositionId);
         }
         catch (MismatchingMessageCorrelationException e)
         {

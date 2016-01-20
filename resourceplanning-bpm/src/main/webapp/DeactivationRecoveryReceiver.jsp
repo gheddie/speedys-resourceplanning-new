@@ -4,6 +4,7 @@
 <html>
 <%@page import="de.trispeedys.resourceplanning.interaction.HelperInteraction"%>
 <%@page import="de.trispeedys.resourceplanning.configuration.AppConfiguration"%>
+<%@page import="de.trispeedys.resourceplanning.util.parser.ParserUtil"%>
 <head>
   <link rel="stylesheet" href="resources/css/main.css" type="text/css"/>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -11,8 +12,8 @@
 </head>
 <body>
 	<%
-      Long eventId = Long.parseLong(request.getParameter("eventId"));
-	  Long helperId = Long.parseLong(request.getParameter("helperId"));
+      Long eventId = ParserUtil.parseLong(request.getParameter("eventId"));
+	  Long helperId = ParserUtil.parseLong(request.getParameter("helperId"));
 	  // render action result
 	  out.println(HelperInteraction.processDeactivationRecovery(eventId, helperId, null));
 	%>

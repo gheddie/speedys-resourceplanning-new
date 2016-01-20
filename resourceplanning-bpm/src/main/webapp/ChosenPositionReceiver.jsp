@@ -4,6 +4,7 @@
 <html>
 <%@page import="de.trispeedys.resourceplanning.interaction.HelperInteraction"%>
 <%@page import="de.trispeedys.resourceplanning.configuration.AppConfiguration"%>
+<%@page import="de.trispeedys.resourceplanning.util.parser.ParserUtil"%>
 <head>
   <link rel="stylesheet" href="resources/css/main.css" type="text/css"/>
   <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
@@ -11,9 +12,9 @@
 </head>
 <body>
 	<%
-      Long eventId = Long.parseLong(request.getParameter("eventId"));
-	  Long helperId = Long.parseLong(request.getParameter("helperId"));
-	  Long chosenPositionId = Long.parseLong(request.getParameter("chosenPosition"));        	        
+      Long eventId = ParserUtil.parseLong(request.getParameter("eventId"));
+	  Long helperId = ParserUtil.parseLong(request.getParameter("helperId"));
+	  Long chosenPositionId = ParserUtil.parseLong(request.getParameter("chosenPosition"));        	        
 	  // render action result
 	  out.println(HelperInteraction.processPositionChosenCallback(eventId, helperId, chosenPositionId, null));
 	%>

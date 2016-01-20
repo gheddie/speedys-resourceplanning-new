@@ -25,6 +25,15 @@ public interface ResourceInfo {
 
     /**
      * 
+     * @return
+     *     returns de.trispeedys.resourceplanning.webservice.ExecutionDTOArray
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    public ExecutionDTOArray queryExecutions();
+
+    /**
+     * 
      * @param arg0
      * @return
      *     returns de.trispeedys.resourceplanning.webservice.PositionDTOArray
@@ -103,15 +112,6 @@ public interface ResourceInfo {
 
     /**
      * 
-     * @return
-     *     returns de.trispeedys.resourceplanning.webservice.ExecutionDTOArray
-     */
-    @WebMethod
-    @WebResult(partName = "return")
-    public ExecutionDTOArray queryExecutions();
-
-    /**
-     * 
      * @param arg1
      * @param arg0
      */
@@ -184,6 +184,21 @@ public interface ResourceInfo {
      * @param arg1
      * @param arg0
      * @return
+     *     returns long
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    public long createDomain(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        int arg1);
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
      *     returns de.trispeedys.resourceplanning.webservice.HierarchicalEventItemDTOArray
      */
     @WebMethod
@@ -193,30 +208,6 @@ public interface ResourceInfo {
         long arg0,
         @WebParam(name = "arg1", partName = "arg1")
         boolean arg1);
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void finishUp();
-
-    /**
-     * 
-     * @return
-     *     returns de.trispeedys.resourceplanning.webservice.HelperDTOArray
-     */
-    @WebMethod
-    @WebResult(partName = "return")
-    public HelperDTOArray queryHelpers();
-
-    /**
-     * 
-     * @return
-     *     returns de.trispeedys.resourceplanning.webservice.EventDTOArray
-     */
-    @WebMethod
-    @WebResult(partName = "return")
-    public EventDTOArray queryEvents();
 
     /**
      * 
@@ -244,18 +235,27 @@ public interface ResourceInfo {
 
     /**
      * 
-     * @param arg1
-     * @param arg0
      * @return
-     *     returns long
+     *     returns de.trispeedys.resourceplanning.webservice.HelperDTOArray
      */
     @WebMethod
     @WebResult(partName = "return")
-    public long createDomain(
-        @WebParam(name = "arg0", partName = "arg0")
-        String arg0,
-        @WebParam(name = "arg1", partName = "arg1")
-        int arg1);
+    public HelperDTOArray queryHelpers();
+
+    /**
+     * 
+     */
+    @WebMethod
+    public void finishUp();
+
+    /**
+     * 
+     * @return
+     *     returns de.trispeedys.resourceplanning.webservice.EventDTOArray
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    public EventDTOArray queryEvents();
 
     /**
      * 

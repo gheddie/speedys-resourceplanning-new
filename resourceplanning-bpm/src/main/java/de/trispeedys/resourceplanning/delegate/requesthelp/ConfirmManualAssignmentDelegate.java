@@ -10,8 +10,6 @@ import de.trispeedys.resourceplanning.util.StringUtil;
 
 public class ConfirmManualAssignmentDelegate extends RequestHelpNotificationDelegate
 {
-    private static final int MAX_COMMENT_LENGTH = 250;
-
     public void execute(DelegateExecution execution) throws Exception
     {
         // TODO test execution in unit test
@@ -21,10 +19,6 @@ public class ConfirmManualAssignmentDelegate extends RequestHelpNotificationDele
         // create manual assignment comment
         if (!(StringUtil.isBlank(wish)))
         {
-            if (wish.length() > MAX_COMMENT_LENGTH)
-            {
-                wish = wish.substring(0, MAX_COMMENT_LENGTH);
-            }
             EntityFactory.buildManualAssignmentComment(getEvent(execution), helper, wish).saveOrUpdate();
         }
     }
