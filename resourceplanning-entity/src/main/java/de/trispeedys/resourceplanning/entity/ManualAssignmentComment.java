@@ -7,6 +7,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import de.trispeedys.resourceplanning.util.StringUtil;
+
 @Entity
 @Table(name = "manual_assignment_comment")
 public class ManualAssignmentComment extends AbstractDbObject
@@ -55,5 +57,10 @@ public class ManualAssignmentComment extends AbstractDbObject
     public void setComment(String comment)
     {
         this.comment = comment;
+    }
+
+    public boolean isFilled()
+    {
+        return (!(StringUtil.isBlank(comment)));
     }
 }

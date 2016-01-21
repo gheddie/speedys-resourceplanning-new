@@ -3,6 +3,7 @@ package de.trispeedys.resourceplanning.interaction;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
+import de.trispeedys.resourceplanning.entity.ManualAssignmentComment;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
@@ -11,6 +12,7 @@ import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
+import de.trispeedys.resourceplanning.repository.ManualAssignmentCommentRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
@@ -58,7 +60,7 @@ public class JspRenderer
         AppConfiguration configuration = AppConfiguration.getInstance();
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
-                .withImage("doh", "png", 492, 578)
+                // .withImage("doh", "png", 492, 578)
                 .withParagraph(configuration.getText(JspRenderer.class, "renderCorrelationFault"))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
@@ -188,13 +190,21 @@ public class JspRenderer
                 .render();
     }
 
-    public static String renderManualAssignmentConfirmation(Long helperId)
+    public static String renderManualAssignmentConfirmation(Long eventId, Long helperId)
     {
-        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);       
+        ManualAssignmentComment wish = RepositoryProvider.getRepository(ManualAssignmentCommentRepository.class).findByEventAndHelper(event, helper);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+        HtmlGenerator generator = new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
-                .withParagraph(configuration.getText(JspRenderer.class, "manualAssignmentConfirmed"))
+                .withParagraph(configuration.getText(JspRenderer.class, "manualAssignmentConfirmed"));
+        if ((wish != null) && (wish.isFilled()))
+        {
+            generator.withParagraph(configuration.getText(JspRenderer.class, "assignmentCommentReminder"));
+            generator.withParagraph(wish.getComment());
+        }
+        return generator
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }

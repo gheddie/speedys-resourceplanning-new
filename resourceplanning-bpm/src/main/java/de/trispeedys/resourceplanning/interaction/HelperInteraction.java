@@ -114,7 +114,7 @@ public class HelperInteraction
             // correlate message 'MSG_HELP_CALLBACK' with peculiarity 'ASSIGN_ME_MANUALLY'...
             getProcessEngine(testEngine).getRuntimeService().correlateMessage(
                     BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
-            return JspRenderer.renderManualAssignmentConfirmation(helperId);
+            return JspRenderer.renderManualAssignmentConfirmation(eventId, helperId);
         }
         catch (MismatchingMessageCorrelationException e)
         {
@@ -256,8 +256,6 @@ public class HelperInteraction
         {
             getProcessEngine(testEngine).getRuntimeService().correlateMessage(
                     BpmMessages.RequestHelpHelper.MSG_ASSIG_RECOVERY, businessKey, variables);
-            // TODO Auf jeden Fall Erfolgs-Meldung, nur wenn Nachricht korrekt zugestellt ?!?
-            // Was, wenn Position bereits anderweitig besetzt?
             return JspRenderer.renderPositionRecoveryOnCancellation(eventId, helperId, chosenPositionId);
         }
         catch (MismatchingMessageCorrelationException e)
