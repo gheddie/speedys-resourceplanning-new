@@ -25,7 +25,7 @@ public class CallbackChoiceGenerator extends RuleObject<HelperCallback>
             // prior position is not available, so...
             return Arrays.asList(new HelperCallback[]
             {
-                    HelperCallback.CHANGE_POS, HelperCallback.PAUSE_ME, HelperCallback.ASSIGN_ME_MANUALLY
+                    HelperCallback.CHANGE_POS, HelperCallback.PAUSE_ME, HelperCallback.ASSIGN_ME_MANUALLY, HelperCallback.QUIT_FOREVER
             });
         }
         return Arrays.asList(HelperCallback.values());

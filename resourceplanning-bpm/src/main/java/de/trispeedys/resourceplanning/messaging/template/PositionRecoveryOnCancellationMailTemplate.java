@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.messaging;
+package de.trispeedys.resourceplanning.messaging.template;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.Event;

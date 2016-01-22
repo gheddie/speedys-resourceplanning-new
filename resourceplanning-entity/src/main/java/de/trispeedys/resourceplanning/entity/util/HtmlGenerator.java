@@ -36,9 +36,7 @@ public class HtmlGenerator
      */
     public HtmlGenerator withImage(String filename, String suffix, int width, int height)
     {
-        MessageFormat mf =
-                new MessageFormat(
-                        "<img src=\"img/{0}.{1}\" width=\"{2}\" height=\"{3}\" align=\"middle\" class=\"centeredImageContainer\">");
+        MessageFormat mf = new MessageFormat("<img src=\"img/{0}.{1}\" width=\"{2}\" height=\"{3}\" align=\"middle\" class=\"centeredImageContainer\">");
         buffer.append(mf.format(new Object[]
         {
                 filename, suffix, width, height
@@ -107,8 +105,7 @@ public class HtmlGenerator
 
     public HtmlGenerator withClosingLink()
     {
-        buffer.append("<a href=\"javascript:close_window();\">" +
-                AppConfiguration.getInstance().getText(this, "close") + "</a>");
+        buffer.append("<a href=\"javascript:close_window();\">" + AppConfiguration.getInstance().getText(this, "close") + "</a>");
         newLine();
         return this;
     }
@@ -124,18 +121,29 @@ public class HtmlGenerator
         return this;
     }
 
-    public HtmlGenerator withTextAreaInput(String target, int rows, int columns, String buttonText, Long eventId,
-            Long helperId)
+    public HtmlGenerator withTextAreaInputForm(String target, int rows, int columns, String buttonText, Long eventId, Long helperId)
     {
         // TODO improve css to render commit button centered, too...
         MessageFormat mf =
                 new MessageFormat("<form action =\"{0}\"><textarea name=\"helperMessage\" rows=\"{1}\" cols=\"{2}\">"
-                        + "</textarea>"
-                        + "<input type=\"submit\" value=\"{3}\"><input type=\"hidden\" name=\"eventId\" value=\"{4}\">"
-                        + "<input type=\"hidden\" name=\"helperId\" value=\"{5}\">" + "</form>");
+                        + "</textarea>" + "<input type=\"submit\" value=\"{3}\"><input type=\"hidden\" name=\"eventId\" value=\"{4}\">" + "<input type=\"hidden\" name=\"helperId\" value=\"{5}\">"
+                        + "</form>");
         buffer.append(mf.format(new Object[]
         {
                 target, rows, columns, buttonText, eventId, helperId
+        }));
+        newLine();
+        return this;
+    }
+
+    public HtmlGenerator withSimpleButtonForm(String target, String buttonText, Long eventId, Long helperId)
+    {
+        MessageFormat mf =
+                new MessageFormat("<form action =\"{0}\"><input type=\"submit\" value=\"{1}\">"
+                        + "<input type=\"hidden\" name=\"eventId\" value=\"{2}\">" + "<input type=\"hidden\" name=\"helperId\" value=\"{3}\">" + "</form>");
+        buffer.append(mf.format(new Object[]
+        {
+                target, buttonText, eventId, helperId
         }));
         newLine();
         return this;

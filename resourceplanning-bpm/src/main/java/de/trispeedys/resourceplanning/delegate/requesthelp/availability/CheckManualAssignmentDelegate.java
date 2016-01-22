@@ -15,6 +15,7 @@ public class CheckManualAssignmentDelegate extends RequestHelpDelegate
     {
         if (execution.getVariable(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION) == null)
         {
+            // TODO translate
             throw new ResourcePlanningException("chosen position id must not be null at this point!!");
         }
         Event event = getEvent(execution);

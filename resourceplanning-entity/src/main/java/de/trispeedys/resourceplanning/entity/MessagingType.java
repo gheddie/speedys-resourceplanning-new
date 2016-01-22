@@ -35,6 +35,9 @@ public enum MessagingType
     
     // offer a formerly blocked and then cancelled position to the initial requester
     POS_RECOVERY_ON_CANCELLATION,
+    
+    // confirmation on 'dont bother me no more'...
+    CANCEL_FOREVER_CONFIRMATION,
 
     // fallback
     NONE

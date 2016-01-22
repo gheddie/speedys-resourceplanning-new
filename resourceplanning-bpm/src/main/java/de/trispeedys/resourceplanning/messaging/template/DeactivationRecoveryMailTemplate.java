@@ -5,7 +5,6 @@ import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
-import de.trispeedys.resourceplanning.messaging.HelperInteractionMailTemplate;
 
 public class DeactivationRecoveryMailTemplate extends HelperInteractionMailTemplate
 {

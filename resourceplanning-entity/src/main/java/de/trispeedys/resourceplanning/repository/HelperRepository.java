@@ -18,8 +18,7 @@ import de.trispeedys.resourceplanning.entity.misc.HelperAssignmentState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
-public class HelperRepository extends AbstractDatabaseRepository<Helper> implements
-        DatabaseRepository<HelperRepository>
+public class HelperRepository extends AbstractDatabaseRepository<Helper> implements DatabaseRepository<HelperRepository>
 {
     protected DefaultDatasource<Helper> createDataSource()
     {
@@ -61,12 +60,11 @@ public class HelperRepository extends AbstractDatabaseRepository<Helper> impleme
         parameters.put("position", position);
         // find assignments by helper, event and position which are not cancelled
         List<HelperAssignment> list =
-                Datasources.getDatasource(Helper.class)
-                        .find(null,
-                                "FROM " +
-                                        HelperAssignment.class.getSimpleName() +
-                                        " ec WHERE ec.helper = :helper AND ec.event = :event AND ec.position = :position AND ec.helperAssignmentState <> '" +
-                                        HelperAssignmentState.CANCELLED + "'", parameters);
+                Datasources.getDatasource(Helper.class).find(
+                        null,
+                        "FROM " +
+                                HelperAssignment.class.getSimpleName() + " ec WHERE ec.helper = :helper AND ec.event = :event AND ec.position = :position AND ec.helperAssignmentState <> '" +
+                                HelperAssignmentState.CANCELLED + "'", parameters);
         // if we got one, the helper is assigned to the given position in the given event...
         return ((list != null) && (list.size() > 0));
     }
@@ -77,11 +75,7 @@ public class HelperRepository extends AbstractDatabaseRepository<Helper> impleme
         parameters.put("helper", helper);
         parameters.put("event", event);
         List<HelperAssignment> helperAssignments =
-                Datasources.getDatasource(HelperAssignment.class).find(
-                        null,
-                        "FROM " +
-                                HelperAssignment.class.getSimpleName() +
-                                " ec WHERE ec.event = :event AND ec.helper = :helper", parameters);
+                Datasources.getDatasource(HelperAssignment.class).find(null, "FROM " + HelperAssignment.class.getSimpleName() + " ec WHERE ec.event = :event AND ec.helper = :helper", parameters);
         if ((helperAssignments == null) || (helperAssignments.size() == 0))
         {
             return null;

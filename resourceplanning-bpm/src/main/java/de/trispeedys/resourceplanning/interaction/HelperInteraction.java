@@ -23,16 +23,11 @@ import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
-import de.trispeedys.resourceplanning.util.StringUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class HelperInteraction
 {
     private static final Logger logger = Logger.getLogger(HelperInteraction.class);
-
-    private static final int MAX_MESSAGE_LENGTH = 250;
-
-    private static final String ERROR_MESSAGE_TOO_LONG = "ERROR_MESSAGE_TOO_LONG";
 
     /**
      * called from 'HelperCallbackReceiver.jsp'
@@ -46,33 +41,24 @@ public class HelperInteraction
     {
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         Map<String, Object> variables = new HashMap<String, Object>();
-        switch (callback)
-        {
-            case ASSIGNMENT_AS_BEFORE:
-                logger.info("the helper wants to be assigned as before...");
-                variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, HelperCallback.ASSIGNMENT_AS_BEFORE);
-                break;
-            case CHANGE_POS:
-                logger.info("the helper wants to change positions...");
-                variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, HelperCallback.CHANGE_POS);
-                break;
-            case PAUSE_ME:
-                logger.info("the helper wants to be paused...");
-                variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, HelperCallback.PAUSE_ME);
-                break;
-            case ASSIGN_ME_MANUALLY:
-                logger.info("the helper wants to manually assigned...");
-                variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, HelperCallback.ASSIGN_ME_MANUALLY);
-                break;
-        }
+        
+        logger.info("the helper has chosen : " + callback);
+        variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, callback);
+        
         if (callback.equals(HelperCallback.ASSIGN_ME_MANUALLY))
         {
             // manual assignment must be treated seperately as the helper
             // gets a chance to enter a comment --> no direct message correlation
             return JspRenderer.renderManualAssignmentForm(eventId, helperId);
         }
+        else if (callback.equals(HelperCallback.QUIT_FOREVER))
+        {
+            // before completing this, helper must confirm...
+            return JspRenderer.renderCancelForeverForm(eventId, helperId);
+        }
         else
         {
+            //unconfirmed options (no following form)...
             try
             {
                 getProcessEngine(testEngine).getRuntimeService().correlateMessage(
@@ -93,42 +79,6 @@ public class HelperInteraction
                 alertPlanningException(helperId, eventId, e.getMessage());
                 return JspRenderer.renderPlanningException(helperId, e.getMessage());
             }
-        }
-    }
-
-    public static synchronized String processManualAssignmentConfirmation(Long eventId, Long helperId,
-            String helperMessage, ProcessEngine testEngine)
-    {
-        if ((!(StringUtil.isBlank(helperMessage))) && (helperMessage.length() > MAX_MESSAGE_LENGTH))
-        {
-            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(HelperInteraction.class,
-                    ERROR_MESSAGE_TOO_LONG, helperMessage.length(), MAX_MESSAGE_LENGTH));
-        }
-
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
-        Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, HelperCallback.ASSIGN_ME_MANUALLY);
-        variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_MANUAL_ASSIGNMENT_WISH, helperMessage);
-        try
-        {
-            // correlate message 'MSG_HELP_CALLBACK' with peculiarity 'ASSIGN_ME_MANUALLY'...
-            getProcessEngine(testEngine).getRuntimeService().correlateMessage(
-                    BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
-            return JspRenderer.renderManualAssignmentConfirmation(eventId, helperId);
-        }
-        catch (MismatchingMessageCorrelationException e)
-        {
-            return JspRenderer.renderCorrelationFault(helperId);
-        }
-        catch (ProcessEngineException e)
-        {
-            return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
-        }
-        catch (ResourcePlanningException e)
-        {
-            // this is an exception raised from the business logic...
-            alertPlanningException(helperId, eventId, e.getMessage());
-            return JspRenderer.renderPlanningException(helperId, e.getMessage());
         }
     }
 
@@ -274,7 +224,7 @@ public class HelperInteraction
         }
     }
 
-    private static ProcessEngine getProcessEngine(ProcessEngine testEngine)
+    public static ProcessEngine getProcessEngine(ProcessEngine testEngine)
     {
         // return test engine if set, default engine from bpm platform otherwise
         return testEngine != null
@@ -290,7 +240,7 @@ public class HelperInteraction
      * @param eventId
      * @param message
      */
-    private static void alertPlanningException(Long helperId, Long eventId, String message)
+    public static void alertPlanningException(Long helperId, Long eventId, String message)
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);

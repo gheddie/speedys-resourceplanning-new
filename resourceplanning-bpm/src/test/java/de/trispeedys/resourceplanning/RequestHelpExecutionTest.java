@@ -35,6 +35,7 @@ import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmSignals;
 import de.trispeedys.resourceplanning.execution.BpmTaskDefinitionKeys;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
+import de.trispeedys.resourceplanning.interaction.HelperConfirmation;
 import de.trispeedys.resourceplanning.interaction.HelperInteraction;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
@@ -636,7 +637,7 @@ public class RequestHelpExecutionTest
                 processEngine.getProcessEngine());
 
         // process confirmation for manual assignment
-        HelperInteraction.processManualAssignmentConfirmation(event2016.getId(), helper.getId(), "123",
+        HelperConfirmation.processManualAssignmentConfirmation(event2016.getId(), helper.getId(), "123",
                 processEngine.getProcessEngine());
         
         // make sure there is an assignment wish...
@@ -696,7 +697,7 @@ public class RequestHelpExecutionTest
         // check choices
         assertTrue(CallbackChoiceGeneratorTest.checkChoices(new HelperCallback[]
         {
-                HelperCallback.ASSIGN_ME_MANUALLY, HelperCallback.CHANGE_POS, HelperCallback.PAUSE_ME
+                HelperCallback.ASSIGN_ME_MANUALLY, HelperCallback.CHANGE_POS, HelperCallback.PAUSE_ME, HelperCallback.QUIT_FOREVER
         }, new CallbackChoiceGenerator().generate(helperA, event2016)));
     }
 
@@ -847,5 +848,32 @@ public class RequestHelpExecutionTest
         // manual assignment task must be there...
         assertTrue(RequestHelpTestUtil.wasTaskGenerated(
                 BpmTaskDefinitionKeys.RequestHelpHelper.TASK_DEFINITION_KEY_MANUAL_ASSIGNMENT, processEngine));
+    }
+    
+    @Test
+    @Deployment(resources = "RequestHelp.bpmn")
+    public void testCancelForever()
+    {
+        TestUtil.clearAll();
+
+        Event event2016 =
+                SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
+                        2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016", "TRI-2016", 21, 6,
+                        2016, null, null);
+
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findActiveHelpers().get(0);
+        
+        // start process
+        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
+        ProcessInstance executionA = RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, processEngine);
+
+        // TODO use 'HelperInteraction', god damn it...
+        RequestHelpTestUtil.doCallback(HelperCallback.QUIT_FOREVER, executionA.getBusinessKey(), processEngine);
+        
+        // cancel forever confirmation mail must be there...
+        assertTrue(RequestHelpTestUtil.checkMails(3, MessagingType.REMINDER_STEP_0, MessagingType.CANCEL_FOREVER_CONFIRMATION, MessagingType.ALERT_HELPER_DEACTIVATED));
+        
+        // helper must now be deactivated
+        assertEquals(HelperState.INACTIVE, RepositoryProvider.getRepository(HelperRepository.class).findById(helper.getId()).getHelperState());
     }
 }

@@ -44,6 +44,6 @@ public class MailSender
         msg.setRecipient(Message.RecipientType.TO, new InternetAddress(toAddress, false));
         msg.setContent(body, "text/html; charset=utf-8");
         msg.setSentDate(new Date());
-        Transport.send(msg);
+        Transport.send(msg);      
     }
 }

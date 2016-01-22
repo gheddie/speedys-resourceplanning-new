@@ -73,7 +73,7 @@ public class CallbackChoiceGeneratorTest
 
         assertTrue(checkChoices(new HelperCallback[]
         {
-                HelperCallback.CHANGE_POS, HelperCallback.PAUSE_ME, HelperCallback.ASSIGN_ME_MANUALLY
+                HelperCallback.CHANGE_POS, HelperCallback.PAUSE_ME, HelperCallback.ASSIGN_ME_MANUALLY, HelperCallback.QUIT_FOREVER
         }, new CallbackChoiceGenerator().generate(helperA, event2016)));
     }
 
@@ -105,7 +105,7 @@ public class CallbackChoiceGeneratorTest
         
         assertTrue(checkChoices(new HelperCallback[]
         {
-                HelperCallback.CHANGE_POS, HelperCallback.PAUSE_ME, HelperCallback.ASSIGN_ME_MANUALLY
+                HelperCallback.CHANGE_POS, HelperCallback.PAUSE_ME, HelperCallback.ASSIGN_ME_MANUALLY, HelperCallback.QUIT_FOREVER
         }, new CallbackChoiceGenerator().generate(helperA, event2016)));
     }
 

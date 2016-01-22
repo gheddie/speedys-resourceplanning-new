@@ -185,8 +185,18 @@ public class JspRenderer
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "manualAssignmentTeaser"))
-                .withTextAreaInput("ManualAssignmentConfirm.jsp", 6, 120,
-                        configuration.getText(JspRenderer.class, "sendManualAssignment"), eventId, helperId)
+                .withTextAreaInputForm("ManualAssignmentConfirm.jsp", 6, 120, configuration.getText(JspRenderer.class, "sendManualAssignment"), eventId, helperId)
+                .render();
+    }
+    
+    public static String renderCancelForeverForm(Long eventId, Long helperId)
+    {
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                .withParagraph(configuration.getText(JspRenderer.class, "cancelForeverTeaser"))
+                .withSimpleButtonForm("CancelForeverConfirm.jsp", configuration.getText(JspRenderer.class, "sendCancelForever"), eventId, helperId)
                 .render();
     }
 
@@ -205,6 +215,18 @@ public class JspRenderer
             generator.withParagraph(wish.getComment());
         }
         return generator
+                .withParagraph(AbstractMailTemplate.sincerely())
+                .render();
+    }
+
+    public static String renderCancelForeverConfirmation(Long eventId, Long helperId)
+    {
+        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                .withParagraph(configuration.getText(JspRenderer.class, "cancelForeverConfirmed"))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
