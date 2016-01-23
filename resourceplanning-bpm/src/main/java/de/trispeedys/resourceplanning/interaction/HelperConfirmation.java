@@ -48,6 +48,34 @@ public class HelperConfirmation
             return JspRenderer.renderPlanningException(helperId, e.getMessage());
         }
     }
+    
+    public static synchronized String processPauseMeConfirmation(Long eventId, Long helperId, ProcessEngine testEngine)
+    {
+        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, HelperCallback.PAUSE_ME);
+        try
+        {
+            HelperInteraction.getProcessEngine(testEngine).getRuntimeService().correlateMessage(
+                    BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
+            // TODO korrektes HTML
+            return JspRenderer.renderPauseMeConfirmation(eventId, helperId);   
+        }
+        catch (MismatchingMessageCorrelationException e)
+        {
+            return JspRenderer.renderCorrelationFault(helperId);
+        }
+        catch (ProcessEngineException e)
+        {
+            return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
+        }
+        catch (ResourcePlanningException e)
+        {
+            // this is an exception raised from the business logic...
+            HelperInteraction.alertPlanningException(helperId, eventId, e.getMessage());
+            return JspRenderer.renderPlanningException(helperId, e.getMessage());
+        }
+    }
 
     public static synchronized String processManualAssignmentConfirmation(Long eventId, Long helperId,
             String helperMessage, ProcessEngine testEngine)
@@ -68,6 +96,34 @@ public class HelperConfirmation
             HelperInteraction.getProcessEngine(testEngine).getRuntimeService().correlateMessage(
                     BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
             return JspRenderer.renderManualAssignmentConfirmation(eventId, helperId);
+        }
+        catch (MismatchingMessageCorrelationException e)
+        {
+            return JspRenderer.renderCorrelationFault(helperId);
+        }
+        catch (ProcessEngineException e)
+        {
+            return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
+        }
+        catch (ResourcePlanningException e)
+        {
+            // this is an exception raised from the business logic...
+            HelperInteraction.alertPlanningException(helperId, eventId, e.getMessage());
+            return JspRenderer.renderPlanningException(helperId, e.getMessage());
+        }
+    }
+    
+    public static synchronized String processAssignmentAsBeforeConfirmation(Long eventId, Long helperId, Long priorPositionId, ProcessEngine testEngine)
+    {
+        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, HelperCallback.ASSIGNMENT_AS_BEFORE);
+        try
+        {
+            HelperInteraction.getProcessEngine(testEngine).getRuntimeService().correlateMessage(
+                    BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
+            // TODO korrektes HTML
+            return JspRenderer.renderAssignmentAsBeforeConfirmation(eventId, helperId, priorPositionId);   
         }
         catch (MismatchingMessageCorrelationException e)
         {

@@ -14,10 +14,11 @@
 <body>
 	<%
       Long eventId = ParserUtil.parseLong(request.getParameter("eventId"));
-      Long helperId = ParserUtil.parseLong(request.getParameter("helperId"));            
+      Long helperId = ParserUtil.parseLong(request.getParameter("helperId")); 
+      Long priorPositionId = ParserUtil.parseLong(request.getParameter("priorPositionId"));
       HelperCallback callback = HelperCallback.valueOf(request.getParameter("callbackResult"));
 	  // render action result
-      out.println(HelperInteraction.processReminderCallback(eventId, helperId, callback, null));
+      out.println(HelperInteraction.processReminderCallback(eventId, helperId, priorPositionId, callback, null));
 	%>
 </body>
 </html>

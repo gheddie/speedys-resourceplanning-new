@@ -23,6 +23,7 @@ import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperAssignmentState;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.interaction.EventManager;
+import de.trispeedys.resourceplanning.interaction.HelperConfirmation;
 import de.trispeedys.resourceplanning.interaction.HelperInteraction;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
@@ -73,7 +74,7 @@ public class PositionRecoveryTest
         Helper helper2 = RepositoryProvider.getRepository(HelperRepository.class).findAll(null).get(1);
 
         // helper '2' wants another position and chooses prior position of '1'...
-        HelperInteraction.processReminderCallback(event2016.getId(), helper2.getId(), HelperCallback.CHANGE_POS,
+        HelperInteraction.processReminderCallback(event2016.getId(), helper2.getId(), null, HelperCallback.CHANGE_POS,
                 processEngine.getProcessEngine());
         Position priorPositionHelper1 = RepositoryProvider.getRepository(HelperAssignmentRepository.class).getPriorAssignment(helper1,
                 event2016.getEventTemplate()).getPosition();
@@ -83,8 +84,8 @@ public class PositionRecoveryTest
                 priorPositionHelper1.getId(), processEngine.getProcessEngine());
 
         // helper '1' wants his prior positions, but does not get it (as it is blocked)...
-        HelperInteraction.processReminderCallback(event2016.getId(), helper1.getId(),
-                HelperCallback.ASSIGNMENT_AS_BEFORE, processEngine.getProcessEngine());
+        HelperConfirmation.processAssignmentAsBeforeConfirmation(event2016.getId(), helper1.getId(),
+                null, processEngine.getProcessEngine());
 
         // there must be missed assignment
         assertEquals(1, RepositoryProvider.getRepository(MissedAssignmentRepository.class).findAll(null).size());

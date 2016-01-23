@@ -19,6 +19,7 @@ import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.execution.BpmSignals;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
+import de.trispeedys.resourceplanning.interaction.HelperConfirmation;
 import de.trispeedys.resourceplanning.interaction.HelperInteraction;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
@@ -59,22 +60,22 @@ public class MasterProcessTest
         assertTrue(checkProcessCount(1, 5));
 
         // finish of one helper process
-        HelperInteraction.processReminderCallback(event2016.getId(), activeHelpers.get(0).getId(),
-                HelperCallback.ASSIGNMENT_AS_BEFORE, processEngine.getProcessEngine());
+        HelperConfirmation.processAssignmentAsBeforeConfirmation(event2016.getId(), activeHelpers.get(0).getId(),
+                null, processEngine.getProcessEngine());
         processEngine.getRuntimeService().signalEventReceived(BpmSignals.RequestHelpHelper.SIG_EVENT_STARTED);
 
         // one master process and one slave for every active helper except the finished one...
         assertTrue(checkProcessCount(1, 4));
         
         // finish of all other helper processes
-        HelperInteraction.processReminderCallback(event2016.getId(), activeHelpers.get(1).getId(),
-                HelperCallback.ASSIGNMENT_AS_BEFORE, processEngine.getProcessEngine());
-        HelperInteraction.processReminderCallback(event2016.getId(), activeHelpers.get(2).getId(),
-                HelperCallback.ASSIGNMENT_AS_BEFORE, processEngine.getProcessEngine());
-        HelperInteraction.processReminderCallback(event2016.getId(), activeHelpers.get(3).getId(),
-                HelperCallback.ASSIGNMENT_AS_BEFORE, processEngine.getProcessEngine());
-        HelperInteraction.processReminderCallback(event2016.getId(), activeHelpers.get(4).getId(),
-                HelperCallback.ASSIGNMENT_AS_BEFORE, processEngine.getProcessEngine());
+        HelperConfirmation.processAssignmentAsBeforeConfirmation(event2016.getId(), activeHelpers.get(1).getId(),
+                null, processEngine.getProcessEngine());
+        HelperConfirmation.processAssignmentAsBeforeConfirmation(event2016.getId(), activeHelpers.get(2).getId(),
+                null, processEngine.getProcessEngine());
+        HelperConfirmation.processAssignmentAsBeforeConfirmation(event2016.getId(), activeHelpers.get(3).getId(),
+                null, processEngine.getProcessEngine());
+        HelperConfirmation.processAssignmentAsBeforeConfirmation(event2016.getId(), activeHelpers.get(4).getId(),
+                null, processEngine.getProcessEngine());
         processEngine.getRuntimeService().signalEventReceived(BpmSignals.RequestHelpHelper.SIG_EVENT_STARTED);
         
         // TODO master process must also be gone at this point...

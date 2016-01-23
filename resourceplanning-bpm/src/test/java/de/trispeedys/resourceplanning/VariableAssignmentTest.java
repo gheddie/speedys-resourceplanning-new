@@ -70,7 +70,7 @@ public class VariableAssignmentTest
         assertTrue(processEngine.getRuntimeService().getVariable(execution.getId(), BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION) == null);
         
         // call back 'CHANGE POS'...
-        HelperInteraction.processReminderCallback(event2016.getId(), helperA.getId(), HelperCallback.CHANGE_POS, processEngine.getProcessEngine());
+        HelperInteraction.processReminderCallback(event2016.getId(), helperA.getId(), null, HelperCallback.CHANGE_POS, processEngine.getProcessEngine());
         
         // ...choose a position (all of them are available)...
         Position position = RepositoryProvider.getRepository(PositionRepository.class).findAll(null).get(0);

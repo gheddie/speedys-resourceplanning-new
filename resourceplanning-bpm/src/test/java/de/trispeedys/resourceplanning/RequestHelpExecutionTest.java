@@ -104,8 +104,8 @@ public class RequestHelpExecutionTest
         // (5)
         RequestHelpTestUtil.fireTimer(BpmJobDefinitions.RequestHelpHelper.JOB_DEF_HELPER_REMINDER_TIMER, processEngine);
 
-        HelperInteraction.processReminderCallback(event2016.getId(), helperA.getId(),
-                HelperCallback.ASSIGNMENT_AS_BEFORE, processEngine.getProcessEngine());
+        HelperConfirmation.processAssignmentAsBeforeConfirmation(event2016.getId(), helperA.getId(),
+                null, processEngine.getProcessEngine());
 
         // (6) --> if CheckAvailabiliy-Delegate fails, variable 'posAvailable' must be set to 'false'
         // ??? how to check the variable ???
@@ -169,8 +169,8 @@ public class RequestHelpExecutionTest
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperA.getId(), event2016.getId());
         RequestHelpTestUtil.startHelperRequestProcess(helperA, event2016, businessKey, processEngine);
 
-        HelperInteraction.processReminderCallback(event2016.getId(), helperA.getId(),
-                HelperCallback.ASSIGNMENT_AS_BEFORE, processEngine.getProcessEngine());
+        HelperConfirmation.processAssignmentAsBeforeConfirmation(event2016.getId(), helperA.getId(),
+                null, processEngine.getProcessEngine());
 
         List<HelperAssignment> helperAssignmentA2016 =
                 RepositoryProvider.getRepository(HelperAssignmentRepository.class).getHelperAssignments(helperA,
@@ -332,7 +332,7 @@ public class RequestHelpExecutionTest
         RequestHelpTestUtil.startHelperRequestProcess(helperA, event2016, businessKey, processEngine);
 
         // (A)
-        HelperInteraction.processReminderCallback(event2016.getId(), helperA.getId(), HelperCallback.CHANGE_POS,
+        HelperInteraction.processReminderCallback(event2016.getId(), helperA.getId(), null, HelperCallback.CHANGE_POS,
                 processEngine.getProcessEngine());
 
         // check mails ('REMINDER_STEP_0' und 'PROPOSE_POSITIONS' must be there)
@@ -389,13 +389,13 @@ public class RequestHelpExecutionTest
         Helper helperA = helpers.get(0);
         String businessKeyA = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperA.getId(), event2016.getId());
         RequestHelpTestUtil.startHelperRequestProcess(helperA, event2016, businessKeyA, processEngine);
-        HelperInteraction.processReminderCallback(event2016.getId(), helperA.getId(), HelperCallback.CHANGE_POS,
+        HelperInteraction.processReminderCallback(event2016.getId(), helperA.getId(), null, HelperCallback.CHANGE_POS,
                 processEngine.getProcessEngine());
 
         Helper helperB = helpers.get(2);
         String businessKeyB = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperB.getId(), event2016.getId());
         RequestHelpTestUtil.startHelperRequestProcess(helperB, event2016, businessKeyB, processEngine);
-        HelperInteraction.processReminderCallback(event2016.getId(), helperB.getId(), HelperCallback.CHANGE_POS,
+        HelperInteraction.processReminderCallback(event2016.getId(), helperB.getId(), null, HelperCallback.CHANGE_POS,
                 processEngine.getProcessEngine());
 
         List<Position> allUnassignedPositions = positionRepository.findUnassignedPositionsInEvent(event2016, false);
@@ -570,7 +570,7 @@ public class RequestHelpExecutionTest
                         .size());
 
         // choose 'CHANGE_POS'
-        HelperInteraction.processReminderCallback(event2016.getId(), helper.getId(), HelperCallback.CHANGE_POS,
+        HelperInteraction.processReminderCallback(event2016.getId(), helper.getId(), null, HelperCallback.CHANGE_POS,
                 processEngine.getProcessEngine());
 
         // manual assignment task must be there...
@@ -633,7 +633,7 @@ public class RequestHelpExecutionTest
         RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, processEngine);
 
         // choose manual assignment
-        HelperInteraction.processReminderCallback(event2016.getId(), helper.getId(), HelperCallback.ASSIGN_ME_MANUALLY,
+        HelperInteraction.processReminderCallback(event2016.getId(), helper.getId(), null, HelperCallback.ASSIGN_ME_MANUALLY,
                 processEngine.getProcessEngine());
 
         // process confirmation for manual assignment
@@ -679,7 +679,7 @@ public class RequestHelpExecutionTest
         HelperAssignment priorAssignmentA =
                 RepositoryProvider.getRepository(HelperAssignmentRepository.class).getPriorAssignment(helperA,
                         event2016.getEventTemplate());
-        HelperInteraction.processReminderCallback(event2016.getId(), helperB.getId(), HelperCallback.CHANGE_POS,
+        HelperInteraction.processReminderCallback(event2016.getId(), helperB.getId(), null, HelperCallback.CHANGE_POS,
                 processEngine.getProcessEngine());
         Long chosenPositionId = priorAssignmentA.getPosition().getId();
         boolean positionAvailable =
@@ -842,8 +842,8 @@ public class RequestHelpExecutionTest
                         false);
         assertEquals(0, unassigned.size());
 
-        HelperInteraction.processReminderCallback(event2016.getId(), helper.getId(),
-                HelperCallback.ASSIGNMENT_AS_BEFORE, processEngine.getProcessEngine());
+        HelperConfirmation.processAssignmentAsBeforeConfirmation(event2016.getId(), helper.getId(),
+                null, processEngine.getProcessEngine());
 
         // manual assignment task must be there...
         assertTrue(RequestHelpTestUtil.wasTaskGenerated(

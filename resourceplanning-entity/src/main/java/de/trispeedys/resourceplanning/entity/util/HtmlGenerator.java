@@ -136,6 +136,15 @@ public class HtmlGenerator
         return this;
     }
 
+    /**
+     * renders out a form with hidden parameters eventId + helperId.
+     * 
+     * @param target
+     * @param buttonText
+     * @param eventId
+     * @param helperId
+     * @return
+     */
     public HtmlGenerator withSimpleButtonForm(String target, String buttonText, Long eventId, Long helperId)
     {
         MessageFormat mf =
@@ -144,6 +153,30 @@ public class HtmlGenerator
         buffer.append(mf.format(new Object[]
         {
                 target, buttonText, eventId, helperId
+        }));
+        newLine();
+        return this;
+    }
+
+    /**
+     * renders out a form with hidden parameters eventId, helperId and priorPositionId.
+     * 
+     * @param target
+     * @param buttonText
+     * @param eventId
+     * @param helperId
+     * @param priorPositionId
+     * @return
+     */
+    public HtmlGenerator withSimpleButtonForm(String target, String buttonText, Long eventId, Long helperId, Long priorPositionId)
+    {
+        MessageFormat mf =
+                new MessageFormat("<form action =\"{0}\"><input type=\"submit\" value=\"{1}\">"
+                        + "<input type=\"hidden\" name=\"eventId\" value=\"{2}\">" + "<input type=\"hidden\" name=\"helperId\" value=\"{3}\">"
+                        + "<input type=\"hidden\" name=\"priorPositionId\" value=\"{4}\">" + "</form>");
+        buffer.append(mf.format(new Object[]
+        {
+                target, buttonText, eventId, helperId, priorPositionId
         }));
         newLine();
         return this;

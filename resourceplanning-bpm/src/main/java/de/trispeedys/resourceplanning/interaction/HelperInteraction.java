@@ -36,7 +36,7 @@ public class HelperInteraction
      * @param businessKey
      * @return
      */
-    public static synchronized String processReminderCallback(Long eventId, Long helperId, HelperCallback callback,
+    public static synchronized String processReminderCallback(Long eventId, Long helperId, Long priorPositionId, HelperCallback callback,
             ProcessEngine testEngine)
     {
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
@@ -56,6 +56,16 @@ public class HelperInteraction
             // before completing this, helper must confirm...
             return JspRenderer.renderCancelForeverForm(eventId, helperId);
         }
+        else if (callback.equals(HelperCallback.PAUSE_ME))
+        {
+            // before completing this, helper must confirm...
+            return JspRenderer.renderPauseMeForm(eventId, helperId);
+        }
+        else if (callback.equals(HelperCallback.ASSIGNMENT_AS_BEFORE))
+        {
+            // before completing this, helper must confirm...
+            return JspRenderer.renderAssignmentAsBeforeForm(eventId, helperId, priorPositionId);
+        }  
         else
         {
             //unconfirmed options (no following form)...

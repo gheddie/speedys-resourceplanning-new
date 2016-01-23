@@ -58,9 +58,8 @@ public class JspRenderer
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
-                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
-                // .withImage("doh", "png", 492, 578)
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170).withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+        // .withImage("doh", "png", 492, 578)
                 .withParagraph(configuration.getText(JspRenderer.class, "renderCorrelationFault"))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
@@ -106,8 +105,7 @@ public class JspRenderer
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "messageReceived"))
-                .withParagraph(
-                        configuration.getText(JspRenderer.class, "positionUnavailable", chosenPosition.getDescription()))
+                .withParagraph(configuration.getText(JspRenderer.class, "positionUnavailable", chosenPosition.getDescription()))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
@@ -127,8 +125,7 @@ public class JspRenderer
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "messageReceived"))
-                .withParagraph(
-                        configuration.getText(JspRenderer.class, "positionAvailable", chosenPosition.getDescription()))
+                .withParagraph(configuration.getText(JspRenderer.class, "positionAvailable", chosenPosition.getDescription()))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
@@ -164,16 +161,12 @@ public class JspRenderer
         AppConfiguration configuration = AppConfiguration.getInstance();
         Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
         // decide if the recovery was succesful -> position could be already taken again...
-        String confirmationKey =
-                RepositoryProvider.getRepository(HelperRepository.class).isHelperAssignedForPosition(helper, event,
-                        chosenPosition)
-                        ? "positionRecoveryOnCancellationSuccess"
-                        : "positionRecoveryOnCancellationFault";
+        String confirmationKey = RepositoryProvider.getRepository(HelperRepository.class).isHelperAssignedForPosition(helper, event, chosenPosition)
+                ? "positionRecoveryOnCancellationSuccess"
+                : "positionRecoveryOnCancellationFault";
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
-                .withParagraph(
-                        configuration.getText(JspRenderer.class, confirmationKey, chosenPosition.getDescription(),
-                                chosenPosition.getDomain().getName()))
+                .withParagraph(configuration.getText(JspRenderer.class, confirmationKey, chosenPosition.getDescription(), chosenPosition.getDomain().getName()))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
@@ -188,7 +181,7 @@ public class JspRenderer
                 .withTextAreaInputForm("ManualAssignmentConfirm.jsp", 6, 120, configuration.getText(JspRenderer.class, "sendManualAssignment"), eventId, helperId)
                 .render();
     }
-    
+
     public static String renderCancelForeverForm(Long eventId, Long helperId)
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
@@ -200,28 +193,63 @@ public class JspRenderer
                 .render();
     }
 
+    public static String renderPauseMeForm(Long eventId, Long helperId)
+    {
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        // TODO perhaps render to name of the event...do it as translation parameter
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                .withParagraph(configuration.getText(JspRenderer.class, "pauseMeTeaser"))
+                .withSimpleButtonForm("PauseMeConfirm.jsp", configuration.getText(JspRenderer.class, "sendPauseMe"), eventId, helperId)
+                .render();
+    }
+
+    public static String renderAssignmentAsBeforeForm(Long eventId, Long helperId, Long priorPositionId)
+    {
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        Position priorPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(priorPositionId);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        String posDesc = null;
+        String domainDesc = null;  
+        if (priorPosition != null)
+        {
+            posDesc = priorPosition.getDescription();
+            domainDesc = priorPosition.getDomain().getName();  
+        }
+        else
+        {
+            // prior position is passed through by the helper clicking a link...not the case in test cases!!
+            posDesc = "[...]";
+            domainDesc = "[...]";  
+        }
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                .withParagraph(configuration.getText(JspRenderer.class, "assignmentAsBeforeTeaser", posDesc, domainDesc))
+                .withSimpleButtonForm("AssignmentAsBeforeConfirm.jsp", configuration.getText(JspRenderer.class, "sendAssignmentAsBefore"), eventId, helperId, priorPositionId)
+                .render();
+    }
+
     public static String renderManualAssignmentConfirmation(Long eventId, Long helperId)
     {
         Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
-        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);       
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         ManualAssignmentComment wish = RepositoryProvider.getRepository(ManualAssignmentCommentRepository.class).findByEventAndHelper(event, helper);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        HtmlGenerator generator = new HtmlGenerator().withImage("speedys", "gif", 600, 170)
-                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
-                .withParagraph(configuration.getText(JspRenderer.class, "manualAssignmentConfirmed"));
+        HtmlGenerator generator =
+                new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                        .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                        .withParagraph(configuration.getText(JspRenderer.class, "manualAssignmentConfirmed"));
         if ((wish != null) && (wish.isFilled()))
         {
             generator.withParagraph(configuration.getText(JspRenderer.class, "assignmentCommentReminder"));
             generator.withParagraph(wish.getComment());
         }
-        return generator
-                .withParagraph(AbstractMailTemplate.sincerely())
-                .render();
+        return generator.withParagraph(AbstractMailTemplate.sincerely()).render();
     }
 
     public static String renderCancelForeverConfirmation(Long eventId, Long helperId)
     {
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         AppConfiguration configuration = AppConfiguration.getInstance();
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
@@ -229,5 +257,53 @@ public class JspRenderer
                 .withParagraph(configuration.getText(JspRenderer.class, "cancelForeverConfirmed"))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
+    }
+
+    public static String renderPauseMeConfirmation(Long eventId, Long helperId)
+    {
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                .withParagraph(configuration.getText(JspRenderer.class, "pauseMeConfirmed"))
+                .withParagraph(AbstractMailTemplate.sincerely())
+                .render();
+    }
+
+    public static String renderAssignmentAsBeforeConfirmation(Long eventId, Long helperId, Long priorPositionId)
+    {
+        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        Position priorPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(priorPositionId);
+        String posDesc = null;
+        String domainDesc = null;  
+        if (priorPosition != null)
+        {
+            posDesc = priorPosition.getDescription();
+            domainDesc = priorPosition.getDomain().getName();  
+        }
+        else
+        {
+            // prior position is passed through by the helper clicking a link...not the case in test cases!!
+            posDesc = "[...]";
+            domainDesc = "[...]";  
+        }
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        if (RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByHelperAndEventAndPosition(helper, event, priorPosition) != null)
+        {
+            return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                    .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                    .withParagraph(configuration.getText(JspRenderer.class, "assignmentAsBeforeConfirmSuccess", posDesc, domainDesc))
+                    .withParagraph(AbstractMailTemplate.sincerely())
+                    .render();
+        }
+        else
+        {
+            return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                    .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                    .withParagraph(configuration.getText(JspRenderer.class, "assignmentAsBeforeConfirmFault", posDesc, domainDesc))
+                    .withParagraph(AbstractMailTemplate.sincerely())
+                    .render();
+        }
     }
 }

@@ -21,8 +21,7 @@ public class SendReminderMailTemplate extends HelperInteractionMailTemplate
 
     private int attemptCount;
 
-    public SendReminderMailTemplate(Helper helper, Event event, Position position, boolean aPriorPositionAvailable,
-            int anAttemptCount)
+    public SendReminderMailTemplate(Helper helper, Event event, Position position, boolean aPriorPositionAvailable, int anAttemptCount)
     {
         super(helper, event, position);
         this.priorPositionAvailable = aPriorPositionAvailable;
@@ -34,8 +33,7 @@ public class SendReminderMailTemplate extends HelperInteractionMailTemplate
         AppConfiguration configuration = AppConfiguration.getInstance();
         HtmlGenerator generator =
                 new HtmlGenerator(true).withParagraph(helperGreeting()).withParagraph(
-                        configuration.getText(this, "priorAssignment", getPosition().getDescription(),
-                                getPosition().getDomain().getName()));
+                        configuration.getText(this, "priorAssignment", getPosition().getDescription(), getPosition().getDomain().getName()));
         if (!(priorPositionAvailable))
         {
             generator = generator.withParagraph(configuration.getText(this, "noLongerAvailable"));
@@ -44,9 +42,7 @@ public class SendReminderMailTemplate extends HelperInteractionMailTemplate
         {
             generator = generator.withParagraph(configuration.getText(this, "available"));
         }
-        generator =
-                generator.withParagraph(configuration.getText(this, "body3",
-                        df.format(getEvent().getEventDate()), getEvent().getDescription()));
+        generator = generator.withParagraph(configuration.getText(this, "body3", df.format(getEvent().getEventDate()), getEvent().getDescription()));
         List<HelperCallback> generated = new CallbackChoiceGenerator().generate(getHelper(), getEvent());
         if (generated != null)
         {
@@ -55,9 +51,8 @@ public class SendReminderMailTemplate extends HelperInteractionMailTemplate
                 generator =
                         generator.withLink(
                                 getBaseLink() +
-                                        "/"+getJspReceiverName()+".jsp?callbackResult=" + callback + "&helperId=" +
-                                        getHelper().getId() + "&eventId=" + getEvent().getId(),
-                                callback.getDescription()).withLinebreak(2);
+                                        "/" + getJspReceiverName() + ".jsp?callbackResult=" + callback + "&helperId=" + getHelper().getId() + "&eventId=" + getEvent().getId() + "&priorPositionId=" +
+                                        getPosition().getId(), callback.getDescription()).withLinebreak(2);
             }
         }
         generator = generator.withParagraph(sincerely());
@@ -84,7 +79,7 @@ public class SendReminderMailTemplate extends HelperInteractionMailTemplate
     {
         return MessagingType.REMINDER_STEP_0;
     }
-    
+
     protected String getJspReceiverName()
     {
         return "HelperCallbackReceiver";

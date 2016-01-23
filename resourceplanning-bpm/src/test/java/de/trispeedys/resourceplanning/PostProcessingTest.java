@@ -17,6 +17,7 @@ import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.execution.BpmSignals;
+import de.trispeedys.resourceplanning.interaction.HelperConfirmation;
 import de.trispeedys.resourceplanning.interaction.HelperInteraction;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
@@ -59,8 +60,8 @@ public class PostProcessingTest
         RequestHelpTestUtil.startHelperRequestProcess(helperB, event2016, businessKeyB, processEngine);        
         
         // assignemt as before
-        HelperInteraction.processReminderCallback(event2016.getId(), helperA.getId(), HelperCallback.ASSIGNMENT_AS_BEFORE, processEngine.getProcessEngine());
-        HelperInteraction.processReminderCallback(event2016.getId(), helperB.getId(), HelperCallback.ASSIGNMENT_AS_BEFORE, processEngine.getProcessEngine());
+        HelperConfirmation.processAssignmentAsBeforeConfirmation(event2016.getId(), helperA.getId(), null, processEngine.getProcessEngine());
+        HelperConfirmation.processAssignmentAsBeforeConfirmation(event2016.getId(), helperB.getId(), null, processEngine.getProcessEngine());
         
         // start post processing
         processEngine.getRuntimeService().signalEventReceived(BpmSignals.RequestHelpHelper.SIG_EVENT_STARTED);           
