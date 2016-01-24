@@ -9,7 +9,7 @@ public enum HelperCallback
     PAUSE_ME("Diesmal habe ich keine Zeit zum Helfen", "Diesmal keine Verwendung"),
     
     /** no more helping ever... */
-    QUIT_FOREVER("Ich möchte nicht mehr belästigt werden", "keine Verwendung mehr (für immer)"),    
+    QUIT_FOREVER("Ich möchte dieses Mal und in Zukunft nicht mehr helfen", "keine Verwendung mehr (für immer)"),    
     
     /** i want to do something else this time... */
     CHANGE_POS("Ich möchte auf einer anderen Position helfen", "Wahl einer neuen Position"),

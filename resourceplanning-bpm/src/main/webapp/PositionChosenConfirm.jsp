@@ -27,9 +27,9 @@
 	<%
 	    Long eventId = ParserUtil.parseLong(request.getParameter("eventId"));
 	    Long helperId = ParserUtil.parseLong(request.getParameter("helperId"));
-	    Long priorPositionId = ParserUtil.parseLong(request.getParameter("positionId"));
+	    Long chosenPositionId = ParserUtil.parseLong(request.getParameter("positionId"));
 	    // render action result
-	    out.println(HelperConfirmation.processAssignmentAsBeforeConfirmation(eventId, helperId, priorPositionId, null));
+	    out.println(HelperConfirmation.processPositionChosenConfirmation(eventId, helperId, chosenPositionId, null));
 	%>
 </body>
 </html>

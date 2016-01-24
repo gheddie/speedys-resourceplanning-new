@@ -229,6 +229,30 @@ public class JspRenderer
                 .withSimpleButtonForm("AssignmentAsBeforeConfirm.jsp", configuration.getText(JspRenderer.class, "sendAssignmentAsBefore"), eventId, helperId, priorPositionId)
                 .render();
     }
+    
+    public static String renderChangePositionForm(Long eventId, Long helperId, Long priorPositionId)
+    {
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        // TODO perhaps render to name of the event...do it as translation parameter
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                .withParagraph(configuration.getText(JspRenderer.class, "changePositionTeaser"))
+                .withSimpleButtonForm("ChangePositionConfirm.jsp", configuration.getText(JspRenderer.class, "sendChangePosition"), eventId, helperId)
+                .render();
+    }
+    
+    public static String renderPositionChosenForm(Long eventId, Long helperId, Long chosenPositionId)
+    {
+        Position chosenPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(chosenPositionId);
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                .withParagraph(configuration.getText(JspRenderer.class, "positionChosenTeaser", chosenPosition.getDescription(), chosenPosition.getDomain().getName()))
+                .withSimpleButtonForm("PositionChosenConfirm.jsp", configuration.getText(JspRenderer.class, "sendPositionChosen"), eventId, helperId, chosenPositionId)
+                .render();
+    }
 
     public static String renderManualAssignmentConfirmation(Long eventId, Long helperId)
     {
@@ -305,5 +329,16 @@ public class JspRenderer
                     .withParagraph(AbstractMailTemplate.sincerely())
                     .render();
         }
+    }
+    
+    public static String rendeChangePositionConfirmation(Long eventId, Long helperId)
+    {
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                .withParagraph(configuration.getText(JspRenderer.class, "changePositionConfirmed"))
+                .withParagraph(AbstractMailTemplate.sincerely())
+                .render();
     }
 }

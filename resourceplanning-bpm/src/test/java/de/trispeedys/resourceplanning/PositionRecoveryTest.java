@@ -74,12 +74,10 @@ public class PositionRecoveryTest
         Helper helper2 = RepositoryProvider.getRepository(HelperRepository.class).findAll(null).get(1);
 
         // helper '2' wants another position and chooses prior position of '1'...
-        HelperInteraction.processReminderCallback(event2016.getId(), helper2.getId(), null, HelperCallback.CHANGE_POS,
-                processEngine.getProcessEngine());
+        HelperConfirmation.processChangePositionConfirmation(event2016.getId(), helper2.getId(), processEngine.getProcessEngine());
         Position priorPositionHelper1 = RepositoryProvider.getRepository(HelperAssignmentRepository.class).getPriorAssignment(helper1,
                 event2016.getEventTemplate()).getPosition();
-        HelperInteraction.processPositionChosenCallback(
-                event2016.getId(),
+        HelperConfirmation.processPositionChosenConfirmation(event2016.getId(),
                 helper2.getId(),
                 priorPositionHelper1.getId(), processEngine.getProcessEngine());
 

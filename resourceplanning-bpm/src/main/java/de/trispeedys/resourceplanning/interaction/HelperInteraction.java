@@ -13,6 +13,7 @@ import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
+import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
@@ -39,56 +40,38 @@ public class HelperInteraction
     public static synchronized String processReminderCallback(Long eventId, Long helperId, Long priorPositionId, HelperCallback callback,
             ProcessEngine testEngine)
     {
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
-        Map<String, Object> variables = new HashMap<String, Object>();
-        
         logger.info("the helper has chosen : " + callback);
-        variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, callback);
-        
-        if (callback.equals(HelperCallback.ASSIGN_ME_MANUALLY))
+        switch (callback)
         {
-            // manual assignment must be treated seperately as the helper
-            // gets a chance to enter a comment --> no direct message correlation
-            return JspRenderer.renderManualAssignmentForm(eventId, helperId);
-        }
-        else if (callback.equals(HelperCallback.QUIT_FOREVER))
-        {
-            // before completing this, helper must confirm...
-            return JspRenderer.renderCancelForeverForm(eventId, helperId);
-        }
-        else if (callback.equals(HelperCallback.PAUSE_ME))
-        {
-            // before completing this, helper must confirm...
-            return JspRenderer.renderPauseMeForm(eventId, helperId);
-        }
-        else if (callback.equals(HelperCallback.ASSIGNMENT_AS_BEFORE))
-        {
-            // before completing this, helper must confirm...
-            return JspRenderer.renderAssignmentAsBeforeForm(eventId, helperId, priorPositionId);
-        }  
-        else
-        {
-            //unconfirmed options (no following form)...
-            try
-            {
-                getProcessEngine(testEngine).getRuntimeService().correlateMessage(
-                        BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
-                return JspRenderer.renderCallbackSuccess(eventId, helperId, callback);
-            }
-            catch (MismatchingMessageCorrelationException e)
-            {
-                return JspRenderer.renderCorrelationFault(helperId);
-            }
-            catch (ProcessEngineException e)
-            {
-                return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
-            }
-            catch (ResourcePlanningException e)
-            {
-                // this is an exception raised from the business logic...
-                alertPlanningException(helperId, eventId, e.getMessage());
-                return JspRenderer.renderPlanningException(helperId, e.getMessage());
-            }
+            case ASSIGN_ME_MANUALLY:
+                //------------------------------------------
+                // manual assignment must be treated seperately as the helper
+                // gets a chance to enter a comment --> no direct message correlation
+                return JspRenderer.renderManualAssignmentForm(eventId, helperId);
+                //------------------------------------------
+            case QUIT_FOREVER:
+                //------------------------------------------
+                // before completing this, helper must confirm...
+                return JspRenderer.renderCancelForeverForm(eventId, helperId);
+                //------------------------------------------
+            case PAUSE_ME:
+                //------------------------------------------
+                // before completing this, helper must confirm...
+                return JspRenderer.renderPauseMeForm(eventId, helperId);
+                //------------------------------------------
+            case ASSIGNMENT_AS_BEFORE:
+                //------------------------------------------
+                // before completing this, helper must confirm...
+                return JspRenderer.renderAssignmentAsBeforeForm(eventId, helperId, priorPositionId);
+                //------------------------------------------
+            case CHANGE_POS:
+                //------------------------------------------
+                // before completing this, helper must confirm...
+                return JspRenderer.renderChangePositionForm(eventId, helperId, priorPositionId);
+                //------------------------------------------
+            default:
+                // fall through --> will not occur...
+                return null;
         }
     }
 
@@ -106,50 +89,14 @@ public class HelperInteraction
     public static synchronized String processPositionChosenCallback(Long eventId, Long helperId, Long chosenPositionId,
             ProcessEngine testEngine) throws MismatchingMessageCorrelationException
     {
-        // find out if the chosen position is available and feed that information to the process...
-        boolean positionAvailable =
-                RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(eventId,
-                        chosenPositionId);
-
-        Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION, chosenPositionId);
-        variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POS_AVAILABLE, positionAvailable);
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
-        try
-        {
-            getProcessEngine(testEngine).getRuntimeService().correlateMessage(
-                    BpmMessages.RequestHelpHelper.MSG_POS_CHOSEN, businessKey, variables);
-            if (positionAvailable)
-            {
-                // inform the user about position assignment success
-                return JspRenderer.renderChosenPositionAvailableCallback(helperId, chosenPositionId);
-            }
-            else
-            {
-                // inform user about the generation of additional mail ('PROPOSE_POSITIONS')
-                // as the chosen position is already assigned to another helper
-                return JspRenderer.renderChosenPositionUnavailableCallback(helperId, chosenPositionId);
-            }
-        }
-        catch (MismatchingMessageCorrelationException e)
-        {
-            return JspRenderer.renderCorrelationFault(helperId);
-        }
-        catch (ProcessEngineException e)
-        {
-            return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
-        }
-        catch (ResourcePlanningException e)
-        {
-            // this is an exception raised from the business logic...
-            alertPlanningException(helperId, eventId, e.getMessage());
-            return JspRenderer.renderPlanningException(helperId, e.getMessage());
-        }
+        return JspRenderer.renderPositionChosenForm(eventId, helperId, chosenPositionId);
     }
 
     public static synchronized String processAssignmentCancellation(Long eventId, Long helperId,
             ProcessEngine testEngine)
     {
+        // TODO make a confirm here...
+        
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         try
         {

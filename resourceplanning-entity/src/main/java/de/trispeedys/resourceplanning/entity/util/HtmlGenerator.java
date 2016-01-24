@@ -165,18 +165,18 @@ public class HtmlGenerator
      * @param buttonText
      * @param eventId
      * @param helperId
-     * @param priorPositionId
+     * @param positionId
      * @return
      */
-    public HtmlGenerator withSimpleButtonForm(String target, String buttonText, Long eventId, Long helperId, Long priorPositionId)
+    public HtmlGenerator withSimpleButtonForm(String target, String buttonText, Long eventId, Long helperId, Long positionId)
     {
         MessageFormat mf =
                 new MessageFormat("<form action =\"{0}\"><input type=\"submit\" value=\"{1}\">"
                         + "<input type=\"hidden\" name=\"eventId\" value=\"{2}\">" + "<input type=\"hidden\" name=\"helperId\" value=\"{3}\">"
-                        + "<input type=\"hidden\" name=\"priorPositionId\" value=\"{4}\">" + "</form>");
+                        + "<input type=\"hidden\" name=\"positionId\" value=\"{4}\">" + "</form>");
         buffer.append(mf.format(new Object[]
         {
-                target, buttonText, eventId, helperId, priorPositionId
+                target, buttonText, eventId, helperId, positionId
         }));
         newLine();
         return this;
