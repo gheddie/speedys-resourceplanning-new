@@ -101,7 +101,7 @@ public class PositionRecoveryTest
         assertTrue(messages.get(0).getHelper().getId().equals(helper1.getId()));
         
         // now that the helper ('1') has got the mail, he can use it to claim to proposed and recovered position via 'HelperInteraction'...
-        HelperInteraction.processPositionRecoveryOnCancellation(event2016.getId(), helper1.getId(), priorPositionHelper1.getId(), processEngine.getProcessEngine());   
+        HelperConfirmation.processPositionRecoveryConfirmation(event2016.getId(), helper1.getId(), priorPositionHelper1.getId(), processEngine.getProcessEngine());   
         
         // finally, helper '1' should be assigned to his prior position...
         HelperAssignment assignment = RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByHelperAndEvent(helper1, event2016);

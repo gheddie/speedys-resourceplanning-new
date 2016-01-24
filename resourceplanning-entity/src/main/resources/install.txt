@@ -29,3 +29,5 @@ Tomcat Process Engine DB PostGres
 		  minIdle="5" />
 		  
  + postgresql-9.1-901-1.jdbc4.jar in [TOMCAT_HOME]/lib kopieren
+ 
+cockpit [u:demo|p:trispeedys1234]
