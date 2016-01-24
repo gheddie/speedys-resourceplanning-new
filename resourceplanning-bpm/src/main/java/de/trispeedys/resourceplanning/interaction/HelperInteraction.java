@@ -126,37 +126,7 @@ public class HelperInteraction
     public static synchronized String processPositionRecoveryOnCancellation(Long eventId, Long helperId,
             Long chosenPositionId, ProcessEngine testEngine)
     {
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
-
-        // find out if the chosen position is available and feed that information to the process...
-        boolean positionAvailable =
-                RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(eventId,
-                        chosenPositionId);
-
-        Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION, chosenPositionId);
-        variables.put(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POS_AVAILABLE, positionAvailable);
-
-        try
-        {
-            getProcessEngine(testEngine).getRuntimeService().correlateMessage(
-                    BpmMessages.RequestHelpHelper.MSG_ASSIG_RECOVERY, businessKey, variables);
-            return JspRenderer.renderPositionRecoveryOnCancellation(eventId, helperId, chosenPositionId);
-        }
-        catch (MismatchingMessageCorrelationException e)
-        {
-            return JspRenderer.renderCorrelationFault(helperId);
-        }
-        catch (ProcessEngineException e)
-        {
-            return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
-        }
-        catch (ResourcePlanningException e)
-        {
-            // this is an exception raised from the business logic...
-            alertPlanningException(helperId, eventId, e.getMessage());
-            return JspRenderer.renderPlanningException(helperId, e.getMessage());
-        }
+        return JspRenderer.renderPositionRecoveryOnCancellationForm(eventId, helperId, chosenPositionId);
     }
 
     public static ProcessEngine getProcessEngine(ProcessEngine testEngine)

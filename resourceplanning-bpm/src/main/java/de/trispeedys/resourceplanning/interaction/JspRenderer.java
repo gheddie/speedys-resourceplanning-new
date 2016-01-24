@@ -230,6 +230,31 @@ public class JspRenderer
                 .withSimpleButtonForm("AssignmentAsBeforeConfirm.jsp", configuration.getText(JspRenderer.class, "sendAssignmentAsBefore"), eventId, helperId, priorPositionId)
                 .render();
     }
+    
+    public static String renderPositionRecoveryOnCancellationForm(Long eventId, Long helperId, Long chosenPositionId)
+    {
+        Position chosenPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(chosenPositionId);
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        String posDesc = null;
+        String domainDesc = null;
+        if (chosenPosition != null)
+        {
+            posDesc = chosenPosition.getDescription();
+            domainDesc = chosenPosition.getDomain().getName();
+        }
+        else
+        {
+            // prior position is passed through by the helper clicking a link...not the case in test cases!!
+            posDesc = "[...]";
+            domainDesc = "[...]";
+        }
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                .withParagraph(configuration.getText(JspRenderer.class, "positionRecoveryOnCancellationTeaser", posDesc, domainDesc))
+                .withSimpleButtonForm("PositionRecoveryOnCancellationConfirm.jsp", configuration.getText(JspRenderer.class, "sendPositionRecoveryOnCancellation"), eventId, helperId, chosenPositionId)
+                .render();
+    }
 
     public static String renderChangePositionForm(Long eventId, Long helperId, Long priorPositionId)
     {
