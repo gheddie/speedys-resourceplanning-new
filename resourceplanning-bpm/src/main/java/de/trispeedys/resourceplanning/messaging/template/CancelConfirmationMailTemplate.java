@@ -18,7 +18,7 @@ public class CancelConfirmationMailTemplate extends AbstractMailTemplate
     public String constructBody()
     {
         return new HtmlGenerator(true).withParagraph(helperGreeting())
-                .withParagraph(AppConfiguration.getInstance().getText(this, "body", getPosition().getDescription()))
+                .withParagraph(AppConfiguration.getInstance().getText(this, "body", getPosition().getDescription(), getPosition().getDomain().getName()))
                 .withParagraph(sincerely())
                 .render();
     }

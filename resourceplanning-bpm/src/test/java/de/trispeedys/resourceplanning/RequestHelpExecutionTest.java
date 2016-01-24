@@ -402,7 +402,7 @@ public class RequestHelpExecutionTest
         assertEquals(TestDataGenerator.POS_COUNT_SIMPLE_EVENT - 1, RepositoryProvider.getRepository(PositionRepository.class).findUnassignedPositionsInEvent(event2016, false).size());
 
         // Send cancellation message
-        HelperInteraction.processAssignmentCancellation(event2016.getId(), helper.getId(), processEngine.getProcessEngine());
+        HelperConfirmation.processAssignmentCancellationConfirm(event2016.getId(), helper.getId(), null, processEngine.getProcessEngine());
 
         // there must be 5 unassigned positions
         assertEquals(TestDataGenerator.POS_COUNT_SIMPLE_EVENT, RepositoryProvider.getRepository(PositionRepository.class).findUnassignedPositionsInEvent(event2016, false).size());

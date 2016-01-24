@@ -93,31 +93,9 @@ public class HelperInteraction
     }
 
     public static synchronized String processAssignmentCancellation(Long eventId, Long helperId,
-            ProcessEngine testEngine)
+            Long positionId, ProcessEngine testEngine)
     {
-        // TODO make a confirm here...
-        
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
-        try
-        {
-            getProcessEngine(testEngine).getRuntimeService().correlateMessage(
-                    BpmMessages.RequestHelpHelper.MSG_ASSIG_CANCELLED, businessKey);
-            return JspRenderer.renderCancellationCallback(helperId);
-        }
-        catch (MismatchingMessageCorrelationException e)
-        {
-            return JspRenderer.renderCorrelationFault(helperId);
-        }
-        catch (ProcessEngineException e)
-        {
-            return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
-        }
-        catch (ResourcePlanningException e)
-        {
-            // this is an exception raised from the business logic...
-            alertPlanningException(helperId, eventId, e.getMessage());
-            return JspRenderer.renderPlanningException(helperId, e.getMessage());
-        }
+        return JspRenderer.renderAssignmentCancellationForm(eventId, helperId, positionId);
     }
 
     public static synchronized String processDeactivationRecovery(Long eventId, Long helperId, ProcessEngine testEngine)

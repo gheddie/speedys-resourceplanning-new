@@ -103,8 +103,6 @@ public class ResourceDialog extends SpeedyFrame
 
     private List<PositionDTO> selectedPositionsToRemove;
 
-    private static final int TABINDEX_POSITIONS = 0;
-
     private static final int TABINDEX_PROCESSES = 1;
 
     private static final int TABINDEX_HELPER = 2;
@@ -137,6 +135,13 @@ public class ResourceDialog extends SpeedyFrame
         pgMain.setMaximum(100);
         fillAll();
         enableTabs(1, 0, 0, 0, 0, 0, 0);
+        updateTitle();
+    }
+
+    private void updateTitle()
+    {
+        // TODO render something better
+        setTitle(AppSingleton.getInstance().getPort() + "");
     }
 
     private void configureTables()

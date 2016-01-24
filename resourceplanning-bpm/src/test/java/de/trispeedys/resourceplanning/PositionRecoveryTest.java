@@ -89,7 +89,7 @@ public class PositionRecoveryTest
         assertEquals(1, RepositoryProvider.getRepository(MissedAssignmentRepository.class).findAll(null).size());
 
         // helper '2' cancels his assignment...
-        HelperInteraction.processAssignmentCancellation(event2016.getId(), helper2.getId(), processEngine.getProcessEngine());
+        HelperConfirmation.processAssignmentCancellationConfirm(event2016.getId(), helper2.getId(), null, processEngine.getProcessEngine());
 
         // old helper must have gotten the recovery mail...
         List<MessageQueue> messages = RepositoryProvider.getRepository(MessageQueueRepository.class).findByHelperAndMessagingType(helper1, MessagingType.POS_RECOVERY_ON_CANCELLATION);

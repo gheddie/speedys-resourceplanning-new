@@ -134,6 +134,31 @@ public class HelperConfirmation
         }
     }
     
+    public static synchronized String processAssignmentCancellationConfirm(Long eventId, Long helperId, Long priorPositionId, ProcessEngine testEngine)
+    {
+        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
+        try
+        {
+            HelperInteraction.getProcessEngine(testEngine).getRuntimeService().correlateMessage(
+                    BpmMessages.RequestHelpHelper.MSG_ASSIG_CANCELLED, businessKey);
+            return JspRenderer.renderCancellationConfirm(helperId);
+        }
+        catch (MismatchingMessageCorrelationException e)
+        {
+            return JspRenderer.renderCorrelationFault(helperId);
+        }
+        catch (ProcessEngineException e)
+        {
+            return JspRenderer.renderGenericEngineFault(helperId, e.getMessage());
+        }
+        catch (ResourcePlanningException e)
+        {
+            // this is an exception raised from the business logic...
+            HelperInteraction.alertPlanningException(helperId, eventId, e.getMessage());
+            return JspRenderer.renderPlanningException(helperId, e.getMessage());
+        }
+    }
+    
     public static synchronized String processPositionChosenConfirmation(Long eventId, Long helperId, Long chosenPositionId, ProcessEngine testEngine)
     {
         boolean positionAvailable =

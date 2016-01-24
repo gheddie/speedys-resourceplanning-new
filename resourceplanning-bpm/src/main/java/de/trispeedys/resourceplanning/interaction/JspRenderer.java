@@ -130,13 +130,14 @@ public class JspRenderer
                 .render();
     }
 
-    public static String renderCancellationCallback(Long helperId)
+    public static String renderCancellationConfirm(Long helperId)
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         AppConfiguration configuration = AppConfiguration.getInstance();
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "messageReceived"))
+                .withParagraph(configuration.getText(JspRenderer.class, "cancellationConfirmed"))
                 .withParagraph(configuration.getText(JspRenderer.class, "announceConfirmation"))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
@@ -211,17 +212,17 @@ public class JspRenderer
         Position priorPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(priorPositionId);
         AppConfiguration configuration = AppConfiguration.getInstance();
         String posDesc = null;
-        String domainDesc = null;  
+        String domainDesc = null;
         if (priorPosition != null)
         {
             posDesc = priorPosition.getDescription();
-            domainDesc = priorPosition.getDomain().getName();  
+            domainDesc = priorPosition.getDomain().getName();
         }
         else
         {
             // prior position is passed through by the helper clicking a link...not the case in test cases!!
             posDesc = "[...]";
-            domainDesc = "[...]";  
+            domainDesc = "[...]";
         }
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
@@ -229,7 +230,7 @@ public class JspRenderer
                 .withSimpleButtonForm("AssignmentAsBeforeConfirm.jsp", configuration.getText(JspRenderer.class, "sendAssignmentAsBefore"), eventId, helperId, priorPositionId)
                 .render();
     }
-    
+
     public static String renderChangePositionForm(Long eventId, Long helperId, Long priorPositionId)
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
@@ -241,7 +242,7 @@ public class JspRenderer
                 .withSimpleButtonForm("ChangePositionConfirm.jsp", configuration.getText(JspRenderer.class, "sendChangePosition"), eventId, helperId)
                 .render();
     }
-    
+
     public static String renderPositionChosenForm(Long eventId, Long helperId, Long chosenPositionId)
     {
         Position chosenPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(chosenPositionId);
@@ -251,6 +252,31 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "positionChosenTeaser", chosenPosition.getDescription(), chosenPosition.getDomain().getName()))
                 .withSimpleButtonForm("PositionChosenConfirm.jsp", configuration.getText(JspRenderer.class, "sendPositionChosen"), eventId, helperId, chosenPositionId)
+                .render();
+    }
+
+    public static String renderAssignmentCancellationForm(Long eventId, Long helperId, Long positionId)
+    {
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        Position position = RepositoryProvider.getRepository(PositionRepository.class).findById(positionId);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        String posDesc = null;
+        String domainDesc = null;
+        if (position != null)
+        {
+            posDesc = position.getDescription();
+            domainDesc = position.getDomain().getName();
+        }
+        else
+        {
+            // prior position is passed through by the helper clicking a link...not the case in test cases!!
+            posDesc = "[...]";
+            domainDesc = "[...]";
+        }
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                .withParagraph(configuration.getText(JspRenderer.class, "assignmentCancellationTeaser", posDesc, domainDesc))
+                .withSimpleButtonForm("AssignmentCancellationConfirm.jsp", configuration.getText(JspRenderer.class, "sendAssignmentCancellation"), eventId, helperId)
                 .render();
     }
 
@@ -300,17 +326,17 @@ public class JspRenderer
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         Position priorPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(priorPositionId);
         String posDesc = null;
-        String domainDesc = null;  
+        String domainDesc = null;
         if (priorPosition != null)
         {
             posDesc = priorPosition.getDescription();
-            domainDesc = priorPosition.getDomain().getName();  
+            domainDesc = priorPosition.getDomain().getName();
         }
         else
         {
             // prior position is passed through by the helper clicking a link...not the case in test cases!!
             posDesc = "[...]";
-            domainDesc = "[...]";  
+            domainDesc = "[...]";
         }
         AppConfiguration configuration = AppConfiguration.getInstance();
         if (RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByHelperAndEventAndPosition(helper, event, priorPosition) != null)
@@ -330,7 +356,7 @@ public class JspRenderer
                     .render();
         }
     }
-    
+
     public static String rendeChangePositionConfirmation(Long eventId, Long helperId)
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
