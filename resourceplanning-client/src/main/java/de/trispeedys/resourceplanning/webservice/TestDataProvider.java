@@ -87,6 +87,18 @@ public interface TestDataProvider {
 
     /**
      * 
+     */
+    @WebMethod
+    public void prepareSimpleEventWithFloatingHelpers();
+
+    /**
+     * 
+     */
+    @WebMethod
+    public void startSomeProcessesWithNewHelpers();
+
+    /**
+     * 
      * @param arg1
      * @param arg0
      */
@@ -108,17 +120,5 @@ public interface TestDataProvider {
      */
     @WebMethod
     public void finish2015();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void prepareSimpleEventWithFloatingHelpers();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void startSomeProcessesWithNewHelpers();
 
 }

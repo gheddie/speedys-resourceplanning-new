@@ -6,7 +6,7 @@ import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
-import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
+import de.trispeedys.resourceplanning.util.htmlgenerator.HtmlGenerator;
 
 public class BookingConfirmationMailTemplate extends HelperInteractionMailTemplate
 {

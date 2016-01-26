@@ -10,8 +10,8 @@ import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
-import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
 import de.trispeedys.resourceplanning.rule.CallbackChoiceGenerator;
+import de.trispeedys.resourceplanning.util.htmlgenerator.HtmlGenerator;
 
 public class SendReminderMailTemplate extends HelperInteractionMailTemplate
 {

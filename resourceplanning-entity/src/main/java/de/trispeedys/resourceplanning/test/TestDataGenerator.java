@@ -143,6 +143,13 @@ public class TestDataGenerator
         Position pos13 = EntityFactory.buildPosition("P13", 12, domain1, 12, true, doPriorize
                 ? PRIO2
                 : null).saveOrUpdate();
+        
+        // create some helpers
+        EntityFactory.buildHelper("H1_First", "H1_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 1, 2, 1980, true).saveOrUpdate();
+        EntityFactory.buildHelper("H2_First", "H2_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 2, 2, 1980, true).saveOrUpdate();
+        EntityFactory.buildHelper("H3_First", "H3_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 3, 2, 1980, true).saveOrUpdate();
+        EntityFactory.buildHelper("H4_First", "H4_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 4, 2, 1980, true).saveOrUpdate();
+        EntityFactory.buildHelper("H5_First", "H5_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 5, 2, 1980, true).saveOrUpdate();
 
         // assign positions to event
         SpeedyRoutines.relatePositionsToEvent(event, pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9, pos10, pos11, pos12, pos13);

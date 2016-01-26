@@ -129,11 +129,11 @@
       <bpmn:outgoing>SequenceFlow_1t0gg03</bpmn:outgoing>
       <bpmn:messageEventDefinition messageRef="Message_2"/>
     </bpmn:intermediateCatchEvent>
-    <bpmn:intermediateCatchEvent id="HelperReminderTimer" name="1 Woche">
+    <bpmn:intermediateCatchEvent id="HelperReminderTimer" name="2 Tage">
       <bpmn:incoming>SequenceFlow_089yocf</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_08rsl0r</bpmn:outgoing>
       <bpmn:timerEventDefinition>
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P7DT0H0M0S</bpmn:timeDuration>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P2DT0H0M0S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
     <bpmn:eventBasedGateway id="EventBasedGateway_1kzg3ch">
@@ -183,11 +183,11 @@
       <bpmn:incoming>SequenceFlow_47</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_12</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:intermediateCatchEvent id="LastChanceTimer" name="1 Monat">
+    <bpmn:intermediateCatchEvent id="LastChanceTimer" name="1 Woche">
       <bpmn:incoming>SequenceFlow_10</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_11</bpmn:outgoing>
       <bpmn:timerEventDefinition id="_TimerEventDefinition_2">
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P30DT0H0M0S</bpmn:timeDuration>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P7DT0H0M0S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
     <bpmn:eventBasedGateway id="EventBasedGateway_1">
@@ -340,11 +340,11 @@
       <bpmn:outgoing>SequenceFlow_40</bpmn:outgoing>
     </bpmn:eventBasedGateway>
     <bpmn:sequenceFlow id="SequenceFlow_34" name="" sourceRef="EventBasedGateway_3" targetRef="IntermediateCatchEvent_3"/>
-    <bpmn:intermediateCatchEvent id="ChoosePosReminderTimer" name="1 Tag">
+    <bpmn:intermediateCatchEvent id="ChoosePosReminderTimer" name="1 Woche">
       <bpmn:incoming>SequenceFlow_35</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_38</bpmn:outgoing>
       <bpmn:timerEventDefinition id="_TimerEventDefinition_3">
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P1DT0H0M0S</bpmn:timeDuration>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P7DT0H0M0S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="SequenceFlow_35" name="" sourceRef="EventBasedGateway_3" targetRef="ChoosePosReminderTimer"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <configuration>
 	<!-- app specific -->
-	<property name="version">1.0-RC-1</property>
+	<property name="version">1.0-RC-3</property>
 	<property name="host">http://localhost:8080</property>
 	<!-- smtp configuration -->
 	<property name="smtp_user">helferplanung@peiner-triathlon.de</property>
@@ -10,7 +10,8 @@
 	<property name="smtp_port">587</property>
 	<!-- other stuff -->
 	<property name="admin_mail">stefan.schulz.1976@googlemail.com</property>
-	<property name="helper_confirm_info">http://www.tri-speedys.de</property>
+	<property name="helper_confirm_info">http://www.peiner-triathlon.de/DesktopModules/OnyakTech.NelsonsFiles/GetFile.aspx?FileId=176&amp;ModuleId=1331
+	</property>
 	<!-- testing stuff -->
 	<property name="process_test_mail">testhelper2.trispeedys@gmail.com</property>
 </configuration>

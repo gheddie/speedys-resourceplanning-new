@@ -76,9 +76,7 @@ public class PositionTest
         assertEquals(2, positionRepository.findPositionsInEvent(event2).size());
     }
 
-    // TODO check available position querying with with new features
-    // @Test
-    // TODO fails after removing MessageQueue.messagingFormat
+    @Test
     public void testPositionAggregationWithoutGroups()
     {
         TestUtil.clearAll();

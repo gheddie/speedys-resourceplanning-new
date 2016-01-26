@@ -2,8 +2,8 @@ package de.trispeedys.resourceplanning.messaging.template;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.MessagingType;
-import de.trispeedys.resourceplanning.entity.util.HtmlGenerator;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
+import de.trispeedys.resourceplanning.util.htmlgenerator.HtmlGenerator;
 
 @SuppressWarnings("rawtypes")
 public class ConfirmManualAssignmentMailTemplate extends AbstractMailTemplate

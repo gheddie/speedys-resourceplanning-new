@@ -1,8 +1,5 @@
 package de.trispeedys.resourceplanning.interaction;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.camunda.bpm.BpmPlatform;
 import org.camunda.bpm.engine.MismatchingMessageCorrelationException;
@@ -11,20 +8,22 @@ import org.camunda.bpm.engine.ProcessEngineException;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
+import de.trispeedys.resourceplanning.datasource.Datasources;
+import de.trispeedys.resourceplanning.entity.AbstractDbObject;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
+import de.trispeedys.resourceplanning.exception.ResourcePlanningNoSuchEntityException;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
-import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.messaging.template.AlertPlanningExceptionMailTemplate;
 import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
-import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
+import de.trispeedys.resourceplanning.util.htmlgenerator.instance.UnknownEntityHtmlGenerator;
 
 public class HelperInteraction
 {
@@ -40,38 +39,62 @@ public class HelperInteraction
     public static synchronized String processReminderCallback(Long eventId, Long helperId, Long priorPositionId, HelperCallback callback,
             ProcessEngine testEngine)
     {
-        logger.info("the helper has chosen : " + callback);
-        switch (callback)
+        try
         {
-            case ASSIGN_ME_MANUALLY:
-                //------------------------------------------
-                // manual assignment must be treated seperately as the helper
-                // gets a chance to enter a comment --> no direct message correlation
-                return JspRenderer.renderManualAssignmentForm(eventId, helperId);
-                //------------------------------------------
-            case QUIT_FOREVER:
-                //------------------------------------------
-                // before completing this, helper must confirm...
-                return JspRenderer.renderCancelForeverForm(eventId, helperId);
-                //------------------------------------------
-            case PAUSE_ME:
-                //------------------------------------------
-                // before completing this, helper must confirm...
-                return JspRenderer.renderPauseMeForm(eventId, helperId);
-                //------------------------------------------
-            case ASSIGNMENT_AS_BEFORE:
-                //------------------------------------------
-                // before completing this, helper must confirm...
-                return JspRenderer.renderAssignmentAsBeforeForm(eventId, helperId, priorPositionId);
-                //------------------------------------------
-            case CHANGE_POS:
-                //------------------------------------------
-                // before completing this, helper must confirm...
-                return JspRenderer.renderChangePositionForm(eventId, helperId, priorPositionId);
-                //------------------------------------------
-            default:
-                // fall through --> will not occur...
-                return null;
+            checkEntityForExistence(eventId, Event.class);
+            checkEntityForExistence(helperId, Helper.class);
+            checkEntityForExistence(priorPositionId, Position.class);
+            
+            logger.info("the helper has chosen : " + callback);
+            switch (callback)
+            {
+                case ASSIGN_ME_MANUALLY:
+                    //------------------------------------------
+                    // manual assignment must be treated seperately as the helper
+                    // gets a chance to enter a comment --> no direct message correlation
+                    return JspRenderer.renderManualAssignmentForm(eventId, helperId);
+                    //------------------------------------------
+                case QUIT_FOREVER:
+                    //------------------------------------------
+                    // before completing this, helper must confirm...
+                    return JspRenderer.renderCancelForeverForm(eventId, helperId);
+                    //------------------------------------------
+                case PAUSE_ME:
+                    //------------------------------------------
+                    // before completing this, helper must confirm...
+                    return JspRenderer.renderPauseMeForm(eventId, helperId);
+                    //------------------------------------------
+                case ASSIGNMENT_AS_BEFORE:
+                    //------------------------------------------
+                    // before completing this, helper must confirm...
+                    return JspRenderer.renderAssignmentAsBeforeForm(eventId, helperId, priorPositionId);
+                    //------------------------------------------
+                case CHANGE_POS:
+                    //------------------------------------------
+                    // before completing this, helper must confirm...
+                    return JspRenderer.renderChangePositionForm(eventId, helperId, priorPositionId);
+                    //------------------------------------------
+                default:
+                    // fall through --> will not occur...
+                    return null;
+            }            
+        }
+        catch (ResourcePlanningNoSuchEntityException e)
+        {
+            return new UnknownEntityHtmlGenerator(e.getMessage()).render();
+        }
+    }
+
+    private static void checkEntityForExistence(Long primaryKeyValue, Class<? extends AbstractDbObject> entityClass)
+    {
+        if (primaryKeyValue == null)
+        {
+            return;
+        }
+        if (Datasources.getDatasource(entityClass).findById(null, primaryKeyValue) == null)
+        {
+            // thats a mistake --> no object found for a given ID!!!
+            throw new ResourcePlanningNoSuchEntityException(entityClass, primaryKeyValue);
         }
     }
 

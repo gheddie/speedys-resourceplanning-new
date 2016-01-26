@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.entity.util;
+package de.trispeedys.resourceplanning.util.htmlgenerator;
 
 import java.text.MessageFormat;
 
