@@ -105,7 +105,7 @@ public class HtmlGenerator
 
     public HtmlGenerator withClosingLink()
     {
-        buffer.append("<a href=\"javascript:close_window();\">" + AppConfiguration.getInstance().getText(this, "close") + "</a>");
+        buffer.append("<a href=\"#\" onclick=\"javascript:window.close();\">" + AppConfiguration.getInstance().getText(this, "close") + "</a>");
         newLine();
         return this;
     }
@@ -159,7 +159,7 @@ public class HtmlGenerator
     }
 
     /**
-     * renders out a form with hidden parameters eventId, helperId and priorPositionId.
+     * renders out a form with hidden parameters eventId, helperId and positionId.
      * 
      * @param target
      * @param buttonText

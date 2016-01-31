@@ -45,7 +45,7 @@ public class SessionManager
             session.close();
         }
         openSessionCounter--;
-        logger.warn("SESSION CLOSED - open session count is now "+openSessionCounter+".");
+        logger.debug("SESSION CLOSED - open session count is now "+openSessionCounter+".");
     }
     
     public void unregisterSession(SessionHolder sessionHolder)
@@ -73,11 +73,11 @@ public class SessionManager
         
         if (openSessionCounter > MAX_OPEN_SESSIONS)
         {
-            logger.warn("open session count ("+openSessionCounter+") exceeded max value of '"+MAX_OPEN_SESSIONS+"'!!");
+            logger.debug("open session count ("+openSessionCounter+") exceeded max value of '"+MAX_OPEN_SESSIONS+"'!!");
         }
         else
         {
-            logger.warn("SESSION OPENED - open session count is now "+openSessionCounter+".");
+            logger.debug("SESSION OPENED - open session count is now "+openSessionCounter+".");
         }
         
         if (sessionToken == null)

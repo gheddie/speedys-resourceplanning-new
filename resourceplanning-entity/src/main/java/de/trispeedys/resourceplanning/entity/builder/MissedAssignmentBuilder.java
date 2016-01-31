@@ -48,6 +48,7 @@ public class MissedAssignmentBuilder extends AbstractEntityBuilder<MissedAssignm
         missedAssignment.setHelper(helper);
         missedAssignment.setPosition(position);
         missedAssignment.setTimeStamp(timeStamp);
+        missedAssignment.setUsed(false);
         return missedAssignment;
     }
 }

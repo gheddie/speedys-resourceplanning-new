@@ -20,6 +20,7 @@ import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MissedAssignment;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.builder.MissedAssignmentBuilder;
+import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
@@ -56,12 +57,8 @@ public class MissedAssignmentRepository extends AbstractDatabaseRepository<Misse
                     parameters);
 
             // (2) persist new miss
-            new MissedAssignmentBuilder().withPosition(RepositoryProvider.getRepository(PositionRepository.class).findById(positionId))
-                    .withHelper(RepositoryProvider.getRepository(HelperRepository.class).findById(helperId))
-                    .withEvent(RepositoryProvider.getRepository(EventRepository.class).findById(eventId))
-                    .withTimeStamp()
-                    .build()
-                    .saveOrUpdate(token);
+            EntityFactory.buildMissedAssignment(RepositoryProvider.getRepository(EventRepository.class).findById(eventId), RepositoryProvider.getRepository(HelperRepository.class).findById(helperId),
+                    RepositoryProvider.getRepository(PositionRepository.class).findById(positionId)).saveOrUpdate(token);
 
             sessionHolder.commitTransaction();
         }
@@ -77,13 +74,13 @@ public class MissedAssignmentRepository extends AbstractDatabaseRepository<Misse
         }
     }
 
-    public List<MissedAssignment> findByPositionAndEvent(Long positionId, Long eventId)
+    public List<MissedAssignment> findUnusedByPositionAndEvent(Long positionId, Long eventId)
     {
         Position position = RepositoryProvider.getRepository(PositionRepository.class).findById(positionId);
         Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
         HashMap<String, Object> parameters = new HashMap<String, Object>();
         parameters.put(MissedAssignment.ATTR_POSITION, position);
-        parameters.put(MissedAssignment.ATTR_EVENT, event);
-        return dataSource().find(null, "FROM " + MissedAssignment.class.getSimpleName() + " ma WHERE ma.position = :position AND ma.event = :event", parameters);
+        parameters.put(MissedAssignment.ATTR_EVENT, event);        
+        return dataSource().find(null, "FROM " + MissedAssignment.class.getSimpleName() + " ma WHERE ma.position = :position AND ma.event = :event AND ma.used = false", parameters);
     }
 }

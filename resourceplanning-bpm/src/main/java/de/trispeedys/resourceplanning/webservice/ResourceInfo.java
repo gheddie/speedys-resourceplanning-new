@@ -5,7 +5,6 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -21,8 +20,6 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.runtime.VariableInstance;
 import org.camunda.bpm.engine.runtime.VariableInstanceQuery;
 import org.camunda.bpm.engine.task.Task;
-import org.hibernate.Transaction;
-import org.hibernate.event.spi.EventType;
 
 import de.gravitex.hibernateadapter.core.SessionHolder;
 import de.gravitex.hibernateadapter.core.SessionManager;
@@ -88,6 +85,8 @@ public class ResourceInfo
 
     private static final String WRONG_EVENT_STATE = "WRONG_EVENT_STATE";
 
+    private static final String WRONG_EVENT_STATE_FOR_ADDING_POS = "WRONG_EVENT_STATE_FOR_ADDING_POS";
+
     private static final String CANCELLATION_UNPROCESSABLE = "CANCELLATION_UNPROCESSABLE";
 
     private static final String PROC_INST_MISMATCH = "PROC_INST_MISMATCH";
@@ -115,8 +114,7 @@ public class ResourceInfo
             throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
         }
         List<PositionDTO> dtos = new ArrayList<PositionDTO>();
-        for (Position pos : RepositoryProvider.getRepository(PositionRepository.class).findUnassignedPositionsInEvent(
-                event, false))
+        for (Position pos : RepositoryProvider.getRepository(PositionRepository.class).findUnassignedPositionsInEvent(event, false))
         {
             dtos.add(asPositionDTO(pos));
         }
@@ -143,9 +141,9 @@ public class ResourceInfo
      */
     public PositionDTO[] queryEventPositions(Long eventId, boolean includedInEvent)
     {
-        // TODO only query positions (in case of adding) from domains which are suitable for the given event template 
+        // TODO only query positions (in case of adding) from domains which are suitable for the given event template
         // perhaps we should have different methods for adding/removing positions?
-        
+
         AppConfiguration configuration = AppConfiguration.getInstance();
         if (eventId == null)
         {
@@ -157,8 +155,7 @@ public class ResourceInfo
             throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
         }
         List<PositionDTO> dtos = new ArrayList<PositionDTO>();
-        for (Position pos : RepositoryProvider.getRepository(PositionRepository.class).findEventPositions(event,
-                includedInEvent))
+        for (Position pos : RepositoryProvider.getRepository(PositionRepository.class).findEventPositions(event, includedInEvent))
         {
             dtos.add(asPositionDTO(pos));
         }
@@ -197,9 +194,7 @@ public class ResourceInfo
 
     public void finishUp()
     {
-        BpmPlatform.getDefaultProcessEngine()
-                .getRuntimeService()
-                .signalEventReceived(BpmSignals.RequestHelpHelper.SIG_EVENT_STARTED);
+        BpmPlatform.getDefaultProcessEngine().getRuntimeService().signalEventReceived(BpmSignals.RequestHelpHelper.SIG_EVENT_STARTED);
     }
 
     public EventDTO[] queryEvents()
@@ -211,13 +206,9 @@ public class ResourceInfo
         {
             dto = new EventDTO();
             dto.setDescription(event.getDescription());
-            dto.setPositionCount(RepositoryProvider.getRepository(EventPositionRepository.class)
-                    .findByEvent(event)
-                    .size());
+            dto.setPositionCount(RepositoryProvider.getRepository(EventPositionRepository.class).findByEvent(event).size());
             // TODO nur ungekündigte (jetzt OK ?!?) !!
-            dto.setAssignmentCount(RepositoryProvider.getRepository(HelperAssignmentRepository.class)
-                    .findUncancelledByEvent(event)
-                    .size());
+            dto.setAssignmentCount(RepositoryProvider.getRepository(HelperAssignmentRepository.class).findUncancelledByEvent(event).size());
             dto.setEventId(event.getId());
             dto.setEventState(event.getEventState().toString());
             dto.setEventDate(event.getEventDate());
@@ -250,8 +241,7 @@ public class ResourceInfo
         logger.info("getting event nodes...");
         // key : position id, value : aggregation relation
         HashMap<Long, AggregationRelation> relationHash = new HashMap<Long, AggregationRelation>();
-        for (AggregationRelation relation : RepositoryProvider.getRepository(AggregationRelationRepository.class)
-                .findAll(null))
+        for (AggregationRelation relation : RepositoryProvider.getRepository(AggregationRelationRepository.class).findAll(null))
         {
             relationHash.put(relation.getPositionId(), relation);
         }
@@ -336,21 +326,28 @@ public class ResourceInfo
                 .taskDefinitionKey(BpmTaskDefinitionKeys.RequestHelpHelper.TASK_DEFINITION_KEY_MANUAL_ASSIGNMENT)
                 .list())
         {
-            ProcessInstance execution = (ProcessInstance) BpmPlatform.getDefaultProcessEngine().getRuntimeService().createExecutionQuery().executionId(manualAssignmentTask.getExecutionId()).list().get(0);
+            ProcessInstance execution =
+                    (ProcessInstance) BpmPlatform.getDefaultProcessEngine().getRuntimeService().createExecutionQuery().executionId(manualAssignmentTask.getExecutionId()).list().get(0);
             String businessKey = execution.getBusinessKey();
-            
-            String bkPartial = new MessageFormat("event:{0}").format(new Object[]{String.valueOf(eventId)});
+
+            String bkPartial = new MessageFormat("event:{0}").format(new Object[]
+            {
+                String.valueOf(eventId)
+            });
             if (businessKey.contains(bkPartial))
             {
-                // TODO is there a better to determine whether this task is a task from a process belonging to the given event ID?
+                // TODO is there a better to determine whether this task is a task from a process belonging to the given
+// event ID?
                 dto = new ManualAssignmentDTO();
                 dto.setTaskId(manualAssignmentTask.getId());
                 helper = getHelper(manualAssignmentTask);
-                dto.setHelperName(helper.getLastName() + ", " + helper.getFirstName());                
+                dto.setHelperName(helper.getLastName() + ", " + helper.getFirstName());
                 wishFound = RepositoryProvider.getRepository(ManualAssignmentCommentRepository.class).findByEventAndHelper(event, helper);
-                dto.setWish(wishFound != null ? wishFound.getComment() : "");
+                dto.setWish(wishFound != null
+                        ? wishFound.getComment()
+                        : "");
                 dtos.add(dto);
-            }            
+            }
         }
         return dtos.toArray(new ManualAssignmentDTO[dtos.size()]);
     }
@@ -371,18 +368,11 @@ public class ResourceInfo
         Helper helper = null;
         ExecutionDTO dto;
         RuntimeService runtimeService = BpmPlatform.getDefaultProcessEngine().getRuntimeService();
-        for (Execution execution : runtimeService.createExecutionQuery()
-                .messageEventSubscriptionName(messageName)
-                .list())
+        for (Execution execution : runtimeService.createExecutionQuery().messageEventSubscriptionName(messageName).list())
         {
             List<VariableInstance> variables =
-                    runtimeService.createVariableInstanceQuery()
-                            .processInstanceIdIn(execution.getProcessInstanceId())
-                            .variableName(BpmVariables.RequestHelpHelper.VAR_HELPER_ID)
-                            .list();
-            helper =
-                    RepositoryProvider.getRepository(HelperRepository.class).findById(
-                            (Long) variables.get(0).getValue());
+                    runtimeService.createVariableInstanceQuery().processInstanceIdIn(execution.getProcessInstanceId()).variableName(BpmVariables.RequestHelpHelper.VAR_HELPER_ID).list();
+            helper = RepositoryProvider.getRepository(HelperRepository.class).findById((Long) variables.get(0).getValue());
             dto = new ExecutionDTO();
             dto.setHelperFirstName(helper.getFirstName());
             dto.setHelperLastName(helper.getLastName());
@@ -409,18 +399,13 @@ public class ResourceInfo
     private Helper getHelper(Task task)
     {
         VariableInstanceQuery qry =
-                BpmPlatform.getDefaultProcessEngine()
-                        .getRuntimeService()
-                        .createVariableInstanceQuery()
-                        .executionIdIn(task.getExecutionId())
-                        .variableName(BpmVariables.RequestHelpHelper.VAR_HELPER_ID);
+                BpmPlatform.getDefaultProcessEngine().getRuntimeService().createVariableInstanceQuery().executionIdIn(task.getExecutionId()).variableName(BpmVariables.RequestHelpHelper.VAR_HELPER_ID);
         VariableInstance variableInstance = qry.list().get(0);
         Long helperId = (Long) variableInstance.getValue();
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         if (helper == null)
         {
-            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, PROC_INST_MISMATCH,
-                    helperId, task.getId()));
+            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, PROC_INST_MISMATCH, helperId, task.getId()));
         }
         return helper;
     }
@@ -435,14 +420,11 @@ public class ResourceInfo
         try
         {
             businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
-            BpmPlatform.getDefaultProcessEngine()
-                    .getRuntimeService()
-                    .correlateMessage(BpmMessages.RequestHelpHelper.MSG_ASSIG_CANCELLED, businessKey);
+            BpmPlatform.getDefaultProcessEngine().getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_ASSIG_CANCELLED, businessKey);
         }
         catch (MismatchingMessageCorrelationException e)
         {
-            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this,
-                    CANCELLATION_UNPROCESSABLE, helperId));
+            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, CANCELLATION_UNPROCESSABLE, helperId));
         }
     }
 
@@ -462,13 +444,10 @@ public class ResourceInfo
         BpmPlatform.getDefaultProcessEngine().getTaskService().complete(taskId, variables);
     }
 
-    public void createHelper(String lastName, String firstName, String email, int dayOfBirth, int monthOfBirth,
-            int yearOfBirth)
+    public void createHelper(String lastName, String firstName, String email, int dayOfBirth, int monthOfBirth, int yearOfBirth)
     {
         // TODO add parameter 'internal' here, or webservice can only create internal helpers...
-        Helper helper =
-                EntityFactory.buildHelper(lastName, firstName, email, HelperState.ACTIVE, dayOfBirth, monthOfBirth,
-                        yearOfBirth, true).saveOrUpdate();
+        Helper helper = EntityFactory.buildHelper(lastName, firstName, email, HelperState.ACTIVE, dayOfBirth, monthOfBirth, yearOfBirth, true).saveOrUpdate();
         // start a request help process for every event which is initiated in this moment...
         for (Event event : RepositoryProvider.getRepository(EventRepository.class).findInitiatedEvents())
         {
@@ -492,8 +471,7 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException("domain with id '" + domainId + "' could not found!!");
         }
-        RepositoryProvider.getRepository(PositionRepository.class).createPosition(description, positionNumber, domain,
-                minimalAge, choosable);
+        RepositoryProvider.getRepository(PositionRepository.class).createPosition(description, positionNumber, domain, minimalAge, choosable);
     }
 
     public void swapPositions(Long helperIdSource, Long helperIdTarget, Long eventId)
@@ -514,12 +492,8 @@ public class ResourceInfo
         }
         HelperAssignmentRepository repository = RepositoryProvider.getRepository(HelperAssignmentRepository.class);
 
-        HelperAssignment assignmentSource =
-                repository.findByHelperAndEvent(
-                        RepositoryProvider.getRepository(HelperRepository.class).findById(helperIdSource), event);
-        HelperAssignment assignmentTarget =
-                repository.findByHelperAndEvent(
-                        RepositoryProvider.getRepository(HelperRepository.class).findById(helperIdTarget), event);
+        HelperAssignment assignmentSource = repository.findByHelperAndEvent(RepositoryProvider.getRepository(HelperRepository.class).findById(helperIdSource), event);
+        HelperAssignment assignmentTarget = repository.findByHelperAndEvent(RepositoryProvider.getRepository(HelperRepository.class).findById(helperIdTarget), event);
 
         Position posSource = assignmentSource.getPosition();
         Position posTarget = assignmentTarget.getPosition();
@@ -544,7 +518,7 @@ public class ResourceInfo
             SessionManager.getInstance().unregisterSession(sessionHolder);
         }
     }
-    
+
     public void removePositionsFromEvent(Long eventId, String positionNumbers)
     {
         AppConfiguration configuration = AppConfiguration.getInstance();
@@ -578,32 +552,26 @@ public class ResourceInfo
     {
         AppConfiguration configuration = AppConfiguration.getInstance();
         // position must be there
-        Position position =
-                RepositoryProvider.getRepository(PositionRepository.class).findPositionByPositionNumber(positionNumber);
+        Position position = RepositoryProvider.getRepository(PositionRepository.class).findPositionByPositionNumber(positionNumber);
         if (position == null)
         {
-            throw new ResourcePlanningException(configuration.getText(this, POSITION_UNAVAILABLE_BY_NUMBER,
-                    positionNumber));
+            throw new ResourcePlanningException(configuration.getText(this, POSITION_UNAVAILABLE_BY_NUMBER, positionNumber));
         }
         // position must be an event position in the given event
-        EventPosition eventPosition =
-                RepositoryProvider.getRepository(EventPositionRepository.class).findByEventAndPositionNumber(event,
-                        position);
+        EventPosition eventPosition = RepositoryProvider.getRepository(EventPositionRepository.class).findByEventAndPositionNumber(event, position);
         if (eventPosition == null)
         {
-            throw new ResourcePlanningException(configuration.getText(this, POSITION_NOT_ASSIGNED_TO_EVENT,
-                    positionNumber, event.getDescription()));
+            throw new ResourcePlanningException(configuration.getText(this, POSITION_NOT_ASSIGNED_TO_EVENT, positionNumber, event.getDescription()));
         }
         // position must NOT be assigned in the event
         if (RepositoryProvider.getRepository(HelperAssignmentRepository.class).findByEventAndPosition(event, position) != null)
         {
-            throw new ResourcePlanningException(configuration.getText(this, POSITION_ASSIGNED_TO_HELPER,
-                    positionNumber, event.getDescription()));
+            throw new ResourcePlanningException(configuration.getText(this, POSITION_ASSIGNED_TO_HELPER, positionNumber, event.getDescription()));
         }
         // finally, remove the event position...
         eventPosition.remove();
     }
-    
+
     public void addPositionsToEvent(Long eventId, String positionNumbers)
     {
         AppConfiguration configuration = AppConfiguration.getInstance();
@@ -616,10 +584,10 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
         }
-        // event must be 'PLANNED'
-        if (!(event.getEventState().equals(EventState.PLANNED)))
+        // event must be 'PLANNED' or 'INITIATED'
+        if ((!(event.getEventState().equals(EventState.PLANNED))) || (!(event.getEventState().equals(EventState.INITIATED))))
         {
-            throw new ResourcePlanningException(configuration.getText(this, WRONG_EVENT_STATE, EventState.PLANNED));
+            throw new ResourcePlanningException(configuration.getText(this, WRONG_EVENT_STATE_FOR_ADDING_POS, EventState.PLANNED, EventState.INITIATED));
         }
         List<Integer> posNumbers = ListMarshaller.unmarshall(positionNumbers);
         for (Integer posNumber : posNumbers)
@@ -632,21 +600,17 @@ public class ResourceInfo
     private void addPositionToEvent(Event event, int positionNumber)
     {
         AppConfiguration configuration = AppConfiguration.getInstance();
-        
+
         // position must be there
-        Position position =
-                RepositoryProvider.getRepository(PositionRepository.class).findPositionByPositionNumber(positionNumber);
+        Position position = RepositoryProvider.getRepository(PositionRepository.class).findPositionByPositionNumber(positionNumber);
         if (position == null)
         {
-            throw new ResourcePlanningException(configuration.getText(this, POSITION_UNAVAILABLE_BY_NUMBER,
-                    positionNumber));
+            throw new ResourcePlanningException(configuration.getText(this, POSITION_UNAVAILABLE_BY_NUMBER, positionNumber));
         }
         // position must not already be an event position in the given event
-        if (RepositoryProvider.getRepository(EventPositionRepository.class).findByEventAndPositionNumber(event,
-                position) != null)
+        if (RepositoryProvider.getRepository(EventPositionRepository.class).findByEventAndPositionNumber(event, position) != null)
         {
-            throw new ResourcePlanningException(configuration.getText(this, POSITION_ALREADY_ASSIGNED_TO_EVENT,
-                    positionNumber, event.getDescription()));
+            throw new ResourcePlanningException(configuration.getText(this, POSITION_ALREADY_ASSIGNED_TO_EVENT, positionNumber, event.getDescription()));
         }
         // finally, create the event position...
         EntityFactory.buildEventPosition(event, position).saveOrUpdate(null);

@@ -93,6 +93,11 @@ public class RequestHelpExecutionTest
         // (4)
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperA.getId(), event2016.getId());
         RequestHelpTestUtil.startHelperRequestProcess(helperA, event2016, businessKey, processEngine);
+        
+        // check helper code set in process instance
+        List<VariableInstance> codeVariables = processEngine.getRuntimeService().createVariableInstanceQuery().variableName(BpmVariables.RequestHelpHelper.VAR_HELPER_CODE).list();
+        assertEquals(1, codeVariables.size());
+        assertEquals(codeVariables.get(0).getValue(), SpeedyRoutines.createHelperCode(helperA));
 
         // (5)
         RequestHelpTestUtil.fireTimer(BpmJobDefinitions.RequestHelpHelper.JOB_DEF_HELPER_REMINDER_TIMER, processEngine);

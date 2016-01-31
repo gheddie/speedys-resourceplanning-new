@@ -58,9 +58,20 @@ public class JspRenderer
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator().withImage("speedys", "gif", 600, 170).withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
-        // .withImage("doh", "png", 492, 578)
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "renderCorrelationFault"))
+                .withParagraph(AbstractMailTemplate.sincerely())
+                .render();
+    }
+    
+    public static String renderPlanningException(Long helperId, String errorMessage)
+    {
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                .withParagraph(configuration.getText(JspRenderer.class, "planningExceptionCaught", errorMessage))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
@@ -73,17 +84,6 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "genericEngineFailure"))
                 .withParagraph(errorMessage)
-                .withParagraph(AbstractMailTemplate.sincerely())
-                .render();
-    }
-
-    public static String renderPlanningException(Long helperId, String errorMessage)
-    {
-        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
-        AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
-                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
-                .withParagraph(configuration.getText(JspRenderer.class, "planningExceptionCaught", errorMessage))
                 .withParagraph(AbstractMailTemplate.sincerely())
                 .render();
     }
@@ -140,6 +140,7 @@ public class JspRenderer
                 .withParagraph(configuration.getText(JspRenderer.class, "cancellationConfirmed"))
                 .withParagraph(configuration.getText(JspRenderer.class, "announceConfirmation"))
                 .withParagraph(AbstractMailTemplate.sincerely())
+                .withClosingLink()
                 .render();
     }
 
@@ -180,6 +181,7 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "manualAssignmentTeaser"))
                 .withTextAreaInputForm("ManualAssignmentConfirm.jsp", 6, 120, configuration.getText(JspRenderer.class, "sendManualAssignment"), eventId, helperId)
+                .withClosingLink()
                 .render();
     }
 
@@ -191,6 +193,7 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "cancelForeverTeaser"))
                 .withSimpleButtonForm("CancelForeverConfirm.jsp", configuration.getText(JspRenderer.class, "sendCancelForever"), eventId, helperId)
+                .withClosingLink()
                 .render();
     }
 
@@ -203,6 +206,7 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "pauseMeTeaser"))
                 .withSimpleButtonForm("PauseMeConfirm.jsp", configuration.getText(JspRenderer.class, "sendPauseMe"), eventId, helperId)
+                .withClosingLink()
                 .render();
     }
 
@@ -228,9 +232,10 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "assignmentAsBeforeTeaser", posDesc, domainDesc))
                 .withSimpleButtonForm("AssignmentAsBeforeConfirm.jsp", configuration.getText(JspRenderer.class, "sendAssignmentAsBefore"), eventId, helperId, priorPositionId)
+                .withClosingLink()
                 .render();
     }
-    
+
     public static String renderPositionRecoveryOnCancellationForm(Long eventId, Long helperId, Long chosenPositionId)
     {
         Position chosenPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(chosenPositionId);
@@ -253,6 +258,7 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "positionRecoveryOnCancellationTeaser", posDesc, domainDesc))
                 .withSimpleButtonForm("PositionRecoveryOnCancellationConfirm.jsp", configuration.getText(JspRenderer.class, "sendPositionRecoveryOnCancellation"), eventId, helperId, chosenPositionId)
+                .withClosingLink()
                 .render();
     }
 
@@ -265,6 +271,7 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "changePositionTeaser"))
                 .withSimpleButtonForm("ChangePositionConfirm.jsp", configuration.getText(JspRenderer.class, "sendChangePosition"), eventId, helperId)
+                .withClosingLink()
                 .render();
     }
 
@@ -277,6 +284,7 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "positionChosenTeaser", chosenPosition.getDescription(), chosenPosition.getDomain().getName()))
                 .withSimpleButtonForm("PositionChosenConfirm.jsp", configuration.getText(JspRenderer.class, "sendPositionChosen"), eventId, helperId, chosenPositionId)
+                .withClosingLink()
                 .render();
     }
 
@@ -302,6 +310,7 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "assignmentCancellationTeaser", posDesc, domainDesc))
                 .withSimpleButtonForm("AssignmentCancellationConfirm.jsp", configuration.getText(JspRenderer.class, "sendAssignmentCancellation"), eventId, helperId)
+                .withClosingLink()
                 .render();
     }
 
@@ -320,7 +329,7 @@ public class JspRenderer
             generator.withParagraph(configuration.getText(JspRenderer.class, "assignmentCommentReminder"));
             generator.withParagraph(wish.getComment());
         }
-        return generator.withParagraph(AbstractMailTemplate.sincerely()).render();
+        return generator.withParagraph(AbstractMailTemplate.sincerely()).withClosingLink().render();
     }
 
     public static String renderCancelForeverConfirmation(Long eventId, Long helperId)
@@ -331,6 +340,7 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "cancelForeverConfirmed"))
                 .withParagraph(AbstractMailTemplate.sincerely())
+                .withClosingLink()
                 .render();
     }
 
@@ -342,6 +352,7 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "pauseMeConfirmed"))
                 .withParagraph(AbstractMailTemplate.sincerely())
+                .withClosingLink()
                 .render();
     }
 
@@ -370,6 +381,7 @@ public class JspRenderer
                     .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                     .withParagraph(configuration.getText(JspRenderer.class, "assignmentAsBeforeConfirmSuccess", posDesc, domainDesc))
                     .withParagraph(AbstractMailTemplate.sincerely())
+                    .withClosingLink()
                     .render();
         }
         else
@@ -378,6 +390,7 @@ public class JspRenderer
                     .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                     .withParagraph(configuration.getText(JspRenderer.class, "assignmentAsBeforeConfirmFault", posDesc, domainDesc))
                     .withParagraph(AbstractMailTemplate.sincerely())
+                    .withClosingLink()
                     .render();
         }
     }
@@ -390,6 +403,7 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "changePositionConfirmed"))
                 .withParagraph(AbstractMailTemplate.sincerely())
+                .withClosingLink()
                 .render();
     }
 }

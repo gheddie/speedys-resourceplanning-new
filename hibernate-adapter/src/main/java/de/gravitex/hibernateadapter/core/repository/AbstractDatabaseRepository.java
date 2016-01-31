@@ -33,10 +33,15 @@ public abstract class AbstractDatabaseRepository<T>
     {
         return dataSource.findById(null, id);
     }
+    
+    public void saveOrUpdate(SessionToken sessionToken, T entity)
+    {
+        dataSource.saveOrUpdate(sessionToken, entity);
+    }
 
     public void saveOrUpdate(T entity)
     {
-        dataSource.saveOrUpdate(null, entity);
+        saveOrUpdate(null, entity);
     }
     
     public void remove(T entity)

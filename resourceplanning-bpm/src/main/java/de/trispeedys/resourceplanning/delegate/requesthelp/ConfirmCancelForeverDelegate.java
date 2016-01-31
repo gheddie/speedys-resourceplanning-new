@@ -18,5 +18,7 @@ public class ConfirmCancelForeverDelegate extends RequestHelpNotificationDelegat
                 RepositoryProvider.getRepository(PositionRepository.class).findById(
                         (Long) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION));
         constructMessage(execution, helper, position, getEvent(execution), helper.getEmail());
+        // no, this was a helper wanted deactivation...
+        execution.setVariable(BpmVariables.RequestHelpHelper.VAR_DEACTIVATION_ON_TIMEOUT, false);
     }
 }

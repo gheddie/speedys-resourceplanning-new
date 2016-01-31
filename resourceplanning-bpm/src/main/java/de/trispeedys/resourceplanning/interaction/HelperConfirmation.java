@@ -7,6 +7,7 @@ import org.camunda.bpm.engine.MismatchingMessageCorrelationException;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineException;
 
+import de.trispeedys.resourceplanning.BpmHelper;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
@@ -30,7 +31,7 @@ public class HelperConfirmation
         variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, HelperCallback.QUIT_FOREVER);
         try
         {
-            HelperInteraction.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
+            BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
             return JspRenderer.renderCancelForeverConfirmation(eventId, helperId);
         }
         catch (MismatchingMessageCorrelationException e)
@@ -61,7 +62,7 @@ public class HelperConfirmation
 
         try
         {
-            HelperInteraction.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_ASSIG_RECOVERY, businessKey, variables);
+            BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_ASSIG_RECOVERY, businessKey, variables);
             return JspRenderer.renderPositionRecoveryOnCancellation(eventId, helperId, chosenPositionId);
         }
         catch (MismatchingMessageCorrelationException e)
@@ -87,7 +88,7 @@ public class HelperConfirmation
         variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, HelperCallback.PAUSE_ME);
         try
         {
-            HelperInteraction.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
+            BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
             return JspRenderer.renderPauseMeConfirmation(eventId, helperId);
         }
         catch (MismatchingMessageCorrelationException e)
@@ -120,7 +121,7 @@ public class HelperConfirmation
         try
         {
             // correlate message 'MSG_HELP_CALLBACK' with peculiarity 'ASSIGN_ME_MANUALLY'...
-            HelperInteraction.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
+            BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
             return JspRenderer.renderManualAssignmentConfirmation(eventId, helperId);
         }
         catch (MismatchingMessageCorrelationException e)
@@ -146,7 +147,7 @@ public class HelperConfirmation
         variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, HelperCallback.ASSIGNMENT_AS_BEFORE);
         try
         {
-            HelperInteraction.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
+            BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
             return JspRenderer.renderAssignmentAsBeforeConfirmation(eventId, helperId, priorPositionId);
         }
         catch (MismatchingMessageCorrelationException e)
@@ -170,7 +171,7 @@ public class HelperConfirmation
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         try
         {
-            HelperInteraction.getProcessEngine(testEngine).getRuntimeService().correlateMessage(
+            BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(
                     BpmMessages.RequestHelpHelper.MSG_ASSIG_CANCELLED, businessKey);
             return JspRenderer.renderCancellationConfirm(helperId);
         }
@@ -202,7 +203,7 @@ public class HelperConfirmation
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         try
         {
-            HelperInteraction.getProcessEngine(testEngine).getRuntimeService().correlateMessage(
+            BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(
                     BpmMessages.RequestHelpHelper.MSG_POS_CHOSEN, businessKey, variables);
             if (positionAvailable)
             {
@@ -239,7 +240,7 @@ public class HelperConfirmation
         variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_CALLBACK, HelperCallback.CHANGE_POS);
         try
         {
-            HelperInteraction.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
+            BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK, businessKey, variables);
             return JspRenderer.rendeChangePositionConfirmation(eventId, helperId);
         }
         catch (MismatchingMessageCorrelationException e)

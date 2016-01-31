@@ -1,0 +1,5 @@
+--TODO
+
+--alter table missed_assignment add used boolean;
+
+--DONE

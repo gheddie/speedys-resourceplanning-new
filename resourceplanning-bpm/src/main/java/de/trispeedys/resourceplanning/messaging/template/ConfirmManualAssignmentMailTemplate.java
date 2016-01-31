@@ -10,6 +10,8 @@ public class ConfirmManualAssignmentMailTemplate extends AbstractMailTemplate
 {
     public String constructBody()
     {
+        // TODO render assignment wish in mail (not only on confirmation page)!!
+        
         return new HtmlGenerator(true).withParagraph(helperGreeting())
                 .withParagraph(AppConfiguration.getInstance().getText(this, "body", getEvent().getDescription()))
                 .withParagraph(sincerely())

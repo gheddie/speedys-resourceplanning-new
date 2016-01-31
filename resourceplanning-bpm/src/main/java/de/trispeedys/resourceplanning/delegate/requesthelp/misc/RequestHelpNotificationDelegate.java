@@ -36,7 +36,7 @@ public abstract class RequestHelpNotificationDelegate extends RequestHelpDelegat
     }
 
     @SuppressWarnings("rawtypes")
-    private AbstractMailTemplate<?> getMessageTemplate(DelegateExecution execution, Helper helper, Position position,
+    protected AbstractMailTemplate<?> getMessageTemplate(DelegateExecution execution, Helper helper, Position position,
             Event event)
     {
         String baseName = getClass().getSimpleName().substring(0, getClass().getSimpleName().indexOf(DELEGATE_POSTFIX));

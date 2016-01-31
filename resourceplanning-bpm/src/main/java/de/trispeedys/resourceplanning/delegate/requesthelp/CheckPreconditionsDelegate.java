@@ -4,6 +4,9 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
 import de.trispeedys.resourceplanning.execution.BpmVariables;
+import de.trispeedys.resourceplanning.repository.HelperRepository;
+import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
+import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class CheckPreconditionsDelegate implements JavaDelegate
@@ -17,7 +20,8 @@ public class CheckPreconditionsDelegate implements JavaDelegate
         }
 
         // (2) check if helper id is set
-        if (execution.getVariable(BpmVariables.RequestHelpHelper.VAR_HELPER_ID) == null)
+        Long helperId = (Long) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_HELPER_ID);
+        if (helperId == null)
         {
             throw new ResourcePlanningException("can not start request help process without a helper id set!!");
         }
@@ -27,5 +31,8 @@ public class CheckPreconditionsDelegate implements JavaDelegate
         {
             throw new ResourcePlanningException("can not start request help process without a event id set!!");
         }
+
+        // set helper code in process instance
+        execution.setVariable(BpmVariables.RequestHelpHelper.VAR_HELPER_CODE, SpeedyRoutines.createHelperCode(RepositoryProvider.getRepository(HelperRepository.class).findById(helperId)));
     }
 }

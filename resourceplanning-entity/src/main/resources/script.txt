@@ -204,6 +204,7 @@ create table missed_assignment
 	helper_id bigint not null,
 	position_id bigint not null,
 	event_id bigint not null,
+	used boolean,
 	primary key (id)	
 );
 

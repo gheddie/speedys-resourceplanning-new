@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.camunda.bpm.BpmPlatform;
 
+import de.trispeedys.resourceplanning.BpmHelper;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.entity.Event;
@@ -33,21 +34,16 @@ public class EventManager
 
     private static final String PLANNING_IN_PROGRESS = "PLANNING_IN_PROGRESS";
 
-    public static final boolean RECOVER_CANCELLED_POSITIONS = true;
-
     public static void triggerHelperProcesses(String templateName)
     {
         if (StringUtil.isBlank(templateName))
         {
             throw new ResourcePlanningException("template name must not be blank!!");
         }
-        List<Event> events =
-                RepositoryProvider.getRepository(EventRepository.class).findEventsByTemplateAndStatus(templateName,
-                        EventState.PLANNED);
+        List<Event> events = RepositoryProvider.getRepository(EventRepository.class).findEventsByTemplateAndStatus(templateName, EventState.PLANNED);
         if ((events == null) || (events.size() != 1))
         {
-            throw new ResourcePlanningException("there must be exactly one planned event of template '" +
-                    templateName + "'!!");
+            throw new ResourcePlanningException("there must be exactly one planned event of template '" + templateName + "'!!");
         }
         Event event = events.get(0);
         if (!(event.getEventState().equals(EventState.PLANNED)))
@@ -55,8 +51,7 @@ public class EventManager
             throw new ResourcePlanningException("event must have state '" + EventState.PLANNED + "'!!");
         }
         // start request process for every active helper...
-        List<Helper> activeHelpers =
-                Datasources.getDatasource(Helper.class).find(null, Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
+        List<Helper> activeHelpers = Datasources.getDatasource(Helper.class).find(null, Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
         for (Helper helper : activeHelpers)
         {
             startHelperRequestProcess(helper, event);
@@ -95,8 +90,7 @@ public class EventManager
                 throw new ResourcePlanningException("event must have state '" + EventState.PLANNED + "'!!");
             }
             // start request process for every active helper...
-            List<Helper> activeHelpers =
-                    Datasources.getDatasource(Helper.class).find(null, Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
+            List<Helper> activeHelpers = Datasources.getDatasource(Helper.class).find(null, Helper.ATTR_HELPER_STATE, HelperState.ACTIVE);
             for (Helper helper : activeHelpers)
             {
                 startHelperRequestProcess(helper, event);
@@ -128,36 +122,30 @@ public class EventManager
         variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_ID, new Long(helper.getId()));
         variables.put(BpmVariables.RequestHelpHelper.VAR_EVENT_ID, new Long(event.getId()));
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event.getId());
-        BpmPlatform.getDefaultProcessEngine()
-                .getRuntimeService()
-                .startProcessInstanceByMessage(BpmMessages.RequestHelpHelper.MSG_HELP_TRIG, businessKey, variables);
+        BpmPlatform.getDefaultProcessEngine().getRuntimeService().startProcessInstanceByMessage(BpmMessages.RequestHelpHelper.MSG_HELP_TRIG, businessKey, variables);
     }
 
     public static void onAssignmentCancelled(Long eventId, Long positionId)
     {
-        // TODO make sure this works correct...
-        
-        if (!(RECOVER_CANCELLED_POSITIONS))
-        {
-            return;
-        }
-
         // (1) get last missed assignment for the helper and the event
-        List<MissedAssignment> missedAssignments =
-                RepositoryProvider.getRepository(MissedAssignmentRepository.class).findByPositionAndEvent(positionId,
-                        eventId);
+        List<MissedAssignment> missedAssignments = RepositoryProvider.getRepository(MissedAssignmentRepository.class).findUnusedByPositionAndEvent(positionId, eventId);
         if ((missedAssignments == null) || (missedAssignments.size() == 0))
         {
             // no missed assignments
             return;
         }
-
-        // (2) process every missed assignment
+        // (2) process every missed assignment...
         Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
         Position position = RepositoryProvider.getRepository(PositionRepository.class).findById(positionId);
         for (MissedAssignment missedAssignment : missedAssignments)
-        {                        
-            new PositionRecoveryOnCancellationMailTemplate(missedAssignment.getHelper(), event, position).send(false);
+        {
+            // ...if the helpers process can correlate the message at this point of time.
+            if (BpmHelper.checkMessageSubscription(event.getId(), missedAssignment.getHelperId(), BpmMessages.RequestHelpHelper.MSG_ASSIG_RECOVERY, null))
+            {
+                new PositionRecoveryOnCancellationMailTemplate(missedAssignment.getHelper(), event, position).send(false);
+                missedAssignment.setUsed(true);
+                RepositoryProvider.getRepository(MissedAssignmentRepository.class).saveOrUpdate(missedAssignment);   
+            }
         }
-   }
+    }
 }

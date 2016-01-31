@@ -12,9 +12,13 @@ import javax.persistence.TemporalType;
 @Table(name = "missed_assignment")
 public class MissedAssignment extends AbstractAssignment
 {
+    public static final String ATTR_USED = "used";
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "time_stamp")
     private Date timeStamp;
+    
+    private boolean used;
     
     public Date getTimeStamp()
     {
@@ -24,5 +28,15 @@ public class MissedAssignment extends AbstractAssignment
     public void setTimeStamp(Date timeStamp)
     {
         this.timeStamp = timeStamp;
+    }
+    
+    public boolean isUsed()
+    {
+        return used;
+    }
+
+    public void setUsed(boolean used)
+    {
+        this.used = used;
     }
 }

@@ -14,7 +14,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import de.trispeedys.resourceplanning.util.StringUtil;
-import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.util.xml.XmlReader;
 
 public class AppConfiguration
@@ -77,6 +76,7 @@ public class AppConfiguration
         }
         catch (SAXException e)
         {
+            // TODO ...
             e.printStackTrace();
         }
         catch (IOException e)

@@ -31,3 +31,13 @@ Tomcat Process Engine DB PostGres
  + postgresql-9.1-901-1.jdbc4.jar in [TOMCAT_HOME]/lib kopieren
  
 cockpit [u:demo|p:trispeedys1234]
+
+Tomcat as service
+------------------------------------------------------------------------------------------
+
+ + tomcat8.exe + tomcat8w.exe + service.bat nach [TOMCAT_HOME]/bin kopieren (aus 64-Bit-Distro von z.B. Tomcat 8.0.30)
+ 		--> tomcat8w.exe wohl eher nicht, kommt in der service.bat nicht vor...
+ + run service.bat install CamundaService (Shell ggf. als Admin?!?)
+ + --> installed service 'CamundaService'
+ + erscheint als 'Apache Tomcat 8.0 CamundaService'...
+ + Start-Typ auf 'automatisch'

@@ -10,6 +10,8 @@ import de.trispeedys.resourceplanning.util.htmlgenerator.HtmlGenerator;
 
 public class AlertDeactivationMailTemplate extends AbstractMailTemplate
 {
+    private boolean deactivationOnTimeout;
+
     public AlertDeactivationMailTemplate()
     {
         this(null, null, null);
@@ -22,10 +24,17 @@ public class AlertDeactivationMailTemplate extends AbstractMailTemplate
 
     public String constructBody()
     {
+        String translationKey = null;
+        if (deactivationOnTimeout)
+        {
+            translationKey = "bodyDeactivationOnTimeout";   
+        }
+        else
+        {
+            translationKey = "bodyManualDeactivation";
+        }
         return new HtmlGenerator(true).withParagraph(AppConfiguration.getInstance().getText(this, "adminSulation"))
-                .withParagraph(
-                        AppConfiguration.getInstance().getText(this, "body", getHelper().getLastName(),
-                                getHelper().getFirstName()))
+                .withParagraph(AppConfiguration.getInstance().getText(this, translationKey, getHelper().getLastName(), getHelper().getFirstName()))
                 .render();
     }
 
@@ -37,5 +46,10 @@ public class AlertDeactivationMailTemplate extends AbstractMailTemplate
     public MessagingType getMessagingType()
     {
         return MessagingType.ALERT_HELPER_DEACTIVATED;
+    }
+
+    public void setDeactivationOnTimeout(boolean aDeactivationOnTimeout)
+    {
+        this.deactivationOnTimeout = aDeactivationOnTimeout;
     }
 }

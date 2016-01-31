@@ -1,11 +1,11 @@
 package de.trispeedys.resourceplanning.interaction;
 
 import org.apache.log4j.Logger;
-import org.camunda.bpm.BpmPlatform;
 import org.camunda.bpm.engine.MismatchingMessageCorrelationException;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineException;
 
+import de.trispeedys.resourceplanning.BpmHelper;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.datasource.Datasources;
@@ -41,9 +41,7 @@ public class HelperInteraction
     {
         try
         {
-            checkEntityForExistence(eventId, Event.class);
-            checkEntityForExistence(helperId, Helper.class);
-            checkEntityForExistence(priorPositionId, Position.class);
+            checkEntitiesForExistence(eventId, helperId, priorPositionId);
             
             logger.info("the helper has chosen : " + callback);
             switch (callback)
@@ -85,19 +83,6 @@ public class HelperInteraction
         }
     }
 
-    private static void checkEntityForExistence(Long primaryKeyValue, Class<? extends AbstractDbObject> entityClass)
-    {
-        if (primaryKeyValue == null)
-        {
-            return;
-        }
-        if (Datasources.getDatasource(entityClass).findById(null, primaryKeyValue) == null)
-        {
-            // thats a mistake --> no object found for a given ID!!!
-            throw new ResourcePlanningNoSuchEntityException(entityClass, primaryKeyValue);
-        }
-    }
-
     /**
      * called from 'ChosenPositionReceiver.jsp'
      * 
@@ -112,21 +97,25 @@ public class HelperInteraction
     public static synchronized String processPositionChosenCallback(Long eventId, Long helperId, Long chosenPositionId,
             ProcessEngine testEngine) throws MismatchingMessageCorrelationException
     {
+        checkEntitiesForExistence(eventId, helperId, chosenPositionId);
         return JspRenderer.renderPositionChosenForm(eventId, helperId, chosenPositionId);
     }
 
     public static synchronized String processAssignmentCancellation(Long eventId, Long helperId,
             Long positionId, ProcessEngine testEngine)
     {
+        checkEntitiesForExistence(eventId, helperId, positionId);
         return JspRenderer.renderAssignmentCancellationForm(eventId, helperId, positionId);
     }
 
     public static synchronized String processDeactivationRecovery(Long eventId, Long helperId, ProcessEngine testEngine)
     {
+        checkEntitiesForExistence(eventId, helperId, null);
+        
         String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
         try
         {
-            getProcessEngine(testEngine).getRuntimeService().correlateMessage(
+            BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(
                     BpmMessages.RequestHelpHelper.MSG_DEACT_RESP, businessKey);
             return JspRenderer.renderDeactivationRecoveryCallback(helperId);
         }
@@ -149,15 +138,8 @@ public class HelperInteraction
     public static synchronized String processPositionRecoveryOnCancellation(Long eventId, Long helperId,
             Long chosenPositionId, ProcessEngine testEngine)
     {
+        checkEntitiesForExistence(eventId, helperId, chosenPositionId);
         return JspRenderer.renderPositionRecoveryOnCancellationForm(eventId, helperId, chosenPositionId);
-    }
-
-    public static ProcessEngine getProcessEngine(ProcessEngine testEngine)
-    {
-        // return test engine if set, default engine from bpm platform otherwise
-        return testEngine != null
-                ? testEngine
-                : BpmPlatform.getDefaultProcessEngine();
     }
 
     /**
@@ -177,5 +159,25 @@ public class HelperInteraction
         RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
                 AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.ADMIN_MAIL),
                 template.constructSubject(), template.constructBody(), template.getMessagingType(), true, null);
+    }
+    
+    private static void checkEntitiesForExistence(Long eventId, Long helperId, Long priorPositionId)
+    {
+        checkEntityForExistence(eventId, Event.class);
+        checkEntityForExistence(helperId, Helper.class);
+        checkEntityForExistence(priorPositionId, Position.class);
+    }
+
+    private static void checkEntityForExistence(Long primaryKeyValue, Class<? extends AbstractDbObject> entityClass)
+    {
+        if (primaryKeyValue == null)
+        {
+            return;
+        }
+        if (Datasources.getDatasource(entityClass).findById(null, primaryKeyValue) == null)
+        {
+            // thats a mistake --> no object found for a given ID!!!
+            throw new ResourcePlanningNoSuchEntityException(entityClass, primaryKeyValue);
+        }
     }
 }
