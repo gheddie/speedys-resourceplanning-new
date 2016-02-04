@@ -26,7 +26,6 @@ import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.RequestHelpTestUtil;
-import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 import de.trispeedys.resourceplanning.util.TestUtil;
 
@@ -54,7 +53,7 @@ public class VariableAssignmentTest
         
         Helper helperA = RepositoryProvider.getRepository(HelperRepository.class).findAll(null).get(0);
         // start process for on helper
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperA.getId(), event2016.getId());
+        String businessKey = BusinessKeys.generateRequestHelpBusinessKey(helperA, event2016);
         RequestHelpTestUtil.startHelperRequestProcess(helperA, event2016, businessKey, processEngine);
                 
         /**

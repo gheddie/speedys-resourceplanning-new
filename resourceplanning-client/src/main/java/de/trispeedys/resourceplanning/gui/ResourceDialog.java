@@ -597,10 +597,8 @@ public class ResourceDialog extends SpeedyFrame
                 sourceSwapNode.getDescription() + "' und '" + targetSwapNode.getDescription() + "' tauschen?",
                 "Bestätigung", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
         {
-            AppSingleton.getInstance()
-                    .getPort()
-                    .swapPositions(sourceSwapNode.getEntityId(), targetSwapNode.getEntityId(),
-                            selectedEvent.getEventId());
+            // TODO pass position ids instead of '-1l'...
+            AppSingleton.getInstance().getPort().swapPositions(sourceSwapNode.getEntityId(), targetSwapNode.getEntityId(), selectedEvent.getEventId());
         }
     }
 

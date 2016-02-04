@@ -45,7 +45,6 @@ import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.rule.CallbackChoiceGenerator;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.RequestHelpTestUtil;
-import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 import de.trispeedys.resourceplanning.util.TestUtil;
 
@@ -88,10 +87,10 @@ public class RequestHelpExecutionTest
         Helper helperB = allHelpers.get(3);
         // get assigned position for helper 'A' in 2015
         HelperAssignment assignmentA2015 = RepositoryProvider.getRepository(HelperAssignmentRepository.class).getHelperAssignments(helperA, event2015).get(0);
-        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helperB, event2016, assignmentA2015.getPosition());
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helperB, event2016, assignmentA2015.getPosition(), null);
 
         // (4)
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperA.getId(), event2016.getId());
+        String businessKey = BusinessKeys.generateRequestHelpBusinessKey(helperA, event2016);
         RequestHelpTestUtil.startHelperRequestProcess(helperA, event2016, businessKey, processEngine);
         
         // check helper code set in process instance
@@ -152,7 +151,7 @@ public class RequestHelpExecutionTest
         assertEquals(5, allHelpers.size());
         Helper helperA = allHelpers.get(1);
 
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperA.getId(), event2016.getId());
+        String businessKey = BusinessKeys.generateRequestHelpBusinessKey(helperA, event2016);
         RequestHelpTestUtil.startHelperRequestProcess(helperA, event2016, businessKey, processEngine);
 
         HelperConfirmation.processAssignmentAsBeforeConfirmation(event2016.getId(), helperA.getId(), null, processEngine.getProcessEngine());
@@ -184,7 +183,7 @@ public class RequestHelpExecutionTest
         // start request process for every helper
         List<Helper> activeHelpers = Datasources.getDatasource(Helper.class).find(null, "helperState", HelperState.ACTIVE);
         Helper notCooperativeHelper = activeHelpers.get(0);
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(notCooperativeHelper.getId(), event2016.getId());
+        String businessKey = BusinessKeys.generateRequestHelpBusinessKey(notCooperativeHelper, event2016);
 
         RequestHelpTestUtil.doNotRespondToAnything(event2016, notCooperativeHelper, businessKey, processEngine);
 
@@ -215,7 +214,7 @@ public class RequestHelpExecutionTest
         // start request process for every helper
         List<Helper> activeHelpers = Datasources.getDatasource(Helper.class).find(null, "helperState", HelperState.ACTIVE);
         Helper notCooperativeHelper = activeHelpers.get(0);
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(notCooperativeHelper.getId(), event2016.getId());
+        String businessKey = BusinessKeys.generateRequestHelpBusinessKey(notCooperativeHelper, event2016);
 
         RequestHelpTestUtil.doNotRespondToAnything(event2016, notCooperativeHelper, businessKey, processEngine);
 
@@ -250,7 +249,7 @@ public class RequestHelpExecutionTest
         assertEquals(5, allHelpers.size());
         Helper helperA = allHelpers.get(1);
 
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperA.getId(), event2016.getId());
+        String businessKey = BusinessKeys.generateRequestHelpBusinessKey(helperA, event2016);
         RequestHelpTestUtil.startHelperRequestProcess(helperA, event2016, businessKey, processEngine);
 
         Map<String, Object> variablesCallback = new HashMap<String, Object>();
@@ -289,7 +288,7 @@ public class RequestHelpExecutionTest
         Helper helperA = allHelpers.get(1);
         Helper helperB = allHelpers.get(3);
 
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperA.getId(), event2016.getId());
+        String businessKey = BusinessKeys.generateRequestHelpBusinessKey(helperA, event2016);
         RequestHelpTestUtil.startHelperRequestProcess(helperA, event2016, businessKey, processEngine);
 
         // (A)
@@ -301,7 +300,7 @@ public class RequestHelpExecutionTest
         // (B) we assign one of the proposed prosition to another helper and let 'helperA' choose it...
         Position blockedPosition = positionRepository.findUnassignedPositionsInEvent(event2016, false).get(0);
         Position notBlockedPosition = positionRepository.findUnassignedPositionsInEvent(event2016, false).get(1);
-        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helperB, event2016, blockedPosition);
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helperB, event2016, blockedPosition, null);
         RequestHelpTestUtil.choosePosition(businessKey, blockedPosition, processEngine, event2016.getId());
 
         // (C) --> there must be a second proposal mail
@@ -337,12 +336,12 @@ public class RequestHelpExecutionTest
         List<Helper> helpers = Datasources.getDatasource(Helper.class).findAll(null);
 
         Helper helperA = helpers.get(0);
-        String businessKeyA = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperA.getId(), event2016.getId());
+        String businessKeyA = BusinessKeys.generateRequestHelpBusinessKey(helperA, event2016);
         RequestHelpTestUtil.startHelperRequestProcess(helperA, event2016, businessKeyA, processEngine);
         HelperInteraction.processReminderCallback(event2016.getId(), helperA.getId(), null, HelperCallback.CHANGE_POS, processEngine.getProcessEngine());
 
         Helper helperB = helpers.get(2);
-        String businessKeyB = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperB.getId(), event2016.getId());
+        String businessKeyB = BusinessKeys.generateRequestHelpBusinessKey(helperB, event2016);
         RequestHelpTestUtil.startHelperRequestProcess(helperB, event2016, businessKeyB, processEngine);
         HelperInteraction.processReminderCallback(event2016.getId(), helperB.getId(), null, HelperCallback.CHANGE_POS, processEngine.getProcessEngine());
 
@@ -390,7 +389,7 @@ public class RequestHelpExecutionTest
         Helper helper = EntityFactory.buildHelper("Mee", "Moo", "a@b.de", HelperState.ACTIVE, 23, 6, 2000, true).saveOrUpdate();
 
         // start process
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
+        String businessKey = BusinessKeys.generateRequestHelpBusinessKey(helper, event2016);
         RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, processEngine);
 
         // manual assignment task must be there
@@ -449,7 +448,7 @@ public class RequestHelpExecutionTest
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findAll(null).get(0);
 
         // start the process
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
+        String businessKey = BusinessKeys.generateRequestHelpBusinessKey(helper, event2016);
         RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, processEngine);
 
         // there must be 5 unassigned positions
@@ -458,15 +457,15 @@ public class RequestHelpExecutionTest
 
         // block all of them with fresh helpers...
         Helper new1 = EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 2, 1976, true).saveOrUpdate();
-        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(new1, event2016, unassignedPositions.get(0));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(new1, event2016, unassignedPositions.get(0), null);
         Helper new2 = EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 3, 1976, true).saveOrUpdate();
-        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(new2, event2016, unassignedPositions.get(1));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(new2, event2016, unassignedPositions.get(1), null);
         Helper new3 = EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 4, 1976, true).saveOrUpdate();
-        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(new3, event2016, unassignedPositions.get(2));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(new3, event2016, unassignedPositions.get(2), null);
         Helper new4 = EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 5, 1976, true).saveOrUpdate();
-        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(new4, event2016, unassignedPositions.get(3));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(new4, event2016, unassignedPositions.get(3), null);
         Helper new5 = EntityFactory.buildHelper("Schulz", "Stefan", "a@b.de", HelperState.ACTIVE, 13, 6, 1976, true).saveOrUpdate();
-        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(new5, event2016, unassignedPositions.get(4));
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(new5, event2016, unassignedPositions.get(4), null);
 
         // there must be 0 unassigned positions
         assertEquals(0, RepositoryProvider.getRepository(PositionRepository.class).findUnassignedPositionsInEvent(event2016, false).size());
@@ -502,7 +501,7 @@ public class RequestHelpExecutionTest
         Helper reloadedHelper = RepositoryProvider.getRepository(HelperRepository.class).findById(helper.getId());
 
         // start the process
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
+        String businessKey = BusinessKeys.generateRequestHelpBusinessKey(helper, event2016);
         RequestHelpTestUtil.startHelperRequestProcess(reloadedHelper, event2016, businessKey, processEngine);
 
         // manual assignment task must be there...
@@ -526,7 +525,7 @@ public class RequestHelpExecutionTest
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findAll(null).get(0);
 
         // start the process
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
+        String businessKey = BusinessKeys.generateRequestHelpBusinessKey(helper, event2016);
         RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, processEngine);
 
         // choose manual assignment
@@ -562,10 +561,10 @@ public class RequestHelpExecutionTest
         Helper helperA = allHelpers.get(0);
         Helper helperB = allHelpers.get(1);
 
-        String businessKeyA = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperA.getId(), event2016.getId());
+        String businessKeyA = BusinessKeys.generateRequestHelpBusinessKey(helperA, event2016);
         RequestHelpTestUtil.startHelperRequestProcess(helperA, event2016, businessKeyA, processEngine);
 
-        String businessKeyB = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperB.getId(), event2016.getId());
+        String businessKeyB = BusinessKeys.generateRequestHelpBusinessKey(helperB, event2016);
         RequestHelpTestUtil.startHelperRequestProcess(helperB, event2016, businessKeyB, processEngine);
 
         // 'B' gets prior assignment of 'A'
@@ -603,7 +602,7 @@ public class RequestHelpExecutionTest
         List<Helper> activeHelpers = RepositoryProvider.getRepository(HelperRepository.class).findActiveHelpers();
         for (Helper helper : activeHelpers)
         {
-            businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
+            businessKey = BusinessKeys.generateRequestHelpBusinessKey(helper, event2016);
             RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, processEngine);
         }
 
@@ -632,7 +631,7 @@ public class RequestHelpExecutionTest
         List<ProcessInstance> executions = new ArrayList<ProcessInstance>();
         for (Helper helper : activeHelpers)
         {
-            businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
+            businessKey = BusinessKeys.generateRequestHelpBusinessKey(helper, event2016);
             executions.add(RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, processEngine));
         }
 
@@ -682,7 +681,7 @@ public class RequestHelpExecutionTest
         List<ProcessInstance> executions = new ArrayList<ProcessInstance>();
         for (Helper helper : activeHelpers)
         {
-            businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
+            businessKey = BusinessKeys.generateRequestHelpBusinessKey(helper, event2016);
             executions.add(RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, processEngine));
         }
 
@@ -698,7 +697,7 @@ public class RequestHelpExecutionTest
         {
             newHelper = EntityFactory.buildHelper("AAA", "BBB", "a@b.de", HelperState.ACTIVE, 1, 1, 1970 + i, true).saveOrUpdate();
             i++;
-            RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(newHelper, event2016, posUnassigned);
+            RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(newHelper, event2016, posUnassigned, null);
         }
         unassigned = RepositoryProvider.getRepository(PositionRepository.class).findUnassignedPositionsInEvent(event2016, false);
         assertEquals(0, unassigned.size());
@@ -722,7 +721,7 @@ public class RequestHelpExecutionTest
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findActiveHelpers().get(0);
 
         // start process
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
+        String businessKey = BusinessKeys.generateRequestHelpBusinessKey(helper, event2016);
         ProcessInstance executionA = RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, processEngine);
 
         // TODO use 'HelperInteraction', god damn it...

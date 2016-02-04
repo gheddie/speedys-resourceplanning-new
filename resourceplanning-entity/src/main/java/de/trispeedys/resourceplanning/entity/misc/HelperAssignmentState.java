@@ -5,7 +5,7 @@ public enum HelperAssignmentState
     // result of request process --> rebooking still possible
     PLANNED,
     
-    // final state - not (yet) in scope of the process
+    // final state - state after doing a take over to final planning
     CONFIRMED,
     
     // cancelled by helper

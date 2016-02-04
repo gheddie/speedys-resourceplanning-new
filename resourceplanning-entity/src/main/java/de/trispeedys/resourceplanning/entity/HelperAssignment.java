@@ -34,4 +34,9 @@ public class HelperAssignment extends AbstractAssignment
     {
         return (helperAssignmentState.equals(helperAssignmentState.CANCELLED));
     }
+
+    public boolean isConfirmed()
+    {
+        return (helperAssignmentState.equals(helperAssignmentState.CONFIRMED));
+    }
 }

@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.messaging.template;
+package de.trispeedys.resourceplanning.messaging.template.helprequest;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.Event;
@@ -21,7 +21,7 @@ public class PositionRecoveryOnCancellationMailTemplate extends HelperInteractio
                         "/"+getJspReceiverName()+".jsp?helperId=" + getHelper().getId() + "&eventId=" +
                         getEvent().getId() + "&chosenPosition=" + getPosition().getId();
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator(true).withParagraph(helperGreeting())
+        return new HtmlGenerator(true).withParagraph(helperGreeting(getHelper()))
                 .withParagraph(
                         configuration.getText(this, "body", getPosition().getDescription(), getPosition().getDomain()
                                 .getName()))

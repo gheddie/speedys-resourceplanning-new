@@ -3,6 +3,9 @@ package de.trispeedys.resourceplanning.repository;
 import java.util.HashMap;
 import java.util.List;
 
+import de.gravitex.hibernateadapter.core.SessionHolder;
+import de.gravitex.hibernateadapter.core.SessionManager;
+import de.gravitex.hibernateadapter.core.SessionToken;
 import de.gravitex.hibernateadapter.core.repository.AbstractDatabaseRepository;
 import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
 import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
@@ -23,6 +26,8 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
         DatabaseRepository<HelperAssignmentRepository>
 {
     private static final String HELPER_TOO_YOUNG = "HELPER_TOO_YOUNG";
+    
+    private static final String POSITIONS_NO_SWAP = "POSITIONS_NO_SWAP";
 
     public List<HelperAssignment> findByEvent(Event event)
     {
@@ -103,15 +108,25 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
                 RepositoryProvider.getRepository(PositionRepository.class).findById(positionId));
     }
 
-    public void assignHelper(Helper helper, Event event, Position position) throws ResourcePlanningException
+    public void assignHelper(Helper helper, Event event, Position position, SessionToken sessionToken) throws ResourcePlanningException
     {
         if (!(helper.isAssignableTo(position, event.getEventDate())))
         {
             throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, HELPER_TOO_YOUNG,
                     helper.getLastName(), helper.getFirstName(), position.getDescription()));
         }
-        EntityFactory.buildHelperAssignment(helper, event, position).saveOrUpdate();
+        EntityFactory.buildHelperAssignment(helper, event, position).saveOrUpdate(sessionToken);
     }
+    
+    public void confirmHelper(Helper helper, Event event, Position position, SessionToken sessionToken) throws ResourcePlanningException
+    {
+        if (!(helper.isAssignableTo(position, event.getEventDate())))
+        {
+            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, HELPER_TOO_YOUNG,
+                    helper.getLastName(), helper.getFirstName(), position.getDescription()));
+        }
+        EntityFactory.buildHelperAssignment(helper, event, position, HelperAssignmentState.CONFIRMED).saveOrUpdate(sessionToken);
+    }    
 
     public boolean isFirstAssignment(Long helperId)
     {
@@ -155,5 +170,78 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
             return null;
         }
         return (HelperAssignment) list.get(0)[0];
+    }
+
+    public List<HelperAssignment> findConfirmedHelperAssignments(Event event)
+    {
+        return dataSource().find(null, HelperAssignment.ATTR_EVENT, event, HelperAssignment.ATTR_ASSIGNMENT_STATE, HelperAssignmentState.CONFIRMED);
+    }
+    
+    public void switchHelperAssignments(HelperAssignment assignmentSource, HelperAssignment assignmentTarget)
+    {
+        Position positionSource = assignmentSource.getPosition();
+        Position positionTarget = assignmentTarget.getPosition();
+        
+        SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this);
+        try
+        {
+            sessionHolder.beginTransaction();
+            assignmentSource.setPosition(positionTarget);
+            sessionHolder.saveOrUpdate(assignmentSource);
+            assignmentTarget.setPosition(positionSource);
+            sessionHolder.saveOrUpdate(assignmentTarget);
+            sessionHolder.commitTransaction();
+        }
+        catch (Exception e)
+        {
+            sessionHolder.rollbackTransaction();
+            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, POSITIONS_NO_SWAP, e.getMessage()));
+        }
+        finally
+        {
+            SessionManager.getInstance().unregisterSession(sessionHolder);
+        }
+    }
+
+    public void transferHelperAssignment(HelperAssignment sourceAssignment, Position targetPosition)
+    {
+        SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this);
+        try
+        {
+            sessionHolder.beginTransaction();
+
+            Event event = sourceAssignment.getEvent();
+            Helper helper = sourceAssignment.getHelper();
+            HelperAssignmentState assignmentState = sourceAssignment.getHelperAssignmentState();
+            
+            // (1) cancel source
+            sourceAssignment.setHelperAssignmentState(HelperAssignmentState.CANCELLED);
+            sessionHolder.saveOrUpdate(sourceAssignment);
+            
+            // TODO why do i need a flush here?
+            sessionHolder.flush();
+                    
+            // (2) create new assigment with target
+            switch(assignmentState)
+            {
+                case PLANNED:
+                    assignHelper(helper, event, targetPosition, sessionHolder.getToken());
+                    break;
+                case CONFIRMED:
+                    confirmHelper(helper, event, targetPosition, sessionHolder.getToken());
+                    break;
+            }
+            
+            sessionHolder.commitTransaction();
+        }
+        catch (Exception e)
+        {
+            sessionHolder.rollbackTransaction();
+            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, POSITIONS_NO_SWAP, e.getMessage()));
+        }
+        finally
+        {
+            SessionManager.getInstance().unregisterSession(sessionHolder);
+        }
     }
 }

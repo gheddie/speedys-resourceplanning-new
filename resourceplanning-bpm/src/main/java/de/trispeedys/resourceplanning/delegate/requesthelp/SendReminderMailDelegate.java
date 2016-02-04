@@ -9,7 +9,7 @@ import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
-import de.trispeedys.resourceplanning.messaging.template.SendReminderMailTemplate;
+import de.trispeedys.resourceplanning.messaging.template.helprequest.SendReminderMailTemplate;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
@@ -19,7 +19,7 @@ public class SendReminderMailDelegate extends RequestHelpNotificationDelegate
     {
         // find helper and event
         Long helperId = (Long) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_HELPER_ID);
-        Long eventId = (Long) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_EVENT_ID);
+        Long eventId = (Long) execution.getVariable(BpmVariables.Misc.VAR_EVENT_ID);
         Long positionId = (Long) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_PRIOR_POSITION);
         // write mail
         Helper helper = (Helper) Datasources.getDatasource(Helper.class).findById(null, helperId);

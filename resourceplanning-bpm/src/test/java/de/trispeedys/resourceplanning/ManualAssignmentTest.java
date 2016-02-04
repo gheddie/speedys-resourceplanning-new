@@ -21,7 +21,6 @@ import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.RequestHelpTestUtil;
-import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 import de.trispeedys.resourceplanning.util.TestUtil;
 
@@ -54,7 +53,7 @@ public class ManualAssignmentTest
         for (Helper helper : activeHelpers)
         {
             businessKey =
-                    ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
+                    BusinessKeys.generateRequestHelpBusinessKey(helper, event2016);
             RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, processEngine);
         }
 

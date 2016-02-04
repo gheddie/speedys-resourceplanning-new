@@ -15,10 +15,10 @@ import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
-import de.trispeedys.resourceplanning.messaging.template.AlertDeactivationMailTemplate;
-import de.trispeedys.resourceplanning.messaging.template.BookingConfirmationMailTemplate;
-import de.trispeedys.resourceplanning.messaging.template.ProposePositionsMailTemplate;
-import de.trispeedys.resourceplanning.messaging.template.SendReminderMailTemplate;
+import de.trispeedys.resourceplanning.messaging.template.helprequest.AlertDeactivationMailTemplate;
+import de.trispeedys.resourceplanning.messaging.template.helprequest.BookingConfirmationMailTemplate;
+import de.trispeedys.resourceplanning.messaging.template.helprequest.ProposePositionsMailTemplate;
+import de.trispeedys.resourceplanning.messaging.template.helprequest.SendReminderMailTemplate;
 import de.trispeedys.resourceplanning.util.TestUtil;
 
 public class MailTemplateTest

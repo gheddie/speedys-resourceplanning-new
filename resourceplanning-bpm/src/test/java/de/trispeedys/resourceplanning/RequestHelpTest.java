@@ -30,7 +30,6 @@ import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.RequestHelpTestUtil;
-import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 import de.trispeedys.resourceplanning.util.TestUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
@@ -54,9 +53,9 @@ public class RequestHelpTest
     public void testBusinessKeyGeneration()
     {
         assertEquals("bkRequestHelpHelperProcess_helper:123||event:456",
-                ResourcePlanningUtil.generateRequestHelpBusinessKey(new Long(123), new Long(456)));
+                BusinessKeys.generateRequestHelpBusinessKey(new Long(123), new Long(456)));
         assertEquals("bkRequestHelpHelperProcess_helper:10861||event:10862",
-                ResourcePlanningUtil.generateRequestHelpBusinessKey(new Long(10861), new Long(10862)));
+                BusinessKeys.generateRequestHelpBusinessKey(new Long(10861), new Long(10862)));
     }
 
     /**
@@ -98,7 +97,7 @@ public class RequestHelpTest
                 EntityFactory.buildHelper("Stefan", "Schulz", "", HelperState.ACTIVE, 1, 1, 1990, true).saveOrUpdate();
         // start process
         RequestHelpTestUtil.startHelperRequestProcess(helper, evt2016,
-                ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), evt2016.getId()), rule);
+                BusinessKeys.generateRequestHelpBusinessKey(helper, evt2016), rule);
         // check
         assertTrue(RequestHelpTestUtil.wasTaskGenerated(
                 BpmTaskDefinitionKeys.RequestHelpHelper.TASK_DEFINITION_KEY_MANUAL_ASSIGNMENT, rule));
@@ -141,7 +140,7 @@ public class RequestHelpTest
         EntityFactory.buildHelperAssignment(blockingHelper, evt2015, positionBikeEntry).saveOrUpdate();
         // start request process for 2015...
         String businessKey =
-                ResourcePlanningUtil.generateRequestHelpBusinessKey(createdHelper.getId(), evt2015.getId());
+                BusinessKeys.generateRequestHelpBusinessKey(createdHelper, evt2015);
         RequestHelpTestUtil.startHelperRequestProcess(createdHelper, evt2015, businessKey, rule);
         // correlate callback message
         Map<String, Object> variables = new HashMap<String, Object>();
@@ -203,7 +202,7 @@ public class RequestHelpTest
         for (Helper helper : activeHelpers)
         {
             businessKey =
-                    ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
+                    BusinessKeys.generateRequestHelpBusinessKey(helper, event2016);
             RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, rule);
         }
         // a mail for every helper must have been sent
@@ -238,7 +237,7 @@ public class RequestHelpTest
         for (Helper helper : helpers)
         {
             businessKey =
-                    ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
+                    BusinessKeys.generateRequestHelpBusinessKey(helper, event2016);
             RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, rule);
         }
         // a mail for every helper must have been sent
@@ -275,7 +274,7 @@ public class RequestHelpTest
         Helper helper = (Helper) Datasources.getDatasource(Helper.class).findAll(null).get(0);
         // start process
         String businessKey =
-                ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
+                BusinessKeys.generateRequestHelpBusinessKey(helper, event2016);
         RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, rule);
         // answer to mail
         Map<String, Object> variables = new HashMap<String, Object>();

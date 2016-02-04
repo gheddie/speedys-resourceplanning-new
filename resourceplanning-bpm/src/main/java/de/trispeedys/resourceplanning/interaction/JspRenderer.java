@@ -8,6 +8,7 @@ import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
+import de.trispeedys.resourceplanning.messaging.RequestHelpMailTemplate;
 import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
@@ -51,7 +52,7 @@ public class JspRenderer
         {
             generator = generator.withParagraph(configuration.getText(JspRenderer.class, "notice"));
         }
-        return generator.withParagraph(AbstractMailTemplate.sincerely()).render();
+        return generator.withParagraph(RequestHelpMailTemplate.sincerely()).render();
     }
 
     public static String renderCorrelationFault(Long helperId)
@@ -61,7 +62,8 @@ public class JspRenderer
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "renderCorrelationFault"))
-                .withParagraph(AbstractMailTemplate.sincerely())
+                .withParagraph(RequestHelpMailTemplate.sincerely())
+                .withClosingLink()
                 .render();
     }
     
@@ -72,7 +74,7 @@ public class JspRenderer
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "planningExceptionCaught", errorMessage))
-                .withParagraph(AbstractMailTemplate.sincerely())
+                .withParagraph(RequestHelpMailTemplate.sincerely())
                 .render();
     }
 
@@ -84,7 +86,7 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "genericEngineFailure"))
                 .withParagraph(errorMessage)
-                .withParagraph(AbstractMailTemplate.sincerely())
+                .withParagraph(RequestHelpMailTemplate.sincerely())
                 .render();
     }
 
@@ -106,7 +108,7 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "messageReceived"))
                 .withParagraph(configuration.getText(JspRenderer.class, "positionUnavailable", chosenPosition.getDescription()))
-                .withParagraph(AbstractMailTemplate.sincerely())
+                .withParagraph(RequestHelpMailTemplate.sincerely())
                 .render();
     }
 
@@ -126,7 +128,8 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "messageReceived"))
                 .withParagraph(configuration.getText(JspRenderer.class, "positionAvailable", chosenPosition.getDescription()))
-                .withParagraph(AbstractMailTemplate.sincerely())
+                .withParagraph(RequestHelpMailTemplate.sincerely())
+                .withClosingLink()
                 .render();
     }
 
@@ -139,7 +142,7 @@ public class JspRenderer
                 .withParagraph(configuration.getText(JspRenderer.class, "messageReceived"))
                 .withParagraph(configuration.getText(JspRenderer.class, "cancellationConfirmed"))
                 .withParagraph(configuration.getText(JspRenderer.class, "announceConfirmation"))
-                .withParagraph(AbstractMailTemplate.sincerely())
+                .withParagraph(RequestHelpMailTemplate.sincerely())
                 .withClosingLink()
                 .render();
     }
@@ -152,7 +155,7 @@ public class JspRenderer
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "messageReceived"))
                 .withParagraph(configuration.getText(JspRenderer.class, "furtherRegarding"))
-                .withParagraph(AbstractMailTemplate.sincerely())
+                .withParagraph(RequestHelpMailTemplate.sincerely())
                 .render();
     }
 
@@ -169,7 +172,7 @@ public class JspRenderer
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, confirmationKey, chosenPosition.getDescription(), chosenPosition.getDomain().getName()))
-                .withParagraph(AbstractMailTemplate.sincerely())
+                .withParagraph(RequestHelpMailTemplate.sincerely())
                 .render();
     }
 
@@ -329,7 +332,7 @@ public class JspRenderer
             generator.withParagraph(configuration.getText(JspRenderer.class, "assignmentCommentReminder"));
             generator.withParagraph(wish.getComment());
         }
-        return generator.withParagraph(AbstractMailTemplate.sincerely()).withClosingLink().render();
+        return generator.withParagraph(RequestHelpMailTemplate.sincerely()).withClosingLink().render();
     }
 
     public static String renderCancelForeverConfirmation(Long eventId, Long helperId)
@@ -339,7 +342,7 @@ public class JspRenderer
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "cancelForeverConfirmed"))
-                .withParagraph(AbstractMailTemplate.sincerely())
+                .withParagraph(RequestHelpMailTemplate.sincerely())
                 .withClosingLink()
                 .render();
     }
@@ -351,7 +354,7 @@ public class JspRenderer
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "pauseMeConfirmed"))
-                .withParagraph(AbstractMailTemplate.sincerely())
+                .withParagraph(RequestHelpMailTemplate.sincerely())
                 .withClosingLink()
                 .render();
     }
@@ -380,7 +383,7 @@ public class JspRenderer
             return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                     .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                     .withParagraph(configuration.getText(JspRenderer.class, "assignmentAsBeforeConfirmSuccess", posDesc, domainDesc))
-                    .withParagraph(AbstractMailTemplate.sincerely())
+                    .withParagraph(RequestHelpMailTemplate.sincerely())
                     .withClosingLink()
                     .render();
         }
@@ -389,7 +392,7 @@ public class JspRenderer
             return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                     .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                     .withParagraph(configuration.getText(JspRenderer.class, "assignmentAsBeforeConfirmFault", posDesc, domainDesc))
-                    .withParagraph(AbstractMailTemplate.sincerely())
+                    .withParagraph(RequestHelpMailTemplate.sincerely())
                     .withClosingLink()
                     .render();
         }
@@ -402,7 +405,7 @@ public class JspRenderer
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "changePositionConfirmed"))
-                .withParagraph(AbstractMailTemplate.sincerely())
+                .withParagraph(RequestHelpMailTemplate.sincerely())
                 .withClosingLink()
                 .render();
     }

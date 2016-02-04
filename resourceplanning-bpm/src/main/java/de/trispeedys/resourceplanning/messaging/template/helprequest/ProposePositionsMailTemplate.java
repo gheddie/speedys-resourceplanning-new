@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.messaging.template;
+package de.trispeedys.resourceplanning.messaging.template.helprequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +52,7 @@ public class ProposePositionsMailTemplate extends HelperInteractionMailTemplate
         }
 
         HtmlGenerator generator = new HtmlGenerator(true);
-        generator.withParagraph(helperGreeting());
+        generator.withParagraph(helperGreeting(getHelper()));
         if (reentrant)
         {
             // reentrant TODO welche zuvor gewählte Position?

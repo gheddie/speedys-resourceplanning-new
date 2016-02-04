@@ -17,7 +17,7 @@ public class ParserUtil
         {
             return false;
         }
-        return (value.equals("y"));
+        return ((value.equals("y")) || (value.equals("yes")));
     }
     
     public static Long parseLong(String value)

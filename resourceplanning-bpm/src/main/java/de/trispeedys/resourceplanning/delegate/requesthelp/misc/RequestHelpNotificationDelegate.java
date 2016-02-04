@@ -6,6 +6,7 @@ import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
+import de.trispeedys.resourceplanning.messaging.RequestHelpMailTemplate;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
@@ -16,19 +17,19 @@ import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
  * @author Stefan.Schulz
  *
  */
-public abstract class RequestHelpNotificationDelegate extends RequestHelpDelegate
+public abstract class RequestHelpNotificationDelegate extends AbstractRequestHelpDelegate
 {
     private static final String MAIL_TEMPLATE_POSTFIX = "MailTemplate";
 
     private static final String DELEGATE_POSTFIX = "Delegate";
 
-    private static final String TEMPLATE_DIRECTORY = "de.trispeedys.resourceplanning.messaging.template";
+    private static final String TEMPLATE_DIRECTORY = "de.trispeedys.resourceplanning.messaging.template.helprequest";
 
     @SuppressWarnings("rawtypes")
     protected void constructMessage(DelegateExecution execution, Helper helper, Position position, Event event,
             String toAddress)
     {
-        AbstractMailTemplate template = getMessageTemplate(execution, helper, position, event);
+        RequestHelpMailTemplate template = getMessageTemplate(execution, helper, position, event);
         // TODO pass 'null' as parameter 'helper' (--> how can we decide for whom [helper/admin] this mail is?)
         RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
                 toAddress, template.constructSubject(), template.constructBody(), template.getMessagingType(), true,
@@ -36,14 +37,14 @@ public abstract class RequestHelpNotificationDelegate extends RequestHelpDelegat
     }
 
     @SuppressWarnings("rawtypes")
-    protected AbstractMailTemplate<?> getMessageTemplate(DelegateExecution execution, Helper helper, Position position,
+    protected RequestHelpMailTemplate getMessageTemplate(DelegateExecution execution, Helper helper, Position position,
             Event event)
     {
         String baseName = getClass().getSimpleName().substring(0, getClass().getSimpleName().indexOf(DELEGATE_POSTFIX));
         String templateName = TEMPLATE_DIRECTORY + "." + baseName + MAIL_TEMPLATE_POSTFIX;
         try
         {
-            AbstractMailTemplate template = (AbstractMailTemplate) Class.forName(templateName).newInstance();
+            RequestHelpMailTemplate template = (RequestHelpMailTemplate) Class.forName(templateName).newInstance();
             template.setHelper(helper);
             template.setEvent(event);
             template.setPosition(position);

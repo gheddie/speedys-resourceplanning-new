@@ -27,7 +27,7 @@ public class CheckPreconditionsDelegate implements JavaDelegate
         }
 
         // (3) check if event id is set
-        if (execution.getVariable(BpmVariables.RequestHelpHelper.VAR_EVENT_ID) == null)
+        if (execution.getVariable(BpmVariables.Misc.VAR_EVENT_ID) == null)
         {
             throw new ResourcePlanningException("can not start request help process without a event id set!!");
         }

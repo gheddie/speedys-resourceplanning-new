@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.messaging.template;
+package de.trispeedys.resourceplanning.messaging.template.helprequest;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.Event;
@@ -19,7 +19,7 @@ public class DeactivationRecoveryMailTemplate extends HelperInteractionMailTempl
                 getBaseLink() +
                         "/"+getJspReceiverName()+".jsp?helperId=" + getHelper().getId() + "&eventId=" + getEvent().getId();
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator(true).withParagraph(helperGreeting())
+        return new HtmlGenerator(true).withParagraph(helperGreeting(getHelper()))
                 .withParagraph(configuration.getText(this, "body", getEvent().getDescription()))
                 .withLink(link, configuration.getText(this, "preventDeactivation"))
                 .withLinebreak()

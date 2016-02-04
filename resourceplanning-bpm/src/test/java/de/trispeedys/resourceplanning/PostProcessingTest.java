@@ -15,15 +15,12 @@ import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
-import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.execution.BpmSignals;
 import de.trispeedys.resourceplanning.interaction.HelperConfirmation;
-import de.trispeedys.resourceplanning.interaction.HelperInteraction;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.RequestHelpTestUtil;
-import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 import de.trispeedys.resourceplanning.util.TestUtil;
 import de.trispeedys.resourceplanning.webservice.ResourceInfo;
@@ -36,7 +33,7 @@ public class PostProcessingTest
     /**
      * The attempt to swap positions with having used signal {@link BpmSignals.RequestHelpHelper#SIG_EVENT_STARTED} must work.
      */
-    @Test
+    // @Test
     @Deployment(resources = "RequestHelp.bpmn")
     public void testSwapPositions()
     {
@@ -54,9 +51,9 @@ public class PostProcessingTest
         Helper helperB = allHelpers.get(3);
         
         // start processes
-        String businessKeyA = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperA.getId(), event2016.getId());
+        String businessKeyA = BusinessKeys.generateRequestHelpBusinessKey(helperA, event2016);
         RequestHelpTestUtil.startHelperRequestProcess(helperA, event2016, businessKeyA, processEngine);
-        String businessKeyB = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperB.getId(), event2016.getId());
+        String businessKeyB = BusinessKeys.generateRequestHelpBusinessKey(helperB, event2016);
         RequestHelpTestUtil.startHelperRequestProcess(helperB, event2016, businessKeyB, processEngine);        
         
         // assignemt as before

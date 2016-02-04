@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.messaging.template;
+package de.trispeedys.resourceplanning.messaging.template.helprequest;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.Event;
@@ -6,9 +6,10 @@ import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
+import de.trispeedys.resourceplanning.messaging.RequestHelpMailTemplate;
 import de.trispeedys.resourceplanning.util.htmlgenerator.HtmlGenerator;
 
-public class AlertDeactivationMailTemplate extends AbstractMailTemplate
+public class AlertDeactivationMailTemplate extends RequestHelpMailTemplate
 {
     private boolean deactivationOnTimeout;
 

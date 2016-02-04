@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import de.gravitex.hibernateadapter.core.util.HibernateUtil;
 import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
@@ -58,7 +57,7 @@ public class HelperAssignmentTest
         EntityFactory.buildHelperAssignment(helper, event, position2).saveOrUpdate();
 
         // confirm helper for another position of the same event
-        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helper, event, position1);
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helper, event, position1, null);
     }
 
     /**
@@ -83,7 +82,7 @@ public class HelperAssignmentTest
                 EntityFactory.buildPosition("Laufverpflegung", 16, SpeedyTestUtil.buildDefaultDomain(1), 0, true).saveOrUpdate();
 
         // Muss zu Ausnahme führen
-        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helper, event, position);
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helper, event, position, null);
     }
 
     /**
@@ -112,7 +111,7 @@ public class HelperAssignmentTest
                         .saveOrUpdate();
 
         // Muss zu Ausnahme führen
-        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helper, event, position);
+        RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helper, event, position, null);
     }
 
     @Test

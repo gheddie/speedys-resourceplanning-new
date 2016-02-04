@@ -69,7 +69,7 @@ public class CallbackChoiceGeneratorTest
         // assign 'B' to 'A's prior position...
         HelperAssignmentRepository repository = RepositoryProvider.getRepository(HelperAssignmentRepository.class);
         repository.assignHelper(helperB, event2016,
-                repository.getPriorAssignment(helperA, event2015.getEventTemplate()).getPosition());
+                repository.getPriorAssignment(helperA, event2015.getEventTemplate()).getPosition(), null);
 
         assertTrue(checkChoices(new HelperCallback[]
         {

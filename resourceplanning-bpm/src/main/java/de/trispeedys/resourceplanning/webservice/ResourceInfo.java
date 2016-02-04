@@ -1,11 +1,13 @@
 package de.trispeedys.resourceplanning.webservice;
 
+import java.lang.annotation.Target;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
@@ -23,6 +25,7 @@ import org.camunda.bpm.engine.task.Task;
 
 import de.gravitex.hibernateadapter.core.SessionHolder;
 import de.gravitex.hibernateadapter.core.SessionManager;
+import de.trispeedys.resourceplanning.BusinessKeys;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.dto.EventDTO;
@@ -63,7 +66,6 @@ import de.trispeedys.resourceplanning.rule.ChoosablePositionGenerator;
 import de.trispeedys.resourceplanning.util.EntityTreeNode;
 import de.trispeedys.resourceplanning.util.HierarchicalEventItemType;
 import de.trispeedys.resourceplanning.util.PositionTreeNode;
-import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 import de.trispeedys.resourceplanning.util.StringUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
@@ -80,8 +82,6 @@ public class ResourceInfo
     private static final String EVENT_ID_REQUIRED = "EVENT_ID_REQUIRED";
 
     private static final String EVENT_NOT_FOUND_BY_ID = "EVENT_NOT_FOUND_BY_ID";
-
-    private static final String POSITIONS_NO_SWAP = "POSITIONS_NO_SWAP";
 
     private static final String WRONG_EVENT_STATE = "WRONG_EVENT_STATE";
 
@@ -100,6 +100,8 @@ public class ResourceInfo
     private static final String POSITION_ASSIGNED_TO_HELPER = "POSITION_ASSIGNED_TO_HELPER";
 
     private static final String MAILSENDING_IN_PROGRESS = "MAILSENDING_IN_PROGRESS";
+    
+    private static final boolean SWAP_POSITIONS_DIRECTLY = false;
 
     public PositionDTO[] queryAvailablePositions(Long eventId)
     {
@@ -419,7 +421,7 @@ public class ResourceInfo
         String businessKey = null;
         try
         {
-            businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
+            businessKey = BusinessKeys.generateRequestHelpBusinessKey(helperId, eventId);
             BpmPlatform.getDefaultProcessEngine().getRuntimeService().correlateMessage(BpmMessages.RequestHelpHelper.MSG_ASSIG_CANCELLED, businessKey);
         }
         catch (MismatchingMessageCorrelationException e)
@@ -474,7 +476,7 @@ public class ResourceInfo
         RepositoryProvider.getRepository(PositionRepository.class).createPosition(description, positionNumber, domain, minimalAge, choosable);
     }
 
-    public void swapPositions(Long helperIdSource, Long helperIdTarget, Long eventId)
+    public void swapPositions(Long positionIdSource, Long positionIdTarget, Long eventId)
     {
         AppConfiguration configuration = AppConfiguration.getInstance();
         if (eventId == null)
@@ -490,32 +492,29 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException(configuration.getText(this, WRONG_EVENT_STATE, EventState.INITIATED));
         }
-        HelperAssignmentRepository repository = RepositoryProvider.getRepository(HelperAssignmentRepository.class);
-
-        HelperAssignment assignmentSource = repository.findByHelperAndEvent(RepositoryProvider.getRepository(HelperRepository.class).findById(helperIdSource), event);
-        HelperAssignment assignmentTarget = repository.findByHelperAndEvent(RepositoryProvider.getRepository(HelperRepository.class).findById(helperIdTarget), event);
-
-        Position posSource = assignmentSource.getPosition();
-        Position posTarget = assignmentTarget.getPosition();
-
-        SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this);
-        try
+        
+        HelperAssignmentRepository helperAssignmentRepository = RepositoryProvider.getRepository(HelperAssignmentRepository.class);
+        if (SWAP_POSITIONS_DIRECTLY)
         {
-            sessionHolder.beginTransaction();
-            assignmentSource.setPosition(posTarget);
-            sessionHolder.saveOrUpdate(assignmentSource);
-            assignmentTarget.setPosition(posSource);
-            sessionHolder.saveOrUpdate(assignmentTarget);
-            sessionHolder.commitTransaction();
+            // swap positions directly, do NOT use a process...
+            helperAssignmentRepository.switchHelperAssignments(null, null);
         }
-        catch (Exception e)
+        else
         {
-            sessionHolder.rollbackTransaction();
-            throw new ResourcePlanningException(configuration.getText(this, POSITIONS_NO_SWAP, e.getMessage()));
-        }
-        finally
-        {
-            SessionManager.getInstance().unregisterSession(sessionHolder);
+            // TODO we get helper ids at this point...will change if the gui changes...
+            Position source = helperAssignmentRepository.findByHelperAndEvent(positionIdSource, eventId).getPosition();
+            Position target = helperAssignmentRepository.findByHelperAndEvent(positionIdTarget, eventId).getPosition();
+            
+            // use a process in order to swap positions...            
+            Map<String, Object> variables = new HashMap<String, Object>();
+            variables.put(BpmVariables.Swap.VAR_SWAP_BY_SYSTEM, false);        
+            Position sourcePosition = RepositoryProvider.getRepository(PositionRepository.class).findById(source.getId());
+            variables.put(BpmVariables.Swap.VAR_POS_ID_SOURCE, sourcePosition.getId());        
+            Position targetPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(target.getId());
+            variables.put(BpmVariables.Swap.VAR_POS_ID_TARGET, targetPosition.getId());
+            variables.put(BpmVariables.Misc.VAR_EVENT_ID, eventId);
+            String businessKey = BusinessKeys.generateSwapBusinessKey(event, sourcePosition, targetPosition);
+            BpmPlatform.getDefaultProcessEngine().getRuntimeService().startProcessInstanceByMessage(BpmMessages.Swap.MSG_START_SWAP, businessKey, variables);
         }
     }
 

@@ -8,7 +8,7 @@ import de.trispeedys.resourceplanning.delegate.requesthelp.misc.RequestHelpNotif
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
-import de.trispeedys.resourceplanning.messaging.template.AlertDeactivationMailTemplate;
+import de.trispeedys.resourceplanning.messaging.template.helprequest.AlertDeactivationMailTemplate;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;

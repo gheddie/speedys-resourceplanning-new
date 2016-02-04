@@ -2,12 +2,12 @@ package de.trispeedys.resourceplanning.delegate.requesthelp;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 
-import de.trispeedys.resourceplanning.delegate.requesthelp.misc.RequestHelpDelegate;
+import de.trispeedys.resourceplanning.delegate.requesthelp.misc.AbstractRequestHelpDelegate;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
-public class SelectHelpersDelegate extends RequestHelpDelegate
+public class SelectHelpersDelegate extends AbstractRequestHelpDelegate
 {
     public void execute(DelegateExecution execution) throws Exception
     {

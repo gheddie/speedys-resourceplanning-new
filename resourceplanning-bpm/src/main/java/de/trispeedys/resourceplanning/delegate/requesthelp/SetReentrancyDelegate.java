@@ -2,10 +2,10 @@ package de.trispeedys.resourceplanning.delegate.requesthelp;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 
-import de.trispeedys.resourceplanning.delegate.requesthelp.misc.RequestHelpDelegate;
+import de.trispeedys.resourceplanning.delegate.requesthelp.misc.AbstractRequestHelpDelegate;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 
-public class SetReentrancyDelegate extends RequestHelpDelegate
+public class SetReentrancyDelegate extends AbstractRequestHelpDelegate
 {
     public void execute(DelegateExecution execution) throws Exception
     {

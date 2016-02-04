@@ -94,15 +94,15 @@ public class PositionTest
         List<Helper> helpers = RepositoryProvider.getRepository(HelperRepository.class).findAll(null);
         // we assign one unpriorited...
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(0), event2016,
-                posMap.get(0));
+                posMap.get(0), null);
         // ...and two prio 1 tasks...
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(1), event2016,
-                posMap.get(6));
+                posMap.get(6), null);
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(2), event2016,
-                posMap.get(7));
+                posMap.get(7), null);
         // ...and one prio 2 task...
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(3), event2016,
-                posMap.get(11));
+                posMap.get(11), null);
 
         // generator must provide 3 unpriorized and 3 PRIO 2 tasks...
         assertEquals(
@@ -133,13 +133,13 @@ public class PositionTest
 
         List<Helper> helpers = RepositoryProvider.getRepository(HelperRepository.class).findAll(null);
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(0), event2016,
-                posMap.get(0));
+                posMap.get(0), null);
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(1), event2016,
-                posMap.get(6));
+                posMap.get(6), null);
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(2), event2016,
-                posMap.get(7));
+                posMap.get(7), null);
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(3), event2016,
-                posMap.get(11));
+                posMap.get(11), null);
 
         // this must give 13-4=9 psotions to choose...
         assertEquals(
@@ -171,13 +171,13 @@ public class PositionTest
         List<Helper> helpers = RepositoryProvider.getRepository(HelperRepository.class).findAll(null);
         // we assign all unpriorited positions...
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(0), event2016,
-                posMap.get(0));
+                posMap.get(0), null);
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(1), event2016,
-                posMap.get(1));
+                posMap.get(1), null);
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(2), event2016,
-                posMap.get(2));
+                posMap.get(2), null);
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).assignHelper(helpers.get(3), event2016,
-                posMap.get(3));
+                posMap.get(3), null);
 
         // this must give all prio 2 positions (4)...
         assertEquals(

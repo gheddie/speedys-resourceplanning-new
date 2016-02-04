@@ -43,7 +43,7 @@ public class RequestHelpTestUtil
     {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_ID, new Long(helper.getId()));
-        variables.put(BpmVariables.RequestHelpHelper.VAR_EVENT_ID, new Long(event.getId()));
+        variables.put(BpmVariables.Misc.VAR_EVENT_ID, new Long(event.getId()));
         return rule.getRuntimeService().startProcessInstanceByMessage(BpmMessages.RequestHelpHelper.MSG_HELP_TRIG,
                 businessKey, variables);
     }

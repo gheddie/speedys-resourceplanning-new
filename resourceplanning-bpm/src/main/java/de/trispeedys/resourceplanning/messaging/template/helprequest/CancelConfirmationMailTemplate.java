@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.messaging.template;
+package de.trispeedys.resourceplanning.messaging.template.helprequest;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.Event;
@@ -6,9 +6,10 @@ import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
+import de.trispeedys.resourceplanning.messaging.RequestHelpMailTemplate;
 import de.trispeedys.resourceplanning.util.htmlgenerator.HtmlGenerator;
 
-public class CancelConfirmationMailTemplate extends AbstractMailTemplate
+public class CancelConfirmationMailTemplate extends RequestHelpMailTemplate
 {
     public CancelConfirmationMailTemplate(Helper aHelper, Event aEvent, Position aPosition)
     {
@@ -17,7 +18,7 @@ public class CancelConfirmationMailTemplate extends AbstractMailTemplate
 
     public String constructBody()
     {
-        return new HtmlGenerator(true).withParagraph(helperGreeting())
+        return new HtmlGenerator(true).withParagraph(helperGreeting(getHelper()))
                 .withParagraph(AppConfiguration.getInstance().getText(this, "body", getPosition().getDescription(), getPosition().getDomain().getName()))
                 .withParagraph(sincerely())
                 .render();

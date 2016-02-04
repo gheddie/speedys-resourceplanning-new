@@ -3,7 +3,7 @@ package de.trispeedys.resourceplanning.delegate.requesthelp.availability;
 import org.apache.log4j.Logger;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 
-import de.trispeedys.resourceplanning.delegate.requesthelp.misc.RequestHelpDelegate;
+import de.trispeedys.resourceplanning.delegate.requesthelp.misc.AbstractRequestHelpDelegate;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -12,7 +12,7 @@ import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
-public class CheckAvailabilityInitialDelegate extends RequestHelpDelegate
+public class CheckAvailabilityInitialDelegate extends AbstractRequestHelpDelegate
 {
     private static final Logger logger = Logger.getLogger(CheckAvailabilityInitialDelegate.class);
 

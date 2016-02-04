@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.camunda.bpm.BpmPlatform;
 
 import de.trispeedys.resourceplanning.BpmHelper;
+import de.trispeedys.resourceplanning.BusinessKeys;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.entity.Event;
@@ -18,13 +19,12 @@ import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
-import de.trispeedys.resourceplanning.messaging.template.PlanningSuccessMailTemplate;
-import de.trispeedys.resourceplanning.messaging.template.PositionRecoveryOnCancellationMailTemplate;
+import de.trispeedys.resourceplanning.messaging.template.helprequest.PlanningSuccessMailTemplate;
+import de.trispeedys.resourceplanning.messaging.template.helprequest.PositionRecoveryOnCancellationMailTemplate;
 import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.MissedAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.StringUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
@@ -120,8 +120,8 @@ public class EventManager
     {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_ID, new Long(helper.getId()));
-        variables.put(BpmVariables.RequestHelpHelper.VAR_EVENT_ID, new Long(event.getId()));
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event.getId());
+        variables.put(BpmVariables.Misc.VAR_EVENT_ID, new Long(event.getId()));
+        String businessKey = BusinessKeys.generateRequestHelpBusinessKey(helper, event);
         BpmPlatform.getDefaultProcessEngine().getRuntimeService().startProcessInstanceByMessage(BpmMessages.RequestHelpHelper.MSG_HELP_TRIG, businessKey, variables);
     }
 

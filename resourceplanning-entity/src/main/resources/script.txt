@@ -92,7 +92,7 @@ create table helper_assignment
 	event_id bigint not null,
 	primary key (id),
 	helper_assignment_state varchar(64),
-	constraint has_unique_hlp_evt unique (helper_id, event_id)
+	constraint has_unique_hlp_evt unique (helper_id, event_id, helper_assignment_state)
 );
 
 alter table helper_assignment add constraint fk_assignment_helper foreign key (helper_id) references helper (id);

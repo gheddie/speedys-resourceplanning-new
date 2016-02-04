@@ -6,6 +6,7 @@ import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineException;
 
 import de.trispeedys.resourceplanning.BpmHelper;
+import de.trispeedys.resourceplanning.BusinessKeys;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.datasource.Datasources;
@@ -16,18 +17,21 @@ import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.exception.ResourcePlanningNoSuchEntityException;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
-import de.trispeedys.resourceplanning.messaging.template.AlertPlanningExceptionMailTemplate;
+import de.trispeedys.resourceplanning.messaging.template.helprequest.AlertPlanningExceptionMailTemplate;
 import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.util.htmlgenerator.instance.UnknownEntityHtmlGenerator;
 
 public class HelperInteraction
 {
     private static final Logger logger = Logger.getLogger(HelperInteraction.class);
+    
+    //---------------------------------------------------------------------------------------------------------------------------------------
+    //--- Request help process --------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------
 
     /**
      * called from 'HelperCallbackReceiver.jsp'
@@ -112,7 +116,7 @@ public class HelperInteraction
     {
         checkEntitiesForExistence(eventId, helperId, null);
         
-        String businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helperId, eventId);
+        String businessKey = BusinessKeys.generateRequestHelpBusinessKey(helperId, eventId);
         try
         {
             BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(
@@ -180,4 +184,8 @@ public class HelperInteraction
             throw new ResourcePlanningNoSuchEntityException(entityClass, primaryKeyValue);
         }
     }
+    
+    //---------------------------------------------------------------------------------------------------------------------------------------
+    //--- Swap process ----------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------    
 }

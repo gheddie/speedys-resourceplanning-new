@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.messaging.template;
+package de.trispeedys.resourceplanning.messaging.template.helprequest;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,7 +32,7 @@ public class SendReminderMailTemplate extends HelperInteractionMailTemplate
     {
         AppConfiguration configuration = AppConfiguration.getInstance();
         HtmlGenerator generator =
-                new HtmlGenerator(true).withParagraph(helperGreeting()).withParagraph(
+                new HtmlGenerator(true).withParagraph(helperGreeting(getHelper())).withParagraph(
                         configuration.getText(this, "priorAssignment", getPosition().getDescription(), getPosition().getDomain().getName()));
         if (!(priorPositionAvailable))
         {

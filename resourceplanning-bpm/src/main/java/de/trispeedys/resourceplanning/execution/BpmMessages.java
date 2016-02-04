@@ -26,4 +26,16 @@ public class BpmMessages
         // -> prior requester claims he wants to be assigned as the assignment is available again
         public static final String MSG_ASSIG_RECOVERY = "MSG_ASSIG_RECOVERY";
     }
+    
+    public class Swap
+    {
+        // Start einen Swap-Prozess
+        public static final String MSG_START_SWAP = "MSG_START_SWAP";
+        
+        public static final String MSG_SWAP_ANSW_SOURCE = "MSG_SWAP_ANSW_SOURCE";
+        
+        public static final String MSG_SWAP_ANSW_TARGET = "MSG_SWAP_ANSW_TARGET";
+
+        public static final String MSG_SIMPLE_SWAP_ANSW = "MSG_SIMPLE_SWAP_ANSW";
+    }
 }

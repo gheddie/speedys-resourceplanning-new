@@ -2,15 +2,18 @@ package de.trispeedys.resourceplanning.execution;
 
 public class BpmVariables
 {
+    public class Misc
+    {
+        public static final String VAR_EVENT_ID = "eventId";
+    }
+    
     public class RequestHelpHelper
     {
         public static final String VAR_SUPERVISION_REQUIRED = "supervisionRequired";
         
         public static final String VAR_HELPER_ID = "helperId";
 
-        public static final String VAR_HELPER_CALLBACK = "helperCallback";
-
-        public static final String VAR_EVENT_ID = "eventId";
+        public static final String VAR_HELPER_CALLBACK = "helperCallback";       
 
         public static final String VAR_PRIOR_POS_AVAILABLE = "priorPosAvailable";
         
@@ -49,5 +52,30 @@ public class BpmVariables
         public static final String VAR_ACTIVE_HELPER_IDS = "activeHelperIds";
         
         public static final String VAR_ACTIVE_HELPER_ID = "activeHelperId";
+    }
+    
+    public class Swap
+    {
+        /**
+         * If true: Desired swap is automatically done by the system (if posssible). If false:
+         * swap is done by user interaction.
+         */
+        public static final String VAR_SWAP_BY_SYSTEM = "swapBySystem";
+        
+        // answer of source helper in a 'not to null' swap
+        public static final String VAR_NOT_TO_NULL_SWAP_SOURCE_OK = "notToNullSwapSourceOk";
+        
+        // answer of target helper in a 'not to null' swap
+        public static final String VAR_NOT_TO_NULL_SWAP_TARGET_OK = "notToNullSwapTargetOk";
+        
+        // answer of (the only) helper in a 'to null' swap
+        public static final String VAR_TO_NULL_SWAP_OK = "toNullSwapOk";
+        
+        // type of swap (assigned to null [if true] - switch between two assigned positions [if false])
+        public static final String VAR_IS_TO_NULL_SWAP = "isToNullSwap";
+
+        public static final String VAR_POS_ID_SOURCE = "posIdSource";
+        
+        public static final String VAR_POS_ID_TARGET = "posIdTarget";
     }
 }

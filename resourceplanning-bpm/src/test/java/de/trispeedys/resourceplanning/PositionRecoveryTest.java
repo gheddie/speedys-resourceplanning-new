@@ -30,7 +30,6 @@ import de.trispeedys.resourceplanning.repository.MissedAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
 import de.trispeedys.resourceplanning.util.RequestHelpTestUtil;
-import de.trispeedys.resourceplanning.util.ResourcePlanningUtil;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 import de.trispeedys.resourceplanning.util.TestUtil;
 
@@ -58,7 +57,7 @@ public class PositionRecoveryTest
         List<ProcessInstance> executions = new ArrayList<ProcessInstance>();
         for (Helper helper : activeHelpers)
         {
-            businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
+            businessKey = BusinessKeys.generateRequestHelpBusinessKey(helper, event2016);
             executions.add(RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, processEngine));
         }
 
@@ -125,7 +124,7 @@ public class PositionRecoveryTest
         List<ProcessInstance> executions = new ArrayList<ProcessInstance>();
         for (Helper helper : activeHelpers)
         {
-            businessKey = ResourcePlanningUtil.generateRequestHelpBusinessKey(helper.getId(), event2016.getId());
+            businessKey = BusinessKeys.generateRequestHelpBusinessKey(helper, event2016);
             executions.add(RequestHelpTestUtil.startHelperRequestProcess(helper, event2016, businessKey, processEngine));
         }
 

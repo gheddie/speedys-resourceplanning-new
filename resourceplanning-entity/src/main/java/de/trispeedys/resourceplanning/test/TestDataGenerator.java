@@ -16,7 +16,7 @@ public class TestDataGenerator
 {
     public static final int POS_COUNT_SIMPLE_EVENT = 5;
 
-    private static final String DEFAULT_MAIL_ADDRESS = "testhelper1.trispeedys@gmail.com";
+    private static final String DEFAULT_MAIL_ADDRESS = "testhelper2.trispeedys@gmail.com";
 
     private static final Integer PRIO1 = new Integer(1);
 

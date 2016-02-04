@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.messaging.template;
+package de.trispeedys.resourceplanning.messaging.template.helprequest;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
@@ -25,7 +25,7 @@ public class BookingConfirmationMailTemplate extends HelperInteractionMailTempla
         String link = getBaseLink() + "/" + getJspReceiverName() + ".jsp?helperId=" + getHelper().getId() + "&eventId=" + getEvent().getId() + "&positionId=" + getPosition().getId();
         AppConfiguration configuration = AppConfiguration.getInstance();
         HtmlGenerator generator =
-                new HtmlGenerator(true).withParagraph(helperGreeting())
+                new HtmlGenerator(true).withParagraph(helperGreeting(getHelper()))
                         .withParagraph(configuration.getText(this, "body", getPosition().getDescription(), getPosition().getDomain().getName()))
                         .withLink(link, configuration.getText(this, "cancel"));
         if (!(getHelper().isInternal()))
