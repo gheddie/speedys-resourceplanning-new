@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.repository.base;
+package de.trispeedys.resourceplanning.repository;
 
 import de.gravitex.hibernateadapter.core.repository.AbstractDatabaseRepository;
 import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;

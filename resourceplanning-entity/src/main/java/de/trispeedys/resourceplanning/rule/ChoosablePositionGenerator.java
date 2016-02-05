@@ -10,8 +10,8 @@ import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.PositionAggregation;
 import de.trispeedys.resourceplanning.repository.AggregationRelationRepository;
+import de.trispeedys.resourceplanning.repository.PositionAggregationRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
-import de.trispeedys.resourceplanning.repository.base.PositionAggregationRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 /**

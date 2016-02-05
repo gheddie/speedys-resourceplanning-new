@@ -8,6 +8,6 @@ public class TriggerSimpleSwapDelegate extends AbstractSwapDelegate
 {
     public void execute(DelegateExecution arg0) throws Exception
     {
-        // TODO Auto-generated method stub
+        // TODO write a mail !!
     }
 }

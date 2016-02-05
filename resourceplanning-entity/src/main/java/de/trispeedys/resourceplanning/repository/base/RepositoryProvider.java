@@ -5,6 +5,7 @@ import java.util.HashMap;
 import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
 import de.trispeedys.resourceplanning.entity.AbstractDbObject;
 import de.trispeedys.resourceplanning.repository.AggregationRelationRepository;
+import de.trispeedys.resourceplanning.repository.AssignmentSwapRepository;
 import de.trispeedys.resourceplanning.repository.DomainRepository;
 import de.trispeedys.resourceplanning.repository.EventPositionRepository;
 import de.trispeedys.resourceplanning.repository.EventRepository;
@@ -13,6 +14,7 @@ import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.ManualAssignmentCommentRepository;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.MissedAssignmentRepository;
+import de.trispeedys.resourceplanning.repository.PositionAggregationRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 
 public class RepositoryProvider
@@ -42,6 +44,7 @@ public class RepositoryProvider
         registerRepository(AggregationRelationRepository.class);
         registerRepository(MissedAssignmentRepository.class);
         registerRepository(ManualAssignmentCommentRepository.class);
+        registerRepository(AssignmentSwapRepository.class);
     }
 
     @SuppressWarnings("rawtypes")

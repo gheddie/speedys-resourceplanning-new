@@ -239,3 +239,24 @@ create table manual_assignment_comment
 alter table manual_assignment_comment add constraint fk_m_assig_comm_helper foreign key (helper_id) references helper (id);
 
 alter table manual_assignment_comment add constraint fk_m_assig_comm_event foreign key (event_id) references event (id);
+
+------------------------------------------------ AssignmentSwap
+create sequence assignment_swap_id_seq;
+
+create table assignment_swap
+(
+	id bigint not null default nextval('assignment_swap_id_seq'),
+    swap_type varchar(64) not null,    
+    swap_result varchar(64),
+    source_position_id bigint not null,
+    target_position_id bigint not null,
+    event_id bigint not null,
+    creation_time timestamp not null,
+    primary key (id)	
+);
+
+alter table assignment_swap add constraint fk_ass_swap_pos_source foreign key (source_position_id) references position (id);
+
+alter table assignment_swap add constraint fk_ass_swap_pos_target foreign key (target_position_id) references position (id);
+
+alter table assignment_swap add constraint fk_ass_swap_event foreign key (event_id) references event (id);

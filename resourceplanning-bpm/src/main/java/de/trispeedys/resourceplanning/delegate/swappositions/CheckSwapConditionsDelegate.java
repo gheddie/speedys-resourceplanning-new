@@ -3,7 +3,10 @@ package de.trispeedys.resourceplanning.delegate.swappositions;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 
 import de.trispeedys.resourceplanning.delegate.requesthelp.misc.AbstractSwapDelegate;
+import de.trispeedys.resourceplanning.entity.AssignmentSwap;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
+import de.trispeedys.resourceplanning.entity.misc.SwapType;
+import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
@@ -45,10 +48,11 @@ public class CheckSwapConditionsDelegate extends AbstractSwapDelegate
         {
             simpleSwap = false;
         }        
-        
-        // write back position ids...
-        execution.setVariable(BpmVariables.Swap.VAR_POS_ID_SOURCE, posIdSource);
-        execution.setVariable(BpmVariables.Swap.VAR_POS_ID_TARGET, posIdTarget);
+                
+        // create a swap object in database and put its if into this execution
+        SwapType swapType = simpleSwap ? SwapType.SIMPLE : SwapType.COMPLEX;
+        AssignmentSwap swap = EntityFactory.buildAssignmentSwap(getEvent(execution), getSourcePosition(execution), getTargetPosition(execution), swapType).saveOrUpdate();
+        execution.setVariable(BpmVariables.Swap.VAR_SWAP_ENTITY_ID, swap.getId());
         
         // simple or complex swap?        
         execution.setVariable(BpmVariables.Swap.VAR_IS_TO_NULL_SWAP, simpleSwap);

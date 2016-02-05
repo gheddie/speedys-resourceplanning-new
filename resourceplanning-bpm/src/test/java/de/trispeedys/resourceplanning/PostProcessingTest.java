@@ -66,7 +66,7 @@ public class PostProcessingTest
         HelperAssignmentRepository repository = RepositoryProvider.getRepository(HelperAssignmentRepository.class);
         HelperAssignment assignmentA = repository.findByHelperAndEvent(helperA, event2016);
         HelperAssignment assignmentB = repository.findByHelperAndEvent(helperB, event2016);
-        new ResourceInfo().swapPositions(helperA.getId(), helperB.getId(), event2016.getId());
+        new ResourceInfo().swapPositions(helperA.getId(), helperB.getId(), event2016.getId(), false);
         
         // TODO
         assertEquals(assignmentB.getPosition(), repository.findByHelperAndEvent(helperA, event2016).getPosition());        

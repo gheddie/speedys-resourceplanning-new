@@ -45,27 +45,21 @@ public interface TestDataProvider {
 
     /**
      * 
+     * @param arg1
+     * @param arg0
      */
     @WebMethod
-    public void prepareSimpleEventWithFloatingHelpers();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void startSomeProcessesWithNewHelpers();
+    public void startHelperRequestProcess(
+        @WebParam(name = "arg0", partName = "arg0")
+        long arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        long arg1);
 
     /**
      * 
      */
     @WebMethod
     public void prepareBlockedChoosePosition();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void startSomeProcesses();
 
     /**
      * 
@@ -78,6 +72,12 @@ public interface TestDataProvider {
      */
     @WebMethod
     public void prepareRealLife();
+
+    /**
+     * 
+     */
+    @WebMethod
+    public void startSomeProcesses();
 
     /**
      * 
@@ -111,14 +111,14 @@ public interface TestDataProvider {
 
     /**
      * 
-     * @param arg1
-     * @param arg0
      */
     @WebMethod
-    public void startHelperRequestProcess(
-        @WebParam(name = "arg0", partName = "arg0")
-        long arg0,
-        @WebParam(name = "arg1", partName = "arg1")
-        long arg1);
+    public void prepareSimpleEventWithFloatingHelpers();
+
+    /**
+     * 
+     */
+    @WebMethod
+    public void startSomeProcessesWithNewHelpers();
 
 }

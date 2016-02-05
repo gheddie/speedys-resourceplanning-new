@@ -1,5 +1,32 @@
 --TODO
 
---alter table missed_assignment add used boolean;
+-- (1)
+
+alter table missed_assignment add used boolean;
+
+-- (2)
+
+create sequence assignment_swap_id_seq;
+
+create table assignment_swap
+(
+	id bigint not null default nextval('assignment_swap_id_seq'),
+    swap_type varchar(64) not null,    
+    swap_result varchar(64),
+    source_position_id bigint not null,
+    target_position_id bigint not null,
+    event_id bigint not null,
+    primary key (id)	
+);
+
+alter table assignment_swap add constraint fk_ass_swap_pos_source foreign key (source_position_id) references position (id);
+
+alter table assignment_swap add constraint fk_ass_swap_pos_target foreign key (target_position_id) references position (id);
+
+alter table assignment_swap add constraint fk_ass_swap_event foreign key (event_id) references event (id);
+
+-- (3)
+
+alter table assignment_swap add creation_time timestamp not null;
 
 --DONE

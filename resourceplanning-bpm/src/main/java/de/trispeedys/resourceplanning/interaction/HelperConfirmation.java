@@ -292,11 +292,11 @@ public class HelperConfirmation
         return null;
     }
     
-    public static synchronized String processSimpleSwapResponse(Long eventId, Long positionIdSource, Long positionIdTarget, boolean swapOk, String trigger, ProcessEngine testEngine)
+    public static synchronized String processSimpleSwapResponse(Long eventId, Long positionIdSource, Long positionIdTarget, boolean swapOk, ProcessEngine testEngine)
     {
         String businessKey = BusinessKeys.generateSwapBusinessKey(eventId, positionIdSource, positionIdTarget);
         Map<String, Object> variables = new HashMap<>();
-        variables.put(BpmVariables.Swap.VAR_TO_NULL_SWAP_OK, true);
+        variables.put(BpmVariables.Swap.VAR_TO_NULL_SWAP_OK, swapOk);
         BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.Swap.MSG_SIMPLE_SWAP_ANSW, businessKey, variables);
         return "processSimpleSwapResponse";
     }

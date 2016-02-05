@@ -338,8 +338,7 @@ public class ResourceInfo
             });
             if (businessKey.contains(bkPartial))
             {
-                // TODO is there a better to determine whether this task is a task from a process belonging to the given
-// event ID?
+                // TODO is there a better to determine whether this task is a task from a process belonging to the given event ID?
                 dto = new ManualAssignmentDTO();
                 dto.setTaskId(manualAssignmentTask.getId());
                 helper = getHelper(manualAssignmentTask);
@@ -476,8 +475,12 @@ public class ResourceInfo
         RepositoryProvider.getRepository(PositionRepository.class).createPosition(description, positionNumber, domain, minimalAge, choosable);
     }
 
-    public void swapPositions(Long positionIdSource, Long positionIdTarget, Long eventId)
+    public void swapPositions(Long positionIdSource, Long positionIdTarget, Long eventId, boolean swapBySystem)
     {
+        if ((positionIdSource == null) || (positionIdTarget == null))
+        {
+            throw new ResourcePlanningException("both source and target position id must be set!");
+        }
         AppConfiguration configuration = AppConfiguration.getInstance();
         if (eventId == null)
         {
@@ -493,29 +496,31 @@ public class ResourceInfo
             throw new ResourcePlanningException(configuration.getText(this, WRONG_EVENT_STATE, EventState.INITIATED));
         }
         
-        HelperAssignmentRepository helperAssignmentRepository = RepositoryProvider.getRepository(HelperAssignmentRepository.class);
-        if (SWAP_POSITIONS_DIRECTLY)
+        PositionRepository positionRepository = RepositoryProvider.getRepository(PositionRepository.class);
+        
+        Position source = positionRepository.findById(positionIdSource);
+        if (source == null)
         {
-            // swap positions directly, do NOT use a process...
-            helperAssignmentRepository.switchHelperAssignments(null, null);
+            throw new ResourcePlanningException("source position for id '"+positionIdSource+"' could not be found!");
         }
-        else
+        Position target = positionRepository.findById(positionIdTarget);
+        if (target == null)
         {
-            // TODO we get helper ids at this point...will change if the gui changes...
-            Position source = helperAssignmentRepository.findByHelperAndEvent(positionIdSource, eventId).getPosition();
-            Position target = helperAssignmentRepository.findByHelperAndEvent(positionIdTarget, eventId).getPosition();
-            
-            // use a process in order to swap positions...            
-            Map<String, Object> variables = new HashMap<String, Object>();
-            variables.put(BpmVariables.Swap.VAR_SWAP_BY_SYSTEM, false);        
-            Position sourcePosition = RepositoryProvider.getRepository(PositionRepository.class).findById(source.getId());
-            variables.put(BpmVariables.Swap.VAR_POS_ID_SOURCE, sourcePosition.getId());        
-            Position targetPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(target.getId());
-            variables.put(BpmVariables.Swap.VAR_POS_ID_TARGET, targetPosition.getId());
-            variables.put(BpmVariables.Misc.VAR_EVENT_ID, eventId);
-            String businessKey = BusinessKeys.generateSwapBusinessKey(event, sourcePosition, targetPosition);
-            BpmPlatform.getDefaultProcessEngine().getRuntimeService().startProcessInstanceByMessage(BpmMessages.Swap.MSG_START_SWAP, businessKey, variables);
+            throw new ResourcePlanningException("target position for id '"+positionIdTarget+"' could not be found!");
         }
+        
+        // TODO make sure none of the given positions is in an active swap process right now...
+        
+        // start a process in order to swap positions...            
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put(BpmVariables.Swap.VAR_SWAP_BY_SYSTEM, swapBySystem);        
+        Position sourcePosition = RepositoryProvider.getRepository(PositionRepository.class).findById(source.getId());
+        variables.put(BpmVariables.Swap.VAR_POS_ID_SOURCE, sourcePosition.getId());        
+        Position targetPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(target.getId());
+        variables.put(BpmVariables.Swap.VAR_POS_ID_TARGET, targetPosition.getId());
+        variables.put(BpmVariables.Misc.VAR_EVENT_ID, eventId);
+        String businessKey = BusinessKeys.generateSwapBusinessKey(event, sourcePosition, targetPosition);
+        BpmPlatform.getDefaultProcessEngine().getRuntimeService().startProcessInstanceByMessage(BpmMessages.Swap.MSG_START_SWAP, businessKey, variables);
     }
 
     public void removePositionsFromEvent(Long eventId, String positionNumbers)

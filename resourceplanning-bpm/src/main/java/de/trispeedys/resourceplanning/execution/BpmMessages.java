@@ -37,5 +37,8 @@ public class BpmMessages
         public static final String MSG_SWAP_ANSW_TARGET = "MSG_SWAP_ANSW_TARGET";
 
         public static final String MSG_SIMPLE_SWAP_ANSW = "MSG_SIMPLE_SWAP_ANSW";
+
+        // used by the administrator in order to interrupt a running swap process
+        public static final String MSG_KILL_SWAP = "MSG_KILL_SWAP";
     }
 }

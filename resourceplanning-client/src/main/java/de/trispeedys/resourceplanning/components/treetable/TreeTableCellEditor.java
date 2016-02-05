@@ -25,22 +25,13 @@ public class TreeTableCellEditor extends AbstractCellEditor implements TableCell
     {
         this.tree = tree;
         this.table = table;
-        ((BasicTreeUI) tree.getUI()).setExpandedIcon(new ImageIcon(this.getClass()
-                .getClassLoader()
-                .getResource("img/expanded16px.png")));
-        ((BasicTreeUI) tree.getUI()).setCollapsedIcon(new ImageIcon(this.getClass()
-                .getClassLoader()
-                .getResource("img/collapsed16px.png")));
+        ((BasicTreeUI) tree.getUI()).setExpandedIcon(new ImageIcon(this.getClass().getClassLoader().getResource("img/expanded16px.png")));
+        ((BasicTreeUI) tree.getUI()).setCollapsedIcon(new ImageIcon(this.getClass().getClassLoader().getResource("img/collapsed16px.png")));
         tree.addTreeSelectionListener(new TreeSelectionListener()
         {
             public void valueChanged(TreeSelectionEvent e)
             {
-                TreeTableDataNode pathComponent =
-                        (TreeTableDataNode) (((JTree) e.getSource()).getLastSelectedPathComponent());
-                System.out.println(" +++ " +
-                        pathComponent + " [" + pathComponent.getClass().getSimpleName() + "::" +
-                        pathComponent.getEventItemType() + "::" + pathComponent.getEntityId() + "] +++ ");
-                ((TreeTable) TreeTableCellEditor.this.table).setPathComponent(pathComponent);
+                ((TreeTable) TreeTableCellEditor.this.table).setPathComponent((TreeTableDataNode) (((JTree) e.getSource()).getLastSelectedPathComponent()));
             }
         });
     }
@@ -57,10 +48,7 @@ public class TreeTableCellEditor extends AbstractCellEditor implements TableCell
             int colunm1 = 0;
             MouseEvent me = (MouseEvent) e;
             int doubleClick = 2;
-            MouseEvent newME =
-                    new MouseEvent(tree, me.getID(), me.getWhen(), me.getModifiers(), me.getX() -
-                            table.getCellRect(0, colunm1, true).x, me.getY(), doubleClick,
-                            me.isPopupTrigger());
+            MouseEvent newME = new MouseEvent(tree, me.getID(), me.getWhen(), me.getModifiers(), me.getX() - table.getCellRect(0, colunm1, true).x, me.getY(), doubleClick, me.isPopupTrigger());
             tree.dispatchEvent(newME);
         }
         return false;

@@ -107,10 +107,14 @@ public class PositionTreeNode<T> extends EntityTreeNode<Position>
 
     public Long getEntityId()
     {
+        /*
         Helper helper = ((AssignmentContainer) getPayLoad()).getHelper();
         return (helper != null
                 ? helper.getId()
                 : null);
+                */
+        // return the position id in order to making swapping possible
+        return getPositionId();
     }
 
     public Long getPositionId()

@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import de.trispeedys.resourceplanning.entity.AggregationRelation;
+import de.trispeedys.resourceplanning.entity.AssignmentSwap;
 import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.DomainResponsibility;
 import de.trispeedys.resourceplanning.entity.Event;
@@ -19,6 +20,7 @@ import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.PositionAggregation;
 import de.trispeedys.resourceplanning.entity.TemplateDomain;
 import de.trispeedys.resourceplanning.entity.builder.AggregationRelationBuilder;
+import de.trispeedys.resourceplanning.entity.builder.AssignmentSwapBuilder;
 import de.trispeedys.resourceplanning.entity.builder.DomainBuilder;
 import de.trispeedys.resourceplanning.entity.builder.DomainResponsibilityBuilder;
 import de.trispeedys.resourceplanning.entity.builder.EventBuilder;
@@ -35,10 +37,7 @@ import de.trispeedys.resourceplanning.entity.builder.TemplateDomainBuilder;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperAssignmentState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
-import de.trispeedys.resourceplanning.repository.EventRepository;
-import de.trispeedys.resourceplanning.repository.HelperRepository;
-import de.trispeedys.resourceplanning.repository.PositionRepository;
-import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
+import de.trispeedys.resourceplanning.entity.misc.SwapType;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 
 public class EntityFactory
@@ -161,5 +160,10 @@ public class EntityFactory
     public static MissedAssignment buildMissedAssignment(Event event, Helper helper, Position position)
     {
         return new MissedAssignmentBuilder().withPosition(position).withHelper(helper).withEvent(event).withTimeStamp().build();
+    }
+
+    public static AssignmentSwap buildAssignmentSwap(Event event, Position sourcePosition, Position targetPosition, SwapType swapType)
+    {
+        return new AssignmentSwapBuilder().withEvent(event).withSourcePosition(sourcePosition).withTargetPosition(targetPosition).withSwapType(swapType).build();
     }
 }
