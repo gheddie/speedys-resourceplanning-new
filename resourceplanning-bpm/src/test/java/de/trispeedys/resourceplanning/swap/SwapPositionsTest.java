@@ -14,13 +14,15 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import de.trispeedys.resourceplanning.BusinessKeys;
+import de.trispeedys.resourceplanning.entity.AssignmentSwap;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
-import de.trispeedys.resourceplanning.entity.misc.SwapResult;
+import de.trispeedys.resourceplanning.entity.misc.SwapState;
+import de.trispeedys.resourceplanning.exception.ResourcePlanningSwapException;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmSignals;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
@@ -111,7 +113,7 @@ public class SwapPositionsTest
         assertEquals(
                 1,
                 RepositoryProvider.getRepository(AssignmentSwapRepository.class)
-                        .findByEventAndPositionsAndResult(event2016, sourceAssignment.getPosition(), targetAssignment.getPosition(), SwapResult.INTERRUPTED)
+                        .findByEventAndPositionsAndResult(event2016, sourceAssignment.getPosition(), targetAssignment.getPosition(), SwapState.INTERRUPTED)
                         .size());
 
         // TODO make sure nothing has changed...
@@ -173,6 +175,11 @@ public class SwapPositionsTest
         // one helper disagrees...
         HelperConfirmation.processComplexSwapResponse(event2016.getId(), sourceAssignment.getPosition().getId(), targetAssignment.getPosition().getId(), false,
                 TriggerComplexSwapMailTemplate.TRIGGER_SOURCE, processEngine.getProcessEngine());
+        
+        // the created assignment swap must be in state 'REJECTED'...
+        List<AssignmentSwap> swaps = RepositoryProvider.getRepository(AssignmentSwapRepository.class).findAll();
+        assertEquals(1, swaps.size());
+        assertEquals(SwapState.REJECTED, swaps.get(0).getSwapState());
 
         // process should be gone...
         assertEquals(0, processEngine.getRuntimeService().createExecutionQuery().list().size());
@@ -209,6 +216,41 @@ public class SwapPositionsTest
         // check if source assignment is 'CANCELLED' and target assignment is 'CONFIRMED' for the helper...
         assertTrue(helperAssignmentRepository.findById(sourceAssignment.getId()).isCancelled());
         assertTrue(helperAssignmentRepository.findByHelperAndEventAndPosition(helper, event2016, unassignedPosition).isConfirmed());
+        
+        // assignment swap must now be in state 'COMPLETED'...
+        List<AssignmentSwap> swaps = RepositoryProvider.getRepository(AssignmentSwapRepository.class).findAll();
+        assertEquals(1, swaps.size());
+        assertEquals(SwapState.COMPLETED, swaps.get(0).getSwapState());
+    }
+    
+    // @Test
+    // TODO why does it not work?
+    @Deployment(resources =
+    {
+            "SwapPositions.bpmn", "RequestHelp.bpmn"
+    })
+    public void testSimpleSwapAgreementPingPong()
+    {
+        TestUtil.clearAll();
+        Event event2016 =
+                SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
+                        "TRI-2016", 21, 6, 2016, null, null);
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findAll().get(0);
+        finishHelperProcesses(event2016, helper);
+        
+        doPingPong(event2016);
+        doPingPong(event2016);
+        doPingPong(event2016);
+    }
+
+    private void doPingPong(Event event)
+    {
+        List<HelperAssignment> assignments = RepositoryProvider.getRepository(HelperAssignmentRepository.class).findConfirmedHelperAssignments(event);
+        HelperAssignment sourceAssignment = assignments.get(0);
+        Position unassignedPosition = RepositoryProvider.getRepository(PositionRepository.class).findUnassignedPositionsInEvent(event, true).get(0);
+        startSwapProcess(event, sourceAssignment, unassignedPosition, false);
+        // helper agrees...
+        HelperConfirmation.processSimpleSwapResponse(event.getId(), sourceAssignment.getPosition().getId(), unassignedPosition.getId(), true, processEngine.getProcessEngine());
     }
 
     @Test
@@ -244,7 +286,7 @@ public class SwapPositionsTest
 
         // there must be an assignment for formerly unassigned position
         assertTrue(helperAssignmentRepository.findByEventAndPosition(event2016, unassignedPosition) == null);
-    }
+    }    
 
     @Test
     @Deployment(resources =
@@ -274,6 +316,38 @@ public class SwapPositionsTest
         // check if source assignment is 'CANCELLED' and target assignment is 'CONFIRMED' for the helper...
         assertTrue(helperAssignmentRepository.findById(sourceAssignment.getId()).isCancelled());
         assertTrue(helperAssignmentRepository.findByHelperAndEventAndPosition(helper, event2016, unassignedPosition).isConfirmed());
+    }
+    
+    @Test(expected = ResourcePlanningSwapException.class)
+    @Deployment(resources =
+    {
+            "SwapPositions.bpmn", "RequestHelp.bpmn"
+    })
+    public void testRequestedSwapCollision()    
+    {
+        TestUtil.clearAll();
+
+        Event event2016 =
+                SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
+                        "TRI-2016", 21, 6, 2016, null, null);
+        
+        List<Helper> helpers = RepositoryProvider.getRepository(HelperRepository.class).findAll();
+        finishHelperProcesses(event2016, helpers.get(0), helpers.get(1));
+
+        List<HelperAssignment> assignments = RepositoryProvider.getRepository(HelperAssignmentRepository.class).findConfirmedHelperAssignments(event2016);
+
+        HelperAssignment sourceAssignment = assignments.get(0);
+        Helper helperSourceOld = sourceAssignment.getHelper();
+        HelperAssignment targetAssignment = assignments.get(1);
+        Helper helperTargetOld = targetAssignment.getHelper();
+
+        startSwapProcess(event2016, sourceAssignment, targetAssignment, false);
+        
+        // we have one swap in state 'REQUESTED'
+        assertEquals(1, RepositoryProvider.getRepository(AssignmentSwapRepository.class).findRequestedByEvent(event2016).size());
+        
+        // start a swap with one of the above positions must lead to an exception...
+        startSwapProcess(event2016, sourceAssignment, targetAssignment, false);
     }
 
     private ProcessInstance startSwapProcess(Event event2016, HelperAssignment sourceAssignment, HelperAssignment targetAssignment, boolean swapBySystem)

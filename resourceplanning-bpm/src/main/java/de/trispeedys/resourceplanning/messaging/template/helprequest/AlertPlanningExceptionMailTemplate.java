@@ -21,11 +21,23 @@ public class AlertPlanningExceptionMailTemplate extends RequestHelpMailTemplate
     public String constructBody()
     {
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator(true).withParagraph(configuration.getText(this, "adminSalutation"))
-                .withParagraph(
-                        configuration.getText(this, "body", getHelper().getLastName(), getHelper().getFirstName(),
-                                errorMessage))
-                .render();
+        Helper helper = getHelper();
+        if (helper != null)
+        {
+            return new HtmlGenerator(true).withParagraph(configuration.getText(this, "adminSalutation"))
+                    .withParagraph(
+                            configuration.getText(this, "body", helper.getLastName(), helper.getFirstName(),
+                                    errorMessage))
+                    .render();   
+        }
+        else
+        {
+            // TODO may be we should render a better body here...
+            return new HtmlGenerator(true).withParagraph(configuration.getText(this, "adminSalutation"))
+                    .withParagraph(
+                            configuration.getText(this, "bodyPlain", errorMessage))
+                    .render();   
+        }
     }
 
     public String constructSubject()

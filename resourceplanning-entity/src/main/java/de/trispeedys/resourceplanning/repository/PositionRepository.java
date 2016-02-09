@@ -17,8 +17,8 @@ import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperAssignmentState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
+import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.rule.ChoosablePositionGenerator;
-import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class PositionRepository extends AbstractDatabaseRepository<Position> implements
         DatabaseRepository<PositionRepository>

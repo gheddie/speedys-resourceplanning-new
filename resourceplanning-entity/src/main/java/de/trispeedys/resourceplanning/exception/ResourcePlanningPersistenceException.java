@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.util.exception;
+package de.trispeedys.resourceplanning.exception;
 
 public abstract class ResourcePlanningPersistenceException extends ResourcePlanningException
 {

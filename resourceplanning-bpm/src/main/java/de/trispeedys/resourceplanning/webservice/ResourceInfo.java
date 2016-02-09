@@ -35,7 +35,9 @@ import de.trispeedys.resourceplanning.dto.HierarchicalEventItemDTO;
 import de.trispeedys.resourceplanning.dto.ManualAssignmentDTO;
 import de.trispeedys.resourceplanning.dto.MessageDTO;
 import de.trispeedys.resourceplanning.dto.PositionDTO;
+import de.trispeedys.resourceplanning.dto.RequestedSwapDTO;
 import de.trispeedys.resourceplanning.entity.AggregationRelation;
+import de.trispeedys.resourceplanning.entity.AssignmentSwap;
 import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventPosition;
@@ -47,12 +49,14 @@ import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
+import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmSignals;
 import de.trispeedys.resourceplanning.execution.BpmTaskDefinitionKeys;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.interaction.EventManager;
 import de.trispeedys.resourceplanning.repository.AggregationRelationRepository;
+import de.trispeedys.resourceplanning.repository.AssignmentSwapRepository;
 import de.trispeedys.resourceplanning.repository.DomainRepository;
 import de.trispeedys.resourceplanning.repository.EventPositionRepository;
 import de.trispeedys.resourceplanning.repository.EventRepository;
@@ -68,7 +72,6 @@ import de.trispeedys.resourceplanning.util.HierarchicalEventItemType;
 import de.trispeedys.resourceplanning.util.PositionTreeNode;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 import de.trispeedys.resourceplanning.util.StringUtil;
-import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.util.marshalling.ListMarshaller;
 
 @WebService
@@ -298,6 +301,29 @@ public class ResourceInfo
         }
         return dtos.toArray(new HelperDTO[dtos.size()]);
     }
+    
+    public RequestedSwapDTO[] queryRequestedSwaps(Long eventId)
+    {
+        if (eventId == null)
+        {
+            throw new ResourcePlanningException("event id must not be null!!");
+        }
+        Event event = Datasources.getDatasource(Event.class).findById(null, eventId);
+        if (event == null)
+        {
+            throw new ResourcePlanningException("event with id '" + eventId + "' could not found!!");
+        }
+        List<RequestedSwapDTO> dtos = new ArrayList<RequestedSwapDTO>();
+        RequestedSwapDTO dto = null;
+        for (AssignmentSwap swap : RepositoryProvider.getRepository(AssignmentSwapRepository.class).findRequestedByEvent(event))
+        {
+            dto = new RequestedSwapDTO();
+            dto.setSourcePosition(swap.getSourcePosition().getDescription());
+            dto.setTargetPosition(swap.getTargetPosition().getDescription());
+            dtos.add(dto);
+        }
+        return dtos.toArray(new RequestedSwapDTO[dtos.size()]);
+    }
 
     public MessageDTO[] queryUnsentMessages()
     {
@@ -474,6 +500,12 @@ public class ResourceInfo
         }
         RepositoryProvider.getRepository(PositionRepository.class).createPosition(description, positionNumber, domain, minimalAge, choosable);
     }
+    
+    public void killSwap(Long positionIdSource, Long positionIdTarget, Long eventId)
+    {
+        String businessKey = BusinessKeys.generateSwapBusinessKey(eventId, positionIdSource, positionIdTarget);
+        BpmPlatform.getDefaultProcessEngine().getRuntimeService().correlateMessage(BpmMessages.Swap.MSG_KILL_SWAP, businessKey);
+    }
 
     public void swapPositions(Long positionIdSource, Long positionIdTarget, Long eventId, boolean swapBySystem)
     {
@@ -508,18 +540,13 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException("target position for id '"+positionIdTarget+"' could not be found!");
         }
-        
-        // TODO make sure none of the given positions is in an active swap process right now...
-        
         // start a process in order to swap positions...            
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put(BpmVariables.Swap.VAR_SWAP_BY_SYSTEM, swapBySystem);        
-        Position sourcePosition = RepositoryProvider.getRepository(PositionRepository.class).findById(source.getId());
-        variables.put(BpmVariables.Swap.VAR_POS_ID_SOURCE, sourcePosition.getId());        
-        Position targetPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(target.getId());
-        variables.put(BpmVariables.Swap.VAR_POS_ID_TARGET, targetPosition.getId());
+        variables.put(BpmVariables.Swap.VAR_POS_ID_SOURCE, source.getId());        
+        variables.put(BpmVariables.Swap.VAR_POS_ID_TARGET, target.getId());
         variables.put(BpmVariables.Misc.VAR_EVENT_ID, eventId);
-        String businessKey = BusinessKeys.generateSwapBusinessKey(event, sourcePosition, targetPosition);
+        String businessKey = BusinessKeys.generateSwapBusinessKey(event, source, target);
         BpmPlatform.getDefaultProcessEngine().getRuntimeService().startProcessInstanceByMessage(BpmMessages.Swap.MSG_START_SWAP, businessKey, variables);
     }
 

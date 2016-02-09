@@ -6,14 +6,11 @@ import de.trispeedys.resourceplanning.entity.HelperAssignment;
 public abstract class SwapMailTemplate extends AbstractMailTemplate
 {
     private HelperAssignment sourceAssignment;
-    
-    private HelperAssignment targetAssignment;
 
-    public SwapMailTemplate(Event event, HelperAssignment sourceAssignment, HelperAssignment targetAssignment)
+    public SwapMailTemplate(Event event, HelperAssignment sourceAssignment)
     {
         super(event);        
         this.sourceAssignment = sourceAssignment;
-        this.targetAssignment = targetAssignment;
     }
     
     public HelperAssignment getSourceAssignment()
@@ -21,8 +18,4 @@ public abstract class SwapMailTemplate extends AbstractMailTemplate
         return sourceAssignment;
     }
     
-    public HelperAssignment getTargetAssignment()
-    {
-        return targetAssignment;
-    }
 }

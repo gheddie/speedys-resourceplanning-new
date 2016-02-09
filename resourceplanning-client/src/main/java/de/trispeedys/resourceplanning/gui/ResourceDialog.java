@@ -52,11 +52,11 @@ import de.trispeedys.resourceplanning.webservice.MessageDTO;
 import de.trispeedys.resourceplanning.webservice.PositionDTO;
 
 /**
- * wsimport -keep -verbose http://localhost:8080/resourceplanning-bpm-1.0-RC-3/ResourceInfoWs?wsdl wsimport -keep
- * -verbose http://www.triathlon-helfer.de:8080/resourceplanning-bpm-1.0-RC-3/ResourceInfoWs?wsdl
+ * wsimport -keep -verbose http://localhost:8080/resourceplanning-bpm-1.0-RC-3/ResourceInfoWs?wsdl
+ * wsimport -keep -verbose http://www.triathlon-helfer.de:8080/resourceplanning-bpm-1.0-RC-3/ResourceInfoWs?wsdl
  * 
- * wsimport -keep -verbose http://localhost:8080/resourceplanning-bpm-1.0-RC-3/TestDataProviderWs?wsdl wsimport -keep
- * -verbose http://www.triathlon-helfer.de:8080/resourceplanning-bpm-1.0-RC-3/TestDataProviderWs?wsdl
+ * wsimport -keep -verbose http://localhost:8080/resourceplanning-bpm-1.0-RC-3/TestDataProviderWs?wsdl
+ * wsimport -keep -verbose http://www.triathlon-helfer.de:8080/resourceplanning-bpm-1.0-RC-3/TestDataProviderWs?wsdl
  * 
  * @author Stefan.Schulz
  *
@@ -71,6 +71,12 @@ import de.trispeedys.resourceplanning.webservice.PositionDTO;
  */
 public class ResourceDialog extends SpeedyFrame
 {
+    private static final int OPTION_ABORT = 2;
+
+    private static final int OPTION_DO_NOT_ASK_HELPER = 1;
+
+    private static final int OPTION_ASK_HELPER = 0;
+
     private static final long serialVersionUID = 2338002273562986827L;
 
     private static final DateFormat df = new SimpleDateFormat("dd.MM.yyyy_HH_mm_ss");
@@ -580,9 +586,16 @@ public class ResourceDialog extends SpeedyFrame
             JOptionPane.showMessageDialog(ResourceDialog.this, "Quellen - und Ziel-Position müssen unterschiedlich sein!!");
             return;
         }
+        String[] options = new String[3];
+        options[OPTION_ASK_HELPER] = "Helfer einbeziehen";
+        options[OPTION_DO_NOT_ASK_HELPER] = "Helfer nicht einbeziehen";
+        options[OPTION_ABORT] = "Abbrechen";
+        int result = JOptionPane.showOptionDialog(ResourceDialog.this, "Tausch von Positionen", "Title", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+        /*
         int result =
                 JOptionPane.showConfirmDialog(ResourceDialog.this, "Positionen '" + sourceSwapNode.getDescription() + "' und '" + targetSwapNode.getDescription() + "' tauschen?", "Bestätigung",
                         JOptionPane.YES_NO_CANCEL_OPTION);
+                        */
         /*
          * if (result == JOptionPane.YES_OPTION) {
          * AppSingleton.getInstance().getPort().swapPositions(sourceSwapNode.getEntityId(),

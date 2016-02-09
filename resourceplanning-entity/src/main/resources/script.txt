@@ -89,10 +89,9 @@ create table helper_assignment
 	id bigint not null default nextval('helper_assignment_id_seq'),
 	helper_id bigint not null,
 	position_id bigint not null,
-	event_id bigint not null,
-	primary key (id),
+	event_id bigint not null,	
 	helper_assignment_state varchar(64),
-	constraint has_unique_hlp_evt unique (helper_id, event_id, helper_assignment_state)
+	primary key (id)
 );
 
 alter table helper_assignment add constraint fk_assignment_helper foreign key (helper_id) references helper (id);
@@ -247,7 +246,7 @@ create table assignment_swap
 (
 	id bigint not null default nextval('assignment_swap_id_seq'),
     swap_type varchar(64) not null,    
-    swap_result varchar(64),
+    swap_state varchar(64) not null,
     source_position_id bigint not null,
     target_position_id bigint not null,
     event_id bigint not null,

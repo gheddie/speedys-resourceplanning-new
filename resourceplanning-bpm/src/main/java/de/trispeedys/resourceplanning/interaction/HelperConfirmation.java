@@ -11,13 +11,13 @@ import de.trispeedys.resourceplanning.BpmHelper;
 import de.trispeedys.resourceplanning.BusinessKeys;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
+import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.messaging.template.swap.TriggerComplexSwapMailTemplate;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.StringUtil;
-import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class HelperConfirmation
 {
@@ -270,34 +270,75 @@ public class HelperConfirmation
 
     public static synchronized String processComplexSwapResponse(Long eventId, Long positionIdSource, Long positionIdTarget, boolean swapOk, String trigger, ProcessEngine testEngine)
     {
+        // TODO do not call confirmation directly but via HelperInteraction!!
+        
         String businessKey = BusinessKeys.generateSwapBusinessKey(eventId, positionIdSource, positionIdTarget);
         Map<String, Object> variables = new HashMap<>();
         
-        switch (trigger)
+        try
         {
-            case TriggerComplexSwapMailTemplate.TRIGGER_SOURCE:
-                // ------------------------------------------
-                variables.put(BpmVariables.Swap.VAR_NOT_TO_NULL_SWAP_SOURCE_OK, swapOk);
-                BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.Swap.MSG_SWAP_ANSW_SOURCE, businessKey, variables);
-                return "VAR_NOT_TO_NULL_SWAP_SOURCE_OK";
-                // ------------------------------------------
-            case TriggerComplexSwapMailTemplate.TRIGGER_TARGET:
-                // ------------------------------------------
-                variables.put(BpmVariables.Swap.VAR_NOT_TO_NULL_SWAP_TARGET_OK, swapOk);
-                BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.Swap.MSG_SWAP_ANSW_TARGET, businessKey, variables);
-                return "VAR_NOT_TO_NULL_SWAP_TARGET_OK";
-                // ------------------------------------------
+            switch (trigger)
+            {
+                case TriggerComplexSwapMailTemplate.TRIGGER_SOURCE:
+                    // ------------------------------------------
+                    variables.put(BpmVariables.Swap.VAR_NOT_TO_NULL_SWAP_SOURCE_OK, swapOk);
+                    BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.Swap.MSG_SWAP_ANSW_SOURCE, businessKey, variables);
+                    return JspRenderer.rendeSwapConfirmation(eventId, positionIdSource, positionIdTarget);
+                    // ------------------------------------------
+                case TriggerComplexSwapMailTemplate.TRIGGER_TARGET:
+                    // ------------------------------------------
+                    variables.put(BpmVariables.Swap.VAR_NOT_TO_NULL_SWAP_TARGET_OK, swapOk);
+                    BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.Swap.MSG_SWAP_ANSW_TARGET, businessKey, variables);
+                    return JspRenderer.rendeSwapConfirmation(eventId, positionIdSource, positionIdTarget);
+                    // ------------------------------------------
+                default:
+                    // ------------------------------------------
+                    // fall through ---> will not occur!!
+                    return null;
+                    // ------------------------------------------
+            }          
         }
-        // will not occur
-        return null;
+        catch (MismatchingMessageCorrelationException e)
+        {
+            return JspRenderer.renderCorrelationFault(null);
+        }
+        catch (ProcessEngineException e)
+        {
+            return JspRenderer.renderGenericEngineFault(null, e.getMessage());
+        }
+        catch (ResourcePlanningException e)
+        {
+            // this is an exception raised from the business logic...
+            HelperInteraction.alertPlanningException(null, eventId, e.getMessage());
+            return JspRenderer.renderPlanningException(null, e.getMessage());
+        }
     }
     
     public static synchronized String processSimpleSwapResponse(Long eventId, Long positionIdSource, Long positionIdTarget, boolean swapOk, ProcessEngine testEngine)
     {
+        // TODO do not call confirmation directly but via HelperInteraction!!
+        
         String businessKey = BusinessKeys.generateSwapBusinessKey(eventId, positionIdSource, positionIdTarget);
         Map<String, Object> variables = new HashMap<>();
         variables.put(BpmVariables.Swap.VAR_TO_NULL_SWAP_OK, swapOk);
-        BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.Swap.MSG_SIMPLE_SWAP_ANSW, businessKey, variables);
-        return "processSimpleSwapResponse";
+        try
+        {
+            BpmHelper.getProcessEngine(testEngine).getRuntimeService().correlateMessage(BpmMessages.Swap.MSG_SIMPLE_SWAP_ANSW, businessKey, variables);
+            return JspRenderer.rendeSwapConfirmation(eventId, positionIdSource, positionIdTarget);
+        }
+        catch (MismatchingMessageCorrelationException e)
+        {
+            return JspRenderer.renderCorrelationFault(null);
+        }
+        catch (ProcessEngineException e)
+        {
+            return JspRenderer.renderGenericEngineFault(null, e.getMessage());
+        }
+        catch (ResourcePlanningException e)
+        {
+            // this is an exception raised from the business logic...
+            HelperInteraction.alertPlanningException(null, eventId, e.getMessage());
+            return JspRenderer.renderPlanningException(null, e.getMessage());
+        }
     }
 }

@@ -15,6 +15,7 @@ import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
+import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.exception.ResourcePlanningNoSuchEntityException;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.messaging.template.helprequest.AlertPlanningExceptionMailTemplate;
@@ -22,7 +23,6 @@ import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.util.htmlgenerator.instance.UnknownEntityHtmlGenerator;
 
 public class HelperInteraction
@@ -156,13 +156,24 @@ public class HelperInteraction
      */
     public static void alertPlanningException(Long helperId, Long eventId, String message)
     {
-        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
-        AlertPlanningExceptionMailTemplate template =
-                new AlertPlanningExceptionMailTemplate(helper, event, null, message);
-        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
-                AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.ADMIN_MAIL),
-                template.constructSubject(), template.constructBody(), template.getMessagingType(), true, null);
+        if (helperId != null)
+        {
+            Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+            AlertPlanningExceptionMailTemplate template =
+                    new AlertPlanningExceptionMailTemplate(helper, event, null, message);
+            RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
+                    AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.ADMIN_MAIL),
+                    template.constructSubject(), template.constructBody(), template.getMessagingType(), true, null);   
+        }
+        else
+        {
+            AlertPlanningExceptionMailTemplate template =
+                    new AlertPlanningExceptionMailTemplate(null, event, null, message);
+            RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de",
+                    AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.ADMIN_MAIL),
+                    template.constructSubject(), template.constructBody(), template.getMessagingType(), true, null);  
+        }
     }
     
     private static void checkEntitiesForExistence(Long eventId, Long helperId, Long priorPositionId)

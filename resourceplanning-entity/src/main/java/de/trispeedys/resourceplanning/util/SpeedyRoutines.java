@@ -21,13 +21,13 @@ import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperAssignmentState;
 import de.trispeedys.resourceplanning.entity.misc.HierarchicalEventItem;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
+import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.comparator.EnumeratedEventItemComparator;
 import de.trispeedys.resourceplanning.util.comparator.TreeNodeComparator;
-import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class SpeedyRoutines
 {

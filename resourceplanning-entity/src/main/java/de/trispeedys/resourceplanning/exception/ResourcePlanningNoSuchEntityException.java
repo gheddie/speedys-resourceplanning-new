@@ -2,7 +2,6 @@ package de.trispeedys.resourceplanning.exception;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.AbstractDbObject;
-import de.trispeedys.resourceplanning.util.exception.ResourcePlanningPersistenceException;
 
 public class ResourcePlanningNoSuchEntityException extends ResourcePlanningPersistenceException
 {

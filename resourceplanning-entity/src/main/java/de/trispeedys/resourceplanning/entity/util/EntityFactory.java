@@ -37,6 +37,7 @@ import de.trispeedys.resourceplanning.entity.builder.TemplateDomainBuilder;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperAssignmentState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
+import de.trispeedys.resourceplanning.entity.misc.SwapState;
 import de.trispeedys.resourceplanning.entity.misc.SwapType;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 
@@ -162,8 +163,8 @@ public class EntityFactory
         return new MissedAssignmentBuilder().withPosition(position).withHelper(helper).withEvent(event).withTimeStamp().build();
     }
 
-    public static AssignmentSwap buildAssignmentSwap(Event event, Position sourcePosition, Position targetPosition, SwapType swapType)
+    public static AssignmentSwap buildAssignmentSwap(Event event, Position sourcePosition, Position targetPosition, SwapType swapType, SwapState swapState)
     {
-        return new AssignmentSwapBuilder().withEvent(event).withSourcePosition(sourcePosition).withTargetPosition(targetPosition).withSwapType(swapType).build();
+        return new AssignmentSwapBuilder().withEvent(event).withSourcePosition(sourcePosition).withTargetPosition(targetPosition).withSwapType(swapType).withSwapState(swapState).build();
     }
 }

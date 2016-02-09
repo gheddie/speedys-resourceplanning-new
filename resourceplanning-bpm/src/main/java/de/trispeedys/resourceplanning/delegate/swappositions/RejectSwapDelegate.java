@@ -6,12 +6,12 @@ import de.trispeedys.resourceplanning.delegate.requesthelp.misc.AbstractSwapDele
 import de.trispeedys.resourceplanning.entity.AssignmentSwap;
 import de.trispeedys.resourceplanning.entity.misc.SwapState;
 
-public class InterruptSwapDelegate extends AbstractSwapDelegate
+public class RejectSwapDelegate extends AbstractSwapDelegate
 {
     public void execute(DelegateExecution execution) throws Exception
     {
         AssignmentSwap swap = getSwapEntity(execution);
-        swap.setSwapState(SwapState.INTERRUPTED);
+        swap.setSwapState(SwapState.REJECTED);
         swap.saveOrUpdate();
     }
 }

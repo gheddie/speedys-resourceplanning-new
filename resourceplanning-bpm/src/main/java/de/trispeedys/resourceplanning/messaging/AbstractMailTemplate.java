@@ -4,6 +4,7 @@ import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
+import de.trispeedys.resourceplanning.entity.MessagingType;
 
 public abstract class AbstractMailTemplate<T>
 {
@@ -41,4 +42,10 @@ public abstract class AbstractMailTemplate<T>
     {
         this.event = event;
     }
+    
+    public abstract String constructBody();
+
+    public abstract String constructSubject();
+
+    public abstract MessagingType getMessagingType();
 }

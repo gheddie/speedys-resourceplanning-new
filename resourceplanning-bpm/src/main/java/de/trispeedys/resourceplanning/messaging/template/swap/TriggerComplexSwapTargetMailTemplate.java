@@ -4,6 +4,7 @@ import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
+import de.trispeedys.resourceplanning.messaging.SwapMailTemplate;
 
 public class TriggerComplexSwapTargetMailTemplate extends TriggerComplexSwapMailTemplate
 {
@@ -24,7 +25,7 @@ public class TriggerComplexSwapTargetMailTemplate extends TriggerComplexSwapMail
     
     protected String configureBodyText()
     {
-        return AppConfiguration.getInstance().getText(TriggerComplexSwapMailTemplate.class, "body", getTargetAssignment().getPosition().getDescription(),
+        return AppConfiguration.getInstance().getText(SwapMailTemplate.class, "body", getTargetAssignment().getPosition().getDescription(),
                 getTargetAssignment().getPosition().getDomain().getName(), getSourceAssignment().getPosition().getDescription(), getSourceAssignment().getPosition().getDomain().getName());
     }
 }

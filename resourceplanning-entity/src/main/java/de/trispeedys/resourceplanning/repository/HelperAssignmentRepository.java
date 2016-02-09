@@ -19,8 +19,8 @@ import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperAssignmentState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
+import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class HelperAssignmentRepository extends AbstractDatabaseRepository<HelperAssignment> implements
         DatabaseRepository<HelperAssignmentRepository>
@@ -231,7 +231,6 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
                     confirmHelper(helper, event, targetPosition, sessionHolder.getToken());
                     break;
             }
-            
             sessionHolder.commitTransaction();
         }
         catch (Exception e)

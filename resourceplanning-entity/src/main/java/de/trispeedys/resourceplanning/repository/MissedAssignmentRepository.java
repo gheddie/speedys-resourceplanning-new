@@ -21,8 +21,8 @@ import de.trispeedys.resourceplanning.entity.MissedAssignment;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.builder.MissedAssignmentBuilder;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
+import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class MissedAssignmentRepository extends AbstractDatabaseRepository<MissedAssignment> implements DatabaseRepository<MissedAssignmentRepository>
 {

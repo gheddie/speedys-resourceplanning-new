@@ -14,10 +14,13 @@ public abstract class TriggerComplexSwapMailTemplate extends SwapMailTemplate
     public static final String TRIGGER_SOURCE = "source";
 
     public static final String TRIGGER_TARGET = "target";
+    
+    private HelperAssignment targetAssignment;
 
     public TriggerComplexSwapMailTemplate(Event event, HelperAssignment sourceAssignment, HelperAssignment targetAssignment)
     {
-        super(event, sourceAssignment, targetAssignment);
+        super(event, sourceAssignment);
+        this.targetAssignment = targetAssignment;
     }
 
     public String constructBody()
@@ -35,16 +38,11 @@ public abstract class TriggerComplexSwapMailTemplate extends SwapMailTemplate
                         "/" + jspReceiverName + ".jsp?eventId=" + eventId + "&positionIdSource=" + positionIdSource + "&positionIdTarget=" + positionIdTarget + "&swapOk=no" + "&trigger=" + trigger();
         return new HtmlGenerator(true).withParagraph(helperGreeting(relevantHelper()))
                 .withParagraph(configureBodyText())
-                .withLink(linkYes, configuration.getText(TriggerComplexSwapMailTemplate.class, "swapOk"))
+                .withLink(linkYes, configuration.getText(SwapMailTemplate.class, "swapOk"))
                 .withLinebreak(2)
-                .withLink(linkNo, configuration.getText(TriggerComplexSwapMailTemplate.class, "swapNotOk"))
+                .withLink(linkNo, configuration.getText(SwapMailTemplate.class, "swapNotOk"))
                 .withParagraph(sincerely())
                 .render();
-    }
-
-    private String mo()
-    {
-        return configureBodyText();
     }
 
     protected abstract String configureBodyText();
@@ -61,5 +59,10 @@ public abstract class TriggerComplexSwapMailTemplate extends SwapMailTemplate
     public MessagingType getMessagingType()
     {
         return null;
+    }
+    
+    public HelperAssignment getTargetAssignment()
+    {
+        return targetAssignment;
     }
 }

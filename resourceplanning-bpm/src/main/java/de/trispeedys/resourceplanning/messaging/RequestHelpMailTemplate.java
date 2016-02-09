@@ -4,7 +4,6 @@ import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
-import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
@@ -46,12 +45,6 @@ public abstract class RequestHelpMailTemplate extends AbstractMailTemplate
     {
         this.position = position;
     }
-
-    public abstract String constructBody();
-
-    public abstract String constructSubject();
-
-    public abstract MessagingType getMessagingType();
 
     public void send(boolean toAdmin)
     {

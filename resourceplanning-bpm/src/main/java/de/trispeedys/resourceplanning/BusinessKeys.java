@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
-import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
+import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
 
 public class BusinessKeys
 {
@@ -13,7 +13,7 @@ public class BusinessKeys
             "bkRequestHelpHelperProcess_helper:{0}||event:{1}";
     
     private static final String BK_SWAP_HELPERPROCESS_TEMPLATE =
-            "bkRequestHelpHelperProcess_pos1:{0}||pos2:{1}||event:{2}";
+            "bkSwapHelperProcess_pos1:{0}||pos2:{1}||event:{2}";
     
     public static String generateRequestHelpBusinessKey(Helper helper, Event event)
     {

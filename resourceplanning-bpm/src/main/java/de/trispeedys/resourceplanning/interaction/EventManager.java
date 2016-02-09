@@ -17,6 +17,7 @@ import de.trispeedys.resourceplanning.entity.MissedAssignment;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
+import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.messaging.template.helprequest.PlanningSuccessMailTemplate;
@@ -26,7 +27,6 @@ import de.trispeedys.resourceplanning.repository.MissedAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.StringUtil;
-import de.trispeedys.resourceplanning.util.exception.ResourcePlanningException;
 
 public class EventManager
 {

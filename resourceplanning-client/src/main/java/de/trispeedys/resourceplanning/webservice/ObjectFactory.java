@@ -30,6 +30,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link RequestedSwapDTOArray }
+     * 
+     */
+    public RequestedSwapDTOArray createRequestedSwapDTOArray() {
+        return new RequestedSwapDTOArray();
+    }
+
+    /**
      * Create an instance of {@link HierarchicalEventItemDTOArray }
      * 
      */
@@ -83,6 +91,14 @@ public class ObjectFactory {
      */
     public ManualAssignmentDTOArray createManualAssignmentDTOArray() {
         return new ManualAssignmentDTOArray();
+    }
+
+    /**
+     * Create an instance of {@link RequestedSwapDTO }
+     * 
+     */
+    public RequestedSwapDTO createRequestedSwapDTO() {
+        return new RequestedSwapDTO();
     }
 
     /**

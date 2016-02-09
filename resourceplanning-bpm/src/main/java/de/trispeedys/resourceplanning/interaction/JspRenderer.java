@@ -57,37 +57,73 @@ public class JspRenderer
 
     public static String renderCorrelationFault(Long helperId)
     {
-        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
-                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
-                .withParagraph(configuration.getText(JspRenderer.class, "renderCorrelationFault"))
-                .withParagraph(RequestHelpMailTemplate.sincerely())
-                .withClosingLink()
-                .render();
+        if (helperId != null)
+        {
+            Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+            return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                    .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                    .withParagraph(configuration.getText(JspRenderer.class, "renderCorrelationFault"))
+                    .withParagraph(RequestHelpMailTemplate.sincerely())
+                    .withClosingLink()
+                    .render();
+        }
+        else
+        {
+            return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                    .withHeader(configuration.getText(JspRenderer.class, "helloPlain"))
+                    .withParagraph(configuration.getText(JspRenderer.class, "renderCorrelationFault"))
+                    .withParagraph(RequestHelpMailTemplate.sincerely())
+                    .withClosingLink()
+                    .render();
+        }
     }
-    
+
     public static String renderPlanningException(Long helperId, String errorMessage)
     {
-        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
-                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
-                .withParagraph(configuration.getText(JspRenderer.class, "planningExceptionCaught", errorMessage))
-                .withParagraph(RequestHelpMailTemplate.sincerely())
-                .render();
+        if (helperId != null)
+        {
+            Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+            return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                    .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                    .withParagraph(configuration.getText(JspRenderer.class, "planningExceptionCaught", errorMessage))
+                    .withParagraph(RequestHelpMailTemplate.sincerely())
+                    .render();
+        }
+        else
+        {
+
+            return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                    .withHeader(configuration.getText(JspRenderer.class, "helloPLain"))
+                    .withParagraph(configuration.getText(JspRenderer.class, "planningExceptionCaught", errorMessage))
+                    .withParagraph(RequestHelpMailTemplate.sincerely())
+                    .render();
+        }
     }
 
     public static String renderGenericEngineFault(Long helperId, String errorMessage)
     {
-        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
-                .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
-                .withParagraph(configuration.getText(JspRenderer.class, "genericEngineFailure"))
-                .withParagraph(errorMessage)
-                .withParagraph(RequestHelpMailTemplate.sincerely())
-                .render();
+        if (helperId != null)
+        {
+            Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+            return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                    .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
+                    .withParagraph(configuration.getText(JspRenderer.class, "genericEngineFailure"))
+                    .withParagraph(errorMessage)
+                    .withParagraph(RequestHelpMailTemplate.sincerely())
+                    .render();
+        }
+        else
+        {
+            return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                    .withHeader(configuration.getText(JspRenderer.class, "helloPlain"))
+                    .withParagraph(configuration.getText(JspRenderer.class, "genericEngineFailure"))
+                    .withParagraph(errorMessage)
+                    .withParagraph(RequestHelpMailTemplate.sincerely())
+                    .render();
+        }
     }
 
     /**
@@ -405,6 +441,21 @@ public class JspRenderer
         return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
                 .withHeader(configuration.getText(JspRenderer.class, "hello", helper.getFirstName()))
                 .withParagraph(configuration.getText(JspRenderer.class, "changePositionConfirmed"))
+                .withParagraph(RequestHelpMailTemplate.sincerely())
+                .withClosingLink()
+                .render();
+    }
+
+    public static String rendeSwapConfirmation(Long eventId, Long positionIdSource, Long positionIdTarget)
+    {
+        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        PositionRepository positionRepository = RepositoryProvider.getRepository(PositionRepository.class);
+        Position positionSource = positionRepository.findById(positionIdSource);
+        Position positionTarget = positionRepository.findById(positionIdTarget);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "helloPlain"))
+                .withParagraph(configuration.getText(JspRenderer.class, "swapPositionsConfirmed", positionSource.getDescription(), positionTarget.getDescription(), event.getDescription()))
                 .withParagraph(RequestHelpMailTemplate.sincerely())
                 .withClosingLink()
                 .render();
