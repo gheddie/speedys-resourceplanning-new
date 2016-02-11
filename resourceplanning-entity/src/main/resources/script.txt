@@ -137,12 +137,12 @@ create sequence message_queue_id_seq;
 create table message_queue
 (
 	id bigint not null default nextval('message_queue_id_seq'),
-	from_address varchar(255),
-	to_address varchar(255),
-	subject varchar(1024),
-	body text,
-	creation_time timestamp,
-	messaging_state varchar(64),
+	from_address varchar(255) not null,
+	to_address varchar(255) not null,
+	subject varchar(1024) not null,
+	body text not null,
+	creation_time timestamp not null,
+	messaging_state varchar(64) not null,
 	messaging_type varchar(64),
 	helper_id bigint,
 	primary key (id)

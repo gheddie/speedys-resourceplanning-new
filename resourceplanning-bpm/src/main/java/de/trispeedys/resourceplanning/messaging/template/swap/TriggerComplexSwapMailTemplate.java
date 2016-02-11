@@ -5,7 +5,6 @@ import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.MessagingType;
-import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.messaging.SwapMailTemplate;
 import de.trispeedys.resourceplanning.util.htmlgenerator.HtmlGenerator;
 
@@ -56,11 +55,6 @@ public abstract class TriggerComplexSwapMailTemplate extends SwapMailTemplate
         return "Anfrage Positionstausch";
     }
 
-    public MessagingType getMessagingType()
-    {
-        return null;
-    }
-    
     public HelperAssignment getTargetAssignment()
     {
         return targetAssignment;

@@ -300,6 +300,7 @@ public class HelperConfirmation
         }
         catch (MismatchingMessageCorrelationException e)
         {
+            // TODO render better explanation ---> this occurs when the 'other' helper has rejected ---> message gone
             return JspRenderer.renderCorrelationFault(null);
         }
         catch (ProcessEngineException e)

@@ -57,7 +57,7 @@ public class BpmVariables
     public class Swap
     {
         /**
-         * If true: Desired swap is automatically done by the system (if posssible). If false:
+         * If true: Desired swap is automatically done by the system (if possible). If false:
          * swap is done by user interaction.
          */
         public static final String VAR_SWAP_BY_SYSTEM = "swapBySystem";

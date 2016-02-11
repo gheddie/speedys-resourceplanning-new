@@ -11,7 +11,6 @@ public class TriggerSimpleSwapDelegate extends AbstractSwapDelegate
 {
     public void execute(DelegateExecution execution) throws Exception
     {
-        // TODO write a mail !!
         TriggerSimpleSwapMailTemplate template = new TriggerSimpleSwapMailTemplate(getEvent(execution), getSourceAssignment(execution), getTargetPosition(execution));
         RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de", getSourceAssignment(execution).getHelper().getEmail(), template.constructSubject(),
                 template.constructBody(), template.getMessagingType(), true, null);

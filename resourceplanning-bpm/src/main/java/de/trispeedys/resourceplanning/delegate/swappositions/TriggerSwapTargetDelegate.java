@@ -12,7 +12,7 @@ public class TriggerSwapTargetDelegate extends AbstractSwapDelegate
     public void execute(DelegateExecution execution) throws Exception
     {
         TriggerComplexSwapTargetMailTemplate template = new TriggerComplexSwapTargetMailTemplate(getEvent(execution), getSourceAssignment(execution), getTargetAssignment(execution));
-        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de", getSourceAssignment(execution).getHelper().getEmail(), template.constructSubject(),
+        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de", getTargetAssignment(execution).getHelper().getEmail(), template.constructSubject(),
                 template.constructBody(), template.getMessagingType(), true, null);
     }
 }

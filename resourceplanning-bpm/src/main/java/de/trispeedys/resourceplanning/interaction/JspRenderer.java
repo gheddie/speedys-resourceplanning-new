@@ -145,6 +145,7 @@ public class JspRenderer
                 .withParagraph(configuration.getText(JspRenderer.class, "messageReceived"))
                 .withParagraph(configuration.getText(JspRenderer.class, "positionUnavailable", chosenPosition.getDescription()))
                 .withParagraph(RequestHelpMailTemplate.sincerely())
+                .withClosingLink()
                 .render();
     }
 

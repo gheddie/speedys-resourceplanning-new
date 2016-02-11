@@ -98,6 +98,19 @@ public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQu
             // do it in a thread...
             sendUnprocessedMessage(message);
         }
+        else
+        {
+            System.out.println();
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@ message @@@@@@@@@@@@@@@@@@@@@ ");            
+            System.out.println("from : " + fromAddress);
+            System.out.println("to : " + toAddress);
+            System.out.println(" --------------------------------------------------- ");
+            System.out.println(subject);
+            System.out.println(" --------------------------------------------------- ");
+            System.out.println(body);
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ");
+            System.out.println();
+        }
     }
 
     public List<MessageQueue> findByHelperAndMessagingType(Helper helper, MessagingType messagingType)

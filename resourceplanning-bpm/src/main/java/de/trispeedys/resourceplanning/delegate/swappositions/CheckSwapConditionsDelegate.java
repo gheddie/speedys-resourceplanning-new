@@ -58,6 +58,8 @@ public class CheckSwapConditionsDelegate extends AbstractSwapDelegate
                 : SwapType.COMPLEX;
         AssignmentSwap swap = EntityFactory.buildAssignmentSwap(getEvent(execution), getSourcePosition(execution), getTargetPosition(execution), swapType, SwapState.REQUESTED);
         
+        // TODO check BEFORE process start in order to throw an exception from out of the web service interface
+        
         // check for collisions
         for (AssignmentSwap requestedSwap : RepositoryProvider.getRepository(AssignmentSwapRepository.class).findRequestedByEvent(getEvent(execution)))
         {

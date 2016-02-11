@@ -38,6 +38,12 @@ public enum MessagingType
     
     // confirmation on 'dont bother me no more'...
     CANCEL_FOREVER_CONFIRMATION,
+    
+    SWAP_RESULT,
+    
+    COMPLEX_SWAP_SOURCE_TRIGGER,
+    
+    COMPLEX_SWAP_TARGET_TRIGGER,
 
     // fallback
     NONE

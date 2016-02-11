@@ -72,6 +72,7 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
     {
         List<HelperAssignment> result =
                 dataSource().find(null, HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event);
+        // TODO this is a bad idea...there may be many (e.g. cancelled ones) assignments for a helper in an event
         return safeValue(result);
     }
     
@@ -209,28 +210,8 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
         try
         {
             sessionHolder.beginTransaction();
-
-            Event event = sourceAssignment.getEvent();
-            Helper helper = sourceAssignment.getHelper();
-            HelperAssignmentState assignmentState = sourceAssignment.getHelperAssignmentState();
-            
-            // (1) cancel source
-            sourceAssignment.setHelperAssignmentState(HelperAssignmentState.CANCELLED);
+            sourceAssignment.setPosition(targetPosition);
             sessionHolder.saveOrUpdate(sourceAssignment);
-            
-            // TODO why do i need a flush here?
-            sessionHolder.flush();
-                    
-            // (2) create new assigment with target
-            switch(assignmentState)
-            {
-                case PLANNED:
-                    assignHelper(helper, event, targetPosition, sessionHolder.getToken());
-                    break;
-                case CONFIRMED:
-                    confirmHelper(helper, event, targetPosition, sessionHolder.getToken());
-                    break;
-            }
             sessionHolder.commitTransaction();
         }
         catch (Exception e)

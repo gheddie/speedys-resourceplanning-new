@@ -547,7 +547,17 @@ public class ResourceInfo
         variables.put(BpmVariables.Swap.VAR_POS_ID_TARGET, target.getId());
         variables.put(BpmVariables.Misc.VAR_EVENT_ID, eventId);
         String businessKey = BusinessKeys.generateSwapBusinessKey(event, source, target);
-        BpmPlatform.getDefaultProcessEngine().getRuntimeService().startProcessInstanceByMessage(BpmMessages.Swap.MSG_START_SWAP, businessKey, variables);
+        
+        try
+        {
+            BpmPlatform.getDefaultProcessEngine().getRuntimeService().startProcessInstanceByMessage(BpmMessages.Swap.MSG_START_SWAP, businessKey, variables);   
+        }
+        catch (ResourcePlanningException e)
+        {
+            // throw exception outta here if starting the process fails...
+            // TODO this does not work --> exception will not come out!!
+            throw e;
+        }
     }
 
     public void removePositionsFromEvent(Long eventId, String positionNumbers)
