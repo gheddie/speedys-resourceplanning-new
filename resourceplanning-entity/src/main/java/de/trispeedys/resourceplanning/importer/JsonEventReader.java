@@ -91,7 +91,7 @@ public class JsonEventReader
     public void doImport(String aResourceName)
     {
         this.resourceName = aResourceName;
-        sessionHolder = SessionManager.getInstance().registerSession(this);
+        sessionHolder = SessionManager.getInstance().registerSession(this, null);
         try
         {
             sessionHolder.beginTransaction();

@@ -23,6 +23,63 @@ public interface TestDataProvider {
      * 
      */
     @WebMethod
+    public void prepareSimpleEventWithFloatingHelpers();
+
+    /**
+     * 
+     */
+    @WebMethod
+    public void startSomeProcessesWithNewHelpers();
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     */
+    @WebMethod
+    public void startHelperRequestProcess(
+        @WebParam(name = "arg0", partName = "arg0")
+        long arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        long arg1);
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     */
+    @WebMethod
+    public void fireTimer(
+        @WebParam(name = "arg0", partName = "arg0")
+        long arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        long arg1);
+
+    /**
+     * 
+     */
+    @WebMethod
+    public void duplicate2015();
+
+    /**
+     * 
+     */
+    @WebMethod
+    public void finish2015();
+
+    /**
+     * 
+     * @return
+     *     returns int
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    public int anonymizeHelperAddresses();
+
+    /**
+     * 
+     */
+    @WebMethod
     public void prepareBlockedChoosePosition();
 
     /**
@@ -57,68 +114,11 @@ public interface TestDataProvider {
 
     /**
      * 
-     * @return
-     *     returns int
-     */
-    @WebMethod
-    @WebResult(partName = "return")
-    public int anonymizeHelperAddresses();
-
-    /**
-     * 
      * @param arg0
      */
     @WebMethod
     public void setupForTesting(
         @WebParam(name = "arg0", partName = "arg0")
         String arg0);
-
-    /**
-     * 
-     * @param arg1
-     * @param arg0
-     */
-    @WebMethod
-    public void fireTimer(
-        @WebParam(name = "arg0", partName = "arg0")
-        long arg0,
-        @WebParam(name = "arg1", partName = "arg1")
-        long arg1);
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void duplicate2015();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void finish2015();
-
-    /**
-     * 
-     * @param arg1
-     * @param arg0
-     */
-    @WebMethod
-    public void startHelperRequestProcess(
-        @WebParam(name = "arg0", partName = "arg0")
-        long arg0,
-        @WebParam(name = "arg1", partName = "arg1")
-        long arg1);
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void prepareSimpleEventWithFloatingHelpers();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void startSomeProcessesWithNewHelpers();
 
 }

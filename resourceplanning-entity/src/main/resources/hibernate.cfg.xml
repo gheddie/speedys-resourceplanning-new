@@ -33,9 +33,15 @@
 		<mapping class="de.trispeedys.resourceplanning.entity.AggregationRelation" />
 		<mapping class="de.trispeedys.resourceplanning.entity.TemplateDomain" />
 		<mapping class="de.trispeedys.resourceplanning.entity.MissedAssignment" />
-		<mapping class="de.trispeedys.resourceplanning.entity.EventLocation" />		
-		<mapping class="de.trispeedys.resourceplanning.entity.ManualAssignmentComment" />		
+		<mapping class="de.trispeedys.resourceplanning.entity.EventLocation" />
+		<mapping class="de.trispeedys.resourceplanning.entity.ManualAssignmentComment" />
 		<mapping class="de.trispeedys.resourceplanning.entity.AssignmentSwap" />
-		
+
+		<!-- 
+		<event type="pre-update">
+			<listener class="de.trispeedys.resourceplanning.listener.GenericEntityListener" />
+		</event>
+ 		-->		
+
 	</session-factory>
 </hibernate-configuration>

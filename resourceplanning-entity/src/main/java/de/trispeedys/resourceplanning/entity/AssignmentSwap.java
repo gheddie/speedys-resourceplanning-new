@@ -53,6 +53,15 @@ public class AssignmentSwap extends AbstractDbObject
 
     @NotNull
     @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "source_helper_id")
+    private Helper sourceHelper;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "target_helper_id")
+    private Helper targetHelper;
+
+    @NotNull
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id")
     private Event event;
 
@@ -120,12 +129,69 @@ public class AssignmentSwap extends AbstractDbObject
         this.creationTime = creationTime;
     }
 
+    public Helper getSourceHelper()
+    {
+        return sourceHelper;
+    }
+
+    public void setSourceHelper(Helper sourceHelper)
+    {
+        this.sourceHelper = sourceHelper;
+    }
+
+    public Helper getTargetHelper()
+    {
+        return targetHelper;
+    }
+
+    public void setTargetHelper(Helper targetHelper)
+    {
+        this.targetHelper = targetHelper;
+    }
+
     public boolean collidesWith(AssignmentSwap swap)
     {
         List<Long> affectedPositions = new ArrayList<Long>();
         affectedPositions.add(sourcePosition.getId());
         affectedPositions.add(targetPosition.getId());
         // TODO implement + use is to make there are no active swaps for the same position at the same time
-        return ((affectedPositions.contains(swap.getSourcePosition().getId())) || (affectedPositions.contains(swap.getTargetPosition().getId())));
+        return ((affectedPositions.contains(swap.getSourcePosition().getId())) || (affectedPositions.contains(swap.getTargetPosition()
+                .getId())));
+    }
+
+    public Object[] getNotificationSuccessParameters(boolean inverted)
+    {
+        if (inverted)
+        {
+            // target position and domain, then source position and domain
+            return new Object[]
+            {
+                    targetPosition.getDescription(),
+                    targetPosition.getDomain().getName(),
+                    sourcePosition.getDescription(),
+                    sourcePosition.getDomain().getName()
+
+            };
+        }
+        else
+        {
+            // source position and domain, then target position and domain
+            return new Object[]
+            {
+                    sourcePosition.getDescription(),
+                    sourcePosition.getDomain().getName(),
+                    targetPosition.getDescription(),
+                    targetPosition.getDomain().getName()
+            };
+        }
+    }
+
+    public Object[] getNotificationFailureParameters()
+    {
+        // source position and domain
+        return new Object[]
+        {
+                sourcePosition.getDescription(), sourcePosition.getDomain().getName()
+        };
     }
 }

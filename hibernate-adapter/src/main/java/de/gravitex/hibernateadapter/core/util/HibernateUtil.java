@@ -2,23 +2,20 @@ package de.gravitex.hibernateadapter.core.util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.ServiceRegistryBuilder;
 
 public class HibernateUtil
 {
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
-    @SuppressWarnings("deprecation")
     private static SessionFactory buildSessionFactory()
     {
-        try
-        {
-            return new Configuration().configure().buildSessionFactory();
-        }
-        catch (Throwable ex)
-        {
-            System.err.println("Initial SessionFactory creation failed." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
+        Configuration configuration = new Configuration();
+        configuration.configure();
+        ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(
+                configuration.getProperties()). buildServiceRegistry();
+        return configuration.buildSessionFactory(serviceRegistry);
     }
 
     public static SessionFactory getSessionFactory()

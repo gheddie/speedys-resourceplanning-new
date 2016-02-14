@@ -77,6 +77,10 @@ public class BpmVariables
         public static final String VAR_POS_ID_SOURCE = "posIdSource";
         
         public static final String VAR_POS_ID_TARGET = "posIdTarget";
+        
+        public static final String VAR_HELPER_ID_SOURCE = "helperIdSource";
+        
+        public static final String VAR_HELPER_ID_TARGET = "helperIdTarget";
 
         // the reference for the underlying assignment swap entity
         public static final String VAR_SWAP_ENTITY_ID = "swapEntityId";

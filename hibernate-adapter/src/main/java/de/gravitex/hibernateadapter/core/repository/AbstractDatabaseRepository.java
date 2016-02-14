@@ -91,6 +91,11 @@ public abstract class AbstractDatabaseRepository<T>
     
     protected T safeValue(List<T> result)
     {
+        if ((result != null) && (result.size() > 1))
+        {
+            // this is an exception...method is only meant to give by a single value or NULL...
+            throw new IllegalArgumentException();
+        }
         return (T) (result == null || result.size() == 0 ? null : result.get(0));
     }
 }

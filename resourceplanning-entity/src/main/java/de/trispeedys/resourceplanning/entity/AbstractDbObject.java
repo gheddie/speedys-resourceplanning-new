@@ -54,4 +54,9 @@ public abstract class AbstractDbObject implements DbObject
     {
         return (id == null);
     }
+
+    public void checkSave()
+    {
+        // do nothing in base implementation        
+    }
 }

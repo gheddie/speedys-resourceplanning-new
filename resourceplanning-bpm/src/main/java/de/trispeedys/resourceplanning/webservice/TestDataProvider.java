@@ -237,7 +237,7 @@ public class TestDataProvider
 
     public int anonymizeHelperAddresses()
     {
-        SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this);
+        SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this, null);
         try
         {
             sessionHolder.beginTransaction();

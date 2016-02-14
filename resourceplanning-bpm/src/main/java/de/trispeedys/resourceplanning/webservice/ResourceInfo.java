@@ -1,6 +1,5 @@
 package de.trispeedys.resourceplanning.webservice;
 
-import java.lang.annotation.Target;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -23,8 +22,6 @@ import org.camunda.bpm.engine.runtime.VariableInstance;
 import org.camunda.bpm.engine.runtime.VariableInstanceQuery;
 import org.camunda.bpm.engine.task.Task;
 
-import de.gravitex.hibernateadapter.core.SessionHolder;
-import de.gravitex.hibernateadapter.core.SessionManager;
 import de.trispeedys.resourceplanning.BusinessKeys;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.datasource.Datasources;
@@ -50,6 +47,7 @@ import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
+import de.trispeedys.resourceplanning.exception.ResourcePlanningSwapException;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmSignals;
 import de.trispeedys.resourceplanning.execution.BpmTaskDefinitionKeys;
@@ -104,8 +102,6 @@ public class ResourceInfo
 
     private static final String MAILSENDING_IN_PROGRESS = "MAILSENDING_IN_PROGRESS";
     
-    private static final boolean SWAP_POSITIONS_DIRECTLY = false;
-
     public PositionDTO[] queryAvailablePositions(Long eventId)
     {
         AppConfiguration configuration = AppConfiguration.getInstance();
@@ -319,7 +315,12 @@ public class ResourceInfo
         {
             dto = new RequestedSwapDTO();
             dto.setSourcePosition(swap.getSourcePosition().getDescription());
+            dto.setSourceDomain(swap.getSourcePosition().getDomain().getName());
             dto.setTargetPosition(swap.getTargetPosition().getDescription());
+            dto.setTargetDomain(swap.getTargetPosition().getDomain().getName());
+            dto.setSwapType(swap.getSwapType().toString());
+            dto.setSwapState(swap.getSwapState().toString());
+            dto.setBusinessKey(BusinessKeys.generateSwapBusinessKey(swap.getEvent(), swap.getSourcePosition(), swap.getTargetPosition()));
             dtos.add(dto);
         }
         return dtos.toArray(new RequestedSwapDTO[dtos.size()]);
@@ -506,6 +507,11 @@ public class ResourceInfo
         String businessKey = BusinessKeys.generateSwapBusinessKey(eventId, positionIdSource, positionIdTarget);
         BpmPlatform.getDefaultProcessEngine().getRuntimeService().correlateMessage(BpmMessages.Swap.MSG_KILL_SWAP, businessKey);
     }
+    
+    public void killSwapByBusinessKey(String swapBusinessKey)
+    {
+        BpmPlatform.getDefaultProcessEngine().getRuntimeService().correlateMessage(BpmMessages.Swap.MSG_KILL_SWAP, swapBusinessKey);
+    }
 
     public void swapPositions(Long positionIdSource, Long positionIdTarget, Long eventId, boolean swapBySystem)
     {
@@ -545,19 +551,35 @@ public class ResourceInfo
         variables.put(BpmVariables.Swap.VAR_SWAP_BY_SYSTEM, swapBySystem);        
         variables.put(BpmVariables.Swap.VAR_POS_ID_SOURCE, source.getId());        
         variables.put(BpmVariables.Swap.VAR_POS_ID_TARGET, target.getId());
+        Helper sourceHelper = getConfirmedHelper(event, source);
+        variables.put(BpmVariables.Swap.VAR_HELPER_ID_SOURCE, sourceHelper.getId());        
+        Helper targetHelper = getConfirmedHelper(event, target);
+        if (targetHelper != null)
+        {
+            // there is no target helper in a simple swap...
+            variables.put(BpmVariables.Swap.VAR_HELPER_ID_TARGET, targetHelper.getId());   
+        }
         variables.put(BpmVariables.Misc.VAR_EVENT_ID, eventId);
         String businessKey = BusinessKeys.generateSwapBusinessKey(event, source, target);
         
-        try
+        // check for collisions
+        AssignmentSwap swap = EntityFactory.buildAssignmentSwap(event, source, target, null, null, null, null);
+        for (AssignmentSwap requestedSwap : RepositoryProvider.getRepository(AssignmentSwapRepository.class).findRequestedByEvent(event))
         {
-            BpmPlatform.getDefaultProcessEngine().getRuntimeService().startProcessInstanceByMessage(BpmMessages.Swap.MSG_START_SWAP, businessKey, variables);   
+            if (swap.collidesWith(requestedSwap))
+            {
+                throw new ResourcePlanningSwapException("swap collides with another swap of state 'REQUESTED'!");
+            }
         }
-        catch (ResourcePlanningException e)
-        {
-            // throw exception outta here if starting the process fails...
-            // TODO this does not work --> exception will not come out!!
-            throw e;
-        }
+        
+        // no collision --> fire process...
+        BpmPlatform.getDefaultProcessEngine().getRuntimeService().startProcessInstanceByMessage(BpmMessages.Swap.MSG_START_SWAP, businessKey, variables);
+    }
+
+    private Helper getConfirmedHelper(Event event, Position position)
+    {
+        HelperAssignment confirmedAssignment = RepositoryProvider.getRepository(HelperAssignmentRepository.class).findConfirmedByPositionAndEvent(event, position);
+        return (confirmedAssignment != null ? confirmedAssignment.getHelper() : null);
     }
 
     public void removePositionsFromEvent(Long eventId, String positionNumbers)

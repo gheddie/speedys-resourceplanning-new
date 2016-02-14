@@ -30,7 +30,7 @@ public class ResourceInfoService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://localhost:8080/resourceplanning-bpm-1.0-RC-3/ResourceInfoWs?wsdl");
+            url = new URL("http://localhost:8080/resourceplanning-bpm-1.0-RC-4/ResourceInfoWs?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

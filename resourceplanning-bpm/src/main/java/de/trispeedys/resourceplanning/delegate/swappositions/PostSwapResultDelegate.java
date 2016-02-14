@@ -1,86 +1,122 @@
 package de.trispeedys.resourceplanning.delegate.swappositions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.delegate.requesthelp.misc.AbstractSwapDelegate;
 import de.trispeedys.resourceplanning.entity.AssignmentSwap;
+import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
-import de.trispeedys.resourceplanning.entity.Position;
+import de.trispeedys.resourceplanning.entity.misc.SwapState;
+import de.trispeedys.resourceplanning.entity.misc.SwapType;
+import de.trispeedys.resourceplanning.execution.BpmVariables;
+import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
+import de.trispeedys.resourceplanning.util.htmlgenerator.HtmlGenerator;
 
 public class PostSwapResultDelegate extends AbstractSwapDelegate
 {
+    private static final String SWAP_EXECUTED = "swapExecuted";
+
+    private static final String SWAP_ABORTED = "swapAborted";
+
+    private AssignmentSwap swap;
+
+    private boolean swapBySystem;
+
     public void execute(DelegateExecution execution) throws Exception
     {
-        AppConfiguration configuration = AppConfiguration.getInstance();
+        swap = getSwapEntity(execution);
+        swapBySystem = (boolean) execution.getVariable(BpmVariables.Swap.VAR_SWAP_BY_SYSTEM);
+        if (swap.getSwapType().equals(SwapType.SIMPLE))
+        {
+            processSimpleResult();
+        }
+        else
+        {
+            processComplexResult();
+        }
+    }
 
-        Position sourcePosition = getSourcePosition(execution);
-        Position targetPosition = getTargetPosition(execution);
-        AssignmentSwap swap = getSwapEntity(execution);
-        // the recipients for this mail
-        List<String> recipients = new ArrayList<>();
-        String subject = configuration.getText(this, "mailSubject");
-        String body = null;
-        switch (swap.getSwapType())
+    private void processSimpleResult()
+    {
+        if (swap.getSwapState().equals(SwapState.COMPLETED))
         {
-            case COMPLEX:
-                // add both helpers as recipients...
-                recipients.add(getSourceAssignment(execution).getHelper().getEmail());
-                recipients.add(getTargetAssignment(execution).getHelper().getEmail());
-                switch (swap.getSwapState())
-                {
-                    case INTERRUPTED:
-                        body = configuration.getText(this, "swapInterrupted", sourcePosition.getDescription(), targetPosition.getDescription());
-                        break;
-                    case COMPLETED:
-                        body = configuration.getText(this, "swapSuccesful", sourcePosition.getDescription(), targetPosition.getDescription());
-                        break;
-                    case REJECTED:
-                        body = configuration.getText(this, "swapRejected", sourcePosition.getDescription(), targetPosition.getDescription());
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case SIMPLE:
-                // add the 'source' helper as recipients only, because there is no target helper --> target position was unassigned...
-                // TODO this is not correct...
-                recipients.add(getSourceAssignment(execution) != null
-                        ? getSourceAssignment(execution).getHelper().getEmail()
-                        : getTargetAssignment(execution).getHelper().getEmail());
-                switch (swap.getSwapState())
-                {
-                    case COMPLETED:
-                        body = configuration.getText(this, "swapSuccesful", sourcePosition.getDescription(), targetPosition.getDescription());
-                        break;
-                    case INTERRUPTED:
-                        break;
-                    case REJECTED:
-                        body = configuration.getText(this, "swapRejected", sourcePosition.getDescription(), targetPosition.getDescription());
-                        break;
-                    case REQUESTED:
-                        break;
-                    default:
-                        break;
-                }
-                break;
+            // single swap was successful
+            alertSwapSuccess(swap.getSourceHelper(), swap.getNotificationSuccessParameters(false));
         }
-        
-        // TODO use html generator, add sincerely and stuff...and be more precise in information...
-        // tell helper something like 'you are now on position...' (and add the domain, too...)
-        
-        // the admin gets this mail...
-        recipients.add(configuration.getConfigurationValue(AppConfigurationValues.ADMIN_MAIL));
-        MessageQueueRepository messageQueueRepository = RepositoryProvider.getRepository(MessageQueueRepository.class);
-        for (String recipient : recipients)
+        else
         {
-            messageQueueRepository.createMessage("noreply@tri-speedys.de", recipient, subject, body, MessagingType.SWAP_RESULT, true, null);
+            // single swap was not successful
+            alertSwapFailure(swap.getSourceHelper(), swap.getNotificationFailureParameters());
         }
+    }
+
+    private void processComplexResult()
+    {
+        if (swap.getSwapState().equals(SwapState.COMPLETED))
+        {
+            // complex swap was successful --> 'leading' helper
+            alertSwapSuccess(swap.getSourceHelper(), swap.getNotificationSuccessParameters(false));
+            // complex swap was successful --> 'following' helper (turn parameters around)
+            alertSwapSuccess(swap.getTargetHelper(), swap.getNotificationSuccessParameters(true));
+        }
+        else
+        {
+            // complex swap was not successful --> 'leading' helper
+            alertSwapFailure(swap.getSourceHelper(), swap.getNotificationFailureParameters());
+            // complex swap was not successful --> 'following' helper (turn parameters around)
+            alertSwapFailure(swap.getTargetHelper(), swap.getNotificationFailureParameters());
+        }
+    }
+
+    private void alertSwapSuccess(Helper helper, Object[] parameters)
+    {
+        // TODO perhaps we should not use 'AbstractMailTemplate.speedysSincerely' here..
+        
+        HtmlGenerator generator = prepareHtmlGenerator(helper);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        generator.withParagraph(AppConfiguration.getInstance().getText(this, SWAP_EXECUTED, parameters))
+                .withLink(configuration.getConfigurationValue(AppConfigurationValues.HELPER_CONFIRM_INFO), "zu den Helfer-Informationen")
+                .withParagraph(configuration.getText(AbstractMailTemplate.class, "speedysSincerely"));
+        sendMessage(helper.getEmail(), getSubject(), generator.render());
+    }
+
+    private void alertSwapFailure(Helper helper, Object[] parameters)
+    {
+        // TODO perhaps we should not use 'AbstractMailTemplate.speedysSincerely' here..
+        
+        HtmlGenerator generator = prepareHtmlGenerator(helper);
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        generator.withParagraph(configuration.getText(this, SWAP_ABORTED, parameters)).withParagraph(
+                configuration.getText(AbstractMailTemplate.class, "speedysSincerely"));
+        sendMessage(helper.getEmail(), getSubject(), generator.render());
+    }
+
+    private HtmlGenerator prepareHtmlGenerator(Helper helper)
+    {
+        HtmlGenerator htmlGenerator = new HtmlGenerator(true).withParagraph("Hallo, " + helper.getFirstName() + "!!");
+        if (swapBySystem)
+        {
+            htmlGenerator.withParagraph("Der Administrator hat einen Positions-Tausch vorgenommen.");
+        }
+        else
+        {
+            htmlGenerator.withParagraph("Du hast kürzlich eine Anfrage bezüglich eines Positions-Tausch bekommen.");
+        }
+        return htmlGenerator;
+    }
+
+    private String getSubject()
+    {
+        return "Ergebnis Positions-Tausch";
+    }
+
+    private void sendMessage(String recipient, String subject, String body)
+    {
+        RepositoryProvider.getRepository(MessageQueueRepository.class).createMessage("noreply@tri-speedys.de", recipient, subject, body,
+                MessagingType.SWAP_RESULT, true, null);
     }
 }

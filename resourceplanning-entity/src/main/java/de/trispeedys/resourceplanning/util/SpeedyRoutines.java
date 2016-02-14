@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import de.gravitex.hibernateadapter.core.SessionToken;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.entity.AbstractDbObject;
@@ -183,12 +184,17 @@ public class SpeedyRoutines
         result.append(cal.get(Calendar.YEAR));
         return result.toString();
     }
-
+    
     public static void relatePositionsToEvent(Event event, Position... positions)
+    {
+        relatePositionsToEvent(null, event, positions);
+    }
+
+    public static void relatePositionsToEvent(SessionToken sessionToken, Event event, Position... positions)
     {
         for (Position position : positions)
         {
-            EntityFactory.buildEventPosition(event, position).saveOrUpdate();
+            EntityFactory.buildEventPosition(event, position).saveOrUpdate(sessionToken);
         }
     }
 

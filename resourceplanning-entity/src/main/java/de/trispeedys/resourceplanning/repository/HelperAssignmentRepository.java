@@ -26,7 +26,7 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
         DatabaseRepository<HelperAssignmentRepository>
 {
     private static final String HELPER_TOO_YOUNG = "HELPER_TOO_YOUNG";
-    
+
     private static final String POSITIONS_NO_SWAP = "POSITIONS_NO_SWAP";
 
     public List<HelperAssignment> findByEvent(Event event)
@@ -39,8 +39,7 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
         return dataSource().find(
                 null,
                 "FROM " +
-                        HelperAssignment.class.getSimpleName() +
-                        " ec WHERE ec.event = :event AND ec.helperAssignmentState <> '" +
+                        HelperAssignment.class.getSimpleName() + " ec WHERE ec.event = :event AND ec.helperAssignmentState <> '" +
                         HelperAssignmentState.CANCELLED + "'", "event", event);
     }
 
@@ -51,14 +50,12 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
 
     public List<HelperAssignment> findAllHelperAssignmentsByEvent(Event event)
     {
-        return dataSource().find(null,
-                "FROM " + HelperAssignment.class.getSimpleName() + " ec WHERE ec.event = :event", "event", event);
+        return dataSource().find(null, "FROM " + HelperAssignment.class.getSimpleName() + " ec WHERE ec.event = :event", "event", event);
     }
 
     public List<HelperAssignment> findAllHelperAssignments(Long helperId)
     {
-        return dataSource().find(null,
-                "FROM " + HelperAssignment.class.getSimpleName() + " ec WHERE ec.helperId = :helperId", "helperId",
+        return dataSource().find(null, "FROM " + HelperAssignment.class.getSimpleName() + " ec WHERE ec.helperId = :helperId", "helperId",
                 helperId);
     }
 
@@ -70,16 +67,16 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
 
     public HelperAssignment findByHelperAndEvent(Helper helper, Event event)
     {
-        List<HelperAssignment> result =
-                dataSource().find(null, HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event);
+        List<HelperAssignment> result = dataSource().find(null, HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event);
         // TODO this is a bad idea...there may be many (e.g. cancelled ones) assignments for a helper in an event
         return safeValue(result);
     }
-    
+
     public HelperAssignment findByHelperAndEventAndPosition(Helper helper, Event event, Position position)
     {
         List<HelperAssignment> result =
-                dataSource().find(null, HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event, HelperAssignment.ATTR_POSITION, position);
+                dataSource().find(null, HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event,
+                        HelperAssignment.ATTR_POSITION, position);
         return safeValue(result);
     }
 
@@ -105,29 +102,28 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
 
     public HelperAssignment findByEventAndPositionId(Event event, Long positionId)
     {
-        return findByEventAndPosition(event,
-                RepositoryProvider.getRepository(PositionRepository.class).findById(positionId));
+        return findByEventAndPosition(event, RepositoryProvider.getRepository(PositionRepository.class).findById(positionId));
     }
 
     public void assignHelper(Helper helper, Event event, Position position, SessionToken sessionToken) throws ResourcePlanningException
     {
         if (!(helper.isAssignableTo(position, event.getEventDate())))
         {
-            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, HELPER_TOO_YOUNG,
-                    helper.getLastName(), helper.getFirstName(), position.getDescription()));
+            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, HELPER_TOO_YOUNG, helper.getLastName(),
+                    helper.getFirstName(), position.getDescription()));
         }
         EntityFactory.buildHelperAssignment(helper, event, position).saveOrUpdate(sessionToken);
     }
-    
+
     public void confirmHelper(Helper helper, Event event, Position position, SessionToken sessionToken) throws ResourcePlanningException
     {
         if (!(helper.isAssignableTo(position, event.getEventDate())))
         {
-            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, HELPER_TOO_YOUNG,
-                    helper.getLastName(), helper.getFirstName(), position.getDescription()));
+            throw new ResourcePlanningException(AppConfiguration.getInstance().getText(this, HELPER_TOO_YOUNG, helper.getLastName(),
+                    helper.getFirstName(), position.getDescription()));
         }
         EntityFactory.buildHelperAssignment(helper, event, position, HelperAssignmentState.CONFIRMED).saveOrUpdate(sessionToken);
-    }    
+    }
 
     public boolean isFirstAssignment(Long helperId)
     {
@@ -142,8 +138,8 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
     public void cancelHelperAssignment(Helper helper, Event event)
     {
         HelperAssignmentRepository repository = RepositoryProvider.getRepository(HelperAssignmentRepository.class);
-        repository.updateSingleValue(repository.findByHelperAndEvent(helper, event),
-                HelperAssignment.ATTR_ASSIGNMENT_STATE, HelperAssignmentState.CANCELLED);          
+        repository.updateSingleValue(repository.findByHelperAndEvent(helper, event), HelperAssignment.ATTR_ASSIGNMENT_STATE,
+                HelperAssignmentState.CANCELLED);
     }
 
     /**
@@ -152,8 +148,8 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
     public void confirmHelperAssignment(Helper helper, Event event)
     {
         HelperAssignmentRepository repository = RepositoryProvider.getRepository(HelperAssignmentRepository.class);
-        repository.updateSingleValue(repository.findByHelperAndEvent(helper, event),
-                HelperAssignment.ATTR_ASSIGNMENT_STATE, HelperAssignmentState.CONFIRMED);
+        repository.updateSingleValue(repository.findByHelperAndEvent(helper, event), HelperAssignment.ATTR_ASSIGNMENT_STATE,
+                HelperAssignmentState.CONFIRMED);
     }
 
     public HelperAssignment getPriorAssignment(Helper helper, EventTemplate eventTemplate)
@@ -175,15 +171,16 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
 
     public List<HelperAssignment> findConfirmedHelperAssignments(Event event)
     {
-        return dataSource().find(null, HelperAssignment.ATTR_EVENT, event, HelperAssignment.ATTR_ASSIGNMENT_STATE, HelperAssignmentState.CONFIRMED);
+        return dataSource().find(null, HelperAssignment.ATTR_EVENT, event, HelperAssignment.ATTR_ASSIGNMENT_STATE,
+                HelperAssignmentState.CONFIRMED);
     }
-    
+
     public void switchHelperAssignments(HelperAssignment assignmentSource, HelperAssignment assignmentTarget)
     {
         Position positionSource = assignmentSource.getPosition();
         Position positionTarget = assignmentTarget.getPosition();
-        
-        SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this);
+
+        SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this, null);
         try
         {
             sessionHolder.beginTransaction();
@@ -206,7 +203,7 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
 
     public void transferHelperAssignment(HelperAssignment sourceAssignment, Position targetPosition)
     {
-        SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this);
+        SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this, null);
         try
         {
             sessionHolder.beginTransaction();
@@ -223,5 +220,13 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
         {
             SessionManager.getInstance().unregisterSession(sessionHolder);
         }
+    }
+
+    public HelperAssignment findConfirmedByPositionAndEvent(Event event, Position position)
+    {
+        List<HelperAssignment> list = dataSource().find(null, HelperAssignment.ATTR_EVENT, event, HelperAssignment.ATTR_POSITION, position,
+                HelperAssignment.ATTR_ASSIGNMENT_STATE, HelperAssignmentState.CONFIRMED);
+        // safe value method gives an exception if there is more than one confirmed assignment for this position in the given event
+        return safeValue(list);
     }
 }

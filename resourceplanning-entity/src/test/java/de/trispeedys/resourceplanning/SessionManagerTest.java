@@ -6,16 +6,79 @@ import org.junit.Test;
 
 import de.gravitex.hibernateadapter.core.SessionHolder;
 import de.gravitex.hibernateadapter.core.SessionManager;
+import de.gravitex.hibernateadapter.core.SessionToken;
+import de.trispeedys.resourceplanning.entity.Domain;
+import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
+import de.trispeedys.resourceplanning.entity.Position;
+import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
+import de.trispeedys.resourceplanning.interceptor.GenericEntityInceptor;
+import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
+import de.trispeedys.resourceplanning.util.SpeedyRoutines;
 import de.trispeedys.resourceplanning.util.TestUtil;
 
 public class SessionManagerTest
 {
+    @Test
+    public void testInterceptor()
+    {
+        // clear db
+        TestUtil.clearAll();
+        
+        SessionHolder holder = SessionManager.getInstance().registerSession(this, new GenericEntityInceptor());
+        SessionToken token = holder.getToken();
+        try
+        {            
+            holder.beginTransaction();
+            
+            EventTemplate template = EntityFactory.buildEventTemplate("123ggg");
+            holder.saveOrUpdate(template);
+
+            // build event
+            Event event = EntityFactory.buildEvent("TRI-PETER", "TRI-PETER", 21, 12, 2014, EventState.FINISHED, template, null);
+            holder.saveOrUpdate(event);
+            
+            // create helpers
+            Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "a@b.de", HelperState.ACTIVE, 1, 2, 1980, true);
+            holder.saveOrUpdate(helper);
+            
+            // build domain
+            Domain domain = EntityFactory.buildDomain("D1", 1);
+            holder.saveOrUpdate(domain);
+            
+            // build positions
+            Position pos1 = EntityFactory.buildPosition("P1", 12, domain, 0, true);
+            holder.saveOrUpdate(pos1);
+            Position pos2 = EntityFactory.buildPosition("P2", 13, domain, 1, true);
+            holder.saveOrUpdate(pos2);
+            
+            // relate positions
+            SpeedyRoutines.relatePositionsToEvent(token, event, pos1, pos2);
+            
+            HelperAssignmentRepository repository = RepositoryProvider.getRepository(HelperAssignmentRepository.class);
+            
+            // assign helpers
+            repository.assignHelper(helper, event, pos1, token);
+            
+            holder.commitTransaction();   
+        }
+        catch (Exception e)
+        {
+            holder.rollbackTransaction();
+            throw new ResourcePlanningException("error on testInterceptor()", e);
+        }
+        finally
+        {
+            SessionManager.getInstance().unregisterSession(holder);            
+        }        
+    }
+    
     @SuppressWarnings("unused")
     @Test
     public void testTransactionRollback()
@@ -25,7 +88,7 @@ public class SessionManagerTest
         
         // assertEquals(0, SessionManager.getInstance().getOpenSessionCount());
         
-        SessionHolder holder = SessionManager.getInstance().registerSession(this);
+        SessionHolder holder = SessionManager.getInstance().registerSession(this, null);
         
         // assertEquals(1, SessionManager.getInstance().getOpenSessionCount());
         
@@ -84,7 +147,7 @@ public class SessionManagerTest
         TestUtil.clearAll();
         
         // now with a managed transaction...
-        SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this);
+        SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this, null);
         try
         {
             sessionHolder.beginTransaction();

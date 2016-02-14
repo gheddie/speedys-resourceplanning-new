@@ -249,6 +249,8 @@ create table assignment_swap
     swap_state varchar(64) not null,
     source_position_id bigint not null,
     target_position_id bigint not null,
+    source_helper_id bigint not null,
+    target_helper_id bigint,
     event_id bigint not null,
     creation_time timestamp not null,
     primary key (id)	
@@ -257,5 +259,9 @@ create table assignment_swap
 alter table assignment_swap add constraint fk_ass_swap_pos_source foreign key (source_position_id) references position (id);
 
 alter table assignment_swap add constraint fk_ass_swap_pos_target foreign key (target_position_id) references position (id);
+
+alter table assignment_swap add constraint fk_ass_swap_hlp_source foreign key (source_helper_id) references helper (id);
+
+alter table assignment_swap add constraint fk_ass_swap_hlp_target foreign key (target_helper_id) references helper (id);
 
 alter table assignment_swap add constraint fk_ass_swap_event foreign key (event_id) references event (id);

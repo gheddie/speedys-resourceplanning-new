@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Interceptor;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
@@ -29,10 +30,10 @@ public class SessionManager
         openSessionCounter = 0;
     }
     
-    public SessionHolder registerSession(Object sessionHolder)
+    public SessionHolder registerSession(Object sessionHolder, Interceptor interceptor)
     {
         SessionToken token = generateSessionKey(sessionHolder);
-        Session session = getSession(null);
+        Session session = getSession(null, interceptor);
         sessions.put(token, session);
         SessionHolder result = new SessionHolder(token, session);        
         return result;       
@@ -66,30 +67,37 @@ public class SessionManager
         unregisterSession(session);
         return result;
     }
-
+    
     public Session getSession(SessionToken sessionToken)
     {
+        return getSession(sessionToken, null);
+    }
+
+    public Session getSession(SessionToken sessionToken, Interceptor interceptor)
+    {
         openSessionCounter++;
-        
+
         if (openSessionCounter > MAX_OPEN_SESSIONS)
         {
-            logger.debug("open session count ("+openSessionCounter+") exceeded max value of '"+MAX_OPEN_SESSIONS+"'!!");
+            logger.debug("open session count (" + openSessionCounter + ") exceeded max value of '" + MAX_OPEN_SESSIONS + "'!!");
         }
         else
         {
-            logger.debug("SESSION OPENED - open session count is now "+openSessionCounter+".");
+            logger.debug("SESSION OPENED - open session count is now " + openSessionCounter + ".");
         }
-        
+
         if (sessionToken == null)
         {
-            // get a fresh session
-            return HibernateUtil.getSessionFactory().openSession();   
-        }               
+            // get me a fresh session (with or without an interceptor)
+            return (interceptor != null
+                    ? HibernateUtil.getSessionFactory().withOptions().interceptor(interceptor).openSession()
+                    : HibernateUtil.getSessionFactory().openSession());
+        }
         else
         {
             // get a cached session
             return sessions.get(sessionToken);
-        }                
+        }
     }
     
     public static SessionManager getInstance()

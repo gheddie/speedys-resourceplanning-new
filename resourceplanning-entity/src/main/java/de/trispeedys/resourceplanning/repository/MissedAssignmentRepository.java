@@ -42,7 +42,7 @@ public class MissedAssignmentRepository extends AbstractDatabaseRepository<Misse
      */
     public void createMissedAssignmentExclusive(Long eventId, Long helperId, Long positionId)
     {
-        SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this);
+        SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this, null);
         try
         {
             sessionHolder.beginTransaction();

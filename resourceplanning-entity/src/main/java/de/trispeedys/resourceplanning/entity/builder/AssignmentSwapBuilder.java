@@ -4,6 +4,7 @@ import java.util.Date;
 
 import de.trispeedys.resourceplanning.entity.AssignmentSwap;
 import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.SwapState;
 import de.trispeedys.resourceplanning.entity.misc.SwapType;
@@ -19,6 +20,10 @@ public class AssignmentSwapBuilder extends AbstractEntityBuilder<AssignmentSwap>
     private SwapType swapType;
     
     private SwapState swapState;
+
+    private Helper sourceHelper;
+
+    private Helper targetHelper;
 
     public AssignmentSwapBuilder withEvent(Event aEvent)
     {
@@ -48,7 +53,19 @@ public class AssignmentSwapBuilder extends AbstractEntityBuilder<AssignmentSwap>
     {
         this.swapState = aSwapState;
         return this;
-    }    
+    }
+    
+    public AssignmentSwapBuilder withSourceHelper(Helper aSourceHelper)
+    {
+        this.sourceHelper = aSourceHelper;
+        return this;
+    }
+
+    public AssignmentSwapBuilder withTargetHelper(Helper aTargetHelper)
+    {
+        this.targetHelper = aTargetHelper;
+        return this;
+    }
     
     public AssignmentSwap build()
     {
@@ -59,6 +76,8 @@ public class AssignmentSwapBuilder extends AbstractEntityBuilder<AssignmentSwap>
         assignmentSwap.setSwapType(swapType);
         assignmentSwap.setSwapState(swapState);
         assignmentSwap.setCreationTime(new Date());
+        assignmentSwap.setSourceHelper(sourceHelper);
+        assignmentSwap.setTargetHelper(targetHelper);
         return assignmentSwap;
     }
 }

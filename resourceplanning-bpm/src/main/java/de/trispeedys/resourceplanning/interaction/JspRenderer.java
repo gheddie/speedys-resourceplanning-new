@@ -449,6 +449,8 @@ public class JspRenderer
 
     public static String rendeSwapConfirmation(Long eventId, Long positionIdSource, Long positionIdTarget)
     {
+        // TODO render a more detailed confirmation
+        
         Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
         PositionRepository positionRepository = RepositoryProvider.getRepository(PositionRepository.class);
         Position positionSource = positionRepository.findById(positionIdSource);
