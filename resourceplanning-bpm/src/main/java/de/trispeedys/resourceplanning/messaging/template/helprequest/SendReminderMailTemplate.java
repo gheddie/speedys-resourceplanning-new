@@ -2,6 +2,7 @@ package de.trispeedys.resourceplanning.messaging.template.helprequest;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
@@ -10,7 +11,9 @@ import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
+import de.trispeedys.resourceplanning.interaction.RequestType;
 import de.trispeedys.resourceplanning.rule.CallbackChoiceGenerator;
+import de.trispeedys.resourceplanning.util.LinkGenerator;
 import de.trispeedys.resourceplanning.util.htmlgenerator.HtmlGenerator;
 
 public class SendReminderMailTemplate extends HelperInteractionMailTemplate
@@ -48,11 +51,16 @@ public class SendReminderMailTemplate extends HelperInteractionMailTemplate
         {
             for (HelperCallback callback : generated)
             {
+                HashMap<String, Object> parameters = new HashMap<>();
+                parameters.put("callbackResult", callback);
+                parameters.put("helperId", getHelper().getId());
+                parameters.put("eventId", getEvent().getId());
+                parameters.put("priorPositionId", getPosition().getId());
+                parameters.put("requestType", RequestType.REMINDER_CALLBACK);
+                String link = new LinkGenerator(getBaseLink(), GENERIC_RECEIVER + ".jsp", parameters).generate();
                 generator =
                         generator.withLink(
-                                getBaseLink() +
-                                        "/" + getJspReceiverName() + ".jsp?callbackResult=" + callback + "&helperId=" + getHelper().getId() + "&eventId=" + getEvent().getId() + "&priorPositionId=" +
-                                        getPosition().getId(), callback.getDescription()).withLinebreak(2);
+                                link, callback.getDescription()).withLinebreak(2);
             }
         }
         generator = generator.withParagraph(sincerely());
@@ -82,6 +90,6 @@ public class SendReminderMailTemplate extends HelperInteractionMailTemplate
 
     protected String getJspReceiverName()
     {
-        return "HelperCallbackReceiver";
+        return GENERIC_RECEIVER;
     }
 }

@@ -24,7 +24,7 @@ public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQu
 {
     private static final Logger logger = Logger.getLogger(MessageQueueRepository.class);
 
-    private static final boolean INSTANT_SEND = false;
+    private static final boolean INSTANT_SEND = true;
 
     public List<MessageQueue> findAllUnprocessedMessages()
     {
@@ -46,7 +46,7 @@ public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQu
                 null,
                 "FROM " +
                         MessageQueue.class.getSimpleName() + " mq WHERE mq.messagingState = '" +
-                        MessagingState.FAILURE + "' OR mq.messagingState = '" + MessagingState.UNPROCESSED + "'");
+                        MessagingState.FAILURE + "' OR mq.messagingState = '" + MessagingState.UNPROCESSED + "' ORDER BY mq.creationTime DESC");
     }
 
     public void sendAllUnprocessedMessages()

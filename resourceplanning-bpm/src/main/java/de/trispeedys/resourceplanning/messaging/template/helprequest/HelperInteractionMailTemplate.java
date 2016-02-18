@@ -7,6 +7,8 @@ import de.trispeedys.resourceplanning.messaging.RequestHelpMailTemplate;
 
 public abstract class HelperInteractionMailTemplate extends RequestHelpMailTemplate
 {
+    protected static final String GENERIC_RECEIVER = "GenericRequestReceiver";
+    
     public HelperInteractionMailTemplate(Helper aHelper, Event aEvent, Position aPosition)
     {
         super(aHelper, aEvent, aPosition);
