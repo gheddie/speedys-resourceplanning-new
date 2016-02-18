@@ -20,15 +20,23 @@ public class GenericHelperInteraction
      */
     public static synchronized String processRequest(HttpServletRequest request, ProcessEngine processEngine)
     {
+        Long eventId = null;
+        Long helperId = null;
+                
         RequestType requestType = RequestType.valueOf(request.getParameter("requestType"));
         switch (requestType)
         {
             case REMINDER_CALLBACK:
-                Long eventId = ParserUtil.parseLong(request.getParameter("eventId"));
-                Long helperId = ParserUtil.parseLong(request.getParameter("helperId"));
+                eventId = ParserUtil.parseLong(request.getParameter("eventId"));
+                helperId = ParserUtil.parseLong(request.getParameter("helperId"));
                 Long priorPositionId = ParserUtil.parseLong(request.getParameter("priorPositionId"));
                 HelperCallback callback = HelperCallback.valueOf(request.getParameter("callbackResult"));
                 return HelperInteraction.processReminderCallback(eventId, helperId, priorPositionId, callback, processEngine);
+            case CHOOSE_POSITION:
+                eventId = ParserUtil.parseLong(request.getParameter("eventId"));
+                helperId = ParserUtil.parseLong(request.getParameter("helperId"));
+                Long chosenPositionId = ParserUtil.parseLong(request.getParameter("chosenPosition"));
+                return HelperInteraction.processPositionChosenCallback(eventId, helperId, chosenPositionId, processEngine);
             default:
                 return null;
         }
