@@ -17,10 +17,9 @@ import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.misc.MessagingState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
-import de.trispeedys.resourceplanning.util.MailSender;
+import de.trispeedys.resourceplanning.util.ThreadedMessageContainer;
 
-public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQueue> implements
-        DatabaseRepository<MessageQueueRepository>
+public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQueue> implements DatabaseRepository<MessageQueueRepository>
 {
     private static final Logger logger = Logger.getLogger(MessageQueueRepository.class);
 
@@ -30,8 +29,7 @@ public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQu
     {
         HashMap<String, Object> variables = new HashMap<String, Object>();
         variables.put("messagingState", MessagingState.UNPROCESSED);
-        return dataSource().find(null,
-                "FROM " + MessageQueue.class.getSimpleName() + " mq WHERE mq.messagingState = :messagingState",
+        return dataSource().find(null, "FROM " + MessageQueue.class.getSimpleName() + " mq WHERE mq.messagingState = :messagingState",
                 variables);
     }
 
@@ -45,15 +43,14 @@ public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQu
         return dataSource().find(
                 null,
                 "FROM " +
-                        MessageQueue.class.getSimpleName() + " mq WHERE mq.messagingState = '" +
-                        MessagingState.FAILURE + "' OR mq.messagingState = '" + MessagingState.UNPROCESSED + "' ORDER BY mq.creationTime DESC");
+                        MessageQueue.class.getSimpleName() + " mq WHERE mq.messagingState = '" + MessagingState.FAILURE +
+                        "' OR mq.messagingState = '" + MessagingState.UNPROCESSED + "' ORDER BY mq.creationTime DESC");
     }
 
     public void sendAllUnprocessedMessages()
     {
         logger.info("sending all unprocessed messages...");
-        for (MessageQueue message : RepositoryProvider.getRepository(MessageQueueRepository.class)
-                .findAllUnprocessedMessages())
+        for (MessageQueue message : RepositoryProvider.getRepository(MessageQueueRepository.class).findAllUnprocessedMessages())
         {
             sendUnprocessedMessage(message);
         }
@@ -61,35 +58,14 @@ public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQu
 
     public void sendUnprocessedMessage(MessageQueue message)
     {
-        String username = null;
-        String password = null;
-        String host = null;
-        String port = null;
-        try
-        {
-            username = AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.SMTP_USER);
-            password = AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.SMTP_PASSWD);
-            host = AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.SMTP_HOST);
-            port = AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.SMTP_PORT);
-            MailSender.sendHtmlMail(message.getToAddress(), message.getBody(), message.getSubject(), username, password, host, port);
-            message.setMessagingState(MessagingState.PROCESSED);
-            logger.info("message [" +
-                    message.getMessagingType() + "] succesfully sent to '" + message.getToAddress() + "'...");
-        }
-        catch (Exception e)
-        {
-            message.setMessagingState(MessagingState.FAILURE);
-            logger.info("ERROR on sending message [" +
-                    message.getMessagingType() + "] to '" + message.getToAddress() + "'...");
-        }
-        finally
-        {
-            message.saveOrUpdate();
-        }
+        new ThreadedMessageContainer(message, AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.SMTP_USER),
+                AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.SMTP_PASSWD),
+                AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.SMTP_HOST), AppConfiguration.getInstance()
+                        .getConfigurationValue(AppConfigurationValues.SMTP_PORT)).start();
     }
 
-    public void createMessage(String fromAddress, String toAddress, String subject, String body,
-            MessagingType messagingType, boolean doSend, Helper helper)
+    public void createMessage(String fromAddress, String toAddress, String subject, String body, MessagingType messagingType,
+            boolean doSend, Helper helper)
     {
         MessageQueue message =
                 (MessageQueue) EntityFactory.buildMessageQueue(fromAddress, toAddress, subject, body, messagingType, helper).saveOrUpdate();
@@ -101,7 +77,7 @@ public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQu
         else
         {
             System.out.println();
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@ message @@@@@@@@@@@@@@@@@@@@@ ");            
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@ message @@@@@@@@@@@@@@@@@@@@@ ");
             System.out.println("from : " + fromAddress);
             System.out.println("to : " + toAddress);
             System.out.println(" --------------------------------------------------- ");
@@ -118,6 +94,8 @@ public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQu
         HashMap<String, Object> parameters = new HashMap<String, Object>();
         parameters.put(MessageQueue.ATTR_MESSAGING_TYPE, messagingType);
         parameters.put(MessageQueue.ATTR_HELPER, helper);
-        return dataSource().find(null, "FROM " + MessageQueue.class.getSimpleName() + " mq WHERE mq.messagingType = :messagingType AND mq.helper = :helper", parameters);
+        return dataSource().find(null,
+                "FROM " + MessageQueue.class.getSimpleName() + " mq WHERE mq.messagingType = :messagingType AND mq.helper = :helper",
+                parameters);
     }
 }
