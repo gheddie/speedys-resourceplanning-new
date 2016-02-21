@@ -33,5 +33,6 @@ create table meal_requester
 	last_name varchar(255) not null,
     first_name varchar(255) not null,
     mail_address varchar(255) not null,
-	primary key (id)
+	primary key (id),
+	constraint mr_req_unique_mail unique (mail_address)
 );

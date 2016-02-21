@@ -11,6 +11,13 @@ import de.gravitex.misc.entity.MealProposal;
 public class DatabaseTest
 {
     @Test
+    public void testSetupRequesters()
+    {
+        MealTestUtil.clearAll();
+        MealTestUtil.setupRequesters();
+    }
+    
+    @Test
     public void testPersist()
     {
         MealTestUtil.clearAll();

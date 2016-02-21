@@ -1,14 +1,17 @@
 package de.gravitex.misc;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import de.gravitex.hibernateadapter.core.SessionManager;
-import de.gravitex.misc.entity.MealRequester;
 import de.gravitex.misc.entity.builder.MealRequesterBuilder;
+import de.gravitex.misc.exception.MealRequestException;
 
 public class MealTestUtil
 {
+    private static final Logger logger = Logger.getLogger(MealTestUtil.class);
+
     public static void clearAll()
     {
         clearTable("meal_proposal");
@@ -33,12 +36,16 @@ public class MealTestUtil
         try
         {
             tx = session.beginTransaction();
-            session.save(new MealRequesterBuilder().build());
+            session.save(new MealRequesterBuilder().withFirstName("fn").withLastName("ln").withMailAddress("a1@b.de").build());
+            session.save(new MealRequesterBuilder().withFirstName("fn").withLastName("ln").withMailAddress("a2@b.de").build());
+            session.save(new MealRequesterBuilder().withFirstName("fn").withLastName("ln").withMailAddress("a3@b.de").build());
             tx.commit();
         }
         catch (Exception e)
         {
+            logger.error("error --> rolling back : " + e.getMessage());
             tx.rollback();
+            throw new MealRequestException("error on setting up requesters", e);
         }
         finally
         {
