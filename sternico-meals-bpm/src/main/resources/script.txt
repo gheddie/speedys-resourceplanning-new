@@ -1,0 +1,37 @@
+create sequence hibernate_sequence;
+
+create sequence session_manager_sequence;
+
+------------------------------------------------ MealDefinition
+create sequence meal_definition_id_seq;
+
+create table meal_definition
+(
+	id bigint not null default nextval('meal_definition_id_seq'),
+	description varchar(255),
+	primary key (id)
+);
+
+------------------------------------------------ MealProposal 
+create sequence meal_proposal_id_seq;
+
+create table meal_proposal
+(
+	id bigint not null default nextval('meal_proposal_id_seq'),
+	meal_definition_id bigint,
+	primary key (id)
+);
+
+alter table meal_proposal add constraint fk_m_prop_m_def foreign key (meal_definition_id) references meal_definition (id);
+
+------------------------------------------------ MealRequester
+create sequence meal_requester_id_seq;
+
+create table meal_requester
+(
+	id bigint not null default nextval('meal_requester_id_seq'),
+	last_name varchar(255) not null,
+    first_name varchar(255) not null,
+    mail_address varchar(255) not null,
+	primary key (id)
+);

@@ -3,9 +3,6 @@ package de.trispeedys.resourceplanning.importer;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -243,13 +240,5 @@ public class JsonEventReader
             aggregationCache.put(groupName, new ArrayList<Position>());
         }
         aggregationCache.get(groupName).add(position);
-    }
-
-    // ---
-
-    public static void main(String[] args)
-    {
-        TestUtil.clearAll();
-        new JsonEventReader().doImport("TestEvent.json");
     }
 }
