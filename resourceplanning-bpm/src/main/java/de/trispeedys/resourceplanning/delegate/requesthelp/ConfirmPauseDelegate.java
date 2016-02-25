@@ -2,11 +2,11 @@ package de.trispeedys.resourceplanning.delegate.requesthelp;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 
+import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.delegate.requesthelp.misc.RequestHelpNotificationDelegate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.messaging.template.helprequest.ConfirmPauseMailTemplate;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
-import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 public class ConfirmPauseDelegate extends RequestHelpNotificationDelegate
 {

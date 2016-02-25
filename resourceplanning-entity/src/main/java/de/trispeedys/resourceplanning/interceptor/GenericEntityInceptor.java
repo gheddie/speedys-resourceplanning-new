@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 
-import de.trispeedys.resourceplanning.entity.AbstractDbObject;
+import de.gravitex.hibernateadapter.entity.AbstractDbObject;
 
 public class GenericEntityInceptor extends EmptyInterceptor
 {

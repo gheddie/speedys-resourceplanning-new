@@ -9,9 +9,10 @@ import de.gravitex.hibernateadapter.core.SessionManager;
 import de.gravitex.hibernateadapter.core.SessionToken;
 import de.gravitex.hibernateadapter.core.repository.AbstractDatabaseRepository;
 import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
+import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
+import de.gravitex.hibernateadapter.datasource.Datasources;
 import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
-import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.datasource.HelperAssignmentDatasource;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
@@ -21,7 +22,6 @@ import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperAssignmentState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
-import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 public class HelperAssignmentRepository extends AbstractDatabaseRepository<HelperAssignment> implements
         DatabaseRepository<HelperAssignmentRepository>

@@ -3,6 +3,8 @@ package de.trispeedys.resourceplanning.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import de.gravitex.hibernateadapter.entity.AbstractDbObject;
+
 @Entity
 @Table(name = "app_configuration")
 public class AppConfigurationEntry extends AbstractDbObject

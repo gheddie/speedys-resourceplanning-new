@@ -1,7 +1,7 @@
 package de.trispeedys.resourceplanning.exception;
 
+import de.gravitex.hibernateadapter.entity.AbstractDbObject;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
-import de.trispeedys.resourceplanning.entity.AbstractDbObject;
 
 public class ResourcePlanningNoSuchEntityException extends ResourcePlanningPersistenceException
 {

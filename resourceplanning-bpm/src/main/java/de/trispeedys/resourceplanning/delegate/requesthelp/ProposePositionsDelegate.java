@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 
+import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.delegate.requesthelp.misc.RequestHelpNotificationDelegate;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
@@ -15,7 +16,6 @@ import de.trispeedys.resourceplanning.messaging.template.helprequest.ProposePosi
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
-import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 public class ProposePositionsDelegate extends RequestHelpNotificationDelegate
 {

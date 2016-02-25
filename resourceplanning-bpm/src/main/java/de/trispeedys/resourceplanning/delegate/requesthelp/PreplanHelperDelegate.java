@@ -2,9 +2,9 @@ package de.trispeedys.resourceplanning.delegate.requesthelp;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 
+import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.delegate.requesthelp.misc.AbstractRequestHelpDelegate;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
-import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 public class PreplanHelperDelegate extends AbstractRequestHelpDelegate
 {

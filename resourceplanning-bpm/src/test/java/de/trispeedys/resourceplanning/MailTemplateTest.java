@@ -5,7 +5,7 @@ import java.util.List;
 import org.junit.Test;
 
 import de.gravitex.hibernateadapter.core.util.HibernateUtil;
-import de.trispeedys.resourceplanning.datasource.Datasources;
+import de.gravitex.hibernateadapter.datasource.Datasources;
 import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventTemplate;

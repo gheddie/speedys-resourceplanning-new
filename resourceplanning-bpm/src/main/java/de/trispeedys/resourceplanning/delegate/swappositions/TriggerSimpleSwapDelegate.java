@@ -2,10 +2,10 @@ package de.trispeedys.resourceplanning.delegate.swappositions;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 
+import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.delegate.requesthelp.misc.AbstractSwapDelegate;
 import de.trispeedys.resourceplanning.messaging.TriggerSimpleSwapMailTemplate;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
-import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 public class TriggerSimpleSwapDelegate extends AbstractSwapDelegate
 {

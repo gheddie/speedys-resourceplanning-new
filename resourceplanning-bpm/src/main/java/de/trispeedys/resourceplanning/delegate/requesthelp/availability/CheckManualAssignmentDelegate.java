@@ -2,12 +2,12 @@ package de.trispeedys.resourceplanning.delegate.requesthelp.availability;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 
+import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.delegate.requesthelp.misc.AbstractRequestHelpDelegate;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
-import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 public class CheckManualAssignmentDelegate extends AbstractRequestHelpDelegate
 {

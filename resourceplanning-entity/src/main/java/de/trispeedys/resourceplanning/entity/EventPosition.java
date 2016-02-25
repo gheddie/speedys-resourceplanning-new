@@ -5,6 +5,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import de.gravitex.hibernateadapter.entity.AbstractDbObject;
+
 /**
  * Relation betweeb {@link Event} and {@link Position}.
  * 

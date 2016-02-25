@@ -3,9 +3,9 @@ package de.trispeedys.resourceplanning.delegate.requesthelp;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
+import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
-import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 public class DeactivateHelperDelegate implements JavaDelegate
 {

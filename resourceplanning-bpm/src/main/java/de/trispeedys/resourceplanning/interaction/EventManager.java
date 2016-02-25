@@ -7,10 +7,11 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.camunda.bpm.BpmPlatform;
 
+import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
+import de.gravitex.hibernateadapter.datasource.Datasources;
 import de.trispeedys.resourceplanning.BpmHelper;
 import de.trispeedys.resourceplanning.BusinessKeys;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
-import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MissedAssignment;
@@ -25,7 +26,6 @@ import de.trispeedys.resourceplanning.messaging.template.helprequest.PositionRec
 import de.trispeedys.resourceplanning.repository.EventRepository;
 import de.trispeedys.resourceplanning.repository.MissedAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
-import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.StringUtil;
 
 public class EventManager

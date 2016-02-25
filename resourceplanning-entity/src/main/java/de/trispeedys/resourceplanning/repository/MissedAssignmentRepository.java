@@ -10,10 +10,11 @@ import de.gravitex.hibernateadapter.core.SessionManager;
 import de.gravitex.hibernateadapter.core.SessionToken;
 import de.gravitex.hibernateadapter.core.repository.AbstractDatabaseRepository;
 import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
+import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
+import de.gravitex.hibernateadapter.datasource.Datasources;
 import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
-import de.trispeedys.resourceplanning.datasource.Datasources;
 import de.trispeedys.resourceplanning.datasource.MissedAssignmentDatasource;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
@@ -22,7 +23,6 @@ import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.builder.MissedAssignmentBuilder;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
-import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 public class MissedAssignmentRepository extends AbstractDatabaseRepository<MissedAssignment> implements DatabaseRepository<MissedAssignmentRepository>
 {

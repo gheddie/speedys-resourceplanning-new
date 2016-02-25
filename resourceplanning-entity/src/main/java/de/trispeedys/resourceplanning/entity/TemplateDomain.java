@@ -5,6 +5,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import de.gravitex.hibernateadapter.entity.AbstractDbObject;
+
 @Entity
 @Table(name = "template_domain")
 public class TemplateDomain extends AbstractDbObject

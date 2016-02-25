@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.datasource;
+package de.gravitex.hibernateadapter.datasource;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,8 +11,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
-import de.trispeedys.resourceplanning.entity.AbstractDbObject;
+import de.gravitex.hibernateadapter.entity.AbstractDbObject;
 import de.trispeedys.resourceplanning.util.xml.XmlReader;
 
 public class Datasources

@@ -5,6 +5,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import de.gravitex.hibernateadapter.entity.AbstractDbObject;
+
 @Entity
 @Table(name = "domain_responsibility")
 public class DomainResponsibility extends AbstractDbObject

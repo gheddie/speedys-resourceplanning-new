@@ -1,4 +1,4 @@
-package de.trispeedys.resourceplanning.entity;
+package de.gravitex.hibernateadapter.entity;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -6,8 +6,8 @@ import javax.persistence.MappedSuperclass;
 
 import de.gravitex.hibernateadapter.core.DbObject;
 import de.gravitex.hibernateadapter.core.SessionToken;
+import de.gravitex.hibernateadapter.datasource.Datasources;
 import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
-import de.trispeedys.resourceplanning.datasource.Datasources;
 
 @MappedSuperclass
 public abstract class AbstractDbObject implements DbObject

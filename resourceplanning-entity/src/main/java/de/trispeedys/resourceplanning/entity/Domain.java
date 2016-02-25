@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import de.gravitex.hibernateadapter.entity.AbstractDbObject;
 import de.trispeedys.resourceplanning.entity.misc.EnumeratedEventItem;
 import de.trispeedys.resourceplanning.entity.misc.HierarchicalEventItem;
 

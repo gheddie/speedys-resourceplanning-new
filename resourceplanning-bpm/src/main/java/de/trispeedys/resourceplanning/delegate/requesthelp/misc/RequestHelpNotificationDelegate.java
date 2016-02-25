@@ -2,6 +2,7 @@ package de.trispeedys.resourceplanning.delegate.requesthelp.misc;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 
+import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -9,7 +10,6 @@ import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 import de.trispeedys.resourceplanning.messaging.RequestHelpMailTemplate;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
-import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 
 /**
  * super class for mail sending delegates using a {@link AbstractMailTemplate}.

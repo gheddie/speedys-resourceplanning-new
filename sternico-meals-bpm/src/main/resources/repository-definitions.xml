@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<repositories>
+	<repository-class>de.gravitex.misc.repository.MealDefinitionRepository</repository-class>
+</repositories>

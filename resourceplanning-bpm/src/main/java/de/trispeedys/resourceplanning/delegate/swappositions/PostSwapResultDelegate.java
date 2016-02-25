@@ -2,6 +2,7 @@ package de.trispeedys.resourceplanning.delegate.swappositions;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 
+import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.delegate.requesthelp.misc.AbstractSwapDelegate;
@@ -13,7 +14,6 @@ import de.trispeedys.resourceplanning.entity.misc.SwapType;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
-import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.htmlgenerator.HtmlGenerator;
 
 public class PostSwapResultDelegate extends AbstractSwapDelegate

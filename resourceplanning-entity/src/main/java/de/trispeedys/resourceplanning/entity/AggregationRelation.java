@@ -8,6 +8,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import de.gravitex.hibernateadapter.entity.AbstractDbObject;
+
 @Entity
 @Table(name = "aggregation_relation")
 public class AggregationRelation extends AbstractDbObject

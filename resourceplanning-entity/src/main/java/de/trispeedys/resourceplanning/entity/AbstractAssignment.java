@@ -7,6 +7,8 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import de.gravitex.hibernateadapter.entity.AbstractDbObject;
+
 @MappedSuperclass
 public abstract class AbstractAssignment extends AbstractDbObject
 {
