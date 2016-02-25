@@ -36,6 +36,7 @@
 		<mapping class="de.trispeedys.resourceplanning.entity.EventLocation" />
 		<mapping class="de.trispeedys.resourceplanning.entity.ManualAssignmentComment" />
 		<mapping class="de.trispeedys.resourceplanning.entity.AssignmentSwap" />
+		<mapping class="de.trispeedys.resourceplanning.entity.AppConfigurationEntry" />
 
 		<!-- 
 		<event type="pre-update">

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<database-mappings>
+	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.Helper" datasource-class="de.trispeedys.resourceplanning.datasource.HelperDatasource" />
+	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.MessageQueue" datasource-class="de.trispeedys.resourceplanning.datasource.MessageQueueDatasource" />
+	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.Domain" datasource-class="de.trispeedys.resourceplanning.datasource.DomainDatasource" />
+	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.Position" datasource-class="de.trispeedys.resourceplanning.datasource.PositionDatasource" />
+	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.EventTemplate" datasource-class="de.trispeedys.resourceplanning.datasource.EventTemplateDatasource" />
+	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.Event" datasource-class="de.trispeedys.resourceplanning.datasource.EventDatasource" />
+	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.EventPosition" datasource-class="de.trispeedys.resourceplanning.datasource.EventPositionDatasource" />
+	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.HelperAssignment" datasource-class="de.trispeedys.resourceplanning.datasource.HelperAssignmentDatasource" />
+	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.PositionAggregation" datasource-class="de.trispeedys.resourceplanning.datasource.PositionAggregationDatasource" />
+	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.AggregationRelation" datasource-class="de.trispeedys.resourceplanning.datasource.AggregationRelationDatasource" />
+</database-mappings>

@@ -20,11 +20,11 @@ public class PerformSwapDelegate extends AbstractSwapDelegate
         
         if (isSimpleSwap(execution))
         {
-            repository.transferHelperAssignment(sourceAssignment, getTargetPosition(execution));
+            repository.transferHelperAssignment(sourceAssignment, getTargetPosition(execution), getEvent(execution).getEventDate());
         }
         else
         {                        
-            repository.switchHelperAssignments(sourceAssignment, targetAssignment);            
+            repository.switchHelperAssignments(sourceAssignment, targetAssignment, getEvent(execution).getEventDate());            
         }
         
         // TODO set assignment swap to 'COMPLETED' !!

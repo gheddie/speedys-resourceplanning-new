@@ -1,5 +1,6 @@
 package de.trispeedys.resourceplanning.repository;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -175,8 +176,17 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
                 HelperAssignmentState.CONFIRMED);
     }
 
-    public void switchHelperAssignments(HelperAssignment assignmentSource, HelperAssignment assignmentTarget)
+    public void switchHelperAssignments(HelperAssignment assignmentSource, HelperAssignment assignmentTarget, Date targetDate)
     {
+        // check if both helpers are suitable for the new position!!
+        boolean switchSourceToTarget = assignmentSource.getHelper().isAssignableTo(assignmentTarget.getPosition(), targetDate);
+        boolean switchTargetToSource = assignmentTarget.getHelper().isAssignableTo(assignmentSource.getPosition(), targetDate);
+        
+        if ((!(switchSourceToTarget)) || (!(switchTargetToSource)))
+        {
+            throw new ResourcePlanningException("unable to transfer helper assignments --> one of the helpers is not assignable to new position!!");
+        }
+        
         Position positionSource = assignmentSource.getPosition();
         Position positionTarget = assignmentTarget.getPosition();
 
@@ -201,8 +211,14 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
         }
     }
 
-    public void transferHelperAssignment(HelperAssignment sourceAssignment, Position targetPosition)
+    public void transferHelperAssignment(HelperAssignment sourceAssignment, Position targetPosition, Date targetDate)
     {
+        // check if the helper is suitable for the new position!!
+        if (!(sourceAssignment.getHelper().isAssignableTo(targetPosition, targetDate)))
+        {
+            throw new ResourcePlanningException("unable to transfer helper assignment --> helper is not assignable to new position!!");
+        }
+        
         SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this, null);
         try
         {

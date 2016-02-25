@@ -21,18 +21,6 @@ public interface TestDataProvider {
 
     /**
      * 
-     */
-    @WebMethod
-    public void prepareSimpleEventWithFloatingHelpers();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void startSomeProcessesWithNewHelpers();
-
-    /**
-     * 
      * @param arg1
      * @param arg0
      */
@@ -45,27 +33,9 @@ public interface TestDataProvider {
 
     /**
      * 
-     * @param arg1
-     * @param arg0
      */
     @WebMethod
-    public void fireTimer(
-        @WebParam(name = "arg0", partName = "arg0")
-        long arg0,
-        @WebParam(name = "arg1", partName = "arg1")
-        long arg1);
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void duplicate2015();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void finish2015();
+    public void killAllExecutions();
 
     /**
      * 
@@ -80,37 +50,7 @@ public interface TestDataProvider {
      * 
      */
     @WebMethod
-    public void prepareBlockedChoosePosition();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void startSomeProcesses();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void startOneProcesses();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void prepareRealLife();
-
-    /**
-     * 
-     */
-    @WebMethod
     public void duplicateUnchanged();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void killAllExecutions();
 
     /**
      * 
@@ -120,5 +60,23 @@ public interface TestDataProvider {
     public void setupForTesting(
         @WebParam(name = "arg0", partName = "arg0")
         String arg0);
+
+    /**
+     * 
+     */
+    @WebMethod
+    public void duplicate2015();
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     */
+    @WebMethod
+    public void fireTimer(
+        @WebParam(name = "arg0", partName = "arg0")
+        long arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        long arg1);
 
 }

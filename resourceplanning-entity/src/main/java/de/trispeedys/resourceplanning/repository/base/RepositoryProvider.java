@@ -1,24 +1,29 @@
 package de.trispeedys.resourceplanning.repository.base;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
 import de.trispeedys.resourceplanning.entity.AbstractDbObject;
-import de.trispeedys.resourceplanning.repository.AggregationRelationRepository;
-import de.trispeedys.resourceplanning.repository.AssignmentSwapRepository;
-import de.trispeedys.resourceplanning.repository.DomainRepository;
-import de.trispeedys.resourceplanning.repository.EventPositionRepository;
-import de.trispeedys.resourceplanning.repository.EventRepository;
-import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
-import de.trispeedys.resourceplanning.repository.HelperRepository;
-import de.trispeedys.resourceplanning.repository.ManualAssignmentCommentRepository;
-import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
-import de.trispeedys.resourceplanning.repository.MissedAssignmentRepository;
-import de.trispeedys.resourceplanning.repository.PositionAggregationRepository;
-import de.trispeedys.resourceplanning.repository.PositionRepository;
+import de.trispeedys.resourceplanning.util.xml.XmlReader;
 
 public class RepositoryProvider
 {
+    private static final Logger logger = Logger.getLogger(RepositoryProvider.class);
+    
+    private static final String REPO_CONFIG_FILE_NAME = "repository-definitions.xml";
+
+    private static final String REPO_CONFIG_NODE_NAME = "repository-class";
+
     private static RepositoryProvider instance;
     
     @SuppressWarnings("rawtypes")
@@ -33,6 +38,9 @@ public class RepositoryProvider
 
     private void registerRepositories()
     {
+        parseRepositoryConfiguration();
+        
+        /*
         registerRepository(PositionRepository.class);
         registerRepository(DomainRepository.class);
         registerRepository(EventPositionRepository.class);
@@ -45,6 +53,47 @@ public class RepositoryProvider
         registerRepository(MissedAssignmentRepository.class);
         registerRepository(ManualAssignmentCommentRepository.class);
         registerRepository(AssignmentSwapRepository.class);
+        */
+    }
+
+    private void parseRepositoryConfiguration()
+    {
+        logger.info("parsing configuration...");
+        try
+        {
+            Document doc =
+                    XmlReader.readXml(getClass().getClassLoader().getResourceAsStream(
+                            REPO_CONFIG_FILE_NAME));
+            ArrayList<String> repositoryClassNames = new ArrayList<String>();
+            NodeList nodeList = doc.getElementsByTagName(REPO_CONFIG_NODE_NAME);
+            Node node = null;
+            for (int index = 0; index < nodeList.getLength(); index++)
+            {
+                node = nodeList.item(index);
+                repositoryClassNames.add(node.getTextContent());
+            }
+            for (String clazz : repositoryClassNames)
+            {
+                registerRepository((Class<? extends DatabaseRepository>) Class.forName(clazz));
+            }
+        }
+        catch (SAXException e)
+        {
+            // TODO ...
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        catch (ParserConfigurationException e)
+        {
+            e.printStackTrace();
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @SuppressWarnings("rawtypes")

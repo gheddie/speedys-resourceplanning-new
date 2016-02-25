@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "ResourceInfoService", targetNamespace = "http://webservice.resourceplanning.trispeedys.de/", wsdlLocation = "http://localhost:8080/resourceplanning-bpm-1.0-RC-3/ResourceInfoWs?wsdl")
+@WebServiceClient(name = "ResourceInfoService", targetNamespace = "http://webservice.resourceplanning.trispeedys.de/", wsdlLocation = "http://localhost:8080/resourceplanning-bpm-1.0-RC-4/ResourceInfoWs?wsdl")
 public class ResourceInfoService
     extends Service
 {

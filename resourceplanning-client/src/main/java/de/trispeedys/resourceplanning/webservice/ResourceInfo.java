@@ -25,6 +25,15 @@ public interface ResourceInfo {
 
     /**
      * 
+     * @param arg0
+     */
+    @WebMethod
+    public void startProcessesForActiveHelpersByEventId(
+        @WebParam(name = "arg0", partName = "arg0")
+        long arg0);
+
+    /**
+     * 
      * @param arg1
      * @param arg0
      * @return
@@ -41,20 +50,20 @@ public interface ResourceInfo {
     /**
      * 
      * @return
-     *     returns de.trispeedys.resourceplanning.webservice.EventDTOArray
-     */
-    @WebMethod
-    @WebResult(partName = "return")
-    public EventDTOArray queryEvents();
-
-    /**
-     * 
-     * @return
      *     returns de.trispeedys.resourceplanning.webservice.HelperDTOArray
      */
     @WebMethod
     @WebResult(partName = "return")
     public HelperDTOArray queryHelpers();
+
+    /**
+     * 
+     * @return
+     *     returns de.trispeedys.resourceplanning.webservice.EventDTOArray
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    public EventDTOArray queryEvents();
 
     /**
      * 
@@ -280,6 +289,15 @@ public interface ResourceInfo {
 
     /**
      * 
+     * @param arg0
+     */
+    @WebMethod
+    public void killSwapByBusinessKey(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0);
+
+    /**
+     * 
      * @param arg1
      * @param arg0
      */
@@ -304,20 +322,8 @@ public interface ResourceInfo {
 
     /**
      * 
-     * @param arg0
      */
     @WebMethod
-    public void startProcessesForActiveHelpersByEventId(
-        @WebParam(name = "arg0", partName = "arg0")
-        long arg0);
-
-    /**
-     * 
-     * @param arg0
-     */
-    @WebMethod
-    public void killSwapByBusinessKey(
-        @WebParam(name = "arg0", partName = "arg0")
-        String arg0);
+    public void refreshConfigurations();
 
 }

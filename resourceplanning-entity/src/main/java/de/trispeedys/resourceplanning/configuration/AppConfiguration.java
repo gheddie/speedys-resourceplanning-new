@@ -1,6 +1,7 @@
 package de.trispeedys.resourceplanning.configuration;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Properties;
@@ -13,6 +14,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import de.trispeedys.resourceplanning.entity.AppConfigurationEntry;
+import de.trispeedys.resourceplanning.repository.AppConfigurationEntryRepository;
+import de.trispeedys.resourceplanning.repository.base.RepositoryProvider;
 import de.trispeedys.resourceplanning.util.StringUtil;
 import de.trispeedys.resourceplanning.util.xml.XmlReader;
 
@@ -21,6 +25,8 @@ public class AppConfiguration
     private static final Logger logger = Logger.getLogger(AppConfiguration.class);
 
     private static final String PROPERTIES_NAME = "messages.properties";
+
+    private static final boolean READ_CONF_FROM_XML = false;
 
     private HashMap<String, String> configurationValues;
 
@@ -47,7 +53,11 @@ public class AppConfiguration
         textResources = new Properties();
         try
         {
-            textResources.load(getClass().getClassLoader().getResourceAsStream(PROPERTIES_NAME));
+            InputStream stream = getClass().getClassLoader().getResourceAsStream(PROPERTIES_NAME);
+            if (stream != null)
+            {
+                textResources.load(stream);   
+            }            
         }
         catch (IOException e)
         {
@@ -55,39 +65,51 @@ public class AppConfiguration
         }
     }
 
-    private void parseConfiguration()
+    public void parseConfiguration()
     {
-        logger.info("parsing configuration...");
-        try
+        if (READ_CONF_FROM_XML)
         {
-            Document doc =
-                    XmlReader.readXml(getClass().getClassLoader().getResourceAsStream(
-                            AppConfigurationValues.CONFIG_FILE_NAME));
-            configurationValues = new HashMap<String, String>();
-            NodeList nodeList = doc.getElementsByTagName(AppConfigurationValues.PROPERTY_NODE_NAME);
-            Node node = null;
-            for (int index = 0; index < nodeList.getLength(); index++)
+            logger.info("parsing configuration...");
+            try
             {
-                node = nodeList.item(index);
-                configurationValues.put(node.getAttributes()
-                        .getNamedItem(AppConfigurationValues.CONF_ATTR_NAME)
-                        .getTextContent(), node.getTextContent());
+                Document doc =
+                        XmlReader.readXml(getClass().getClassLoader().getResourceAsStream(
+                                AppConfigurationValues.CONFIG_FILE_NAME));
+                configurationValues = new HashMap<String, String>();
+                NodeList nodeList = doc.getElementsByTagName(AppConfigurationValues.PROPERTY_NODE_NAME);
+                Node node = null;
+                for (int index = 0; index < nodeList.getLength(); index++)
+                {
+                    node = nodeList.item(index);
+                    configurationValues.put(node.getAttributes()
+                            .getNamedItem(AppConfigurationValues.CONF_ATTR_NAME)
+                            .getTextContent(), node.getTextContent());
+                }
+            }
+            catch (SAXException e)
+            {
+                // TODO ...
+                e.printStackTrace();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            catch (ParserConfigurationException e)
+            {
+                e.printStackTrace();
+            }
+            // LoggerService.log("parsed configuration : " + resource, DbLogLevel.INFO);   
+        }        
+        else
+        {
+            // read config from database...
+            configurationValues = new HashMap<String, String>();
+            for (AppConfigurationEntry entry : RepositoryProvider.getRepository(AppConfigurationEntryRepository.class).findAll())
+            {
+                configurationValues.put(entry.getKey(), entry.getValue());
             }
         }
-        catch (SAXException e)
-        {
-            // TODO ...
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        catch (ParserConfigurationException e)
-        {
-            e.printStackTrace();
-        }
-        // LoggerService.log("parsed configuration : " + resource, DbLogLevel.INFO);
     }
 
     public static AppConfiguration getInstance()

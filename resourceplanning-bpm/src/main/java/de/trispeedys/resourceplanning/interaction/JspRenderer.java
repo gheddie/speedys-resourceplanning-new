@@ -95,7 +95,7 @@ public class JspRenderer
         {
 
             return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
-                    .withHeader(configuration.getText(JspRenderer.class, "helloPLain"))
+                    .withHeader(configuration.getText(JspRenderer.class, "helloPlain"))
                     .withParagraph(configuration.getText(JspRenderer.class, "planningExceptionCaught", errorMessage))
                     .withParagraph(RequestHelpMailTemplate.sincerely())
                     .render();

@@ -515,6 +515,11 @@ public class ResourceInfo
 
     public void swapPositions(Long positionIdSource, Long positionIdTarget, Long eventId, boolean swapBySystem)
     {
+        /**
+         * TODO check if the helpers are assignable to new position (simple and complex). it is checked later on (PerformSwapDelegate),
+         * but that might be too late (potentially leaves a process in an undefined state). 
+         */
+        
         if ((positionIdSource == null) || (positionIdTarget == null))
         {
             throw new ResourcePlanningException("both source and target position id must be set!");
@@ -658,6 +663,11 @@ public class ResourceInfo
             // TODO do this in a dedicated transaction!!
             addPositionToEvent(event, posNumber);
         }
+    }
+    
+    public void refreshConfigurations()
+    {
+        AppConfiguration.getInstance().parseConfiguration();
     }
 
     private void addPositionToEvent(Event event, int positionNumber)
