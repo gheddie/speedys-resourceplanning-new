@@ -23,7 +23,7 @@ public class MessageQueueRepository extends AbstractDatabaseRepository<MessageQu
 {
     private static final Logger logger = Logger.getLogger(MessageQueueRepository.class);
 
-    private static final boolean INSTANT_SEND = false;
+    private static final boolean INSTANT_SEND = true;
 
     public List<MessageQueue> findAllUnprocessedMessages()
     {
