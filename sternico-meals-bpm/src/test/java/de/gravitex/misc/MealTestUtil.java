@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import de.gravitex.hibernateadapter.core.SessionManager;
+import de.gravitex.misc.entity.builder.MealDefinitionBuilder;
 import de.gravitex.misc.entity.builder.MealRequesterBuilder;
 import de.gravitex.misc.exception.MealRequestException;
 
@@ -45,11 +46,33 @@ public class MealTestUtil
         {
             logger.error("error --> rolling back : " + e.getMessage());
             tx.rollback();
-            throw new MealRequestException("error on setting up requesters", e);
+            throw new MealRequestException("error on setting up requesters!", e);
         }
         finally
         {
             SessionManager.getInstance().unregisterSession(session);
         }
+    }
+
+    public static void setupDefinitions()
+    {
+        Session session = SessionManager.getInstance().getSession(null);
+        Transaction tx = null;
+        try
+        {
+            tx = session.beginTransaction();
+            session.save(new MealDefinitionBuilder().build());
+            tx.commit();
+        }
+        catch (Exception e)
+        {
+            logger.error("error --> rolling back : " + e.getMessage());
+            tx.rollback();
+            throw new MealRequestException("error on setting meal definitions!", e);
+        }
+        finally
+        {
+            SessionManager.getInstance().unregisterSession(session);
+        }        
     }
 }
