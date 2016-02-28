@@ -54,6 +54,17 @@ public class JspRenderer
         }
         return generator.withParagraph(RequestHelpMailTemplate.sincerely()).render();
     }
+    
+    public static String renderSwapCorrelationFault()
+    {
+        AppConfiguration configuration = AppConfiguration.getInstance();
+        return new HtmlGenerator().withImage("speedys", "gif", 600, 170)
+                .withHeader(configuration.getText(JspRenderer.class, "helloPlain"))
+                .withParagraph(configuration.getText(JspRenderer.class, "renderSwapCorrelationFault"))
+                .withParagraph(RequestHelpMailTemplate.sincerely())
+                .withClosingLink()
+                .render();
+    }
 
     public static String renderCorrelationFault(Long helperId)
     {

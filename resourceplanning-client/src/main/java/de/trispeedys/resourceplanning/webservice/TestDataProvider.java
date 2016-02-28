@@ -21,6 +21,24 @@ public interface TestDataProvider {
 
     /**
      * 
+     */
+    @WebMethod
+    public void duplicate2015();
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     */
+    @WebMethod
+    public void fireTimer(
+        @WebParam(name = "arg0", partName = "arg0")
+        long arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        long arg1);
+
+    /**
+     * 
      * @param arg1
      * @param arg0
      */
@@ -39,6 +57,12 @@ public interface TestDataProvider {
 
     /**
      * 
+     */
+    @WebMethod
+    public void duplicateUnchanged();
+
+    /**
+     * 
      * @return
      *     returns int
      */
@@ -48,35 +72,11 @@ public interface TestDataProvider {
 
     /**
      * 
-     */
-    @WebMethod
-    public void duplicateUnchanged();
-
-    /**
-     * 
      * @param arg0
      */
     @WebMethod
     public void setupForTesting(
         @WebParam(name = "arg0", partName = "arg0")
         String arg0);
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void duplicate2015();
-
-    /**
-     * 
-     * @param arg1
-     * @param arg0
-     */
-    @WebMethod
-    public void fireTimer(
-        @WebParam(name = "arg0", partName = "arg0")
-        long arg0,
-        @WebParam(name = "arg1", partName = "arg1")
-        long arg1);
 
 }

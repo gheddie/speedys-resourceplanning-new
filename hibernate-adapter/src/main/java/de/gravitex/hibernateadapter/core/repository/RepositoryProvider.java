@@ -32,31 +32,13 @@ public class RepositoryProvider
     private RepositoryProvider()
     {
         repositoryCache = new HashMap<Class<? extends DatabaseRepository>, DatabaseRepository>();
-        registerRepositories();
-    }
-
-    private void registerRepositories()
-    {
         parseRepositoryConfiguration();
-        
-        /*
-        registerRepository(PositionRepository.class);
-        registerRepository(DomainRepository.class);
-        registerRepository(EventPositionRepository.class);
-        registerRepository(EventRepository.class);
-        registerRepository(MessageQueueRepository.class);
-        registerRepository(HelperAssignmentRepository.class);
-        registerRepository(HelperRepository.class);
-        registerRepository(PositionAggregationRepository.class);
-        registerRepository(AggregationRelationRepository.class);
-        registerRepository(MissedAssignmentRepository.class);
-        registerRepository(ManualAssignmentCommentRepository.class);
-        registerRepository(AssignmentSwapRepository.class);
-        */
     }
 
     private void parseRepositoryConfiguration()
     {
+        // TODO improve exception handling
+        
         logger.info("parsing configuration...");
         try
         {
@@ -78,7 +60,6 @@ public class RepositoryProvider
         }
         catch (SAXException e)
         {
-            // TODO ...
             e.printStackTrace();
         }
         catch (IOException e)

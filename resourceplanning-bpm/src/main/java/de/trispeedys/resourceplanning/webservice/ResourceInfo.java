@@ -652,16 +652,21 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
         }
-        // event must be 'PLANNED' or 'INITIATED'
-        if ((!(event.getEventState().equals(EventState.PLANNED))) || (!(event.getEventState().equals(EventState.INITIATED))))
+        
+        if ((event.getEventState().equals(EventState.PLANNED)) || (event.getEventState().equals(EventState.INITIATED)))
         {
-            throw new ResourcePlanningException(configuration.getText(this, WRONG_EVENT_STATE_FOR_ADDING_POS, EventState.PLANNED, EventState.INITIATED));
+            // corrent state --> do it!!
+            List<Integer> posNumbers = ListMarshaller.unmarshall(positionNumbers);
+            for (Integer posNumber : posNumbers)
+            {
+                // TODO do this in a dedicated transaction!!
+                addPositionToEvent(event, posNumber);
+            }
         }
-        List<Integer> posNumbers = ListMarshaller.unmarshall(positionNumbers);
-        for (Integer posNumber : posNumbers)
+        else
         {
-            // TODO do this in a dedicated transaction!!
-            addPositionToEvent(event, posNumber);
+            // wrong state --> raise exception!
+            throw new ResourcePlanningException(configuration.getText(this, WRONG_EVENT_STATE_FOR_ADDING_POS, EventState.PLANNED, EventState.INITIATED));
         }
     }
     

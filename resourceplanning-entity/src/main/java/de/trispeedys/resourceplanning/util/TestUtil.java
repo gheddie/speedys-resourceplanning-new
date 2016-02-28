@@ -22,6 +22,7 @@ public class TestUtil
         clearTable("domain");
         clearTable("message_queue");
         clearTable("helper");
+        clearTable("person");
         clearTable("event");
         clearTable("event_template");
         clearTable("event_location");

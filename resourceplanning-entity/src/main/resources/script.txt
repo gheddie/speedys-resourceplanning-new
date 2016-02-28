@@ -14,7 +14,7 @@ create table app_configuration
 );
 
 -- initial values
-insert into app_configuration (key, value) values ('version', '1.0-RC-4');
+insert into app_configuration (key, value) values ('version', '1.0-RC-5');
 insert into app_configuration (key, value) values ('host', 'http://localhost:8080');
 insert into app_configuration (key, value) values ('smtp_user', 'smtp_user');
 insert into app_configuration (key, value) values ('smtp_passwd', 'smtp_passwd');
@@ -24,16 +24,25 @@ insert into app_configuration (key, value) values ('admin_mail', 'stefan.schulz.
 insert into app_configuration (key, value) values ('helper_confirm_info', 'http://www.peiner-triathlon.de/DesktopModules/OnyakTech.NelsonsFiles/GetFile.aspx?FileId=176&amp;ModuleId=1331');
 insert into app_configuration (key, value) values ('process_test_mail', 'testhelper2.trispeedys@gmail.com');
 
+------------------------------------------------ Person
+create sequence person_id_seq;
+ 
+create table person
+(
+	id bigint not null default nextval('person_id_seq'),
+	first_name varchar(255),
+	last_name varchar(255),
+	date_of_birth date,
+	email varchar(255),
+	primary key (id)
+); 
+
 ------------------------------------------------ Helper 
 create sequence helper_id_seq;
 
 create table helper
 (
 	id bigint not null default nextval('helper_id_seq'),
-	first_name varchar(255),
-	last_name varchar(255),
-	date_of_birth date,
-	email varchar(255),
 	helper_state varchar(64),
 	code varchar(16),
 	internal boolean,

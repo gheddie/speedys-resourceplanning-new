@@ -68,15 +68,15 @@ import de.trispeedys.resourceplanning.webservice.PositionDTO;
 import de.trispeedys.resourceplanning.webservice.RequestedSwapDTO;
 
 /**
- * wsimport -keep -verbose http://localhost:8080/resourceplanning-bpm-1.0-RC-4/ResourceInfoWs?wsdl
- * wsimport -keep -verbose http://www.triathlon-helfer.de:8080/resourceplanning-bpm-1.0-RC-4/ResourceInfoWs?wsdl
+ * wsimport -keep -verbose http://localhost:8080/resourceplanning-bpm-1.0-RC-5/ResourceInfoWs?wsdl
+ * wsimport -keep -verbose http://www.triathlon-helfer.de:8080/resourceplanning-bpm-1.0-RC-5/ResourceInfoWs?wsdl
  * 
- * wsimport -keep -verbose http://localhost:8080/resourceplanning-bpm-1.0-RC-4/TestDataProviderWs?wsdl
- * wsimport -keep -verbose http://www.triathlon-helfer.de:8080/resourceplanning-bpm-1.0-RC-4/TestDataProviderWs?wsdl
+ * wsimport -keep -verbose http://localhost:8080/resourceplanning-bpm-1.0-RC-5/TestDataProviderWs?wsdl
+ * wsimport -keep -verbose http://www.triathlon-helfer.de:8080/resourceplanning-bpm-1.0-RC-5/TestDataProviderWs?wsdl
  * 
  * @author Stefan.Schulz
  *
- *         http://localhost:8080/resourceplanning-bpm-1.0-RC-4/HelperCallbackReceiver.jsp?callbackResult=
+ *         http://localhost:8080/resourceplanning-bpm-1.0-RC-5/HelperCallbackReceiver.jsp?callbackResult=
  *         ASSIGNMENT_AS_BEFORE
  * 
  *         DEBUG Tomcat:
@@ -366,7 +366,7 @@ public class ResourceDialog extends SpeedyFrame
                 enableTabs(1, 0, 1, 0, 1, 0, 0);
                 break;
             case "INITIATED":
-                enableTabs(1, 1, 1, 1, 0, 1, 1);
+                enableTabs(1, 1, 1, 1, 1, 1, 1);
                 break;
             case "FINISHED":
                 enableTabs(1, 0, 1, 0, 0, 0, 0);
