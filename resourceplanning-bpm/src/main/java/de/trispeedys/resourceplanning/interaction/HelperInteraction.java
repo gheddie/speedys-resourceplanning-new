@@ -12,7 +12,7 @@ import de.trispeedys.resourceplanning.BpmHelper;
 import de.trispeedys.resourceplanning.BusinessKeys;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
@@ -20,7 +20,7 @@ import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.exception.ResourcePlanningNoSuchEntityException;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.messaging.template.helprequest.AlertPlanningExceptionMailTemplate;
-import de.trispeedys.resourceplanning.repository.EventRepository;
+import de.trispeedys.resourceplanning.repository.GuidedEventRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
 import de.trispeedys.resourceplanning.util.htmlgenerator.instance.UnknownEntityHtmlGenerator;
@@ -156,7 +156,7 @@ public class HelperInteraction
      */
     public static void alertPlanningException(Long helperId, Long eventId, String message)
     {
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
         if (helperId != null)
         {
             Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
@@ -178,7 +178,7 @@ public class HelperInteraction
     
     private static void checkEntitiesForExistence(Long eventId, Long helperId, Long priorPositionId)
     {
-        checkEntityForExistence(eventId, Event.class);
+        checkEntityForExistence(eventId, GuidedEvent.class);
         checkEntityForExistence(helperId, Helper.class);
         checkEntityForExistence(priorPositionId, Position.class);
     }

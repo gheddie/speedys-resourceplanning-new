@@ -5,7 +5,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.delegate.requesthelp.misc.AbstractRequestHelpDelegate;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
@@ -19,7 +19,7 @@ public class CheckAvailabilityDelegate extends AbstractRequestHelpDelegate
     public void execute(DelegateExecution execution) throws Exception
     {
         Helper helper = getHelper(execution);
-        Event event = getEvent(execution);
+        GuidedEvent event = getEvent(execution);
         Position position =
                 RepositoryProvider.getRepository(HelperAssignmentRepository.class)
                         .getPriorAssignment(helper, event.getEventTemplate())

@@ -1,7 +1,7 @@
 package de.trispeedys.resourceplanning.messaging.template.helprequest;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -18,7 +18,7 @@ public class AlertDeactivationMailTemplate extends RequestHelpMailTemplate
         this(null, null, null);
     }
 
-    public AlertDeactivationMailTemplate(Helper helper, Event event, Position position)
+    public AlertDeactivationMailTemplate(Helper helper, GuidedEvent event, Position position)
     {
         super(helper, event, position);
     }

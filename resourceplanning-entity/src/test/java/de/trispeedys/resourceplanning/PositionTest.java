@@ -10,7 +10,7 @@ import org.junit.Test;
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.gravitex.hibernateadapter.entity.AbstractDbObject;
 import de.trispeedys.resourceplanning.entity.Domain;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -46,10 +46,10 @@ public class PositionTest
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
 
         // some events
-        Event event1 =
+        GuidedEvent event1 =
                 EntityFactory.buildEvent("DM AK 2014", "DM-AK-2014", 21, 6, 2014, EventState.FINISHED, template, null)
                         .saveOrUpdate();
-        Event event2 =
+        GuidedEvent event2 =
                 EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2015, EventState.PLANNED, template, null)
                         .saveOrUpdate();
 
@@ -81,7 +81,7 @@ public class PositionTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 TestDataGenerator.createAggregationEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015,
                         EventState.FINISHED, EventTemplate.TEMPLATE_TRI, true);
 
@@ -121,7 +121,7 @@ public class PositionTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 TestDataGenerator.createAggregationEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015,
                         EventState.FINISHED, EventTemplate.TEMPLATE_TRI, false);
 
@@ -158,7 +158,7 @@ public class PositionTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 TestDataGenerator.createAggregationEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015,
                         EventState.FINISHED, EventTemplate.TEMPLATE_TRI, true);
 
@@ -199,7 +199,7 @@ public class PositionTest
 
         EventTemplate template = EntityFactory.buildEventTemplate("999").saveOrUpdate();
 
-        Event event = EntityFactory.buildEvent("TRI123", "TRI123", 14, 4, 2016, EventState.PLANNED, template, null).saveOrUpdate();
+        GuidedEvent event = EntityFactory.buildEvent("TRI123", "TRI123", 14, 4, 2016, EventState.PLANNED, template, null).saveOrUpdate();
 
         Domain domain = EntityFactory.buildDomain("123", 123).saveOrUpdate();
 
@@ -250,7 +250,7 @@ public class PositionTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
                         2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016", "TRI-2016", 21, 6,
                         2016, null, null);
@@ -273,7 +273,7 @@ public class PositionTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
                         2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016", "TRI-2016", 21, 6,
                         2016, null, null);

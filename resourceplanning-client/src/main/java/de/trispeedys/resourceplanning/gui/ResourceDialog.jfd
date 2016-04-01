@@ -5,7 +5,7 @@ new FormModel {
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JInternalFrame", new FormLayoutManager( class java.awt.GridBagLayout ) {
 			"$columnSpecs": "0, 44, 0:1.0"
-			"$rowSpecs": "0, 0:1.0, 0, 0:1.0, 0"
+			"$rowSpecs": "0:1.0, 0, 0:1.0, 0"
 			"$hGap": 5
 			"$vGap": 5
 			"$alignLeft": true
@@ -13,18 +13,6 @@ new FormModel {
 		} ) {
 			name: "this"
 			"visible": true
-			add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
-				name: "tbMain"
-				"floatable": false
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "btnFinishProcesses"
-					"text": "Abschliessen"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/shutdown48px.png" )
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnFinishProcessesPressed", true ) )
-				} )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-				"gridwidth": 3
-			} )
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "tdbMain"
 				addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "tdbMainStateChanged", true ) )
@@ -555,6 +543,12 @@ new FormModel {
 							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/swap16px.png" )
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnSwapPositionsPressed", true ) )
 						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnFinishProcesses"
+							"text": "Abschliessen"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/shutdown16px.png" )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnFinishProcessesPressed", true ) )
+						} )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridy": 1
 					} )
@@ -611,13 +605,12 @@ new FormModel {
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridheight": 3
 				"gridwidth": 3
-				"gridy": 1
 			} )
 			add( new FormComponent( "javax.swing.JProgressBar" ) {
 				name: "pgMain"
 				"stringPainted": true
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-				"gridy": 4
+				"gridy": 3
 				"gridwidth": 3
 			} )
 		}, new FormLayoutConstraints( null ) {

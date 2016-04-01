@@ -9,6 +9,7 @@ import de.trispeedys.resourceplanning.delegate.requesthelp.misc.AbstractSwapDele
 import de.trispeedys.resourceplanning.entity.AssignmentSwap;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
+import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.SwapState;
 import de.trispeedys.resourceplanning.entity.misc.SwapType;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
@@ -45,12 +46,12 @@ public class PostSwapResultDelegate extends AbstractSwapDelegate
         if (swap.getSwapState().equals(SwapState.COMPLETED))
         {
             // single swap was successful
-            alertSwapSuccess(swap.getSourceHelper(), swap.getNotificationSuccessParameters(false));
+            alertSwapSuccess(swap.getSourceHelper(), swap.getSourcePosition(), swap.getTargetPosition());
         }
         else
         {
             // single swap was not successful
-            alertSwapFailure(swap.getSourceHelper(), swap.getNotificationFailureParameters());
+            alertSwapFailure(swap.getSourceHelper(), swap.getSourcePosition());
         }
     }
 
@@ -59,39 +60,41 @@ public class PostSwapResultDelegate extends AbstractSwapDelegate
         if (swap.getSwapState().equals(SwapState.COMPLETED))
         {
             // complex swap was successful --> 'leading' helper
-            alertSwapSuccess(swap.getSourceHelper(), swap.getNotificationSuccessParameters(false));
+            alertSwapSuccess(swap.getSourceHelper(), swap.getSourcePosition(), swap.getTargetPosition());
             // complex swap was successful --> 'following' helper (turn parameters around)
-            alertSwapSuccess(swap.getTargetHelper(), swap.getNotificationSuccessParameters(true));
+            alertSwapSuccess(swap.getTargetHelper(), swap.getTargetPosition(), swap.getSourcePosition());
         }
         else
         {
             // complex swap was not successful --> 'leading' helper
-            alertSwapFailure(swap.getSourceHelper(), swap.getNotificationFailureParameters());
+            alertSwapFailure(swap.getSourceHelper(), swap.getSourcePosition());
             // complex swap was not successful --> 'following' helper (turn parameters around)
-            alertSwapFailure(swap.getTargetHelper(), swap.getNotificationFailureParameters());
+            alertSwapFailure(swap.getTargetHelper(), swap.getTargetPosition());
         }
     }
 
-    private void alertSwapSuccess(Helper helper, Object[] parameters)
+    private void alertSwapSuccess(Helper helper, Position from, Position to)
     {
         // TODO perhaps we should not use 'AbstractMailTemplate.speedysSincerely' here..
-        
+
         HtmlGenerator generator = prepareHtmlGenerator(helper);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        generator.withParagraph(AppConfiguration.getInstance().getText(this, SWAP_EXECUTED, parameters))
+        generator.withParagraph(
+                AppConfiguration.getInstance().getText(this, SWAP_EXECUTED, from.getDescription(), from.getDomain().getName(),
+                        to.getDescription(), to.getDomain().getName()))
                 .withLink(configuration.getConfigurationValue(AppConfigurationValues.HELPER_CONFIRM_INFO), "zu den Helfer-Informationen")
                 .withParagraph(configuration.getText(AbstractMailTemplate.class, "speedysSincerely"));
         sendMessage(helper.getEmail(), getSubject(), generator.render());
     }
 
-    private void alertSwapFailure(Helper helper, Object[] parameters)
+    private void alertSwapFailure(Helper helper, Position from)
     {
         // TODO perhaps we should not use 'AbstractMailTemplate.speedysSincerely' here..
-        
+
         HtmlGenerator generator = prepareHtmlGenerator(helper);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        generator.withParagraph(configuration.getText(this, SWAP_ABORTED, parameters)).withParagraph(
-                configuration.getText(AbstractMailTemplate.class, "speedysSincerely"));
+        generator.withParagraph(configuration.getText(this, SWAP_ABORTED, from.getDescription(), from.getDomain().getName()))
+                .withParagraph(configuration.getText(AbstractMailTemplate.class, "speedysSincerely"));
         sendMessage(helper.getEmail(), getSubject(), generator.render());
     }
 

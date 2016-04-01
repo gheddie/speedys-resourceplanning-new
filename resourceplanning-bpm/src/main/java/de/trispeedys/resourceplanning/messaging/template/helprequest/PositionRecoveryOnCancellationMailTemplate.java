@@ -1,7 +1,7 @@
 package de.trispeedys.resourceplanning.messaging.template.helprequest;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -9,7 +9,7 @@ import de.trispeedys.resourceplanning.util.htmlgenerator.HtmlGenerator;
 
 public class PositionRecoveryOnCancellationMailTemplate extends HelperInteractionMailTemplate
 {
-    public PositionRecoveryOnCancellationMailTemplate(Helper aHelper, Event aEvent, Position aPosition)
+    public PositionRecoveryOnCancellationMailTemplate(Helper aHelper, GuidedEvent aEvent, Position aPosition)
     {
         super(aHelper, aEvent, aPosition);
     }

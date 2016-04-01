@@ -2,15 +2,15 @@ package de.trispeedys.resourceplanning.messaging;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 
 public abstract class AbstractMailTemplate<T>
 {
-    private Event event;
+    private GuidedEvent event;
     
-    public AbstractMailTemplate(Event event)
+    public AbstractMailTemplate(GuidedEvent event)
     {
         this.event = event;
     }
@@ -33,12 +33,12 @@ public abstract class AbstractMailTemplate<T>
                 AppConfiguration.getInstance().getConfigurationValue(AppConfigurationValues.VERSION);
     }
     
-    public Event getEvent()
+    public GuidedEvent getEvent()
     {
         return event;
     }
 
-    public void setEvent(Event event)
+    public void setEvent(GuidedEvent event)
     {
         this.event = event;
     }

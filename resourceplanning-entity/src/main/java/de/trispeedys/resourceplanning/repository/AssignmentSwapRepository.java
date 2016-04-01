@@ -7,7 +7,7 @@ import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
 import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.AssignmentSwapDatasource;
 import de.trispeedys.resourceplanning.entity.AssignmentSwap;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.SwapState;
 
@@ -18,13 +18,13 @@ public class AssignmentSwapRepository extends AbstractDatabaseRepository<Assignm
         return new AssignmentSwapDatasource();
     }
 
-    public List<AssignmentSwap> findByEventAndPositionsAndResult(Event event, Position sourcePosition, Position targetPosition, SwapState swapResult)
+    public List<AssignmentSwap> findByEventAndPositionsAndResult(GuidedEvent event, Position sourcePosition, Position targetPosition, SwapState swapResult)
     {
         return dataSource().find(null, AssignmentSwap.ATTR_EVENT, event, AssignmentSwap.ATTR_SOURCE_POSITION, sourcePosition, AssignmentSwap.ATTR_TARGET_POSITION, targetPosition,
                 AssignmentSwap.ATTR_SWAP_STATE, swapResult);
     }
 
-    public List<AssignmentSwap> findRequestedByEvent(Event event)
+    public List<AssignmentSwap> findRequestedByEvent(GuidedEvent event)
     {
         return dataSource().find(null, AssignmentSwap.ATTR_EVENT, event, AssignmentSwap.ATTR_SWAP_STATE, SwapState.REQUESTED);        
     }

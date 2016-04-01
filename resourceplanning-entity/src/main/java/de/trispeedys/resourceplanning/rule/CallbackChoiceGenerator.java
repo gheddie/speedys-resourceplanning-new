@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
@@ -13,7 +13,7 @@ import de.trispeedys.resourceplanning.repository.PositionRepository;
 
 public class CallbackChoiceGenerator extends RuleObject<HelperCallback>
 {
-    public List<HelperCallback> generate(Helper helper, Event event)
+    public List<HelperCallback> generate(Helper helper, GuidedEvent event)
     {
         if (RepositoryProvider.getRepository(HelperAssignmentRepository.class).isFirstAssignment(helper.getId()))
         {

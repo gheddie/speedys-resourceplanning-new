@@ -2,7 +2,7 @@ package de.trispeedys.resourceplanning.interaction;
 
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.ManualAssignmentComment;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -10,7 +10,7 @@ import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.messaging.AbstractMailTemplate;
 import de.trispeedys.resourceplanning.messaging.RequestHelpMailTemplate;
-import de.trispeedys.resourceplanning.repository.EventRepository;
+import de.trispeedys.resourceplanning.repository.GuidedEventRepository;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.ManualAssignmentCommentRepository;
@@ -29,7 +29,7 @@ public class JspRenderer
     public static String renderCallbackSuccess(Long eventId, Long helperId, HelperCallback callback)
     {
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
         AppConfiguration configuration = AppConfiguration.getInstance();
         HtmlGenerator generator =
                 new HtmlGenerator().withImage("speedys", "gif", 600, 170)
@@ -212,7 +212,7 @@ public class JspRenderer
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         Position chosenPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(chosenPositionId);
         AppConfiguration configuration = AppConfiguration.getInstance();
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
         // decide if the recovery was succesful -> position could be already taken again...
         String confirmationKey = RepositoryProvider.getRepository(HelperRepository.class).isHelperAssignedForPosition(helper, event, chosenPosition)
                 ? "positionRecoveryOnCancellationSuccess"
@@ -367,7 +367,7 @@ public class JspRenderer
 
     public static String renderManualAssignmentConfirmation(Long eventId, Long helperId)
     {
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         ManualAssignmentComment wish = RepositoryProvider.getRepository(ManualAssignmentCommentRepository.class).findByEventAndHelper(event, helper);
         AppConfiguration configuration = AppConfiguration.getInstance();
@@ -409,7 +409,7 @@ public class JspRenderer
 
     public static String renderAssignmentAsBeforeConfirmation(Long eventId, Long helperId, Long priorPositionId)
     {
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
         Position priorPosition = RepositoryProvider.getRepository(PositionRepository.class).findById(priorPositionId);
         String posDesc = null;
@@ -462,7 +462,7 @@ public class JspRenderer
     {
         // TODO render a more detailed confirmation
         
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
         PositionRepository positionRepository = RepositoryProvider.getRepository(PositionRepository.class);
         Position positionSource = positionRepository.findById(positionIdSource);
         Position positionTarget = positionRepository.findById(positionIdTarget);

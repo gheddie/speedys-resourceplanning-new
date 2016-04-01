@@ -37,7 +37,7 @@ import de.trispeedys.resourceplanning.dto.RequestedSwapDTO;
 import de.trispeedys.resourceplanning.entity.AggregationRelation;
 import de.trispeedys.resourceplanning.entity.AssignmentSwap;
 import de.trispeedys.resourceplanning.entity.Domain;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventPosition;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
@@ -58,7 +58,7 @@ import de.trispeedys.resourceplanning.repository.AggregationRelationRepository;
 import de.trispeedys.resourceplanning.repository.AssignmentSwapRepository;
 import de.trispeedys.resourceplanning.repository.DomainRepository;
 import de.trispeedys.resourceplanning.repository.EventPositionRepository;
-import de.trispeedys.resourceplanning.repository.EventRepository;
+import de.trispeedys.resourceplanning.repository.GuidedEventRepository;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.ManualAssignmentCommentRepository;
@@ -109,7 +109,7 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException(configuration.getText(this, EVENT_ID_REQUIRED));
         }
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
         if (event == null)
         {
             throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
@@ -134,7 +134,7 @@ public class ResourceInfo
     }
 
     /**
-     * returns all {@link Position} which are not included in the given {@link Event}.
+     * returns all {@link Position} which are not included in the given {@link GuidedEvent}.
      * 
      * @param eventId
      * @param includedInEvent
@@ -150,7 +150,7 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException(configuration.getText(this, EVENT_ID_REQUIRED));
         }
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
         if (event == null)
         {
             throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
@@ -200,10 +200,10 @@ public class ResourceInfo
 
     public EventDTO[] queryEvents()
     {
-        List<Event> allEvents = Datasources.getDatasource(Event.class).findAll(null);
+        List<GuidedEvent> allEvents = Datasources.getDatasource(GuidedEvent.class).findAll(null);
         List<EventDTO> dtos = new ArrayList<EventDTO>();
         EventDTO dto = null;
-        for (Event event : allEvents)
+        for (GuidedEvent event : allEvents)
         {
             dto = new EventDTO();
             dto.setDescription(event.getDescription());
@@ -224,7 +224,7 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException("event id must not be null!!");
         }
-        Event event = Datasources.getDatasource(Event.class).findById(null, eventId);
+        GuidedEvent event = Datasources.getDatasource(GuidedEvent.class).findById(null, eventId);
         if (event == null)
         {
             throw new ResourcePlanningException("event with id '" + eventId + "' could not found!!");
@@ -246,7 +246,7 @@ public class ResourceInfo
         {
             relationHash.put(relation.getPositionId(), relation);
         }
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
         List<Position> generatorPositions = new ChoosablePositionGenerator().generate(event);
         if (event == null)
         {
@@ -304,7 +304,7 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException("event id must not be null!!");
         }
-        Event event = Datasources.getDatasource(Event.class).findById(null, eventId);
+        GuidedEvent event = Datasources.getDatasource(GuidedEvent.class).findById(null, eventId);
         if (event == null)
         {
             throw new ResourcePlanningException("event with id '" + eventId + "' could not found!!");
@@ -347,7 +347,7 @@ public class ResourceInfo
         List<ManualAssignmentDTO> dtos = new ArrayList<ManualAssignmentDTO>();
         ManualAssignmentDTO dto = null;
         Helper helper = null;
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
         ManualAssignmentComment wishFound = null;
         for (Task manualAssignmentTask : BpmPlatform.getDefaultProcessEngine()
                 .getTaskService()
@@ -477,7 +477,7 @@ public class ResourceInfo
         // TODO add parameter 'internal' here, or webservice can only create internal helpers...
         Helper helper = EntityFactory.buildHelper(lastName, firstName, email, HelperState.ACTIVE, dayOfBirth, monthOfBirth, yearOfBirth, true).saveOrUpdate();
         // start a request help process for every event which is initiated in this moment...
-        for (Event event : RepositoryProvider.getRepository(EventRepository.class).findInitiatedEvents())
+        for (GuidedEvent event : RepositoryProvider.getRepository(GuidedEventRepository.class).findInitiatedEvents())
         {
             EventManager.startHelperRequestProcess(helper, event);
         }
@@ -529,7 +529,7 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException(configuration.getText(this, EVENT_ID_REQUIRED));
         }
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
         if (event == null)
         {
             throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
@@ -581,7 +581,7 @@ public class ResourceInfo
         BpmPlatform.getDefaultProcessEngine().getRuntimeService().startProcessInstanceByMessage(BpmMessages.Swap.MSG_START_SWAP, businessKey, variables);
     }
 
-    private Helper getConfirmedHelper(Event event, Position position)
+    private Helper getConfirmedHelper(GuidedEvent event, Position position)
     {
         HelperAssignment confirmedAssignment = RepositoryProvider.getRepository(HelperAssignmentRepository.class).findConfirmedByPositionAndEvent(event, position);
         return (confirmedAssignment != null ? confirmedAssignment.getHelper() : null);
@@ -594,7 +594,7 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException(configuration.getText(this, EVENT_ID_REQUIRED));
         }
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
         if (event == null)
         {
             throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
@@ -616,7 +616,7 @@ public class ResourceInfo
         }
     }
 
-    private void removePositionFromEvent(Event event, int positionNumber)
+    private void removePositionFromEvent(GuidedEvent event, int positionNumber)
     {
         AppConfiguration configuration = AppConfiguration.getInstance();
         // position must be there
@@ -647,7 +647,7 @@ public class ResourceInfo
         {
             throw new ResourcePlanningException(configuration.getText(this, EVENT_ID_REQUIRED));
         }
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
         if (event == null)
         {
             throw new ResourcePlanningException(configuration.getText(this, EVENT_NOT_FOUND_BY_ID, eventId));
@@ -675,7 +675,7 @@ public class ResourceInfo
         AppConfiguration.getInstance().parseConfiguration();
     }
 
-    private void addPositionToEvent(Event event, int positionNumber)
+    private void addPositionToEvent(GuidedEvent event, int positionNumber)
     {
         AppConfiguration configuration = AppConfiguration.getInstance();
 

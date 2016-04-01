@@ -16,7 +16,7 @@ import org.json.simple.parser.JSONParser;
 import de.gravitex.hibernateadapter.core.SessionHolder;
 import de.gravitex.hibernateadapter.core.SessionManager;
 import de.trispeedys.resourceplanning.entity.Domain;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -93,7 +93,7 @@ public class JsonEventReader
         {
             sessionHolder.beginTransaction();
             JSONParser parser = new JSONParser();
-            Event event = null;
+            GuidedEvent event = null;
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourceName);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
             Object obj = parser.parse(reader);

@@ -6,13 +6,13 @@ import de.gravitex.hibernateadapter.core.repository.AbstractDatabaseRepository;
 import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
 import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.EventPositionDatasource;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventPosition;
 import de.trispeedys.resourceplanning.entity.Position;
 
 public class EventPositionRepository extends AbstractDatabaseRepository<EventPosition> implements DatabaseRepository<EventPositionRepository>
 {
-    public EventPosition findByEventAndPositionNumber(Event event, Position position)
+    public EventPosition findByEventAndPositionNumber(GuidedEvent event, Position position)
     {
         List<EventPosition> result = dataSource().find(null, EventPosition.ATTR_EVENT, event,
                 EventPosition.ATTR_POSITION, position);
@@ -24,7 +24,7 @@ public class EventPositionRepository extends AbstractDatabaseRepository<EventPos
         return new EventPositionDatasource();
     }
 
-    public List<EventPosition> findByEvent(Event event)
+    public List<EventPosition> findByEvent(GuidedEvent event)
     {
         return dataSource().find(null, EventPosition.ATTR_EVENT, event);
     }

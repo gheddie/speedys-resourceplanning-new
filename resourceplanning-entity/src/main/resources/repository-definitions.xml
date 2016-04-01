@@ -3,7 +3,8 @@
 	<repository-class>de.trispeedys.resourceplanning.repository.PositionRepository</repository-class>
 	<repository-class>de.trispeedys.resourceplanning.repository.DomainRepository</repository-class>
 	<repository-class>de.trispeedys.resourceplanning.repository.EventPositionRepository</repository-class>
-	<repository-class>de.trispeedys.resourceplanning.repository.EventRepository</repository-class>
+	<repository-class>de.trispeedys.resourceplanning.repository.GuidedEventRepository</repository-class>
+	<repository-class>de.trispeedys.resourceplanning.repository.SimpleEventRepository</repository-class>
 	<repository-class>de.trispeedys.resourceplanning.repository.MessageQueueRepository</repository-class>
 	<repository-class>de.trispeedys.resourceplanning.repository.HelperAssignmentRepository</repository-class>
 	<repository-class>de.trispeedys.resourceplanning.repository.HelperRepository</repository-class>

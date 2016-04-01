@@ -2,7 +2,7 @@ package de.trispeedys.resourceplanning.messaging.template.helprequest;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -15,7 +15,7 @@ public class BookingConfirmationMailTemplate extends HelperInteractionMailTempla
         this(null, null, null);
     }
 
-    public BookingConfirmationMailTemplate(Helper aHelper, Event aEvent, Position aPosition)
+    public BookingConfirmationMailTemplate(Helper aHelper, GuidedEvent aEvent, Position aPosition)
     {
         super(aHelper, aEvent, aPosition);
     }

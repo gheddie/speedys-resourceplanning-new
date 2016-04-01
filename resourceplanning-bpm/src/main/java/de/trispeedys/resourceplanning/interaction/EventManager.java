@@ -12,7 +12,7 @@ import de.gravitex.hibernateadapter.datasource.Datasources;
 import de.trispeedys.resourceplanning.BpmHelper;
 import de.trispeedys.resourceplanning.BusinessKeys;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MissedAssignment;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -23,7 +23,7 @@ import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.messaging.template.helprequest.PlanningSuccessMailTemplate;
 import de.trispeedys.resourceplanning.messaging.template.helprequest.PositionRecoveryOnCancellationMailTemplate;
-import de.trispeedys.resourceplanning.repository.EventRepository;
+import de.trispeedys.resourceplanning.repository.GuidedEventRepository;
 import de.trispeedys.resourceplanning.repository.MissedAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.util.StringUtil;
@@ -40,12 +40,12 @@ public class EventManager
         {
             throw new ResourcePlanningException("template name must not be blank!!");
         }
-        List<Event> events = RepositoryProvider.getRepository(EventRepository.class).findEventsByTemplateAndStatus(templateName, EventState.PLANNED);
+        List<GuidedEvent> events = RepositoryProvider.getRepository(GuidedEventRepository.class).findEventsByTemplateAndStatus(templateName, EventState.PLANNED);
         if ((events == null) || (events.size() != 1))
         {
             throw new ResourcePlanningException("there must be exactly one planned event of template '" + templateName + "'!!");
         }
-        Event event = events.get(0);
+        GuidedEvent event = events.get(0);
         if (!(event.getEventState().equals(EventState.PLANNED)))
         {
             throw new ResourcePlanningException("event must have state '" + EventState.PLANNED + "'!!");
@@ -57,7 +57,7 @@ public class EventManager
             startHelperRequestProcess(helper, event);
         }
         // update event state
-        RepositoryProvider.getRepository(EventRepository.class).updateEventState(event, EventState.INITIATED);
+        RepositoryProvider.getRepository(GuidedEventRepository.class).updateEventState(event, EventState.INITIATED);
 
         informAdminAboutSuccess(event);
     }
@@ -80,7 +80,7 @@ public class EventManager
             {
                 throw new ResourcePlanningException("event id must not be null!!");
             }
-            Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+            GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
             if (event == null)
             {
                 throw new ResourcePlanningException("event with id '" + eventId + "' could not be found!!");
@@ -96,7 +96,7 @@ public class EventManager
                 startHelperRequestProcess(helper, event);
             }
             // update event state
-            RepositoryProvider.getRepository(EventRepository.class).updateEventState(event, EventState.INITIATED);
+            RepositoryProvider.getRepository(GuidedEventRepository.class).updateEventState(event, EventState.INITIATED);
 
             informAdminAboutSuccess(event);
         }
@@ -111,12 +111,12 @@ public class EventManager
         }
     }
 
-    private static void informAdminAboutSuccess(Event event)
+    private static void informAdminAboutSuccess(GuidedEvent event)
     {
         new PlanningSuccessMailTemplate(null, event, null).send(true);
     }
 
-    public static void startHelperRequestProcess(Helper helper, Event event)
+    public static void startHelperRequestProcess(Helper helper, GuidedEvent event)
     {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put(BpmVariables.RequestHelpHelper.VAR_HELPER_ID, new Long(helper.getId()));
@@ -135,7 +135,7 @@ public class EventManager
             return;
         }
         // (2) process every missed assignment...
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
         Position position = RepositoryProvider.getRepository(PositionRepository.class).findById(positionId);
         for (MissedAssignment missedAssignment : missedAssignments)
         {

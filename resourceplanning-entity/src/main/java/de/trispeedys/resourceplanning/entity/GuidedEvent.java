@@ -24,25 +24,12 @@ import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HierarchicalEventItem;
 
 @Entity
-@Table(name = "event")
-public class Event extends AbstractDbObject implements HierarchicalEventItem
+@Table(name = "guided_event")
+public class GuidedEvent extends SimpleEvent implements HierarchicalEventItem
 {
     public static final String ATTR_EVENT_STATE = "eventState";
     
     public static final String ATTR_EVENT_KEY = "eventKey";
-    
-    @Temporal(TemporalType.DATE)
-    @Column(name = "event_date")
-    private Date eventDate;
-    
-    @Column(name = "event_key")
-    @NotNull
-    @Length(min = 5)
-    private String eventKey;
-    
-    @NotNull
-    @Length(min = 5)
-    private String description;
     
     @ManyToOne
     @NotNull
@@ -51,7 +38,7 @@ public class Event extends AbstractDbObject implements HierarchicalEventItem
     
     @OneToOne
     @JoinColumn(name = "parent_event_id")
-    private Event parentEvent;
+    private GuidedEvent parentEvent;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id")
@@ -62,36 +49,6 @@ public class Event extends AbstractDbObject implements HierarchicalEventItem
     @NotNull
     private EventState eventState;
 
-    public Date getEventDate()
-    {
-        return eventDate;
-    }
-    
-    public void setEventDate(Date eventDate)
-    {
-        this.eventDate = eventDate;
-    }
-
-    public String getEventKey()
-    {
-        return eventKey;
-    }
-
-    public void setEventKey(String eventKey)
-    {
-        this.eventKey = eventKey;
-    }
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
-    
     public List<EventPosition> getEventPositions()
     {
         return eventPositions;
@@ -122,19 +79,14 @@ public class Event extends AbstractDbObject implements HierarchicalEventItem
         this.eventTemplate = eventTemplate;
     }
     
-    public Event getParentEvent()
+    public GuidedEvent getParentEvent()
     {
         return parentEvent;
     }
     
-    public void setParentEvent(Event parentEvent)
+    public void setParentEvent(GuidedEvent parentEvent)
     {
         this.parentEvent = parentEvent;
-    }
-    
-    public String toString()
-    {
-        return getClass().getSimpleName() + " ["+description+", "+eventKey+"]";
     }
 
     public int getHierarchyLevel()

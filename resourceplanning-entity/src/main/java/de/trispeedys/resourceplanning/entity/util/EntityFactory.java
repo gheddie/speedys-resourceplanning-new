@@ -7,7 +7,7 @@ import de.trispeedys.resourceplanning.entity.AggregationRelation;
 import de.trispeedys.resourceplanning.entity.AssignmentSwap;
 import de.trispeedys.resourceplanning.entity.Domain;
 import de.trispeedys.resourceplanning.entity.DomainResponsibility;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventPosition;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
@@ -77,12 +77,12 @@ public class EntityFactory
         return result;
     }
 
-    public static HelperAssignment buildHelperAssignment(Helper helper, Event event, Position position)
+    public static HelperAssignment buildHelperAssignment(Helper helper, GuidedEvent event, Position position)
     {
         return buildHelperAssignment(helper, event, position, HelperAssignmentState.PLANNED);
     }
 
-    public static HelperAssignment buildHelperAssignment(Helper helper, Event event, Position position,
+    public static HelperAssignment buildHelperAssignment(Helper helper, GuidedEvent event, Position position,
             HelperAssignmentState helperAssignmentState)
     {
         /*
@@ -119,8 +119,8 @@ public class EntityFactory
         return new EventTemplateBuilder().withDescription(description).build();
     }
 
-    public static Event buildEvent(String description, String eventKey, Date eventDate, EventState eventState, EventTemplate eventTemplate,
-            Event parentEvent)
+    public static GuidedEvent buildEvent(String description, String eventKey, Date eventDate, EventState eventState, EventTemplate eventTemplate,
+            GuidedEvent parentEvent)
     {
         return new EventBuilder().withDescription(description)
                 .withDate(eventDate)
@@ -131,8 +131,8 @@ public class EntityFactory
                 .build();
     }
 
-    public static Event buildEvent(String description, String eventKey, int day, int month, int year, EventState eventState,
-            EventTemplate eventTemplate, Event parentEvent)
+    public static GuidedEvent buildEvent(String description, String eventKey, int day, int month, int year, EventState eventState,
+            EventTemplate eventTemplate, GuidedEvent parentEvent)
     {
         Calendar eventDate = Calendar.getInstance();
         eventDate.set(Calendar.DAY_OF_MONTH, day);
@@ -153,7 +153,7 @@ public class EntityFactory
                 .build();
     }
 
-    public static EventPosition buildEventPosition(Event event, Position position)
+    public static EventPosition buildEventPosition(GuidedEvent event, Position position)
     {
         return new EventPositionBuilder().withEvent(event).withPosition(position).build();
     }
@@ -183,17 +183,17 @@ public class EntityFactory
         return new TemplateDomainBuilder().withEventTemplate(template).withDomain(domain).build();
     }
 
-    public static ManualAssignmentComment buildManualAssignmentComment(Event event, Helper helper, String comment)
+    public static ManualAssignmentComment buildManualAssignmentComment(GuidedEvent event, Helper helper, String comment)
     {
         return new ManualAssignmentCommentBuilder().withComment(comment).withEvent(event).withHelper(helper).build();
     }
 
-    public static MissedAssignment buildMissedAssignment(Event event, Helper helper, Position position)
+    public static MissedAssignment buildMissedAssignment(GuidedEvent event, Helper helper, Position position)
     {
         return new MissedAssignmentBuilder().withPosition(position).withHelper(helper).withEvent(event).withTimeStamp().build();
     }
 
-    public static AssignmentSwap buildAssignmentSwap(Event event, Position sourcePosition, Position targetPosition, SwapType swapType, SwapState swapState, Helper sourceHelper, Helper targetHelper)
+    public static AssignmentSwap buildAssignmentSwap(GuidedEvent event, Position sourcePosition, Position targetPosition, SwapType swapType, SwapState swapState, Helper sourceHelper, Helper targetHelper)
     {
         return new AssignmentSwapBuilder().withEvent(event)
                 .withSourcePosition(sourcePosition)

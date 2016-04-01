@@ -1,14 +1,14 @@
 package de.trispeedys.resourceplanning.messaging.template.helprequest;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.util.htmlgenerator.HtmlGenerator;
 
 public class DeactivationRecoveryMailTemplate extends HelperInteractionMailTemplate
 {
-    public DeactivationRecoveryMailTemplate(Helper aHelper, Event aEvent)
+    public DeactivationRecoveryMailTemplate(Helper aHelper, GuidedEvent aEvent)
     {
         super(aHelper, aEvent, null);
     }

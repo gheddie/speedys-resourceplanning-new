@@ -1,13 +1,13 @@
 package de.trispeedys.resourceplanning.messaging.template.helprequest;
 
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
 
 public class RequestSwapMailTemplate extends HelperInteractionMailTemplate
 {
-    public RequestSwapMailTemplate(Helper aHelper, Event aEvent, Position aPosition)
+    public RequestSwapMailTemplate(Helper aHelper, GuidedEvent aEvent, Position aPosition)
     {
         super(aHelper, aEvent, aPosition);
     }

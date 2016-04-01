@@ -12,7 +12,7 @@ import de.gravitex.hibernateadapter.datasource.Datasources;
 import de.gravitex.hibernateadapter.entity.AbstractDbObject;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.entity.Domain;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventPosition;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
@@ -24,7 +24,7 @@ import de.trispeedys.resourceplanning.entity.misc.HelperAssignmentState;
 import de.trispeedys.resourceplanning.entity.misc.HierarchicalEventItem;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
 import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
-import de.trispeedys.resourceplanning.repository.EventRepository;
+import de.trispeedys.resourceplanning.repository.GuidedEventRepository;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.util.comparator.EnumeratedEventItemComparator;
@@ -38,14 +38,14 @@ public class SpeedyRoutines
 
     private static final String UNFINISHED_PREDECESSOR = "UNFINISHED_PREDECESSOR";
 
-    public static Event duplicateEvent(Event event, String description, String eventKey, int day, int month, int year,
+    public static GuidedEvent duplicateEvent(GuidedEvent event, String description, String eventKey, int day, int month, int year,
             List<Integer> positionExcludes, List<PositionInclude> includes)
     {
         return duplicateEvent(event, description, eventKey, day, month, year, positionExcludes, includes,
                 EventState.PLANNED);
     }
 
-    public static Event duplicateEvent(Event event, String description, String eventKey, int day, int month, int year,
+    public static GuidedEvent duplicateEvent(GuidedEvent event, String description, String eventKey, int day, int month, int year,
             List<Integer> positionExcludes, List<PositionInclude> includes, EventState eventState)
     {
         if (event == null)
@@ -65,7 +65,7 @@ public class SpeedyRoutines
                     EVENT_WITHOUT_TEMPLATE));
         }
         checkPredecessorsForReplication(template);
-        Event newEvent =
+        GuidedEvent newEvent =
                 EntityFactory.buildEvent(description, eventKey, day, month, year, eventState, template, event)
                         .saveOrUpdate();
         List<EventPosition> posRelations = Datasources.getDatasource(EventPosition.class).find(null, "event", event);
@@ -103,10 +103,10 @@ public class SpeedyRoutines
     private static void checkPredecessorsForReplication(EventTemplate template)
     {
         // TODO must the new event be the latest concerning ist event date?
-        List<Event> predecessors =
-                RepositoryProvider.getRepository(EventRepository.class).findEventByTemplateOrdered(
+        List<GuidedEvent> predecessors =
+                RepositoryProvider.getRepository(GuidedEventRepository.class).findEventByTemplateOrdered(
                         template.getDescription());
-        for (Event predecessor : predecessors)
+        for (GuidedEvent predecessor : predecessors)
         {
             if (!(predecessor.isFinished()))
             {
@@ -117,7 +117,7 @@ public class SpeedyRoutines
         }
     }
 
-    private static void checkExcludes(Event event, List<Integer> positionExcludes)
+    private static void checkExcludes(GuidedEvent event, List<Integer> positionExcludes)
     {
         if ((positionExcludes == null) || (positionExcludes.size() == 0))
         {
@@ -185,12 +185,12 @@ public class SpeedyRoutines
         return result.toString();
     }
     
-    public static void relatePositionsToEvent(Event event, Position... positions)
+    public static void relatePositionsToEvent(GuidedEvent event, Position... positions)
     {
         relatePositionsToEvent(null, event, positions);
     }
 
-    public static void relatePositionsToEvent(SessionToken sessionToken, Event event, Position... positions)
+    public static void relatePositionsToEvent(SessionToken sessionToken, GuidedEvent event, Position... positions)
     {
         for (Position position : positions)
         {
@@ -220,15 +220,15 @@ public class SpeedyRoutines
         }
     }
 
-    public static void relateEventsToPosition(Position position, Event... events)
+    public static void relateEventsToPosition(Position position, GuidedEvent... events)
     {
-        for (Event event : events)
+        for (GuidedEvent event : events)
         {
             EntityFactory.buildEventPosition(event, position).saveOrUpdate();
         }
     }
 
-    public static void assignHelperToPositions(Helper helper, Event event, Position... positions)
+    public static void assignHelperToPositions(Helper helper, GuidedEvent event, Position... positions)
     {
         for (Position position : positions)
         {
@@ -236,7 +236,7 @@ public class SpeedyRoutines
         }
     }
 
-    public static void confirmHelperToPositions(Helper helper, Event event, Position... positions)
+    public static void confirmHelperToPositions(Helper helper, GuidedEvent event, Position... positions)
     {
         for (Position position : positions)
         {
@@ -247,11 +247,11 @@ public class SpeedyRoutines
 
     public static EntityTreeNode eventAsTree(Long eventId, boolean confirmedAssignmentsOnly)
     {
-        return eventAsTree(RepositoryProvider.getRepository(EventRepository.class).findById(eventId),
+        return eventAsTree(RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId),
                 confirmedAssignmentsOnly);
     }
 
-    public static EntityTreeNode eventAsTree(Event event, boolean confirmedAssignmentsOnly)
+    public static EntityTreeNode eventAsTree(GuidedEvent event, boolean confirmedAssignmentsOnly)
     {
         if (event == null)
         {
@@ -269,7 +269,7 @@ public class SpeedyRoutines
             }
         }
         HashMap<Domain, List<Position>> positionsPerDomain = new HashMap<Domain, List<Position>>();
-        EntityTreeNode<Event> eventNode = new EventTreeNode<Event>();
+        EntityTreeNode<GuidedEvent> eventNode = new EventTreeNode<GuidedEvent>();
         eventNode.setPayLoad(event);
         Domain key = null;
         List<EventPosition> eventPositions = event.getEventPositions();
@@ -318,7 +318,7 @@ public class SpeedyRoutines
         return eventNode;
     }
 
-    private static boolean allowPosition(Event event, EventPosition eventPosition, boolean confirmedAssignmentsOnly)
+    private static boolean allowPosition(GuidedEvent event, EventPosition eventPosition, boolean confirmedAssignmentsOnly)
     {
         if (!(confirmedAssignmentsOnly))
         {
@@ -342,9 +342,9 @@ public class SpeedyRoutines
                 : null);
     }
 
-    public static List<EntityTreeNode> flattenedEventNodes(Event event, boolean confirmedAssignmentsOnly)
+    public static List<EntityTreeNode> flattenedEventNodes(GuidedEvent event, boolean confirmedAssignmentsOnly)
     {
-        EntityTreeNode<Event> root = eventAsTree(event, confirmedAssignmentsOnly);
+        EntityTreeNode<GuidedEvent> root = eventAsTree(event, confirmedAssignmentsOnly);
         return flattenedEventNodesRecursive(root, new ArrayList<EntityTreeNode>());
     }
 
@@ -361,9 +361,9 @@ public class SpeedyRoutines
         return nodes;
     }
 
-    public static List<AbstractDbObject> flattenedEventTree(Event event, boolean confirmedAssignmentsOnly)
+    public static List<AbstractDbObject> flattenedEventTree(GuidedEvent event, boolean confirmedAssignmentsOnly)
     {
-        EntityTreeNode<Event> root = eventAsTree(event, confirmedAssignmentsOnly);
+        EntityTreeNode<GuidedEvent> root = eventAsTree(event, confirmedAssignmentsOnly);
         return flattenedEventTreeRecursive(root, new ArrayList<AbstractDbObject>());
     }
 
@@ -380,7 +380,7 @@ public class SpeedyRoutines
         return values;
     }
 
-    public static void debugEvent(Event event)
+    public static void debugEvent(GuidedEvent event)
     {
         System.out.println(" ---------- EVENT --------------------------------- ");
         EntityTreeNode node = null;
@@ -403,7 +403,7 @@ public class SpeedyRoutines
         System.out.println(" ---------- EVENT --------------------------------- ");
     }
 
-    public static String eventOutline(Event event)
+    public static String eventOutline(GuidedEvent event)
     {
         String result = "";
         for (AbstractDbObject obj : flattenedEventTree(event, false))

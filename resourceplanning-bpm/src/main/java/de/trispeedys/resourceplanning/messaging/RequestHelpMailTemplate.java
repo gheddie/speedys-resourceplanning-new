@@ -3,7 +3,7 @@ package de.trispeedys.resourceplanning.messaging;
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.repository.MessageQueueRepository;
@@ -19,7 +19,7 @@ public abstract class RequestHelpMailTemplate extends AbstractMailTemplate
         super(null);
     }
 
-    public RequestHelpMailTemplate(Helper helper, Event event, Position position)
+    public RequestHelpMailTemplate(Helper helper, GuidedEvent event, Position position)
     {
         super(event);
         this.helper = helper;

@@ -2,7 +2,7 @@ package de.trispeedys.resourceplanning.test;
 
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.entity.Domain;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -23,17 +23,17 @@ public class TestDataGenerator
     private static final Integer PRIO2 = new Integer(2);
 
     /**
-     * creates an {@link Event} like {@link TestDataGenerator#createMinimalEvent(String, String, int, int, int)}, but
+     * creates an {@link GuidedEvent} like {@link TestDataGenerator#createMinimalEvent(String, String, int, int, int)}, but
      * without assignments of positions to helpers.
      * 
      * @return
      */
-    public static Event createSimpleUnassignedEvent(String description, String eventKey, int day, int month, int year)
+    public static GuidedEvent createSimpleUnassignedEvent(String description, String eventKey, int day, int month, int year)
     {
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
 
         // build event
-        Event myLittleEvent = EntityFactory.buildEvent(description, eventKey, day, month, year, EventState.PLANNED, template, null).saveOrUpdate();
+        GuidedEvent myLittleEvent = EntityFactory.buildEvent(description, eventKey, day, month, year, EventState.PLANNED, template, null).saveOrUpdate();
 
         // create helpers
         EntityFactory.buildHelper("H1_First", "H1_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
@@ -69,12 +69,12 @@ public class TestDataGenerator
      * @param string
      * @return
      */
-    public static Event createSimpleEvent(String description, String eventKey, int day, int month, int year, EventState eventState, String templateName)
+    public static GuidedEvent createSimpleEvent(String description, String eventKey, int day, int month, int year, EventState eventState, String templateName)
     {
         EventTemplate template = EntityFactory.buildEventTemplate("123ggg").saveOrUpdate();
 
         // build event
-        Event myLittleEvent = EntityFactory.buildEvent(description, eventKey, day, month, year, EventState.FINISHED, template, null).saveOrUpdate();
+        GuidedEvent myLittleEvent = EntityFactory.buildEvent(description, eventKey, day, month, year, EventState.FINISHED, template, null).saveOrUpdate();
         // create helpers
         Helper helper1 = EntityFactory.buildHelper("H1_First", "H1_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 1, 2, 1980, true).saveOrUpdate();
         Helper helper2 = EntityFactory.buildHelper("H2_First", "H2_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 2, 2, 1980, true).saveOrUpdate();
@@ -102,13 +102,13 @@ public class TestDataGenerator
         return myLittleEvent;
     }
 
-    public static Event createAggregationEvent(String description, String eventKey, int day, int month, int year, EventState eventState, String templateName,
+    public static GuidedEvent createAggregationEvent(String description, String eventKey, int day, int month, int year, EventState eventState, String templateName,
             boolean doPriorize)
     {
         EventTemplate template = EntityFactory.buildEventTemplate("123ggg").saveOrUpdate();
 
         // build event
-        Event event = EntityFactory.buildEvent(description, eventKey, day, month, year, EventState.FINISHED, template, null).saveOrUpdate();
+        GuidedEvent event = EntityFactory.buildEvent(description, eventKey, day, month, year, EventState.FINISHED, template, null).saveOrUpdate();
         // build domains
         Domain domain1 = EntityFactory.buildDomain("D1", 1).saveOrUpdate();
         // build positions
@@ -169,12 +169,12 @@ public class TestDataGenerator
      * @param finished
      * @return
      */
-    public static Event createMinimalEvent(String description, String eventKey, int day, int month, int year, EventState eventState, String templateName)
+    public static GuidedEvent createMinimalEvent(String description, String eventKey, int day, int month, int year, EventState eventState, String templateName)
     {
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
 
         // build event
-        Event myMinimalEvent = EntityFactory.buildEvent(description, eventKey, day, month, year, EventState.PLANNED, template, null).saveOrUpdate();
+        GuidedEvent myMinimalEvent = EntityFactory.buildEvent(description, eventKey, day, month, year, EventState.PLANNED, template, null).saveOrUpdate();
         // create helper
         Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 1, 1, 1980, true).saveOrUpdate();
         // build domain
@@ -188,13 +188,13 @@ public class TestDataGenerator
         return myMinimalEvent;
     }
 
-    public static Event createRealLifeEvent(String description, String eventKey, int day, int month, int year, EventState eventState, String templateName)
+    public static GuidedEvent createRealLifeEvent(String description, String eventKey, int day, int month, int year, EventState eventState, String templateName)
     {
         // build event template
         EventTemplate template = EntityFactory.buildEventTemplate(templateName).saveOrUpdate();
 
         // build event
-        Event event = EntityFactory.buildEvent(description, eventKey, day, month, year, eventState, template, null).saveOrUpdate();
+        GuidedEvent event = EntityFactory.buildEvent(description, eventKey, day, month, year, eventState, template, null).saveOrUpdate();
 
         // ------------------------ create helpers ('old')
         EntityFactory.buildHelper("Schulz", "Stefan", DEFAULT_MAIL_ADDRESS, HelperState.ACTIVE, 13, 2, 2011, true).saveOrUpdate();

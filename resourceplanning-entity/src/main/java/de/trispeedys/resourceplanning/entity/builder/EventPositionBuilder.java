@@ -1,6 +1,6 @@
 package de.trispeedys.resourceplanning.entity.builder;
 
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventPosition;
 import de.trispeedys.resourceplanning.entity.Position;
 
@@ -8,9 +8,9 @@ public class EventPositionBuilder extends AbstractEntityBuilder<EventPosition>
 {
     private Position position;
     
-    private Event event;
+    private GuidedEvent event;
 
-    public EventPositionBuilder withEvent(Event aEvent)
+    public EventPositionBuilder withEvent(GuidedEvent aEvent)
     {
         event = aEvent;
         return this;

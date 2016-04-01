@@ -13,7 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
@@ -42,7 +42,7 @@ public class MasterProcessTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
                         2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016", "TRI-2016", 21, 6,
                         2016, null, null);

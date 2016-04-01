@@ -64,7 +64,7 @@ public class AssignmentSwap extends AbstractDbObject
     @NotNull
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id")
-    private Event event;
+    private GuidedEvent event;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_time")
@@ -110,12 +110,12 @@ public class AssignmentSwap extends AbstractDbObject
         this.targetPosition = targetPosition;
     }
 
-    public Event getEvent()
+    public GuidedEvent getEvent()
     {
         return event;
     }
 
-    public void setEvent(Event event)
+    public void setEvent(GuidedEvent event)
     {
         this.event = event;
     }
@@ -160,6 +160,7 @@ public class AssignmentSwap extends AbstractDbObject
                 .getId())));
     }
 
+    /*
     public Object[] getNotificationSuccessParameters(boolean inverted)
     {
         if (inverted)
@@ -186,13 +187,27 @@ public class AssignmentSwap extends AbstractDbObject
             };
         }
     }
+    */
 
-    public Object[] getNotificationFailureParameters()
+    /*
+    public Object[] getNotificationFailureParameters(boolean inverted)
     {
-        // source position and domain
-        return new Object[]
+        if (inverted)
         {
-                sourcePosition.getDescription(), sourcePosition.getDomain().getName()
-        };
+            // source position and domain
+            return new Object[]
+            {
+                    sourcePosition.getDescription(), sourcePosition.getDomain().getName()
+            };   
+        }
+        else
+        {
+            // target position and domain
+            return new Object[]
+            {
+                    targetPosition.getDescription(), targetPosition.getDomain().getName()
+            };
+        }
     }
+    */
 }

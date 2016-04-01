@@ -3,7 +3,7 @@ package de.trispeedys.resourceplanning.entity.builder;
 import java.util.Date;
 
 import de.trispeedys.resourceplanning.entity.AssignmentSwap;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.SwapState;
@@ -11,7 +11,7 @@ import de.trispeedys.resourceplanning.entity.misc.SwapType;
 
 public class AssignmentSwapBuilder extends AbstractEntityBuilder<AssignmentSwap>
 {
-    private Event event;
+    private GuidedEvent event;
     
     private Position sourcePosition;
     
@@ -25,7 +25,7 @@ public class AssignmentSwapBuilder extends AbstractEntityBuilder<AssignmentSwap>
 
     private Helper targetHelper;
 
-    public AssignmentSwapBuilder withEvent(Event aEvent)
+    public AssignmentSwapBuilder withEvent(GuidedEvent aEvent)
     {
         this.event = aEvent;
         return this;

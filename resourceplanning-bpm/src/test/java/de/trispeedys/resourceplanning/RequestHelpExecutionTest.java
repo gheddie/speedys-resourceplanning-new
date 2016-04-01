@@ -19,7 +19,7 @@ import org.junit.Test;
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.gravitex.hibernateadapter.datasource.Datasources;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
@@ -75,10 +75,10 @@ public class RequestHelpExecutionTest
         PositionRepository positionRepository = RepositoryProvider.getRepository(PositionRepository.class);
 
         // (1)
-        Event event2015 = TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
+        GuidedEvent event2015 = TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
 
         // (2)
-        Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
+        GuidedEvent event2016 = SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
         // (3)
         List<Helper> allHelpers = Datasources.getDatasource(Helper.class).findAll(null);
@@ -143,9 +143,9 @@ public class RequestHelpExecutionTest
     {
         TestUtil.clearAll();
 
-        Event event2015 = TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
+        GuidedEvent event2015 = TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
 
-        Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
+        GuidedEvent event2016 = SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
         List<Helper> allHelpers = RepositoryProvider.getRepository(HelperRepository.class).findAll(null);
         assertEquals(5, allHelpers.size());
@@ -177,9 +177,9 @@ public class RequestHelpExecutionTest
         // clear all tables in db
         TestUtil.clearAll();
         // create 'little' event for 2015
-        Event event2015 = TestDataGenerator.createSimpleEvent("TRI-2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
+        GuidedEvent event2015 = TestDataGenerator.createSimpleEvent("TRI-2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
         // duplicate event
-        Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "TRI-2016", "TRI-2016", 21, 6, 2015, null, null);
+        GuidedEvent event2016 = SpeedyRoutines.duplicateEvent(event2015, "TRI-2016", "TRI-2016", 21, 6, 2015, null, null);
         // start request process for every helper
         List<Helper> activeHelpers = Datasources.getDatasource(Helper.class).find(null, "helperState", HelperState.ACTIVE);
         Helper notCooperativeHelper = activeHelpers.get(0);
@@ -208,9 +208,9 @@ public class RequestHelpExecutionTest
         // clear all tables in db
         TestUtil.clearAll();
         // create 'little' event for 2015
-        Event event2015 = TestDataGenerator.createSimpleEvent("TRI-2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
+        GuidedEvent event2015 = TestDataGenerator.createSimpleEvent("TRI-2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
         // duplicate event
-        Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "TRI-2016", "TRI-2016", 21, 6, 2015, null, null);
+        GuidedEvent event2016 = SpeedyRoutines.duplicateEvent(event2015, "TRI-2016", "TRI-2016", 21, 6, 2015, null, null);
         // start request process for every helper
         List<Helper> activeHelpers = Datasources.getDatasource(Helper.class).find(null, "helperState", HelperState.ACTIVE);
         Helper notCooperativeHelper = activeHelpers.get(0);
@@ -241,9 +241,9 @@ public class RequestHelpExecutionTest
         // clear all tables in db
         TestUtil.clearAll();
 
-        Event event2015 = TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
+        GuidedEvent event2015 = TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
 
-        Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
+        GuidedEvent event2016 = SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
         List<Helper> allHelpers = Datasources.getDatasource(Helper.class).findAll(null);
         assertEquals(5, allHelpers.size());
@@ -279,9 +279,9 @@ public class RequestHelpExecutionTest
 
         PositionRepository positionRepository = RepositoryProvider.getRepository(PositionRepository.class);
 
-        Event event2015 = TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
+        GuidedEvent event2015 = TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
 
-        Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
+        GuidedEvent event2016 = SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
         List<Helper> allHelpers = Datasources.getDatasource(Helper.class).findAll(null);
         assertEquals(5, allHelpers.size());
@@ -329,7 +329,7 @@ public class RequestHelpExecutionTest
 
         PositionRepository positionRepository = RepositoryProvider.getRepository(PositionRepository.class);
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -378,7 +378,7 @@ public class RequestHelpExecutionTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -440,7 +440,7 @@ public class RequestHelpExecutionTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -486,7 +486,7 @@ public class RequestHelpExecutionTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -517,7 +517,7 @@ public class RequestHelpExecutionTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -552,7 +552,7 @@ public class RequestHelpExecutionTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -593,7 +593,7 @@ public class RequestHelpExecutionTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -621,7 +621,7 @@ public class RequestHelpExecutionTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -671,7 +671,7 @@ public class RequestHelpExecutionTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -714,7 +714,7 @@ public class RequestHelpExecutionTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 

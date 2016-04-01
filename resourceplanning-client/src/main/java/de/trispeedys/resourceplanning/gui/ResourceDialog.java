@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -762,8 +763,6 @@ public class ResourceDialog extends SpeedyFrame
     {
         // JFormDesigner - Component initialization - DO NOT MODIFY //GEN-BEGIN:initComponents
         // Generated using JFormDesigner non-commercial license
-        tbMain = new JToolBar();
-        btnFinishProcesses = new JButton();
         tdbMain = new JTabbedPane();
         pnlPositions = new JPanel();
         borderPositions = new JPanel();
@@ -836,6 +835,7 @@ public class ResourceDialog extends SpeedyFrame
         tbPostProcessing = new JToolBar();
         btnRefreshPostProcessing = new JButton();
         btnSwapPositions = new JButton();
+        btnFinishProcesses = new JButton();
         borderPostProcessingTarget = new JPanel();
         scPostProcessingTarget = new JScrollPane();
         treeTablePostProcessingTarget = new TreeTable();
@@ -850,28 +850,9 @@ public class ResourceDialog extends SpeedyFrame
         Container contentPane = getContentPane();
         contentPane.setLayout(new GridBagLayout());
         ((GridBagLayout)contentPane.getLayout()).columnWidths = new int[] {0, 49, 0, 0};
-        ((GridBagLayout)contentPane.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+        ((GridBagLayout)contentPane.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
         ((GridBagLayout)contentPane.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0, 1.0E-4};
-        ((GridBagLayout)contentPane.getLayout()).rowWeights = new double[] {0.0, 1.0, 0.0, 1.0, 0.0, 1.0E-4};
-
-        //======== tbMain ========
-        {
-            tbMain.setFloatable(false);
-
-            //---- btnFinishProcesses ----
-            btnFinishProcesses.setText("Abschliessen");
-            btnFinishProcesses.setIcon(new ImageIcon(getClass().getResource("/img/shutdown48px.png")));
-            btnFinishProcesses.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    btnFinishProcessesPressed(e);
-                }
-            });
-            tbMain.add(btnFinishProcesses);
-        }
-        contentPane.add(tbMain, new GridBagConstraints(0, 0, 3, 1, 0.0, 0.0,
-            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-            new Insets(0, 0, 5, 0), 0, 0));
+        ((GridBagLayout)contentPane.getLayout()).rowWeights = new double[] {1.0, 0.0, 1.0, 0.0, 1.0E-4};
 
         //======== tdbMain ========
         {
@@ -1516,6 +1497,17 @@ public class ResourceDialog extends SpeedyFrame
                         }
                     });
                     tbPostProcessing.add(btnSwapPositions);
+
+                    //---- btnFinishProcesses ----
+                    btnFinishProcesses.setText("Abschliessen");
+                    btnFinishProcesses.setIcon(new ImageIcon(getClass().getResource("/img/shutdown16px.png")));
+                    btnFinishProcesses.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            btnFinishProcessesPressed(e);
+                        }
+                    });
+                    tbPostProcessing.add(btnFinishProcesses);
                 }
                 pnlPostProcessing.add(tbPostProcessing, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
                     GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -1577,13 +1569,13 @@ public class ResourceDialog extends SpeedyFrame
             }
             tdbMain.addTab("Nachbearbeitung", pnlPostProcessing);
         }
-        contentPane.add(tdbMain, new GridBagConstraints(0, 1, 3, 3, 0.0, 0.0,
+        contentPane.add(tdbMain, new GridBagConstraints(0, 0, 3, 3, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- pgMain ----
         pgMain.setStringPainted(true);
-        contentPane.add(pgMain, new GridBagConstraints(0, 4, 3, 1, 0.0, 0.0,
+        contentPane.add(pgMain, new GridBagConstraints(0, 3, 3, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
         // JFormDesigner - End of component initialization //GEN-END:initComponents
@@ -1591,8 +1583,6 @@ public class ResourceDialog extends SpeedyFrame
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
     // Generated using JFormDesigner non-commercial license
-    private JToolBar tbMain;
-    private JButton btnFinishProcesses;
     private JTabbedPane tdbMain;
     private JPanel pnlPositions;
     private JPanel borderPositions;
@@ -1665,6 +1655,7 @@ public class ResourceDialog extends SpeedyFrame
     private JToolBar tbPostProcessing;
     private JButton btnRefreshPostProcessing;
     private JButton btnSwapPositions;
+    private JButton btnFinishProcesses;
     private JPanel borderPostProcessingTarget;
     private JScrollPane scPostProcessingTarget;
     private TreeTable treeTablePostProcessingTarget;

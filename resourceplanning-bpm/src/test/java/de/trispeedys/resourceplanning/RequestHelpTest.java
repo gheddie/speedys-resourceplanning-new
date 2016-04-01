@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.gravitex.hibernateadapter.datasource.Datasources;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessageQueue;
@@ -71,7 +71,7 @@ public class RequestHelpTest
         EventTemplate template = EntityFactory.buildEventTemplate("TRI123").saveOrUpdate();
 
         // ...
-        Event event = EntityFactory.buildEvent("TRI123", "TRI123", 1, 1, 2000, EventState.PLANNED, template, null).saveOrUpdate();
+        GuidedEvent event = EntityFactory.buildEvent("TRI123", "TRI123", 1, 1, 2000, EventState.PLANNED, template, null).saveOrUpdate();
         RequestHelpTestUtil.startHelperRequestProcess(DEFAULT_HELPER, event, null, rule);
     }
 
@@ -89,7 +89,7 @@ public class RequestHelpTest
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
 
         // create event
-        Event evt2016 =
+        GuidedEvent evt2016 =
                 EntityFactory.buildEvent("Triathlon 2016", "TRI-2016", 21, 6, 2016, EventState.PLANNED,
                         template, null).saveOrUpdate();
         // create helper
@@ -121,10 +121,10 @@ public class RequestHelpTest
                 EntityFactory.buildPosition("Radeinfahrt Helmkontrolle", 12,
                         SpeedyTestUtil.buildDefaultDomain(1), 0, true).saveOrUpdate();
         // create events
-        Event evt2014 =
+        GuidedEvent evt2014 =
                 EntityFactory.buildEvent("Triathlon 2014", "TRI-2014", 21, 6, 2014, EventState.PLANNED, null, null)
                         .saveOrUpdate();
-        Event evt2015 =
+        GuidedEvent evt2015 =
                 EntityFactory.buildEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.PLANNED, null, null)
                         .saveOrUpdate();
         // create helper
@@ -190,11 +190,11 @@ public class RequestHelpTest
         TestUtil.clearAll();
         
         // create 'little' event for 2015
-        Event event2015 =
+        GuidedEvent event2015 =
                 TestDataGenerator.createSimpleEvent("TRI-2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED,
                         EventTemplate.TEMPLATE_TRI);
         // duplicate event
-        Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "TRI-2016", "TRI-2016", 21, 6, 2015, null, null);
+        GuidedEvent event2016 = SpeedyRoutines.duplicateEvent(event2015, "TRI-2016", "TRI-2016", 21, 6, 2015, null, null);
         // start request process for every helper
         List<Helper> activeHelpers =
                 Datasources.getDatasource(Helper.class).find(null, "helperState", HelperState.ACTIVE);
@@ -225,11 +225,11 @@ public class RequestHelpTest
         EntityFactory.buildHelper("Helper2", "Helper2", "a@b.de", HelperState.ACTIVE, 1, 2, 1980, true).saveOrUpdate();
         EntityFactory.buildHelper("Helper3", "Helper3", "a@b.de", HelperState.ACTIVE, 1, 3, 1980, true).saveOrUpdate();
         // create 'little' event for 2015
-        Event event2015 =
+        GuidedEvent event2015 =
                 TestDataGenerator.createSimpleEvent("TRI-2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED,
                         EventTemplate.TEMPLATE_TRI);
         // duplicate event
-        Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "TRI-2016", "TRI-2016", 21, 6, 2015, null, null);
+        GuidedEvent event2016 = SpeedyRoutines.duplicateEvent(event2015, "TRI-2016", "TRI-2016", 21, 6, 2015, null, null);
         // start request process for every helper
         List<Helper> helpers =
                 Datasources.getDatasource(Helper.class).find(null, "helperState", HelperState.ACTIVE);
@@ -265,11 +265,11 @@ public class RequestHelpTest
         TestUtil.clearAll();
         
         // create 'minimal' event for 2015
-        Event event2015 =
+        GuidedEvent event2015 =
                 TestDataGenerator.createMinimalEvent("TRI-2015", "TRI-2015", 21, 6, 2015,
                         EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
         // duplicate event
-        Event event2016 = SpeedyRoutines.duplicateEvent(event2015, "TRI-2016", "TRI-2016", 21, 6, 2015, null, null);
+        GuidedEvent event2016 = SpeedyRoutines.duplicateEvent(event2015, "TRI-2016", "TRI-2016", 21, 6, 2015, null, null);
         // select created helper
         Helper helper = (Helper) Datasources.getDatasource(Helper.class).findAll(null).get(0);
         // start process

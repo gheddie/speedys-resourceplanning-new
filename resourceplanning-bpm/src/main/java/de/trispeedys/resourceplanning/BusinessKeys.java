@@ -2,7 +2,7 @@ package de.trispeedys.resourceplanning;
 
 import java.text.MessageFormat;
 
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
@@ -15,7 +15,7 @@ public class BusinessKeys
     private static final String BK_SWAP_HELPERPROCESS_TEMPLATE =
             "bkSwapHelperProcess_pos1:{0}||pos2:{1}||event:{2}";
     
-    public static String generateRequestHelpBusinessKey(Helper helper, Event event)
+    public static String generateRequestHelpBusinessKey(Helper helper, GuidedEvent event)
     {
         if ((helper == null) || (event == null))
         {
@@ -39,7 +39,7 @@ public class BusinessKeys
         return businessKey;
     }
     
-    public static String generateSwapBusinessKey(Event event, Position positionSource, Position positionTarget)
+    public static String generateSwapBusinessKey(GuidedEvent event, Position positionSource, Position positionTarget)
     {
         if ((event == null) || (positionSource == null) || (positionTarget == null))
         {

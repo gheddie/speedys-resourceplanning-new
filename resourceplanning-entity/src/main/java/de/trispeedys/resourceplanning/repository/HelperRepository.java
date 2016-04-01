@@ -11,7 +11,7 @@ import de.gravitex.hibernateadapter.datasource.Datasources;
 import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.gravitex.hibernateadapter.entity.AbstractDbObject;
 import de.trispeedys.resourceplanning.datasource.HelperDatasource;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -52,7 +52,7 @@ public class HelperRepository extends AbstractDatabaseRepository<Helper> impleme
         repository.updateSingleValue(helper, Helper.ATTR_HELPER_STATE, HelperState.INACTIVE);
     }
 
-    public boolean isHelperAssignedForPosition(Helper helper, Event event, Position position)
+    public boolean isHelperAssignedForPosition(Helper helper, GuidedEvent event, Position position)
     {
         HashMap<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("helper", helper);
@@ -69,7 +69,7 @@ public class HelperRepository extends AbstractDatabaseRepository<Helper> impleme
         return ((list != null) && (list.size() > 0));
     }
 
-    public Position getHelperAssignment(Helper helper, Event event)
+    public Position getHelperAssignment(Helper helper, GuidedEvent event)
     {
         HashMap<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("helper", helper);

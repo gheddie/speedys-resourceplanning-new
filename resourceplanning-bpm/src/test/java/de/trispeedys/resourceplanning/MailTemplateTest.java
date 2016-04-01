@@ -7,7 +7,7 @@ import org.junit.Test;
 import de.gravitex.hibernateadapter.core.util.HibernateUtil;
 import de.gravitex.hibernateadapter.datasource.Datasources;
 import de.trispeedys.resourceplanning.entity.Domain;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -47,7 +47,7 @@ public class MailTemplateTest
         
         EventTemplate evTemplate = EntityFactory.buildEventTemplate("123").saveOrUpdate();
         
-        Event event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, evTemplate, null).saveOrUpdate();
+        GuidedEvent event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, evTemplate, null).saveOrUpdate();
         
         // send mail
         List<Position> positions = Datasources.getDatasource(Position.class).findAll(null);
@@ -75,7 +75,7 @@ public class MailTemplateTest
         TestUtil.clearAll();        
         
         EventTemplate template = EntityFactory.buildEventTemplate("123ggg").saveOrUpdate();
-        Event event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
+        GuidedEvent event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
         
         Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980, true).saveOrUpdate();
         
@@ -114,7 +114,7 @@ public class MailTemplateTest
         
         Helper helper = EntityFactory.buildHelper("H1_First", "H1_Last", "a1@b.de", HelperState.ACTIVE, 1, 2, 1980, true).saveOrUpdate();
         EventTemplate template = EntityFactory.buildEventTemplate("123ggg").saveOrUpdate();
-        Event event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
+        GuidedEvent event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
         Domain domain = EntityFactory.buildDomain("Schwimmen", 2).saveOrUpdate();
         Position pos = EntityFactory.buildPosition("Alles wegräumen", 12, domain, 0, true).saveOrUpdate();
         

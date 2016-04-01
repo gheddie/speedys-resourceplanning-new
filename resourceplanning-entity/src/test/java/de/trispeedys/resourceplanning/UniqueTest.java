@@ -3,7 +3,7 @@ package de.trispeedys.resourceplanning;
 import org.junit.Test;
 
 import de.trispeedys.resourceplanning.entity.Domain;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
@@ -39,7 +39,7 @@ public class UniqueTest
         Domain domain1 = EntityFactory.buildDomain("dom1", 1).saveOrUpdate();
 
         Position position = EntityFactory.buildPosition("Some position", 12, domain1, 0, true).saveOrUpdate();
-        Event event = EntityFactory.buildEvent("Triathlon 2016", "TRI-2016", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
+        GuidedEvent event = EntityFactory.buildEvent("Triathlon 2016", "TRI-2016", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
         Helper helper1 =
                 EntityFactory.buildHelper("Stefan", "Schulz", "a@b.de", HelperState.ACTIVE, 13, 2, 1976, true).saveOrUpdate();
         Helper helper2 =

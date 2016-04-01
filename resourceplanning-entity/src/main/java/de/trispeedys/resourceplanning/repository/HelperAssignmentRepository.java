@@ -14,7 +14,7 @@ import de.gravitex.hibernateadapter.datasource.Datasources;
 import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.datasource.HelperAssignmentDatasource;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
@@ -30,12 +30,12 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
 
     private static final String POSITIONS_NO_SWAP = "POSITIONS_NO_SWAP";
 
-    public List<HelperAssignment> findByEvent(Event event)
+    public List<HelperAssignment> findByEvent(GuidedEvent event)
     {
         return dataSource().find(null, HelperAssignment.ATTR_EVENT, event);
     }
 
-    public List<HelperAssignment> findUncancelledByEvent(Event event)
+    public List<HelperAssignment> findUncancelledByEvent(GuidedEvent event)
     {
         return dataSource().find(
                 null,
@@ -49,7 +49,7 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
         return new HelperAssignmentDatasource();
     }
 
-    public List<HelperAssignment> findAllHelperAssignmentsByEvent(Event event)
+    public List<HelperAssignment> findAllHelperAssignmentsByEvent(GuidedEvent event)
     {
         return dataSource().find(null, "FROM " + HelperAssignment.class.getSimpleName() + " ec WHERE ec.event = :event", "event", event);
     }
@@ -63,17 +63,17 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
     public HelperAssignment findByHelperAndEvent(Long helperId, Long eventId)
     {
         return findByHelperAndEvent(RepositoryProvider.getRepository(HelperRepository.class).findById(helperId),
-                RepositoryProvider.getRepository(EventRepository.class).findById(eventId));
+                RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId));
     }
 
-    public HelperAssignment findByHelperAndEvent(Helper helper, Event event)
+    public HelperAssignment findByHelperAndEvent(Helper helper, GuidedEvent event)
     {
         List<HelperAssignment> result = dataSource().find(null, HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event);
         // TODO this is a bad idea...there may be many (e.g. cancelled ones) assignments for a helper in an event
         return safeValue(result);
     }
 
-    public HelperAssignment findByHelperAndEventAndPosition(Helper helper, Event event, Position position)
+    public HelperAssignment findByHelperAndEventAndPosition(Helper helper, GuidedEvent event, Position position)
     {
         List<HelperAssignment> result =
                 dataSource().find(null, HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event,
@@ -89,24 +89,24 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
      * @param event
      * @return
      */
-    public List<HelperAssignment> getHelperAssignments(Helper helper, Event event)
+    public List<HelperAssignment> getHelperAssignments(Helper helper, GuidedEvent event)
     {
         return dataSource().find(null, HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event);
     }
 
-    public HelperAssignment findByEventAndPosition(Event event, Position position)
+    public HelperAssignment findByEventAndPosition(GuidedEvent event, Position position)
     {
         List<HelperAssignment> result =
                 dataSource().find(null, HelperAssignment.ATTR_EVENT, event, HelperAssignment.ATTR_POSITION, position);
         return safeValue(result);
     }
 
-    public HelperAssignment findByEventAndPositionId(Event event, Long positionId)
+    public HelperAssignment findByEventAndPositionId(GuidedEvent event, Long positionId)
     {
         return findByEventAndPosition(event, RepositoryProvider.getRepository(PositionRepository.class).findById(positionId));
     }
 
-    public void assignHelper(Helper helper, Event event, Position position, SessionToken sessionToken) throws ResourcePlanningException
+    public void assignHelper(Helper helper, GuidedEvent event, Position position, SessionToken sessionToken) throws ResourcePlanningException
     {
         if (!(helper.isAssignableTo(position, event.getEventDate())))
         {
@@ -116,7 +116,7 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
         EntityFactory.buildHelperAssignment(helper, event, position).saveOrUpdate(sessionToken);
     }
 
-    public void confirmHelper(Helper helper, Event event, Position position, SessionToken sessionToken) throws ResourcePlanningException
+    public void confirmHelper(Helper helper, GuidedEvent event, Position position, SessionToken sessionToken) throws ResourcePlanningException
     {
         if (!(helper.isAssignableTo(position, event.getEventDate())))
         {
@@ -136,7 +136,7 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
     /**
      * Sets a {@link HelperAssignment} to state {@link HelperAssignmentState#CANCELLED}.
      */
-    public void cancelHelperAssignment(Helper helper, Event event)
+    public void cancelHelperAssignment(Helper helper, GuidedEvent event)
     {
         HelperAssignmentRepository repository = RepositoryProvider.getRepository(HelperAssignmentRepository.class);
         repository.updateSingleValue(repository.findByHelperAndEvent(helper, event), HelperAssignment.ATTR_ASSIGNMENT_STATE,
@@ -146,7 +146,7 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
     /**
      * Sets a {@link HelperAssignment} to state {@link HelperAssignmentState#CONFIRMED}.
      */
-    public void confirmHelperAssignment(Helper helper, Event event)
+    public void confirmHelperAssignment(Helper helper, GuidedEvent event)
     {
         HelperAssignmentRepository repository = RepositoryProvider.getRepository(HelperAssignmentRepository.class);
         repository.updateSingleValue(repository.findByHelperAndEvent(helper, event), HelperAssignment.ATTR_ASSIGNMENT_STATE,
@@ -170,7 +170,7 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
         return (HelperAssignment) list.get(0)[0];
     }
 
-    public List<HelperAssignment> findConfirmedHelperAssignments(Event event)
+    public List<HelperAssignment> findConfirmedHelperAssignments(GuidedEvent event)
     {
         return dataSource().find(null, HelperAssignment.ATTR_EVENT, event, HelperAssignment.ATTR_ASSIGNMENT_STATE,
                 HelperAssignmentState.CONFIRMED);
@@ -238,7 +238,7 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
         }
     }
 
-    public HelperAssignment findConfirmedByPositionAndEvent(Event event, Position position)
+    public HelperAssignment findConfirmedByPositionAndEvent(GuidedEvent event, Position position)
     {
         List<HelperAssignment> list = dataSource().find(null, HelperAssignment.ATTR_EVENT, event, HelperAssignment.ATTR_POSITION, position,
                 HelperAssignment.ATTR_ASSIGNMENT_STATE, HelperAssignmentState.CONFIRMED);

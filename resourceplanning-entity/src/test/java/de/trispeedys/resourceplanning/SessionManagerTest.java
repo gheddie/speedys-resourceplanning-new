@@ -9,7 +9,7 @@ import de.gravitex.hibernateadapter.core.SessionManager;
 import de.gravitex.hibernateadapter.core.SessionToken;
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.entity.Domain;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -41,7 +41,7 @@ public class SessionManagerTest
             holder.saveOrUpdate(template);
 
             // build event
-            Event event = EntityFactory.buildEvent("TRI-PETER", "TRI-PETER", 21, 12, 2014, EventState.FINISHED, template, null);
+            GuidedEvent event = EntityFactory.buildEvent("TRI-PETER", "TRI-PETER", 21, 12, 2014, EventState.FINISHED, template, null);
             holder.saveOrUpdate(event);
             
             // create helpers

@@ -6,7 +6,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.delegate.requesthelp.misc.RequestHelpNotificationDelegate;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
@@ -22,7 +22,7 @@ public class ProposePositionsDelegate extends RequestHelpNotificationDelegate
     public void execute(DelegateExecution execution) throws Exception
     {
         // send a mail with all unassigned positions in the current event
-        Event event = getEvent(execution);
+        GuidedEvent event = getEvent(execution);
         Helper helper = getHelper(execution);
         List<Position> unassignedPositions =
                 RepositoryProvider.getRepository(PositionRepository.class).findUnassignedPositionsByGenerator(helper,

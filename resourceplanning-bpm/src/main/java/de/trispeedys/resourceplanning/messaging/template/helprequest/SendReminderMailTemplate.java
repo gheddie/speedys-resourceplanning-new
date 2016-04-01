@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -24,7 +24,7 @@ public class SendReminderMailTemplate extends HelperInteractionMailTemplate
 
     private int attemptCount;
 
-    public SendReminderMailTemplate(Helper helper, Event event, Position position, boolean aPriorPositionAvailable, int anAttemptCount)
+    public SendReminderMailTemplate(Helper helper, GuidedEvent event, Position position, boolean aPriorPositionAvailable, int anAttemptCount)
     {
         super(helper, event, position);
         this.priorPositionAvailable = aPriorPositionAvailable;

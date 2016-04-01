@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.entity.Domain;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -57,7 +57,7 @@ public class HelperTest
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
 
         // create event
-        Event tri2014 =
+        GuidedEvent tri2014 =
                 EntityFactory.buildEvent("Triathlon 2014", "TRI-2014", 21, 6, 2014, EventState.PLANNED,
                         template, null).saveOrUpdate();
         // assign positions to that event

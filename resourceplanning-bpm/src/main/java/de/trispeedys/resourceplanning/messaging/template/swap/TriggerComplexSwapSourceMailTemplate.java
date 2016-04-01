@@ -1,7 +1,7 @@
 package de.trispeedys.resourceplanning.messaging.template.swap;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.MessagingType;
@@ -9,7 +9,7 @@ import de.trispeedys.resourceplanning.messaging.SwapMailTemplate;
 
 public class TriggerComplexSwapSourceMailTemplate extends TriggerComplexSwapMailTemplate
 {
-    public TriggerComplexSwapSourceMailTemplate(Event event, HelperAssignment sourceAssignment, HelperAssignment targetAssignment)
+    public TriggerComplexSwapSourceMailTemplate(GuidedEvent event, HelperAssignment sourceAssignment, HelperAssignment targetAssignment)
     {
         super(event, sourceAssignment, targetAssignment);
     }

@@ -1,6 +1,6 @@
 package de.trispeedys.resourceplanning.entity.builder;
 
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -12,7 +12,7 @@ public class HelperAssignmentBuilder extends AbstractEntityBuilder<HelperAssignm
     
     private Position position;
 
-    private Event event;
+    private GuidedEvent event;
 
     private HelperAssignmentState helperAssignmentState;
 
@@ -28,7 +28,7 @@ public class HelperAssignmentBuilder extends AbstractEntityBuilder<HelperAssignm
         return this;
     }
 
-    public HelperAssignmentBuilder withEvent(Event aEvent)
+    public HelperAssignmentBuilder withEvent(GuidedEvent aEvent)
     {
         event = aEvent;
         return this;

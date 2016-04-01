@@ -1,6 +1,7 @@
 package de.trispeedys.resourceplanning.webservice;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,10 +25,12 @@ import de.trispeedys.resourceplanning.BusinessKeys;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.entity.Domain;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
+import de.trispeedys.resourceplanning.entity.Person;
 import de.trispeedys.resourceplanning.entity.Position;
+import de.trispeedys.resourceplanning.entity.SimpleEvent;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperCallback;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
@@ -37,7 +40,7 @@ import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.importer.JsonEventReader;
 import de.trispeedys.resourceplanning.repository.DomainRepository;
-import de.trispeedys.resourceplanning.repository.EventRepository;
+import de.trispeedys.resourceplanning.repository.GuidedEventRepository;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.test.TestDataGenerator;
@@ -62,7 +65,7 @@ public class TestDataProvider
     public void duplicateUnchanged()
     {
         // real life event for 2015
-        Event newEvent = RepositoryProvider.getRepository(EventRepository.class).findAll(null).get(0);
+        GuidedEvent newEvent = RepositoryProvider.getRepository(GuidedEventRepository.class).findAll(null).get(0);
         SpeedyRoutines.duplicateEvent(newEvent, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
     }
 
@@ -82,7 +85,7 @@ public class TestDataProvider
         includes.add(new PositionInclude(domLaufstrecke, 888));
 
         // real life event for 2015
-        Event event2015 = RepositoryProvider.getRepository(EventRepository.class).findEventByEventKey("TRI-2015");
+        GuidedEvent event2015 = RepositoryProvider.getRepository(GuidedEventRepository.class).findEventByEventKey("TRI-2015");
         SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, excludes, includes);
     }
 
@@ -165,6 +168,49 @@ public class TestDataProvider
         new JsonEventReader().doImport(resourceName);
 
         // (3) duplicate unchanged
-        duplicateUnchanged();
+        // duplicateUnchanged();
+        
+        createSomePersonAndSimpleEvents();
+    }
+
+    private void createSomePersonAndSimpleEvents()
+    {
+        SessionHolder sessionHolder = SessionManager.getInstance().registerSession(this, null);
+        try
+        {
+            sessionHolder.beginTransaction();
+            createSimpleEvent(sessionHolder, "some simple event", new Date(), "sse-123");
+            createPerson(sessionHolder, "Hanke", "Jan", "jan@hanke.de", new Date());
+            sessionHolder.commitTransaction();
+        }
+        catch (Exception e)
+        {
+            sessionHolder.rollbackTransaction();
+            ;
+            throw new ResourcePlanningException("helper addresses could not be anonymized : " + e.getMessage());
+        }
+        finally
+        {
+            SessionManager.getInstance().unregisterSession(sessionHolder);
+        }
+    }
+
+    private void createPerson(SessionHolder sessionHolder, String lastName, String firstName, String email, Date dateOfBirth)
+    {
+        Person person = new Person();
+        person.setFirstName(firstName);
+        person.setLastName(lastName);
+        person.setEmail(email);
+        person.setDateOfBirth(dateOfBirth);
+        sessionHolder.saveOrUpdate(person);
+    }
+
+    private void createSimpleEvent(SessionHolder sessionHolder, String description, Date eventDate, String eventKey)
+    {
+        SimpleEvent simpleEvent = new SimpleEvent();
+        simpleEvent.setDescription(description);
+        simpleEvent.setEventDate(eventDate);
+        simpleEvent.setEventKey(eventKey);
+        sessionHolder.saveOrUpdate(simpleEvent);
     }
 }

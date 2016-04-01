@@ -2,10 +2,10 @@ package de.trispeedys.resourceplanning.util;
 
 import java.util.List;
 
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.misc.HierarchicalEventItem;
 
-public class EventTreeNode<T> extends EntityTreeNode<Event>
+public class EventTreeNode<T> extends EntityTreeNode<GuidedEvent>
 {
     public EventTreeNode()
     {
@@ -19,7 +19,7 @@ public class EventTreeNode<T> extends EntityTreeNode<Event>
     
     public String infoString()
     {
-        return ((Event) getPayLoad()).getDescription();
+        return ((GuidedEvent) getPayLoad()).getDescription();
     }
     
     public HierarchicalEventItemType getItemType()
@@ -29,7 +29,7 @@ public class EventTreeNode<T> extends EntityTreeNode<Event>
     
     public String itemKey()
     {
-        Event eventItem = (Event) getPayLoad();
+        GuidedEvent eventItem = (GuidedEvent) getPayLoad();
         return eventItem.getDifferentiator();
     }
     
@@ -40,7 +40,7 @@ public class EventTreeNode<T> extends EntityTreeNode<Event>
     
     public Long getEntityId()
     {
-        return ((Event) getPayLoad()).getId();
+        return ((GuidedEvent) getPayLoad()).getId();
     }
     
     public String getPriorization()

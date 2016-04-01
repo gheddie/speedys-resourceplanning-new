@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.entity.Domain;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
@@ -41,7 +41,7 @@ public class HelperAssignmentTest
         
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
 
-        Event event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2015, EventState.PLANNED, template, null).saveOrUpdate();
+        GuidedEvent event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2015, EventState.PLANNED, template, null).saveOrUpdate();
 
         Domain defaultDomain = SpeedyTestUtil.buildDefaultDomain(1);
         Position position1 = EntityFactory.buildPosition("Radverpflegung", 12, defaultDomain, 1, true).saveOrUpdate();
@@ -70,7 +70,7 @@ public class HelperAssignmentTest
     {
         TestUtil.clearAll();
 
-        Event event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, null, null).saveOrUpdate();
+        GuidedEvent event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, null, null).saveOrUpdate();
 
         // Helfer ist zum Datum der Veranstaltung erst 15
         Helper helper =
@@ -98,7 +98,7 @@ public class HelperAssignmentTest
         
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
 
-        Event event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
+        GuidedEvent event = EntityFactory.buildEvent("DM AK 2015", "DM-AK-2015", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
 
         // Helfer ist zum Datum der Veranstaltung erst 15
         Helper helper =
@@ -122,8 +122,8 @@ public class HelperAssignmentTest
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
 
         // create some events
-        Event evt2012 = EntityFactory.buildEvent("TRI-2012", "TRI-2012", 21, 6, 2012, EventState.FINISHED, template, null).saveOrUpdate();
-        Event evt2014 = EntityFactory.buildEvent("TRI-2012", "TRI-2014", 21, 6, 2014, EventState.PLANNED, template, null).saveOrUpdate();
+        GuidedEvent evt2012 = EntityFactory.buildEvent("TRI-2012", "TRI-2012", 21, 6, 2012, EventState.FINISHED, template, null).saveOrUpdate();
+        GuidedEvent evt2014 = EntityFactory.buildEvent("TRI-2012", "TRI-2014", 21, 6, 2014, EventState.PLANNED, template, null).saveOrUpdate();
 
         // helper was confirmed for a position in 2012, but only proposed for one in 2014...
         Helper helper =
@@ -154,8 +154,8 @@ public class HelperAssignmentTest
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
 
         // create some events
-        Event event2012 = EntityFactory.buildEvent("TRI-2012", "TRI-2012", 21, 6, 2012, EventState.FINISHED, template, null).saveOrUpdate();
-        Event event2014 = EntityFactory.buildEvent("TRI-2014", "TRI-2014", 21, 6, 2014, EventState.PLANNED, template, null).saveOrUpdate();
+        GuidedEvent event2012 = EntityFactory.buildEvent("TRI-2012", "TRI-2012", 21, 6, 2012, EventState.FINISHED, template, null).saveOrUpdate();
+        GuidedEvent event2014 = EntityFactory.buildEvent("TRI-2014", "TRI-2014", 21, 6, 2014, EventState.PLANNED, template, null).saveOrUpdate();
 
         // helper was confirmed for a position in 2012, but only proposed for one in 2014...
         Helper helper =
@@ -196,7 +196,7 @@ public class HelperAssignmentTest
         
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
         
-        Event event2015 = EntityFactory.buildEvent("TRI-2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, template, null).saveOrUpdate();
+        GuidedEvent event2015 = EntityFactory.buildEvent("TRI-2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, template, null).saveOrUpdate();
 
         // assign position to event
         SpeedyRoutines.relatePositionsToEvent(event2015, position);
@@ -208,7 +208,7 @@ public class HelperAssignmentTest
                 EntityFactory.buildHelper("Klaus", "Müller", Helper.TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 1980, true)
                         .saveOrUpdate();
         
-        Event event2016 = EntityFactory.buildEvent("TRI-2016", "TRI-2016", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
+        GuidedEvent event2016 = EntityFactory.buildEvent("TRI-2016", "TRI-2016", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
 
         // assign position to event
         SpeedyRoutines.relatePositionsToEvent(event2016, position);
@@ -231,7 +231,7 @@ public class HelperAssignmentTest
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
         
         // event
-        Event event = EntityFactory.buildEvent("TRI-2016", "TRI-2016", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
+        GuidedEvent event = EntityFactory.buildEvent("TRI-2016", "TRI-2016", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
         // helper
         Helper helper =
                 EntityFactory.buildHelper("Klaus", "Müller", Helper.TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 1980, true)
@@ -256,7 +256,7 @@ public class HelperAssignmentTest
         EventTemplate template = EntityFactory.buildEventTemplate("123").saveOrUpdate();
         
         // event
-        Event event = EntityFactory.buildEvent("TRI-2016", "TRI-2016", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
+        GuidedEvent event = EntityFactory.buildEvent("TRI-2016", "TRI-2016", 21, 6, 2016, EventState.PLANNED, template, null).saveOrUpdate();
         // helper
         Helper helper =
                 EntityFactory.buildHelper("Klaus", "Müller", Helper.TEST_MAIL_ADDRESS, HelperState.ACTIVE, 23, 6, 1980, true)
@@ -280,7 +280,7 @@ public class HelperAssignmentTest
         PositionRepository positionRepository = RepositoryProvider.getRepository(PositionRepository.class);
 
         // event
-        Event event = TestDataGenerator.createSimpleUnassignedEvent("TRI-2016", "TRI-2016", 21, 6, 2016);
+        GuidedEvent event = TestDataGenerator.createSimpleUnassignedEvent("TRI-2016", "TRI-2016", 21, 6, 2016);
 
         // helpers
         Helper helper1 =

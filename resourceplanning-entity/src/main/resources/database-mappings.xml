@@ -5,7 +5,8 @@
 	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.Domain" datasource-class="de.trispeedys.resourceplanning.datasource.DomainDatasource" />
 	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.Position" datasource-class="de.trispeedys.resourceplanning.datasource.PositionDatasource" />
 	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.EventTemplate" datasource-class="de.trispeedys.resourceplanning.datasource.EventTemplateDatasource" />
-	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.Event" datasource-class="de.trispeedys.resourceplanning.datasource.EventDatasource" />
+	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.GuidedEvent" datasource-class="de.trispeedys.resourceplanning.datasource.GuidedEventDatasource" />
+	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.SimpleEvent" datasource-class="de.trispeedys.resourceplanning.datasource.SimpleEventDatasource" />
 	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.EventPosition" datasource-class="de.trispeedys.resourceplanning.datasource.EventPositionDatasource" />
 	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.HelperAssignment" datasource-class="de.trispeedys.resourceplanning.datasource.HelperAssignmentDatasource" />
 	<database-mapping entity-class="de.trispeedys.resourceplanning.entity.PositionAggregation" datasource-class="de.trispeedys.resourceplanning.datasource.PositionAggregationDatasource" />

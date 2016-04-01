@@ -2,11 +2,11 @@ package de.trispeedys.resourceplanning.entity.builder;
 
 import java.util.Date;
 
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 
-public class EventBuilder extends AbstractEntityBuilder<Event>
+public class EventBuilder extends AbstractEntityBuilder<GuidedEvent>
 {
     private String description;
     
@@ -18,7 +18,7 @@ public class EventBuilder extends AbstractEntityBuilder<Event>
 
     private EventTemplate eventTemplate;
 
-    private Event parentEvent;
+    private GuidedEvent parentEvent;
 
     public EventBuilder withDescription(String aDescription)
     {
@@ -50,15 +50,15 @@ public class EventBuilder extends AbstractEntityBuilder<Event>
         return this;
     }
     
-    public EventBuilder withParentEvent(Event aParentEvent)
+    public EventBuilder withParentEvent(GuidedEvent aParentEvent)
     {
         parentEvent = aParentEvent;
         return this;
     }
     
-    public Event build()
+    public GuidedEvent build()
     {
-        Event event = new Event();
+        GuidedEvent event = new GuidedEvent();
         event.setDescription(description);
         event.setEventKey(eventKey);
         event.setEventDate(eventDate);

@@ -4,7 +4,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.delegate.requesthelp.misc.AbstractRequestHelpDelegate;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
@@ -18,7 +18,7 @@ public class CheckManualAssignmentDelegate extends AbstractRequestHelpDelegate
             // TODO translate
             throw new ResourcePlanningException("chosen position id must not be null at this point!!");
         }
-        Event event = getEvent(execution);
+        GuidedEvent event = getEvent(execution);
         Long positionId = (Long) execution.getVariableLocal(BpmVariables.RequestHelpHelper.VAR_CHOSEN_POSITION);
         if (RepositoryProvider.getRepository(PositionRepository.class).isPositionAvailable(event.getId(), positionId))
         {

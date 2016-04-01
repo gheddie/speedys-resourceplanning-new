@@ -4,7 +4,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.delegate.requesthelp.misc.RequestHelpNotificationDelegate;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.interaction.EventManager;
@@ -18,7 +18,7 @@ public class CancelAssignmentDelegate extends RequestHelpNotificationDelegate
     public void execute(DelegateExecution execution) throws Exception
     {
         // cancel assignment
-        Event event = getEvent(execution);
+        GuidedEvent event = getEvent(execution);
         Helper helper = getHelper(execution);
         RepositoryProvider.getRepository(HelperAssignmentRepository.class).cancelHelperAssignment(helper, event);
 

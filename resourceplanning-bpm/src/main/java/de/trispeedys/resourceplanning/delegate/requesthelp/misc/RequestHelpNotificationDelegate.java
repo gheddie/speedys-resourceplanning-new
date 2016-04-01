@@ -3,7 +3,7 @@ package de.trispeedys.resourceplanning.delegate.requesthelp.misc;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.exception.ResourcePlanningException;
@@ -26,7 +26,7 @@ public abstract class RequestHelpNotificationDelegate extends AbstractRequestHel
     private static final String TEMPLATE_DIRECTORY = "de.trispeedys.resourceplanning.messaging.template.helprequest";
 
     @SuppressWarnings("rawtypes")
-    protected void constructMessage(DelegateExecution execution, Helper helper, Position position, Event event,
+    protected void constructMessage(DelegateExecution execution, Helper helper, Position position, GuidedEvent event,
             String toAddress)
     {
         RequestHelpMailTemplate template = getMessageTemplate(execution, helper, position, event);
@@ -38,7 +38,7 @@ public abstract class RequestHelpNotificationDelegate extends AbstractRequestHel
 
     @SuppressWarnings("rawtypes")
     protected RequestHelpMailTemplate getMessageTemplate(DelegateExecution execution, Helper helper, Position position,
-            Event event)
+            GuidedEvent event)
     {
         String baseName = getClass().getSimpleName().substring(0, getClass().getSimpleName().indexOf(DELEGATE_POSTFIX));
         String templateName = TEMPLATE_DIRECTORY + "." + baseName + MAIL_TEMPLATE_POSTFIX;

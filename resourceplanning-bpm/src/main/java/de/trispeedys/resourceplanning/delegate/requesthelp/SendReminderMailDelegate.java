@@ -5,7 +5,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.gravitex.hibernateadapter.datasource.Datasources;
 import de.trispeedys.resourceplanning.delegate.requesthelp.misc.RequestHelpNotificationDelegate;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessagingType;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -23,7 +23,7 @@ public class SendReminderMailDelegate extends RequestHelpNotificationDelegate
         Long positionId = (Long) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_PRIOR_POSITION);
         // write mail
         Helper helper = (Helper) Datasources.getDatasource(Helper.class).findById(null, helperId);
-        Event event = (Event) Datasources.getDatasource(Event.class).findById(null, eventId);
+        GuidedEvent event = (GuidedEvent) Datasources.getDatasource(GuidedEvent.class).findById(null, eventId);
         Position position = (Position) Datasources.getDatasource(Position.class).findById(null, positionId);
         int attemptCount = (Integer) execution.getVariable(BpmVariables.RequestHelpHelper.VAR_MAIL_ATTEMPTS);
         SendReminderMailTemplate template = new SendReminderMailTemplate(helper, event, position,

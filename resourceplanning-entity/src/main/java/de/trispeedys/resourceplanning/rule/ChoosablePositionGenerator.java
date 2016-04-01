@@ -6,7 +6,7 @@ import java.util.List;
 
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.entity.AggregationRelation;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
 import de.trispeedys.resourceplanning.entity.PositionAggregation;
@@ -21,12 +21,12 @@ public class ChoosablePositionGenerator extends RuleObject<Position>
 {
     private static final String NO_GROUP = "NO_GROUP";
     
-    public List<Position> generate(Event event)
+    public List<Position> generate(GuidedEvent event)
     {
         return generate(null, event);
     }
 
-    public List<Position> generate(Helper helper, Event event)
+    public List<Position> generate(Helper helper, GuidedEvent event)
     {
         PositionRepository positionRepository = RepositoryProvider.getRepository(PositionRepository.class);
         List<Position> unassignedPositionsInEvent = positionRepository.findUnassignedPositionsInEvent(event, helper, true);

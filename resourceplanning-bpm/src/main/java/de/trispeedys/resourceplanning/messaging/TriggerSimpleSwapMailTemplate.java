@@ -3,7 +3,7 @@ package de.trispeedys.resourceplanning.messaging;
 import java.util.HashMap;
 
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.MessagingType;
@@ -15,7 +15,7 @@ public class TriggerSimpleSwapMailTemplate extends SwapMailTemplate
 {
     private Position targetPosition;
 
-    public TriggerSimpleSwapMailTemplate(Event event, HelperAssignment sourceAssignment, Position targetPosition)
+    public TriggerSimpleSwapMailTemplate(GuidedEvent event, HelperAssignment sourceAssignment, Position targetPosition)
     {
         super(event, sourceAssignment);
         this.targetPosition = targetPosition;

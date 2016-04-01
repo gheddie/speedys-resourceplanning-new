@@ -26,7 +26,7 @@ public class ManualAssignmentComment extends AbstractDbObject
     @NotNull
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id")
-    private Event event;
+    private GuidedEvent event;
     
     private String comment;
     
@@ -45,12 +45,12 @@ public class ManualAssignmentComment extends AbstractDbObject
         this.helper = helper;
     }
     
-    public Event getEvent()
+    public GuidedEvent getEvent()
     {
         return event;
     }
     
-    public void setEvent(Event event)
+    public void setEvent(GuidedEvent event)
     {
         this.event = event;
     }

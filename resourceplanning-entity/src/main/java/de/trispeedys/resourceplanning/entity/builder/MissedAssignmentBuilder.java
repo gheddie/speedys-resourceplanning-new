@@ -2,7 +2,7 @@ package de.trispeedys.resourceplanning.entity.builder;
 
 import java.util.Date;
 
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MissedAssignment;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -13,7 +13,7 @@ public class MissedAssignmentBuilder extends AbstractEntityBuilder<MissedAssignm
     
     private Position position;
     
-    private Event event;
+    private GuidedEvent event;
     
     private Date timeStamp;
 
@@ -29,7 +29,7 @@ public class MissedAssignmentBuilder extends AbstractEntityBuilder<MissedAssignm
         return this;
     }
 
-    public MissedAssignmentBuilder withEvent(Event aEvent)
+    public MissedAssignmentBuilder withEvent(GuidedEvent aEvent)
     {
         event = aEvent;
         return this;

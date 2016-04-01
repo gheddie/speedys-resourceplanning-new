@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.gravitex.hibernateadapter.datasource.Datasources;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -33,10 +33,10 @@ public class CallbackChoiceGeneratorTest
         TestUtil.clearAll();
 
         // create events
-        Event event2015 =
+        GuidedEvent event2015 =
                 TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015,
                         EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
         // get helper
@@ -56,10 +56,10 @@ public class CallbackChoiceGeneratorTest
         TestUtil.clearAll();
 
         // create events
-        Event event2015 =
+        GuidedEvent event2015 =
                 TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015,
                         EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, null, null);
 
         // get helpers
@@ -79,7 +79,7 @@ public class CallbackChoiceGeneratorTest
 
     /**
      * {@link Helper} 'A' chooses {@link HelperCallback#ASSIGNMENT_AS_BEFORE}, but the {@link Position} is gone in the
-     * actual {@link Event} (2016)...
+     * actual {@link GuidedEvent} (2016)...
      */
     @Test
     public void testChoicesWithPriorPositionRemoved()
@@ -87,7 +87,7 @@ public class CallbackChoiceGeneratorTest
         TestUtil.clearAll();
 
         // create events
-        Event event2015 =
+        GuidedEvent event2015 =
                 TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015,
                         EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
 
@@ -95,7 +95,7 @@ public class CallbackChoiceGeneratorTest
 
         List<Integer> excludes = new ArrayList<Integer>();
         excludes.add(2);
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(event2015, "Triathlon 2016", "TRI-2016", 21, 6, 2016, excludes, null);
 
         // remove prior position of helper 'A' from event 2016

@@ -10,7 +10,7 @@ import de.gravitex.hibernateadapter.datasource.Datasources;
 import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.datasource.PositionDatasource;
 import de.trispeedys.resourceplanning.entity.Domain;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventPosition;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
@@ -29,7 +29,7 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
         return safeValue(result);
     }
 
-    public List<Position> findUnassignedPositionsByGenerator(Helper helper, Event event)
+    public List<Position> findUnassignedPositionsByGenerator(Helper helper, GuidedEvent event)
     {
         return new ChoosablePositionGenerator().generate(helper, event);
     }
@@ -43,7 +43,7 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
      * @param onlyChooseable
      * @return
      */
-    public List<Position> findUnassignedPositionsInEvent(Event event, Helper helper, boolean onlyChooseable)
+    public List<Position> findUnassignedPositionsInEvent(GuidedEvent event, Helper helper, boolean onlyChooseable)
     {
         // get all unassigned positions
         List<Position> positions = findUnassignedPositionsInEvent(event, onlyChooseable);
@@ -67,7 +67,7 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
         }
     }
 
-    public List<Position> findUnassignedPositionsInEvent(Event event, boolean onlyChooseable)
+    public List<Position> findUnassignedPositionsInEvent(GuidedEvent event, boolean onlyChooseable)
     {
         // all event positions not referenced by an assigment which is 'PLANNED' or 'CONFIRMED'
         String qryString =
@@ -106,7 +106,7 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
         return result;
     }
 
-    public List<Position> findPositionsInEvent(Event event)
+    public List<Position> findPositionsInEvent(GuidedEvent event)
     {
         List<EventPosition> list =
                 Datasources.getDatasource(EventPosition.class).find(
@@ -131,7 +131,7 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
         {
             throw new ResourcePlanningException("position with id '" + positionId + "' could not be found!!");
         }
-        Event event = (Event) Datasources.getDatasource(Event.class).findById(null, eventId);
+        GuidedEvent event = (GuidedEvent) Datasources.getDatasource(GuidedEvent.class).findById(null, eventId);
         return isPositionAvailable(event, position);
     }
 
@@ -142,7 +142,7 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
      * @param position
      * @return
      */
-    public boolean isPositionAvailable(Event event, Position position)
+    public boolean isPositionAvailable(GuidedEvent event, Position position)
     {
         if (!(isPositionPresentInEvent(position, event)))
         {
@@ -164,13 +164,13 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
     }
 
     /**
-     * checks if the given {@link Position} is assigned to the {@link Event} by a {@link EventPosition} entry.
+     * checks if the given {@link Position} is assigned to the {@link GuidedEvent} by a {@link EventPosition} entry.
      * 
      * @param position
      * @param event
      * @return
      */
-    public boolean isPositionPresentInEvent(Position position, Event event)
+    public boolean isPositionPresentInEvent(Position position, GuidedEvent event)
     {
         HashMap<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("position", position);
@@ -189,7 +189,7 @@ public class PositionRepository extends AbstractDatabaseRepository<Position> imp
         return new PositionDatasource();
     }
 
-    public List<Position> findEventPositions(Event event, boolean includedInEvent)
+    public List<Position> findEventPositions(GuidedEvent event, boolean includedInEvent)
     {
         HashMap<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("event", event);

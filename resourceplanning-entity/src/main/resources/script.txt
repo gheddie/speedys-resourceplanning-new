@@ -93,24 +93,34 @@ create table event_template
 	constraint evt_tpl_unique_description unique (description)
 );
 
------------------------------------------------- Event
-create sequence event_id_seq;
+------------------------------------------------ GuidedEvent
+create sequence guided_event_id_seq;
 
-create table event
+create table guided_event
 (
-	id bigint not null default nextval('event_id_seq'),
-	description varchar(255),
-	event_key varchar(255),
-	event_date date,
+	id bigint not null default nextval('guided_event_id_seq'),
 	event_state varchar(64),	
 	event_template_id bigint,
 	parent_event_id bigint,
 	primary key (id)
 );
 
-alter table event add constraint fk_evt_template foreign key (event_template_id) references event_template (id);
+alter table guided_event add constraint fk_evt_template foreign key (event_template_id) references event_template (id);
 
-alter table event add constraint fk_evt_parent foreign key (parent_event_id) references event (id);
+alter table guided_event add constraint fk_evt_parent foreign key (parent_event_id) references guided_event (id);
+
+------------------------------------------------ SimpleEvent
+create sequence simple_event_id_seq;
+
+create table simple_event
+(
+	id bigint not null default nextval('simple_event_id_seq'),
+	event_date date,
+	description varchar(255),
+	event_key varchar(255),
+	enrollable boolean,
+	primary key (id)
+);
 
 ------------------------------------------------ HelperAssignment
 create sequence helper_assignment_id_seq;
@@ -129,7 +139,7 @@ alter table helper_assignment add constraint fk_assignment_helper foreign key (h
 
 alter table helper_assignment add constraint fk_assignment_position foreign key (position_id) references position (id);
 
-alter table helper_assignment add constraint fk_assignment_event foreign key (event_id) references event (id);
+alter table helper_assignment add constraint fk_assignment_event foreign key (event_id) references guided_event (id);
 
 ------------------------------------------------ EventPosition
 create sequence event_position_id_seq;
@@ -145,7 +155,7 @@ create table event_position
 
 alter table event_position add constraint fk_evt_pos_position foreign key (position_id) references position (id);
 
-alter table event_position add constraint fk_evt_pos_event foreign key (event_id) references event (id);
+alter table event_position add constraint fk_evt_pos_event foreign key (event_id) references guided_event (id);
 
 ------------------------------------------------ DomainResponsibility
 create sequence domain_responsibility_id_seq;
@@ -242,7 +252,7 @@ alter table missed_assignment add constraint fk_m_assig_helper foreign key (help
 
 alter table missed_assignment add constraint fk_m_assig_position foreign key (position_id) references position (id);
 
-alter table missed_assignment add constraint fk_m_assig_event foreign key (event_id) references event (id);
+alter table missed_assignment add constraint fk_m_assig_event foreign key (event_id) references guided_event (id);
 
 ------------------------------------------------ EventLocation
 create sequence event_location_id_seq;
@@ -268,7 +278,7 @@ create table manual_assignment_comment
 
 alter table manual_assignment_comment add constraint fk_m_assig_comm_helper foreign key (helper_id) references helper (id);
 
-alter table manual_assignment_comment add constraint fk_m_assig_comm_event foreign key (event_id) references event (id);
+alter table manual_assignment_comment add constraint fk_m_assig_comm_event foreign key (event_id) references guided_event (id);
 
 ------------------------------------------------ AssignmentSwap
 create sequence assignment_swap_id_seq;
@@ -295,4 +305,4 @@ alter table assignment_swap add constraint fk_ass_swap_hlp_source foreign key (s
 
 alter table assignment_swap add constraint fk_ass_swap_hlp_target foreign key (target_helper_id) references helper (id);
 
-alter table assignment_swap add constraint fk_ass_swap_event foreign key (event_id) references event (id);
+alter table assignment_swap add constraint fk_ass_swap_event foreign key (event_id) references guided_event (id);

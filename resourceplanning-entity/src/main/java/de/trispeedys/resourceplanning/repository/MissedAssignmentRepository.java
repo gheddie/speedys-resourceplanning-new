@@ -16,7 +16,7 @@ import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
 import de.trispeedys.resourceplanning.configuration.AppConfiguration;
 import de.trispeedys.resourceplanning.configuration.AppConfigurationValues;
 import de.trispeedys.resourceplanning.datasource.MissedAssignmentDatasource;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MissedAssignment;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -51,13 +51,13 @@ public class MissedAssignmentRepository extends AbstractDatabaseRepository<Misse
 
             // (1) remove all prior misses for the helper in the given event
             HashMap<String, Object> parameters = new HashMap<String, Object>();
-            parameters.put(MissedAssignment.ATTR_EVENT, RepositoryProvider.getRepository(EventRepository.class).findById(eventId));
+            parameters.put(MissedAssignment.ATTR_EVENT, RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId));
             parameters.put(MissedAssignment.ATTR_HELPER, RepositoryProvider.getRepository(HelperRepository.class).findById(helperId));
             Datasources.getDatasource(MissedAssignment.class).executeQuery(token, "DELETE FROM " + MissedAssignment.class.getSimpleName() + " ma WHERE ma.helper = :helper AND ma.event = :event",
                     parameters);
 
             // (2) persist new miss
-            EntityFactory.buildMissedAssignment(RepositoryProvider.getRepository(EventRepository.class).findById(eventId), RepositoryProvider.getRepository(HelperRepository.class).findById(helperId),
+            EntityFactory.buildMissedAssignment(RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId), RepositoryProvider.getRepository(HelperRepository.class).findById(helperId),
                     RepositoryProvider.getRepository(PositionRepository.class).findById(positionId)).saveOrUpdate(token);
 
             sessionHolder.commitTransaction();
@@ -77,7 +77,7 @@ public class MissedAssignmentRepository extends AbstractDatabaseRepository<Misse
     public List<MissedAssignment> findUnusedByPositionAndEvent(Long positionId, Long eventId)
     {
         Position position = RepositoryProvider.getRepository(PositionRepository.class).findById(positionId);
-        Event event = RepositoryProvider.getRepository(EventRepository.class).findById(eventId);
+        GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
         HashMap<String, Object> parameters = new HashMap<String, Object>();
         parameters.put(MissedAssignment.ATTR_POSITION, position);
         parameters.put(MissedAssignment.ATTR_EVENT, event);        

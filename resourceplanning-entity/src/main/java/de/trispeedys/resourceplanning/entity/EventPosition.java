@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import de.gravitex.hibernateadapter.entity.AbstractDbObject;
 
 /**
- * Relation betweeb {@link Event} and {@link Position}.
+ * Relation betweeb {@link GuidedEvent} and {@link Position}.
  * 
  * @author Stefan.Schulz
  *
@@ -27,7 +27,7 @@ public class EventPosition extends AbstractDbObject
     
     @OneToOne
     @JoinColumn(name = "event_id")
-    private Event event;
+    private GuidedEvent event;
 
     public Position getPosition()
     {
@@ -39,12 +39,12 @@ public class EventPosition extends AbstractDbObject
         this.position = position;
     }
 
-    public Event getEvent()
+    public GuidedEvent getEvent()
     {
         return event;
     }
 
-    public void setEvent(Event event)
+    public void setEvent(GuidedEvent event)
     {
         this.event = event;
     } 

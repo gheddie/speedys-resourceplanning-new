@@ -8,18 +8,18 @@ import de.gravitex.hibernateadapter.core.repository.AbstractDatabaseRepository;
 import de.gravitex.hibernateadapter.core.repository.DatabaseRepository;
 import de.gravitex.hibernateadapter.datasource.Datasources;
 import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
-import de.trispeedys.resourceplanning.datasource.EventDatasource;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.datasource.GuidedEventDatasource;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.misc.EventState;
 
-public class EventRepository extends AbstractDatabaseRepository<Event> implements DatabaseRepository<EventRepository>
+public class GuidedEventRepository extends AbstractDatabaseRepository<GuidedEvent> implements DatabaseRepository<GuidedEventRepository>
 {
-    public List<Event> findEventByTemplateOrdered(String description)
+    public List<GuidedEvent> findEventByTemplateOrdered(String description)
     {
         String queryString =
                 "From " +
-                        Event.class.getSimpleName() +
+                        GuidedEvent.class.getSimpleName() +
                         " ev INNER JOIN ev.eventTemplate et WHERE et.description = :description ORDER BY ev.eventDate ASC";
         HashMap<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("description", description);
@@ -28,43 +28,43 @@ public class EventRepository extends AbstractDatabaseRepository<Event> implement
         {
             return null;
         }
-        List<Event> result = new ArrayList<Event>();
+        List<GuidedEvent> result = new ArrayList<GuidedEvent>();
         for (Object[] obj : list)
         {
-            result.add((Event) obj[0]);
+            result.add((GuidedEvent) obj[0]);
         }
         return result;
     }
 
-    public Event findEventByEventKey(String eventKey)
+    public GuidedEvent findEventByEventKey(String eventKey)
     {
-        return dataSource().findSingle(null, Event.ATTR_EVENT_KEY, eventKey);
+        return dataSource().findSingle(null, GuidedEvent.ATTR_EVENT_KEY, eventKey);
     }
     
-    public List<Event> findEventsByTemplateAndStatus(String templateName, EventState eventState)
+    public List<GuidedEvent> findEventsByTemplateAndStatus(String templateName, EventState eventState)
     {
         HashMap<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put(Event.ATTR_EVENT_STATE, eventState);
+        parameters.put(GuidedEvent.ATTR_EVENT_STATE, eventState);
         parameters.put(EventTemplate.ATTR_DESCRIPTION, templateName);
         List<Object[]> list =
                 Datasources.getDatasource(EventTemplate.class)
                         .find(null, "FROM " +
-                                Event.class.getSimpleName() +
+                                GuidedEvent.class.getSimpleName() +
                                 " ev INNER JOIN ev.eventTemplate et WHERE ev.eventState = :eventState AND et.description = :description", parameters);
-        List<Event> result = new ArrayList<Event>();
+        List<GuidedEvent> result = new ArrayList<GuidedEvent>();
         for (Object[] o : list)
         {
-            result.add((Event) o[0]);
+            result.add((GuidedEvent) o[0]);
         }
         return result;
     }
 
-    protected DefaultDatasource<Event> createDataSource()
+    protected DefaultDatasource<GuidedEvent> createDataSource()
     {
-        return new EventDatasource();
+        return new GuidedEventDatasource();
     }
 
-    public void updateEventState(Event event, EventState eventState)
+    public void updateEventState(GuidedEvent event, EventState eventState)
     {
         if (event == null)
         {
@@ -74,8 +74,8 @@ public class EventRepository extends AbstractDatabaseRepository<Event> implement
         event.saveOrUpdate();
     }
 
-    public List<Event> findInitiatedEvents()
+    public List<GuidedEvent> findInitiatedEvents()
     {
-        return dataSource().find(null, Event.ATTR_EVENT_STATE, EventState.INITIATED);
+        return dataSource().find(null, GuidedEvent.ATTR_EVENT_STATE, EventState.INITIATED);
     }
 }

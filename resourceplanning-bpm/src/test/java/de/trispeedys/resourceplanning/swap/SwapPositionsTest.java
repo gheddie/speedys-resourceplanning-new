@@ -18,8 +18,8 @@ import de.gravitex.hibernateadapter.datasource.Datasources;
 import de.trispeedys.resourceplanning.BusinessKeys;
 import de.trispeedys.resourceplanning.entity.AssignmentSwap;
 import de.trispeedys.resourceplanning.entity.Domain;
-import de.trispeedys.resourceplanning.entity.Event;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.HelperAssignment;
 import de.trispeedys.resourceplanning.entity.MessageQueue;
@@ -29,7 +29,6 @@ import de.trispeedys.resourceplanning.entity.misc.EventState;
 import de.trispeedys.resourceplanning.entity.misc.HelperState;
 import de.trispeedys.resourceplanning.entity.misc.SwapState;
 import de.trispeedys.resourceplanning.entity.util.EntityFactory;
-import de.trispeedys.resourceplanning.exception.ResourcePlanningSwapException;
 import de.trispeedys.resourceplanning.execution.BpmMessages;
 import de.trispeedys.resourceplanning.execution.BpmSignals;
 import de.trispeedys.resourceplanning.execution.BpmVariables;
@@ -41,7 +40,6 @@ import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.util.RequestHelpTestUtil;
 import de.trispeedys.resourceplanning.util.SpeedyRoutines;
-import de.trispeedys.resourceplanning.util.StringUtil;
 import de.trispeedys.resourceplanning.util.TestUtil;
 
 public class SwapPositionsTest
@@ -68,7 +66,7 @@ public class SwapPositionsTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(createEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -134,7 +132,7 @@ public class SwapPositionsTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(createEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -192,7 +190,7 @@ public class SwapPositionsTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(createEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -222,7 +220,7 @@ public class SwapPositionsTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(createEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -258,7 +256,7 @@ public class SwapPositionsTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(createEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -297,7 +295,7 @@ public class SwapPositionsTest
     public void testSimpleSwapAgreementPingPong()
     {
         TestUtil.clearAll();
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(createEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
         Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findAll().get(0);
@@ -317,7 +315,7 @@ public class SwapPositionsTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(createEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -352,7 +350,7 @@ public class SwapPositionsTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(createEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -384,7 +382,7 @@ public class SwapPositionsTest
     {
         TestUtil.clearAll();
 
-        Event event2016 =
+        GuidedEvent event2016 =
                 SpeedyRoutines.duplicateEvent(createEvent("Triathlon 2015", "TRI-2015", 21, 6, 2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI), "Triathlon 2016",
                         "TRI-2016", 21, 6, 2016, null, null);
 
@@ -405,7 +403,7 @@ public class SwapPositionsTest
         startComplexSwapProcess(event2016, sourceAssignment, targetAssignment, false);
     }
     
-    private void doPingPong(Event event)
+    private void doPingPong(GuidedEvent event)
     {
         List<HelperAssignment> assignments = RepositoryProvider.getRepository(HelperAssignmentRepository.class).findConfirmedHelperAssignments(event);
         HelperAssignment sourceAssignment = assignments.get(0);
@@ -415,7 +413,7 @@ public class SwapPositionsTest
         HelperConfirmation.processSimpleSwapResponse(event.getId(), sourceAssignment.getPosition().getId(), unassignedPosition.getId(), true, processEngine.getProcessEngine());
     }
 
-    private ProcessInstance startComplexSwapProcess(Event event2016, HelperAssignment sourceAssignment, HelperAssignment targetAssignment, boolean swapBySystem)
+    private ProcessInstance startComplexSwapProcess(GuidedEvent event2016, HelperAssignment sourceAssignment, HelperAssignment targetAssignment, boolean swapBySystem)
     {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put(BpmVariables.Swap.VAR_SWAP_BY_SYSTEM, swapBySystem);
@@ -428,7 +426,7 @@ public class SwapPositionsTest
         return processEngine.getRuntimeService().startProcessInstanceByMessage(BpmMessages.Swap.MSG_START_SWAP, businessKey, variables);
     }
 
-    private ProcessInstance startSimpleSwapProcess(Event event2016, HelperAssignment sourceAssignment, Position position, boolean swapBySystem)
+    private ProcessInstance startSimpleSwapProcess(GuidedEvent event2016, HelperAssignment sourceAssignment, Position position, boolean swapBySystem)
     {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put(BpmVariables.Swap.VAR_SWAP_BY_SYSTEM, swapBySystem);
@@ -441,7 +439,7 @@ public class SwapPositionsTest
         return processEngine.getRuntimeService().startProcessInstanceByMessage(BpmMessages.Swap.MSG_START_SWAP, businessKey, variables);
     }
 
-    private void finishHelperProcesses(Event event2016, Helper... helpers)
+    private void finishHelperProcesses(GuidedEvent event2016, Helper... helpers)
     {
         for (Helper helper : helpers)
         {
@@ -452,12 +450,12 @@ public class SwapPositionsTest
         processEngine.getRuntimeService().signalEventReceived(BpmSignals.RequestHelpHelper.SIG_EVENT_STARTED);
     }
     
-    private static Event createEvent(String description, String eventKey, int day, int month, int year, EventState eventState, String templateName)
+    private static GuidedEvent createEvent(String description, String eventKey, int day, int month, int year, EventState eventState, String templateName)
     {
         EventTemplate template = EntityFactory.buildEventTemplate("123ggg").saveOrUpdate();
 
         // build event
-        Event myLittleEvent = EntityFactory.buildEvent(description, eventKey, day, month, year, EventState.FINISHED, template, null).saveOrUpdate();
+        GuidedEvent myLittleEvent = EntityFactory.buildEvent(description, eventKey, day, month, year, EventState.FINISHED, template, null).saveOrUpdate();
         // create helpers
         Helper helperStefan = EntityFactory.buildHelper("Mueller", FIRSTNAME_STEFAN, "helper.stefan.mueller@helpers.de", HelperState.ACTIVE, 1, 2, 1980, true).saveOrUpdate();
         Helper helperWiebke = EntityFactory.buildHelper("Peters", FIRSTNAME_WIEBKE, "helper.wiebke.peters@helpers.de", HelperState.ACTIVE, 2, 2, 1980, true).saveOrUpdate();

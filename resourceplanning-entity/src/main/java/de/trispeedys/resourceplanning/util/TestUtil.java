@@ -23,7 +23,8 @@ public class TestUtil
         clearTable("message_queue");
         clearTable("helper");
         clearTable("person");
-        clearTable("event");
+        clearTable("guided_event");
+        clearTable("simple_event");
         clearTable("event_template");
         clearTable("event_location");
     }

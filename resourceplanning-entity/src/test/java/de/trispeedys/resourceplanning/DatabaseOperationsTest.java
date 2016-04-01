@@ -12,7 +12,7 @@ import de.gravitex.hibernateadapter.core.SessionManager;
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.gravitex.hibernateadapter.datasource.Datasources;
 import de.gravitex.hibernateadapter.datasource.DefaultDatasource;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.EventTemplate;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.Position;
@@ -183,7 +183,7 @@ public class DatabaseOperationsTest
         // clear db
         TestUtil.clearAll();
         
-        Event event = TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
+        GuidedEvent event = TestDataGenerator.createSimpleEvent("Triathlon 2015", "TRI-2015", 21, 6,
                         2015, EventState.FINISHED, EventTemplate.TEMPLATE_TRI);
         
         List<Helper> helpers = RepositoryProvider.getRepository(HelperRepository.class).findAll();

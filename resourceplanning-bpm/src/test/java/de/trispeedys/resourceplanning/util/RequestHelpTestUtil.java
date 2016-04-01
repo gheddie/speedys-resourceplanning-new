@@ -12,7 +12,7 @@ import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
 
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
-import de.trispeedys.resourceplanning.entity.Event;
+import de.trispeedys.resourceplanning.entity.GuidedEvent;
 import de.trispeedys.resourceplanning.entity.Helper;
 import de.trispeedys.resourceplanning.entity.MessageQueue;
 import de.trispeedys.resourceplanning.entity.MessagingType;
@@ -38,7 +38,7 @@ public class RequestHelpTestUtil
      * @param rule
      * @return
      */
-    public static ProcessInstance startHelperRequestProcess(Helper helper, Event event, String businessKey,
+    public static ProcessInstance startHelperRequestProcess(Helper helper, GuidedEvent event, String businessKey,
             ProcessEngineRule rule)
     {
         Map<String, Object> variables = new HashMap<String, Object>();
@@ -116,7 +116,7 @@ public class RequestHelpTestUtil
      * @param businessKey
      * @param processEngine
      */
-    public static void doNotRespondToAnything(Event event, Helper helper, String businessKey,
+    public static void doNotRespondToAnything(GuidedEvent event, Helper helper, String businessKey,
             ProcessEngineRule processEngine)
     {
         RequestHelpTestUtil.startHelperRequestProcess(helper, event, businessKey, processEngine);
