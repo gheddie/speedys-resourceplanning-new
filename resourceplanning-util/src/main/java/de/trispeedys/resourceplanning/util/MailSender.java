@@ -24,7 +24,7 @@ public class MailSender
             final String smtpPassword, final String smtpHost, final String smtpPort) throws AddressException,
             MessagingException
     {
-        logger.info("sending mail [subject:" + subject + "] to : " + toAddress);
+        logger.info("sending a mail [subject:" + subject + "] to : " + toAddress);
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
