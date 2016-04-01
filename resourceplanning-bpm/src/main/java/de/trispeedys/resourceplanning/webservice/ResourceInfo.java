@@ -311,7 +311,7 @@ public class ResourceInfo
         }
         List<RequestedSwapDTO> dtos = new ArrayList<RequestedSwapDTO>();
         RequestedSwapDTO dto = null;
-        for (AssignmentSwap swap : RepositoryProvider.getRepository(AssignmentSwapRepository.class).findRequestedByEvent(event))
+        for (AssignmentSwap swap : RepositoryProvider.getRepository(AssignmentSwapRepository.class).findByEvent(event))
         {
             dto = new RequestedSwapDTO();
             dto.setSourcePosition(swap.getSourcePosition().getDescription());
@@ -321,6 +321,12 @@ public class ResourceInfo
             dto.setSwapType(swap.getSwapType().toString());
             dto.setSwapState(swap.getSwapState().toString());
             dto.setBusinessKey(BusinessKeys.generateSwapBusinessKey(swap.getEvent(), swap.getSourcePosition(), swap.getTargetPosition()));
+            dto.setSourceHelper(swap.getSourceHelper() != null
+                    ? swap.getSourceHelper().getLastName() + ", " + swap.getSourceHelper().getFirstName()
+                    : "");
+            dto.setTargetHelper(swap.getTargetHelper() != null
+                    ? swap.getTargetHelper().getLastName() + ", " + swap.getTargetHelper().getFirstName()
+                    : "");
             dtos.add(dto);
         }
         return dtos.toArray(new RequestedSwapDTO[dtos.size()]);

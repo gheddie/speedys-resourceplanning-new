@@ -23,6 +23,11 @@ public class AssignmentSwapRepository extends AbstractDatabaseRepository<Assignm
         return dataSource().find(null, AssignmentSwap.ATTR_EVENT, event, AssignmentSwap.ATTR_SOURCE_POSITION, sourcePosition, AssignmentSwap.ATTR_TARGET_POSITION, targetPosition,
                 AssignmentSwap.ATTR_SWAP_STATE, swapResult);
     }
+    
+    public List<AssignmentSwap> findByEvent(GuidedEvent event)
+    {
+        return dataSource().find(null, AssignmentSwap.ATTR_EVENT, event);        
+    }
 
     public List<AssignmentSwap> findRequestedByEvent(GuidedEvent event)
     {

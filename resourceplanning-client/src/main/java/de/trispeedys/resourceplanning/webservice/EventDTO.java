@@ -9,9 +9,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
- * <p>Java class for eventDTO complex type.
+ * <p>Java-Klasse für eventDTO complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>
  * &lt;complexType name="eventDTO">
@@ -52,7 +52,7 @@ public class EventDTO {
     protected int positionCount;
 
     /**
-     * Gets the value of the assignmentCount property.
+     * Ruft den Wert der assignmentCount-Eigenschaft ab.
      * 
      */
     public int getAssignmentCount() {
@@ -60,7 +60,7 @@ public class EventDTO {
     }
 
     /**
-     * Sets the value of the assignmentCount property.
+     * Legt den Wert der assignmentCount-Eigenschaft fest.
      * 
      */
     public void setAssignmentCount(int value) {
@@ -68,7 +68,7 @@ public class EventDTO {
     }
 
     /**
-     * Gets the value of the description property.
+     * Ruft den Wert der description-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -80,7 +80,7 @@ public class EventDTO {
     }
 
     /**
-     * Sets the value of the description property.
+     * Legt den Wert der description-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -92,7 +92,7 @@ public class EventDTO {
     }
 
     /**
-     * Gets the value of the eventDate property.
+     * Ruft den Wert der eventDate-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -104,7 +104,7 @@ public class EventDTO {
     }
 
     /**
-     * Sets the value of the eventDate property.
+     * Legt den Wert der eventDate-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -116,7 +116,7 @@ public class EventDTO {
     }
 
     /**
-     * Gets the value of the eventId property.
+     * Ruft den Wert der eventId-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -128,7 +128,7 @@ public class EventDTO {
     }
 
     /**
-     * Sets the value of the eventId property.
+     * Legt den Wert der eventId-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -140,7 +140,7 @@ public class EventDTO {
     }
 
     /**
-     * Gets the value of the eventState property.
+     * Ruft den Wert der eventState-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -152,7 +152,7 @@ public class EventDTO {
     }
 
     /**
-     * Sets the value of the eventState property.
+     * Legt den Wert der eventState-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -164,7 +164,7 @@ public class EventDTO {
     }
 
     /**
-     * Gets the value of the positionCount property.
+     * Ruft den Wert der positionCount-Eigenschaft ab.
      * 
      */
     public int getPositionCount() {
@@ -172,7 +172,7 @@ public class EventDTO {
     }
 
     /**
-     * Sets the value of the positionCount property.
+     * Legt den Wert der positionCount-Eigenschaft fest.
      * 
      */
     public void setPositionCount(int value) {

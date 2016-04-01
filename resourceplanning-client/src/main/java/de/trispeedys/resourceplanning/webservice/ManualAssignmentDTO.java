@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for manualAssignmentDTO complex type.
+ * <p>Java-Klasse für manualAssignmentDTO complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>
  * &lt;complexType name="manualAssignmentDTO">
@@ -40,7 +40,7 @@ public class ManualAssignmentDTO {
     protected String wish;
 
     /**
-     * Gets the value of the helperName property.
+     * Ruft den Wert der helperName-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -52,7 +52,7 @@ public class ManualAssignmentDTO {
     }
 
     /**
-     * Sets the value of the helperName property.
+     * Legt den Wert der helperName-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -64,7 +64,7 @@ public class ManualAssignmentDTO {
     }
 
     /**
-     * Gets the value of the taskId property.
+     * Ruft den Wert der taskId-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -76,7 +76,7 @@ public class ManualAssignmentDTO {
     }
 
     /**
-     * Sets the value of the taskId property.
+     * Legt den Wert der taskId-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -88,7 +88,7 @@ public class ManualAssignmentDTO {
     }
 
     /**
-     * Gets the value of the wish property.
+     * Ruft den Wert der wish-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class ManualAssignmentDTO {
     }
 
     /**
-     * Sets the value of the wish property.
+     * Legt den Wert der wish-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is

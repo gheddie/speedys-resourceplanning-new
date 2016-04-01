@@ -30,11 +30,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RequestedSwapDTOArray }
+     * Create an instance of {@link MessageDTO }
      * 
      */
-    public RequestedSwapDTOArray createRequestedSwapDTOArray() {
-        return new RequestedSwapDTOArray();
+    public MessageDTO createMessageDTO() {
+        return new MessageDTO();
     }
 
     /**
@@ -46,54 +46,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link EventDTOArray }
-     * 
-     */
-    public EventDTOArray createEventDTOArray() {
-        return new EventDTOArray();
-    }
-
-    /**
-     * Create an instance of {@link ExecutionDTO }
-     * 
-     */
-    public ExecutionDTO createExecutionDTO() {
-        return new ExecutionDTO();
-    }
-
-    /**
-     * Create an instance of {@link PositionDTO }
-     * 
-     */
-    public PositionDTO createPositionDTO() {
-        return new PositionDTO();
-    }
-
-    /**
-     * Create an instance of {@link ExecutionDTOArray }
-     * 
-     */
-    public ExecutionDTOArray createExecutionDTOArray() {
-        return new ExecutionDTOArray();
-    }
-
-    /**
-     * Create an instance of {@link HierarchicalEventItemDTO }
-     * 
-     */
-    public HierarchicalEventItemDTO createHierarchicalEventItemDTO() {
-        return new HierarchicalEventItemDTO();
-    }
-
-    /**
-     * Create an instance of {@link ManualAssignmentDTOArray }
-     * 
-     */
-    public ManualAssignmentDTOArray createManualAssignmentDTOArray() {
-        return new ManualAssignmentDTOArray();
-    }
-
-    /**
      * Create an instance of {@link RequestedSwapDTO }
      * 
      */
@@ -102,19 +54,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link HelperDTO }
+     * Create an instance of {@link RequestedSwapDTOArray }
      * 
      */
-    public HelperDTO createHelperDTO() {
-        return new HelperDTO();
-    }
-
-    /**
-     * Create an instance of {@link EventDTO }
-     * 
-     */
-    public EventDTO createEventDTO() {
-        return new EventDTO();
+    public RequestedSwapDTOArray createRequestedSwapDTOArray() {
+        return new RequestedSwapDTOArray();
     }
 
     /**
@@ -126,11 +70,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link HelperDTOArray }
+     * Create an instance of {@link EventDTOArray }
      * 
      */
-    public HelperDTOArray createHelperDTOArray() {
-        return new HelperDTOArray();
+    public EventDTOArray createEventDTOArray() {
+        return new EventDTOArray();
+    }
+
+    /**
+     * Create an instance of {@link ExecutionDTOArray }
+     * 
+     */
+    public ExecutionDTOArray createExecutionDTOArray() {
+        return new ExecutionDTOArray();
     }
 
     /**
@@ -142,11 +94,51 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link MessageDTO }
+     * Create an instance of {@link ExecutionDTO }
      * 
      */
-    public MessageDTO createMessageDTO() {
-        return new MessageDTO();
+    public ExecutionDTO createExecutionDTO() {
+        return new ExecutionDTO();
+    }
+
+    /**
+     * Create an instance of {@link EventDTO }
+     * 
+     */
+    public EventDTO createEventDTO() {
+        return new EventDTO();
+    }
+
+    /**
+     * Create an instance of {@link HelperDTO }
+     * 
+     */
+    public HelperDTO createHelperDTO() {
+        return new HelperDTO();
+    }
+
+    /**
+     * Create an instance of {@link PositionDTO }
+     * 
+     */
+    public PositionDTO createPositionDTO() {
+        return new PositionDTO();
+    }
+
+    /**
+     * Create an instance of {@link HelperDTOArray }
+     * 
+     */
+    public HelperDTOArray createHelperDTOArray() {
+        return new HelperDTOArray();
+    }
+
+    /**
+     * Create an instance of {@link HierarchicalEventItemDTO }
+     * 
+     */
+    public HierarchicalEventItemDTO createHierarchicalEventItemDTO() {
+        return new HierarchicalEventItemDTO();
     }
 
     /**
@@ -155,6 +147,14 @@ public class ObjectFactory {
      */
     public MessageDTOArray createMessageDTOArray() {
         return new MessageDTOArray();
+    }
+
+    /**
+     * Create an instance of {@link ManualAssignmentDTOArray }
+     * 
+     */
+    public ManualAssignmentDTOArray createManualAssignmentDTOArray() {
+        return new ManualAssignmentDTOArray();
     }
 
 }

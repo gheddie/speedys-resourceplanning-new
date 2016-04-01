@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for positionDTO complex type.
+ * <p>Java-Klasse für positionDTO complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>
  * &lt;complexType name="positionDTO">
@@ -46,7 +46,7 @@ public class PositionDTO {
     protected int positionNumber;
 
     /**
-     * Gets the value of the description property.
+     * Ruft den Wert der description-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -58,7 +58,7 @@ public class PositionDTO {
     }
 
     /**
-     * Sets the value of the description property.
+     * Legt den Wert der description-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -70,7 +70,7 @@ public class PositionDTO {
     }
 
     /**
-     * Gets the value of the domain property.
+     * Ruft den Wert der domain-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -82,7 +82,7 @@ public class PositionDTO {
     }
 
     /**
-     * Sets the value of the domain property.
+     * Legt den Wert der domain-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -94,7 +94,7 @@ public class PositionDTO {
     }
 
     /**
-     * Gets the value of the minimalAge property.
+     * Ruft den Wert der minimalAge-Eigenschaft ab.
      * 
      */
     public int getMinimalAge() {
@@ -102,7 +102,7 @@ public class PositionDTO {
     }
 
     /**
-     * Sets the value of the minimalAge property.
+     * Legt den Wert der minimalAge-Eigenschaft fest.
      * 
      */
     public void setMinimalAge(int value) {
@@ -110,7 +110,7 @@ public class PositionDTO {
     }
 
     /**
-     * Gets the value of the positionId property.
+     * Ruft den Wert der positionId-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -122,7 +122,7 @@ public class PositionDTO {
     }
 
     /**
-     * Sets the value of the positionId property.
+     * Legt den Wert der positionId-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -134,7 +134,7 @@ public class PositionDTO {
     }
 
     /**
-     * Gets the value of the positionNumber property.
+     * Ruft den Wert der positionNumber-Eigenschaft ab.
      * 
      */
     public int getPositionNumber() {
@@ -142,7 +142,7 @@ public class PositionDTO {
     }
 
     /**
-     * Sets the value of the positionNumber property.
+     * Legt den Wert der positionNumber-Eigenschaft fest.
      * 
      */
     public void setPositionNumber(int value) {

@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for executionDTO complex type.
+ * <p>Java-Klasse für executionDTO complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>
  * &lt;complexType name="executionDTO">
@@ -43,7 +43,7 @@ public class ExecutionDTO {
     protected String waitState;
 
     /**
-     * Gets the value of the additionalInfo property.
+     * Ruft den Wert der additionalInfo-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -55,7 +55,7 @@ public class ExecutionDTO {
     }
 
     /**
-     * Sets the value of the additionalInfo property.
+     * Legt den Wert der additionalInfo-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -67,7 +67,7 @@ public class ExecutionDTO {
     }
 
     /**
-     * Gets the value of the helperFirstName property.
+     * Ruft den Wert der helperFirstName-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -79,7 +79,7 @@ public class ExecutionDTO {
     }
 
     /**
-     * Sets the value of the helperFirstName property.
+     * Legt den Wert der helperFirstName-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -91,7 +91,7 @@ public class ExecutionDTO {
     }
 
     /**
-     * Gets the value of the helperLastName property.
+     * Ruft den Wert der helperLastName-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -103,7 +103,7 @@ public class ExecutionDTO {
     }
 
     /**
-     * Sets the value of the helperLastName property.
+     * Legt den Wert der helperLastName-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -115,7 +115,7 @@ public class ExecutionDTO {
     }
 
     /**
-     * Gets the value of the waitState property.
+     * Ruft den Wert der waitState-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -127,7 +127,7 @@ public class ExecutionDTO {
     }
 
     /**
-     * Sets the value of the waitState property.
+     * Legt den Wert der waitState-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is

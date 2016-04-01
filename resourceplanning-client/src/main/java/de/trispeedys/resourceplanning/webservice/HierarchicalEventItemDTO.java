@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for hierarchicalEventItemDTO complex type.
+ * <p>Java-Klasse für hierarchicalEventItemDTO complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>
  * &lt;complexType name="hierarchicalEventItemDTO">
@@ -58,7 +58,7 @@ public class HierarchicalEventItemDTO {
     protected String priorization;
 
     /**
-     * Gets the value of the assignmentString property.
+     * Ruft den Wert der assignmentString-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -70,7 +70,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Sets the value of the assignmentString property.
+     * Legt den Wert der assignmentString-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -82,7 +82,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Gets the value of the availability property.
+     * Ruft den Wert der availability-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Sets the value of the availability property.
+     * Legt den Wert der availability-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -106,7 +106,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Gets the value of the entityId property.
+     * Ruft den Wert der entityId-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -118,7 +118,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Sets the value of the entityId property.
+     * Legt den Wert der entityId-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -130,7 +130,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Gets the value of the group property.
+     * Ruft den Wert der group-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -142,7 +142,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Sets the value of the group property.
+     * Legt den Wert der group-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -154,7 +154,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Gets the value of the hierarchyLevel property.
+     * Ruft den Wert der hierarchyLevel-Eigenschaft ab.
      * 
      */
     public int getHierarchyLevel() {
@@ -162,7 +162,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Sets the value of the hierarchyLevel property.
+     * Legt den Wert der hierarchyLevel-Eigenschaft fest.
      * 
      */
     public void setHierarchyLevel(int value) {
@@ -170,7 +170,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Gets the value of the infoString property.
+     * Ruft den Wert der infoString-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -182,7 +182,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Sets the value of the infoString property.
+     * Legt den Wert der infoString-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -194,7 +194,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Gets the value of the itemKey property.
+     * Ruft den Wert der itemKey-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -206,7 +206,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Sets the value of the itemKey property.
+     * Legt den Wert der itemKey-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -218,7 +218,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Gets the value of the itemType property.
+     * Ruft den Wert der itemType-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -230,7 +230,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Sets the value of the itemType property.
+     * Legt den Wert der itemType-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -242,7 +242,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Gets the value of the priorization property.
+     * Ruft den Wert der priorization-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -254,7 +254,7 @@ public class HierarchicalEventItemDTO {
     }
 
     /**
-     * Sets the value of the priorization property.
+     * Legt den Wert der priorization-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is

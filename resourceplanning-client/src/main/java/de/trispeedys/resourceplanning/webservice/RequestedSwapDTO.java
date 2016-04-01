@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for requestedSwapDTO complex type.
+ * <p>Java-Klasse für requestedSwapDTO complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>
  * &lt;complexType name="requestedSwapDTO">
@@ -18,10 +18,12 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="businessKey" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="sourceDomain" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="sourceHelper" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="sourcePosition" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="swapState" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="swapType" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="targetDomain" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="targetHelper" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="targetPosition" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -35,24 +37,28 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "requestedSwapDTO", propOrder = {
     "businessKey",
     "sourceDomain",
+    "sourceHelper",
     "sourcePosition",
     "swapState",
     "swapType",
     "targetDomain",
+    "targetHelper",
     "targetPosition"
 })
 public class RequestedSwapDTO {
 
     protected String businessKey;
     protected String sourceDomain;
+    protected String sourceHelper;
     protected String sourcePosition;
     protected String swapState;
     protected String swapType;
     protected String targetDomain;
+    protected String targetHelper;
     protected String targetPosition;
 
     /**
-     * Gets the value of the businessKey property.
+     * Ruft den Wert der businessKey-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -64,7 +70,7 @@ public class RequestedSwapDTO {
     }
 
     /**
-     * Sets the value of the businessKey property.
+     * Legt den Wert der businessKey-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -76,7 +82,7 @@ public class RequestedSwapDTO {
     }
 
     /**
-     * Gets the value of the sourceDomain property.
+     * Ruft den Wert der sourceDomain-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -88,7 +94,7 @@ public class RequestedSwapDTO {
     }
 
     /**
-     * Sets the value of the sourceDomain property.
+     * Legt den Wert der sourceDomain-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -100,7 +106,31 @@ public class RequestedSwapDTO {
     }
 
     /**
-     * Gets the value of the sourcePosition property.
+     * Ruft den Wert der sourceHelper-Eigenschaft ab.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getSourceHelper() {
+        return sourceHelper;
+    }
+
+    /**
+     * Legt den Wert der sourceHelper-Eigenschaft fest.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setSourceHelper(String value) {
+        this.sourceHelper = value;
+    }
+
+    /**
+     * Ruft den Wert der sourcePosition-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -112,7 +142,7 @@ public class RequestedSwapDTO {
     }
 
     /**
-     * Sets the value of the sourcePosition property.
+     * Legt den Wert der sourcePosition-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -124,7 +154,7 @@ public class RequestedSwapDTO {
     }
 
     /**
-     * Gets the value of the swapState property.
+     * Ruft den Wert der swapState-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -136,7 +166,7 @@ public class RequestedSwapDTO {
     }
 
     /**
-     * Sets the value of the swapState property.
+     * Legt den Wert der swapState-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -148,7 +178,7 @@ public class RequestedSwapDTO {
     }
 
     /**
-     * Gets the value of the swapType property.
+     * Ruft den Wert der swapType-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -160,7 +190,7 @@ public class RequestedSwapDTO {
     }
 
     /**
-     * Sets the value of the swapType property.
+     * Legt den Wert der swapType-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -172,7 +202,7 @@ public class RequestedSwapDTO {
     }
 
     /**
-     * Gets the value of the targetDomain property.
+     * Ruft den Wert der targetDomain-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -184,7 +214,7 @@ public class RequestedSwapDTO {
     }
 
     /**
-     * Sets the value of the targetDomain property.
+     * Legt den Wert der targetDomain-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -196,7 +226,31 @@ public class RequestedSwapDTO {
     }
 
     /**
-     * Gets the value of the targetPosition property.
+     * Ruft den Wert der targetHelper-Eigenschaft ab.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getTargetHelper() {
+        return targetHelper;
+    }
+
+    /**
+     * Legt den Wert der targetHelper-Eigenschaft fest.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setTargetHelper(String value) {
+        this.targetHelper = value;
+    }
+
+    /**
+     * Ruft den Wert der targetPosition-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -208,7 +262,7 @@ public class RequestedSwapDTO {
     }
 
     /**
-     * Sets the value of the targetPosition property.
+     * Legt den Wert der targetPosition-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is

@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for messageDTO complex type.
+ * <p>Java-Klasse für messageDTO complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>
  * &lt;complexType name="messageDTO">
@@ -43,7 +43,7 @@ public class MessageDTO {
     protected String subject;
 
     /**
-     * Gets the value of the body property.
+     * Ruft den Wert der body-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -55,7 +55,7 @@ public class MessageDTO {
     }
 
     /**
-     * Sets the value of the body property.
+     * Legt den Wert der body-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -67,7 +67,7 @@ public class MessageDTO {
     }
 
     /**
-     * Gets the value of the messagingState property.
+     * Ruft den Wert der messagingState-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -79,7 +79,7 @@ public class MessageDTO {
     }
 
     /**
-     * Sets the value of the messagingState property.
+     * Legt den Wert der messagingState-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -91,7 +91,7 @@ public class MessageDTO {
     }
 
     /**
-     * Gets the value of the recipient property.
+     * Ruft den Wert der recipient-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -103,7 +103,7 @@ public class MessageDTO {
     }
 
     /**
-     * Sets the value of the recipient property.
+     * Legt den Wert der recipient-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -115,7 +115,7 @@ public class MessageDTO {
     }
 
     /**
-     * Gets the value of the subject property.
+     * Ruft den Wert der subject-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -127,7 +127,7 @@ public class MessageDTO {
     }
 
     /**
-     * Sets the value of the subject property.
+     * Legt den Wert der subject-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is

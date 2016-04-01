@@ -1,8 +1,5 @@
 package de.trispeedys.resourceplanning.dto;
 
-import de.trispeedys.resourceplanning.entity.misc.SwapState;
-import de.trispeedys.resourceplanning.entity.misc.SwapType;
-
 public class RequestedSwapDTO
 {
     private String sourcePosition;
@@ -18,6 +15,10 @@ public class RequestedSwapDTO
     private String swapState;
 
     private String businessKey;
+    
+    private String sourceHelper;
+    
+    private String targetHelper;
     
     public String getSourcePosition()
     {
@@ -87,5 +88,25 @@ public class RequestedSwapDTO
     public void setBusinessKey(String businessKey)
     {
         this.businessKey = businessKey;
+    }
+
+    public String getSourceHelper()
+    {
+        return sourceHelper;
+    }
+
+    public void setSourceHelper(String sourceHelper)
+    {
+        this.sourceHelper = sourceHelper;
+    }
+
+    public String getTargetHelper()
+    {
+        return targetHelper;
+    }
+
+    public void setTargetHelper(String targetHelper)
+    {
+        this.targetHelper = targetHelper;
     }
 }

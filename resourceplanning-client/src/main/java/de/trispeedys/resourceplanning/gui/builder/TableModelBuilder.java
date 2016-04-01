@@ -12,6 +12,7 @@ import de.trispeedys.resourceplanning.gui.builder.column.ExecutionDTOColumnDefin
 import de.trispeedys.resourceplanning.gui.builder.column.HelperDTOColumnDefinition;
 import de.trispeedys.resourceplanning.gui.builder.column.ManualAssignmentDTOColumnDefinition;
 import de.trispeedys.resourceplanning.gui.builder.column.PositionDTOColumnDefinition;
+import de.trispeedys.resourceplanning.gui.builder.column.RequestedSwapDTOColumnDefinition;
 import de.trispeedys.resourceplanning.gui.builder.column.TableColumnDefinition;
 import de.trispeedys.resourceplanning.util.converter.ConverterUtil;
 import de.trispeedys.resourceplanning.webservice.EventDTO;
@@ -19,6 +20,7 @@ import de.trispeedys.resourceplanning.webservice.ExecutionDTO;
 import de.trispeedys.resourceplanning.webservice.HelperDTO;
 import de.trispeedys.resourceplanning.webservice.ManualAssignmentDTO;
 import de.trispeedys.resourceplanning.webservice.PositionDTO;
+import de.trispeedys.resourceplanning.webservice.RequestedSwapDTO;
 
 public class TableModelBuilder
 {
@@ -30,6 +32,7 @@ public class TableModelBuilder
         columnDefinitions.put(PositionDTO.class, new PositionDTOColumnDefinition());
         columnDefinitions.put(ManualAssignmentDTO.class, new ManualAssignmentDTOColumnDefinition());
         columnDefinitions.put(ExecutionDTO.class, new ExecutionDTOColumnDefinition());
+        columnDefinitions.put(RequestedSwapDTO.class, new RequestedSwapDTOColumnDefinition());
     }
 
     public static TableModel createGenericTableModel(List<?> objects)

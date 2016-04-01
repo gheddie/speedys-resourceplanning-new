@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for helperDTO complex type.
+ * <p>Java-Klasse für helperDTO complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>
  * &lt;complexType name="helperDTO">
@@ -52,7 +52,7 @@ public class HelperDTO {
     protected String lastName;
 
     /**
-     * Gets the value of the code property.
+     * Ruft den Wert der code-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -64,7 +64,7 @@ public class HelperDTO {
     }
 
     /**
-     * Sets the value of the code property.
+     * Legt den Wert der code-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -76,7 +76,7 @@ public class HelperDTO {
     }
 
     /**
-     * Gets the value of the dateOfBirth property.
+     * Ruft den Wert der dateOfBirth-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -88,7 +88,7 @@ public class HelperDTO {
     }
 
     /**
-     * Sets the value of the dateOfBirth property.
+     * Legt den Wert der dateOfBirth-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -100,7 +100,7 @@ public class HelperDTO {
     }
 
     /**
-     * Gets the value of the email property.
+     * Ruft den Wert der email-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -112,7 +112,7 @@ public class HelperDTO {
     }
 
     /**
-     * Sets the value of the email property.
+     * Legt den Wert der email-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -124,7 +124,7 @@ public class HelperDTO {
     }
 
     /**
-     * Gets the value of the firstName property.
+     * Ruft den Wert der firstName-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -136,7 +136,7 @@ public class HelperDTO {
     }
 
     /**
-     * Sets the value of the firstName property.
+     * Legt den Wert der firstName-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -148,7 +148,7 @@ public class HelperDTO {
     }
 
     /**
-     * Gets the value of the helperId property.
+     * Ruft den Wert der helperId-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -160,7 +160,7 @@ public class HelperDTO {
     }
 
     /**
-     * Sets the value of the helperId property.
+     * Legt den Wert der helperId-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -172,7 +172,7 @@ public class HelperDTO {
     }
 
     /**
-     * Gets the value of the helperState property.
+     * Ruft den Wert der helperState-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -184,7 +184,7 @@ public class HelperDTO {
     }
 
     /**
-     * Sets the value of the helperState property.
+     * Legt den Wert der helperState-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -196,7 +196,7 @@ public class HelperDTO {
     }
 
     /**
-     * Gets the value of the lastName property.
+     * Ruft den Wert der lastName-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -208,7 +208,7 @@ public class HelperDTO {
     }
 
     /**
-     * Sets the value of the lastName property.
+     * Legt den Wert der lastName-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
