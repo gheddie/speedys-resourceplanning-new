@@ -101,6 +101,8 @@ public class ResourceDialog extends SpeedyFrame
     private static List<EventDTO> events;
 
     private EventDTO selectedEvent;
+    
+    private RequestedSwapDTO selectedSwap;
 
     private List<HelperDTO> helpers;
 
@@ -280,6 +282,19 @@ public class ResourceDialog extends SpeedyFrame
             }
         });
         tbPosRemoving.enableMultiSelection();
+        // requested swaps
+        tbSwapRequests.getSelectionModel().addListSelectionListener(new ListSelectionListener()
+        {
+            public void valueChanged(ListSelectionEvent e)
+            {
+                int selectedRow = tbSwapRequests.getSelectedRow();
+                if (selectedRow >= 0)
+                {
+                    int convertedRowIndex = tbSwapRequests.convertRowIndexToModel(selectedRow);
+                    requestedSwapSelected(swapRequests.get(convertedRowIndex));
+                }
+            }
+        });
     }
 
     private void btnClipboardPressed(ActionEvent e)
@@ -337,6 +352,11 @@ public class ResourceDialog extends SpeedyFrame
     {
         events = AppSingleton.getInstance().getPort().queryEvents().getItem();
         tbEvents.setModel(TableModelBuilder.createGenericTableModel(events));
+    }
+    
+    private void requestedSwapSelected(RequestedSwapDTO requestedSwap)
+    {
+        selectedSwap = requestedSwap;
     }
 
     private void eventSelected(EventDTO event)
@@ -614,7 +634,10 @@ public class ResourceDialog extends SpeedyFrame
         options[OPTION_ASK_HELPER] = "Helfer einbeziehen";
         options[OPTION_DO_NOT_ASK_HELPER] = "Helfer nicht einbeziehen";
         options[OPTION_ABORT] = "Abbrechen";
-        int result = JOptionPane.showOptionDialog(ResourceDialog.this, "Tausch von Positionen", "Title", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+        int result =
+                JOptionPane.showOptionDialog(ResourceDialog.this, "Tausch von Positionen (" +
+                        sourceSwapNode.getDescription() + " mit " + targetSwapNode.getDescription() + ")", "Title", 0,
+                        JOptionPane.INFORMATION_MESSAGE, null, options, null);
         /*
         int result =
                 JOptionPane.showConfirmDialog(ResourceDialog.this, "Positionen '" + sourceSwapNode.getDescription() + "' und '" + targetSwapNode.getDescription() + "' tauschen?", "Bestätigung",
@@ -755,8 +778,17 @@ public class ResourceDialog extends SpeedyFrame
         publishFrame(new EventReplicator("Dokument 1", true, true, true, true, this, selectedEvent));
     }
 
-    private void btnAbortSwapRequestPressed(ActionEvent e) {
-        AppSingleton.getInstance().getPort().killSwapByBusinessKey("123");
+    private void btnAbortSwapRequestPressed(ActionEvent e)
+    {
+        if (selectedSwap == null)
+        {
+            JOptionPane.showMessageDialog(ResourceDialog.this, "Bitte einen Tausch zum Abbrechen wählen!!");
+            return;
+        }
+        if (JOptionPane.showConfirmDialog(ResourceDialog.this, "Tausch abbrechen?", "Bestätigung", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+        {
+            AppSingleton.getInstance().getPort().killSwapByBusinessKey(selectedSwap.getBusinessKey());            
+        }
     }
 
     private void initComponents()
