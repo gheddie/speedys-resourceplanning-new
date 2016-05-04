@@ -14,7 +14,7 @@ create table app_configuration
 );
 
 -- initial values
-insert into app_configuration (key, value) values ('version', '1.0-RC-5');
+insert into app_configuration (key, value) values ('version', '1.0-RC-6');
 insert into app_configuration (key, value) values ('host', 'http://localhost:8080');
 insert into app_configuration (key, value) values ('smtp_user', 'smtp_user');
 insert into app_configuration (key, value) values ('smtp_passwd', 'smtp_passwd');

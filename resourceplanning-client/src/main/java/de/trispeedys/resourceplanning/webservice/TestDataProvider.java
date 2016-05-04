@@ -21,33 +21,9 @@ public interface TestDataProvider {
 
     /**
      * 
-     * @return
-     *     returns int
      */
     @WebMethod
-    @WebResult(partName = "return")
-    public int anonymizeHelperAddresses();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void killAllExecutions();
-
-    /**
-     * 
-     */
-    @WebMethod
-    public void duplicateUnchanged();
-
-    /**
-     * 
-     * @param arg0
-     */
-    @WebMethod
-    public void setupForTesting(
-        @WebParam(name = "arg0", partName = "arg0")
-        String arg0);
+    public void duplicate2015();
 
     /**
      * 
@@ -65,7 +41,31 @@ public interface TestDataProvider {
      * 
      */
     @WebMethod
-    public void duplicate2015();
+    public void killAllExecutions();
+
+    /**
+     * 
+     * @param arg0
+     */
+    @WebMethod
+    public void setupForTesting(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0);
+
+    /**
+     * 
+     * @return
+     *     returns int
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    public int anonymizeHelperAddresses();
+
+    /**
+     * 
+     */
+    @WebMethod
+    public void duplicateUnchanged();
 
     /**
      * 

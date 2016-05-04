@@ -8,13 +8,13 @@ import de.trispeedys.resourceplanning.util.LinkGenerator;
 
 public class LinkGeneratorTest
 {
-    private static final String TEMPLATE = "http://localhost:8080/resourceplanning-bpm-1.0-RC-5/AssignmentCancellationReceiver.jsp?helperId=4236&eventId=4258&positionId=4243";
+    private static final String TEMPLATE = "http://localhost:8080/resourceplanning-bpm-1.0-RC-6/AssignmentCancellationReceiver.jsp?helperId=4236&eventId=4258&positionId=4243";
 
     // @Test
     // How to test this --> hash map has no fixed order...
     public void testGeneration()
     {
-        String baseLink = "http://localhost:8080/resourceplanning-bpm-1.0-RC-5";
+        String baseLink = "http://localhost:8080/resourceplanning-bpm-1.0-RC-6";
         String receiverPageName = "AssignmentCancellationReceiver.jsp";
         
         HashMap<String, Object> parameters = new HashMap<>();
