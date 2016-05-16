@@ -102,19 +102,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link HelperDTO }
-     * 
-     */
-    public HelperDTO createHelperDTO() {
-        return new HelperDTO();
-    }
-
-    /**
      * Create an instance of {@link EventDTO }
      * 
      */
     public EventDTO createEventDTO() {
         return new EventDTO();
+    }
+
+    /**
+     * Create an instance of {@link HelperDTO }
+     * 
+     */
+    public HelperDTO createHelperDTO() {
+        return new HelperDTO();
     }
 
     /**

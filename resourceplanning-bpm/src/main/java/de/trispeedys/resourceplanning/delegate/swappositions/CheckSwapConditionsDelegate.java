@@ -15,6 +15,7 @@ import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.repository.AssignmentSwapRepository;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.HelperRepository;
+import de.trispeedys.resourceplanning.util.StringUtil;
 
 public class CheckSwapConditionsDelegate extends AbstractSwapDelegate
 {
@@ -63,6 +64,33 @@ public class CheckSwapConditionsDelegate extends AbstractSwapDelegate
             if ((helperIdSource == null) || (helperIdTarget == null))
             {
                 throw new ResourcePlanningException("source and target helper id must be set in order to start a complex swap process!");
+            }
+        }
+        
+        // check if the helper has (simple swap) or both helpers have an email address set
+        // if the helpers should be asked...
+        if (!((boolean) execution.getVariable(BpmVariables.Swap.VAR_SWAP_BY_SYSTEM)))
+        {
+            if (simpleSwap)
+            {
+                // source helper must have a mail address set
+                String mailSource = getSourceAssignment(execution).getHelper().getEmail();
+
+                if (StringUtil.isBlank(mailSource))
+                {
+                    throw new ResourcePlanningException("for a simple swap with helper involvement, source helper must have an email address set!!");
+                }
+            }
+            else
+            {
+                // source and target helper must have a mail address set
+                String mailSource = getSourceAssignment(execution).getHelper().getEmail();
+                String mailTarget = getTargetAssignment(execution).getHelper().getEmail();
+
+                if ((StringUtil.isBlank(mailSource)) || (StringUtil.isBlank(mailTarget)))
+                {
+                    throw new ResourcePlanningException("for a complex swap with helper involvement, both source and target helper must have an email address set!!");
+                }
             }
         }
 

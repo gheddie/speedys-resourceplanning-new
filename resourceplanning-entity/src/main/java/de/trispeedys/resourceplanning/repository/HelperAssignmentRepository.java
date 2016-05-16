@@ -128,6 +128,7 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
 
     public boolean isFirstAssignment(Long helperId)
     {
+        // TODO not enough...what about cancelled assignment and other stuff?
         List<HelperAssignment> helperAssignments =
                 RepositoryProvider.getRepository(HelperAssignmentRepository.class).findAllHelperAssignments(helperId);
         return ((helperAssignments == null) || (helperAssignments.size() == 0));
