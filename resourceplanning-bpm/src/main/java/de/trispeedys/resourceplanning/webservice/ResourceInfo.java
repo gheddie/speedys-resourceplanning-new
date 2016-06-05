@@ -192,6 +192,11 @@ public class ResourceInfo
     {
         EventManager.triggerHelperProcesses(eventId);
     }
+    
+    public void triggerDedicatedHelperProcess(Long eventId, Long helperId)
+    {
+        EventManager.triggerDedicatedHelperProcess(eventId, helperId);
+    }
 
     public void finishUp()
     {
@@ -485,6 +490,7 @@ public class ResourceInfo
         // start a request help process for every event which is initiated in this moment...
         for (GuidedEvent event : RepositoryProvider.getRepository(GuidedEventRepository.class).findInitiatedEvents())
         {
+            // TODO a confirmation mail for the helper would be cool...
             EventManager.startHelperRequestProcess(helper, event);
         }
     }

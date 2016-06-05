@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.camunda.bpm.BpmPlatform;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.gravitex.hibernateadapter.datasource.Datasources;
@@ -24,6 +25,7 @@ import de.trispeedys.resourceplanning.execution.BpmVariables;
 import de.trispeedys.resourceplanning.messaging.template.helprequest.PlanningSuccessMailTemplate;
 import de.trispeedys.resourceplanning.messaging.template.helprequest.PositionRecoveryOnCancellationMailTemplate;
 import de.trispeedys.resourceplanning.repository.GuidedEventRepository;
+import de.trispeedys.resourceplanning.repository.HelperRepository;
 import de.trispeedys.resourceplanning.repository.MissedAssignmentRepository;
 import de.trispeedys.resourceplanning.repository.PositionRepository;
 import de.trispeedys.resourceplanning.util.StringUtil;
@@ -60,6 +62,47 @@ public class EventManager
         RepositoryProvider.getRepository(GuidedEventRepository.class).updateEventState(event, EventState.INITIATED);
 
         informAdminAboutSuccess(event);
+    }
+    
+    public static void triggerDedicatedHelperProcess(Long eventId, Long helperId)
+    {
+        if (eventId == null)
+        {
+            throw new ResourcePlanningException("event id must not be null!!");
+        }
+        GuidedEvent event = RepositoryProvider.getRepository(GuidedEventRepository.class).findById(eventId);
+        if (event == null)
+        {
+            throw new ResourcePlanningException("event with id '" + eventId + "' could not be found!!");
+        }
+        // processes can be restarted on 'PLANNED' and 'INITIATED' events...
+        if ((!(event.getEventState().equals(EventState.PLANNED))) && (!(event.getEventState().equals(EventState.INITIATED))))
+        {
+            throw new ResourcePlanningException("event must have state '" + EventState.PLANNED + "' or '" + EventState.INITIATED + "'!!");
+        }
+        Helper helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+        if (helper == null)
+        {
+            throw new ResourcePlanningException("helper with id '" + helperId + "' could not be found!!");
+        }
+        if (!(helper.getHelperState().equals(HelperState.ACTIVE)))
+        {
+            throw new ResourcePlanningException("helper state must be '" + HelperState.ACTIVE + "'!!");
+        }
+        // make sure there is no process with the generated business key,
+        // so --> no active process for the combination of given helper and event
+        List<ProcessInstance> instances =
+                BpmPlatform.getDefaultProcessEngine()
+                        .getRuntimeService()
+                        .createProcessInstanceQuery()
+                        .processInstanceBusinessKey(BusinessKeys.generateRequestHelpBusinessKey(helper, event))
+                        .list();
+        if ((instances != null) && (instances.size() > 0))
+        {
+            throw new ResourcePlanningException("there already is a running fpr the given event and helper!!");
+        }
+        // finally...
+        startHelperRequestProcess(helper, event);
     }
 
     public static void triggerHelperProcesses(Long eventId)
