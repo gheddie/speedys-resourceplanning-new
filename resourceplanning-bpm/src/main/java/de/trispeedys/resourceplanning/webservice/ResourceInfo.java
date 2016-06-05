@@ -134,7 +134,7 @@ public class ResourceInfo
     }
 
     /**
-     * returns all the {@link Position} which are not included in the given {@link GuidedEvent}.
+     * returns all {@link Position} which are not included in the given {@link GuidedEvent}.
      * 
      * @param eventId
      * @param includedInEvent
