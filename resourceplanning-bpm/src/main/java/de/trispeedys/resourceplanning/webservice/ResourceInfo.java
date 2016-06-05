@@ -142,7 +142,7 @@ public class ResourceInfo
      */
     public PositionDTO[] queryEventPositions(Long eventId, boolean includedInEvent)
     {
-        // TODO only query positions (in case of adding) from domains which are suitable for the given event template
+        // TODO only query those positions (in case of adding) from domains which are suitable for the given event template
         // perhaps we should have different methods for adding/removing positions?
 
         AppConfiguration configuration = AppConfiguration.getInstance();
