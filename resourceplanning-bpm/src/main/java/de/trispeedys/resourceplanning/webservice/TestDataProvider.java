@@ -186,7 +186,6 @@ public class TestDataProvider
         catch (Exception e)
         {
             sessionHolder.rollbackTransaction();
-            ;
             throw new ResourcePlanningException("helper addresses could not be anonymized : " + e.getMessage());
         }
         finally

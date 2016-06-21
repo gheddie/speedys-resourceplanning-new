@@ -30,7 +30,7 @@ import de.trispeedys.resourceplanning.util.TestUtil;
 public class DatabaseOperationsTest
 {
 
-    @Test
+    // @Test
     public void testSessionCount()
     {
         // clear db

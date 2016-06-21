@@ -145,7 +145,7 @@ public class AppConfiguration
         {
             return " ### " + key + " ### ";
         }
-        logger.info("got text resource for key [" + key + "] : " + resource);
+        logger.debug("got text resource for key [" + key + "] : " + resource);
         MessageFormat mf = new MessageFormat(resource);
         String result = mf.format(parameters);
         return result;

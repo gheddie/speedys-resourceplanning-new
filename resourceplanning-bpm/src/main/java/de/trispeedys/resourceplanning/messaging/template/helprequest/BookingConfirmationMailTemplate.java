@@ -28,12 +28,20 @@ public class BookingConfirmationMailTemplate extends HelperInteractionMailTempla
                 new HtmlGenerator(true).withParagraph(helperGreeting(getHelper()))
                         .withParagraph(configuration.getText(this, "body", getPosition().getDescription(), getPosition().getDomain().getName()))
                         .withLink(link, configuration.getText(this, "cancel"));
+        
+        // add helper info anyway...
+        generator.withParagraph(configuration.getText(this, "helperInfoTeaser"));
+        generator.withLink(configuration.getConfigurationValue(AppConfigurationValues.HELPER_CONFIRM_INFO), configuration.getText(this, "helperInfoLink"));
+        
+        /*
         if (!(getHelper().isInternal()))
         {
             // add helper info link
             generator.withParagraph(configuration.getText(this, "helperInfoTeaser"));
             generator.withLink(configuration.getConfigurationValue(AppConfigurationValues.HELPER_CONFIRM_INFO), configuration.getText(this, "helperInfoLink"));
         }
+        */
+        
         return generator.withParagraph(sincerely()).render();
     }
 

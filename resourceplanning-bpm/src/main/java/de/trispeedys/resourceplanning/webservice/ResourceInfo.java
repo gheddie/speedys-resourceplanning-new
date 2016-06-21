@@ -411,26 +411,34 @@ public class ResourceInfo
         {
             List<VariableInstance> variables =
                     runtimeService.createVariableInstanceQuery().processInstanceIdIn(execution.getProcessInstanceId()).variableName(BpmVariables.RequestHelpHelper.VAR_HELPER_ID).list();
-            helper = RepositoryProvider.getRepository(HelperRepository.class).findById((Long) variables.get(0).getValue());
-            dto = new ExecutionDTO();
-            dto.setHelperFirstName(helper.getFirstName());
-            dto.setHelperLastName(helper.getLastName());
-            dto.setWaitState(waitState);
-            switch (messageName)
+            Long helperId = (Long) variables.get(0).getValue();
+            helper = RepositoryProvider.getRepository(HelperRepository.class).findById(helperId);
+            if (helper != null)
             {
-                case BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK:
-                    dto.setAdditionalInfo(String.valueOf(runtimeService.createVariableInstanceQuery()
-                            .processInstanceIdIn(execution.getProcessInstanceId())
-                            .variableName(BpmVariables.RequestHelpHelper.VAR_MAIL_ATTEMPTS)
-                            .list()
-                            .get(0)
-                            .getValue()));
-                    break;
-                default:
-                    dto.setAdditionalInfo(null);
-                    break;
+                dto = new ExecutionDTO();
+                dto.setHelperFirstName(helper.getFirstName());
+                dto.setHelperLastName(helper.getLastName());
+                dto.setWaitState(waitState);
+                switch (messageName)
+                {
+                    case BpmMessages.RequestHelpHelper.MSG_HELP_CALLBACK:
+                        dto.setAdditionalInfo(String.valueOf(runtimeService.createVariableInstanceQuery()
+                                .processInstanceIdIn(execution.getProcessInstanceId())
+                                .variableName(BpmVariables.RequestHelpHelper.VAR_MAIL_ATTEMPTS)
+                                .list()
+                                .get(0)
+                                .getValue()));
+                        break;
+                    default:
+                        dto.setAdditionalInfo(null);
+                        break;
+                }
+                dtos.add(dto);   
             }
-            dtos.add(dto);
+            else
+            {
+                System.out.println("helper for id '"+helperId+"' could not be found -> unable to add execution dto!!!");
+            }
         }
         return dtos;
     }

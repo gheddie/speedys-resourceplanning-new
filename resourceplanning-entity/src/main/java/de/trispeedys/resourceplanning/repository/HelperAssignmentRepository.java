@@ -93,6 +93,11 @@ public class HelperAssignmentRepository extends AbstractDatabaseRepository<Helpe
     {
         return dataSource().find(null, HelperAssignment.ATTR_HELPER, helper, HelperAssignment.ATTR_EVENT, event);
     }
+    
+    public List<HelperAssignment> findAssignmentsByEventAndPosition(GuidedEvent event, Position position)
+    {
+        return dataSource().find(null, HelperAssignment.ATTR_EVENT, event, HelperAssignment.ATTR_POSITION, position);
+    }
 
     public HelperAssignment findByEventAndPosition(GuidedEvent event, Position position)
     {

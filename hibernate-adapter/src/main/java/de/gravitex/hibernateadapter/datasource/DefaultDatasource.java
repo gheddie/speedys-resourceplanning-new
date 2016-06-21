@@ -1,5 +1,7 @@
 package de.gravitex.hibernateadapter.datasource;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,6 +13,10 @@ import de.gravitex.hibernateadapter.core.DbObject;
 import de.gravitex.hibernateadapter.core.IDatasource;
 import de.gravitex.hibernateadapter.core.SessionManager;
 import de.gravitex.hibernateadapter.core.SessionToken;
+import de.gravitex.hibernateadapter.core.annotation.BeforePersist;
+import de.gravitex.hibernateadapter.core.annotation.BeforeUpdate;
+import de.gravitex.hibernateadapter.core.exception.HibernateAdapterException;
+import de.gravitex.hibernateadapter.entity.AbstractDbObject;
 
 public class DefaultDatasource<T> implements IDatasource
 {
@@ -115,10 +121,12 @@ public class DefaultDatasource<T> implements IDatasource
             // session token set --> use registered session to save or update...
             if (((DbObject) entity).isNew())
             {
+                checkSaveTriggers((AbstractDbObject) entity);
                 SessionManager.getInstance().getSession(sessionToken).save(entity);   
             }
             else
             {
+                checkUpdateTriggers((AbstractDbObject) entity);
                 SessionManager.getInstance().getSession(sessionToken).update(entity);
             }            
             return (T) entity;
@@ -131,10 +139,12 @@ public class DefaultDatasource<T> implements IDatasource
             tx = session.beginTransaction();
             if (((DbObject) entity).isNew())
             {
+                checkSaveTriggers((AbstractDbObject) entity);
                 session.save(entity);
             }
             else
             {
+                checkUpdateTriggers((AbstractDbObject) entity);
                 session.update(entity);
             }
             tx.commit();
@@ -145,6 +155,56 @@ public class DefaultDatasource<T> implements IDatasource
             return (T) entity;   
         }
     }    
+    
+    private void checkSaveTriggers(AbstractDbObject entity)
+    {
+        for (Method method : entity.getClass().getDeclaredMethods())
+        {
+            if (method.getAnnotation(BeforePersist.class) != null)
+            {
+                try
+                {
+                    if (!((Boolean) method.invoke(entity, new Object[]{})))
+                    {
+                        throw new HibernateAdapterException("save trigger ["+entity.getClass().getSimpleName()+"."+method.getName()+"()] failed!!", null);
+                    }
+                }
+                catch (IllegalAccessException e)
+                {
+                    e.printStackTrace();
+                }
+                catch (InvocationTargetException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    
+    private void checkUpdateTriggers(AbstractDbObject entity)
+    {
+        for (Method method : entity.getClass().getDeclaredMethods())
+        {
+            if (method.getAnnotation(BeforeUpdate.class) != null)
+            {
+                try
+                {
+                    if (!((Boolean) method.invoke(entity, new Object[]{})))
+                    {
+                        throw new HibernateAdapterException("update trigger ["+entity.getClass().getSimpleName()+"."+method.getName()+"()] failed!!", null);
+                    }   
+                }
+                catch (IllegalAccessException e)
+                {
+                    e.printStackTrace();
+                }
+                catch (InvocationTargetException e)
+                {
+                    e.printStackTrace();
+                }            
+            }
+        }
+    }
 
     @SuppressWarnings({
             "unchecked", "hiding"
