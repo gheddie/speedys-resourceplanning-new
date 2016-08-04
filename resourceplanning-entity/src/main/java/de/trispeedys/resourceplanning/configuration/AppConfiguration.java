@@ -143,7 +143,7 @@ public class AppConfiguration
                 : textResources.getProperty(key);
         if (StringUtil.isBlank(resource))
         {
-            return " ### " + key + " ### ";
+            return " ## " + key + " ## ";
         }
         logger.debug("got text resource for key [" + key + "] : " + resource);
         MessageFormat mf = new MessageFormat(resource);
