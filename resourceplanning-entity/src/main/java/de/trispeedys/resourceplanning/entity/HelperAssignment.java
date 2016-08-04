@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import de.gravitex.hibernateadapter.core.annotation.BeforePersist;
-import de.gravitex.hibernateadapter.core.annotation.BeforeUpdate;
+import de.gravitex.hibernateadapter.core.annotation.EntitySaveListener;
 import de.gravitex.hibernateadapter.core.repository.RepositoryProvider;
 import de.trispeedys.resourceplanning.entity.misc.HelperAssignmentState;
 import de.trispeedys.resourceplanning.repository.HelperAssignmentRepository;

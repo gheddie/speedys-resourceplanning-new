@@ -30,13 +30,20 @@ public class SessionManager
         openSessionCounter = 0;
     }
     
+    public SessionHolder registerSession(Class<?> sessionHolderClass, Interceptor interceptor)
+    {
+        SessionToken token = generateSessionKeyForClass(sessionHolderClass);
+        Session session = getSession(null, interceptor);
+        sessions.put(token, session);
+        return new SessionHolder(token, session);        
+    }
+
     public SessionHolder registerSession(Object sessionHolder, Interceptor interceptor)
     {
         SessionToken token = generateSessionKey(sessionHolder);
         Session session = getSession(null, interceptor);
         sessions.put(token, session);
-        SessionHolder result = new SessionHolder(token, session);        
-        return result;       
+        return new SessionHolder(token, session);        
     }
     
     public void unregisterSession(Session session)
@@ -56,7 +63,12 @@ public class SessionManager
 
     private SessionToken generateSessionKey(Object sessionHolder)
     {
-        return new SessionToken(sessionHolder.getClass().getSimpleName() + "_" + readSequenceValue() + "_" + System.currentTimeMillis());
+        return generateSessionKeyForClass(sessionHolder.getClass());
+    }
+    
+    private SessionToken generateSessionKeyForClass(Class<?> sessionHolderClass)
+    {
+        return new SessionToken(sessionHolderClass.getSimpleName() + "_" + readSequenceValue() + "_" + System.currentTimeMillis());
     }
 
     private Long readSequenceValue()

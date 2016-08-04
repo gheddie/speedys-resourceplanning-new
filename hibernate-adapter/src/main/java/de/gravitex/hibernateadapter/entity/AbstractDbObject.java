@@ -3,6 +3,7 @@ package de.gravitex.hibernateadapter.entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 import de.gravitex.hibernateadapter.core.DbObject;
 import de.gravitex.hibernateadapter.core.SessionToken;
@@ -15,6 +16,9 @@ public abstract class AbstractDbObject implements DbObject
     @Id
     @GeneratedValue
     private Long id;
+    
+    @Transient
+    private SessionToken sessionToken;
     
     public Long getId()
     {
@@ -58,5 +62,25 @@ public abstract class AbstractDbObject implements DbObject
     public void checkSave()
     {
         // do nothing in base implementation        
+    }
+    
+    protected SessionToken getSessionToken()
+    {
+        return sessionToken;
+    }
+
+    public void setSessionToken(SessionToken aSessionToken)
+    {
+        this.sessionToken = aSessionToken;
+    }
+    
+    public boolean equals(Object obj)
+    {
+        AbstractDbObject other = (AbstractDbObject) obj;
+        if ((!(other.isNew())) && (!(isNew())))
+        {
+            return (id.equals(other.getId()));
+        }
+        return super.equals(obj);
     }
 }

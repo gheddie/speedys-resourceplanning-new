@@ -13,8 +13,8 @@ import de.gravitex.hibernateadapter.core.DbObject;
 import de.gravitex.hibernateadapter.core.IDatasource;
 import de.gravitex.hibernateadapter.core.SessionManager;
 import de.gravitex.hibernateadapter.core.SessionToken;
-import de.gravitex.hibernateadapter.core.annotation.BeforePersist;
-import de.gravitex.hibernateadapter.core.annotation.BeforeUpdate;
+import de.gravitex.hibernateadapter.core.annotation.DbOperationType;
+import de.gravitex.hibernateadapter.core.annotation.EntitySaveListener;
 import de.gravitex.hibernateadapter.core.exception.HibernateAdapterException;
 import de.gravitex.hibernateadapter.entity.AbstractDbObject;
 
@@ -119,15 +119,19 @@ public class DefaultDatasource<T> implements IDatasource
         if (sessionToken != null)
         {
             // session token set --> use registered session to save or update...
+            Session attachedSession = SessionManager.getInstance().getSession(sessionToken);
+            
+            ((AbstractDbObject) entity).setSessionToken(sessionToken);
+            
             if (((DbObject) entity).isNew())
             {
                 checkSaveTriggers((AbstractDbObject) entity);
-                SessionManager.getInstance().getSession(sessionToken).save(entity);   
+                attachedSession.save(entity);   
             }
             else
             {
                 checkUpdateTriggers((AbstractDbObject) entity);
-                SessionManager.getInstance().getSession(sessionToken).update(entity);
+                attachedSession.update(entity);
             }            
             return (T) entity;
         }
@@ -160,13 +164,13 @@ public class DefaultDatasource<T> implements IDatasource
     {
         for (Method method : entity.getClass().getDeclaredMethods())
         {
-            if (method.getAnnotation(BeforePersist.class) != null)
+            if (hasSaveListener(method))
             {
                 try
                 {
                     if (!((Boolean) method.invoke(entity, new Object[]{})))
                     {
-                        throw new HibernateAdapterException("save trigger ["+entity.getClass().getSimpleName()+"."+method.getName()+"()] failed!!", null);
+                        throw new HibernateAdapterException(replaceParameters(method.getAnnotation(EntitySaveListener.class).errorKey()));
                     }
                 }
                 catch (IllegalAccessException e)
@@ -185,13 +189,13 @@ public class DefaultDatasource<T> implements IDatasource
     {
         for (Method method : entity.getClass().getDeclaredMethods())
         {
-            if (method.getAnnotation(BeforeUpdate.class) != null)
+            if (hasUpdateListener(method))
             {
                 try
                 {
                     if (!((Boolean) method.invoke(entity, new Object[]{})))
                     {
-                        throw new HibernateAdapterException("update trigger ["+entity.getClass().getSimpleName()+"."+method.getName()+"()] failed!!", null);
+                        throw new HibernateAdapterException(replaceParameters(method.getAnnotation(EntitySaveListener.class).errorKey()));
                     }   
                 }
                 catch (IllegalAccessException e)
@@ -204,6 +208,36 @@ public class DefaultDatasource<T> implements IDatasource
                 }            
             }
         }
+    }
+    
+    private String replaceParameters(String errorKey)
+    {
+        if ((errorKey == null) || (errorKey.length() == 0))
+        {
+            return errorKey;
+        }
+        errorKey.indexOf('@');
+        return null;
+    }
+    
+    private boolean hasSaveListener(Method method)
+    {
+        EntitySaveListener listener = method.getAnnotation(EntitySaveListener.class);
+        if (listener == null)
+        {
+            return false;
+        }
+        return ((listener.operationType().equals(DbOperationType.PERSIST)) || (listener.operationType().equals(DbOperationType.PERSIST_AND_UPDATE)));
+    }
+
+    private boolean hasUpdateListener(Method method)
+    {
+        EntitySaveListener listener = method.getAnnotation(EntitySaveListener.class);
+        if (listener == null)
+        {
+            return false;
+        }
+        return ((listener.operationType().equals(DbOperationType.UPDATE)) || (listener.operationType().equals(DbOperationType.PERSIST_AND_UPDATE)));
     }
 
     @SuppressWarnings({
@@ -257,7 +291,7 @@ public class DefaultDatasource<T> implements IDatasource
     {
         List<T> result = find(sessionToken, qryString, parameters);
         assertSingle(result);
-        return result.get(0);
+        return extractSingleValue(result);
     }
 
     @SuppressWarnings({
@@ -267,7 +301,7 @@ public class DefaultDatasource<T> implements IDatasource
     {
         List<T> result = (List<T>) find(sessionToken, qryString);
         assertSingle(result);
-        return result.get(0);
+        return extractSingleValue(result);
     }
 
     @SuppressWarnings({
@@ -277,7 +311,7 @@ public class DefaultDatasource<T> implements IDatasource
     {
         List<T> result = (List<T>) find(sessionToken, qryString, paramaterName, paramaterValue);
         assertSingle(result);
-        return result.get(0);
+        return extractSingleValue(result);
     }
 
     @SuppressWarnings("hiding")
@@ -285,7 +319,7 @@ public class DefaultDatasource<T> implements IDatasource
     {
         List<T> result = find(sessionToken, paramaterName, paramaterValue);
         assertSingle(result);
-        return result.get(0);
+        return extractSingleValue(result);
     }
 
     @SuppressWarnings("hiding")
@@ -293,15 +327,34 @@ public class DefaultDatasource<T> implements IDatasource
     {
         List<T> result = find(sessionToken, filters);
         assertSingle(result);
+        return extractSingleValue(result);
+    }
+
+    private <T> T extractSingleValue(List<T> result)
+    {
+        if ((result == null) || (result.size() == 0))
+        {
+            return null;
+        }
         return result.get(0);
     }    
     
     private void assertSingle(List<?> result)
     {
-        if ((result == null) || (result.size() != 1))
+        if (result == null)
         {
-            throw new IllegalArgumentException("single result excepted");
+            // nothing found --> OK
+            return;
         }
+        else
+        {
+            if ((result.size() == 0) || (result.size() == 1))
+            {
+                // 0 or 1 row found --> OK
+                return;
+            }
+        }
+        throw new IllegalArgumentException("single result excepted, found : ["+result.size()+"] items!!");
     }
     
     @SuppressWarnings({
